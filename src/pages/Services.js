@@ -45,7 +45,7 @@ export default function Services() {
     marginRight: "auto",
   }
   return (
-    <div className="container mx-auto">
+    <div className="m-1">
       <div className="flex">
         <div className="rounded-lg mb-3 p-2 font-bold flex flex-row bg-blue-100 text-blue-600 flex-none">
           <Icon path={mdiAlertCircle} size={0.8} className="m-1" />
@@ -53,7 +53,7 @@ export default function Services() {
         </div>
       </div>
       {/* logo1 */}
-      <div className="border rounded-lg mb-3 pb-2 shadow">
+      <div className="border bg-white rounded-lg mb-3 pb-2 shadow">
         <div className="m-2 font-bold">
           校園服務
         </div>
@@ -139,7 +139,7 @@ export default function Services() {
         </div>
       </div>
       {/* logo2 */}
-      <div className="border rounded-lg mb-3 pb-2 shadow">
+      <div className="border bg-white rounded-lg mb-3 pb-2 shadow">
         <div className="m-2 font-bold">
           課業 &amp; 發展
         </div>
@@ -207,7 +207,7 @@ export default function Services() {
         </div>
       </div>
       {/* logo3 */}
-      <div className="border rounded-lg mb-3 pb-2 shadow">
+      <div className="border bg-white rounded-lg mb-3 pb-2 shadow">
         <div className="m-2 font-bold">
           生活服務
         </div>
@@ -239,7 +239,7 @@ export default function Services() {
         </div>
       </div>
       {/* logo4 */}
-      <div className="border rounded-lg mb-3 pb-2 shadow">
+      <div className="border bg-white rounded-lg mb-3 pb-2 shadow">
         <div className="m-2 font-bold">
           新生推薦
         </div>

@@ -9,6 +9,7 @@ import Organizations from "./pages/Organizations";
 import News from "./pages/News";
 import UMActivities from "./pages/UMActivities";
 import Layout from "./layout/Layout";
+import About from "./pages/About";
 
 function App() {
   return (
@@ -24,8 +25,9 @@ function App() {
           </Route>
           <Route path="/services" element={<Services />} />
           <Route path="/user" element={<User />} />
-          <Route path="/campus-loop" element={<CampusLoop />} />
         </Route>
+        <Route path="/campus-loop" element={<CampusLoop />} />
+        <Route path="/about" element={<About />} />
       </Routes>
     </BrowserRouter>
   );
