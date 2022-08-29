@@ -21,8 +21,8 @@ export default function Home() {
         color: color.theme
     }
     const imgStyle = {
-        width: "300px",
-        height: "200px"
+        maxHeight: "20rem",
+        objectFit: "contain",
     }
 
     return (
@@ -41,15 +41,16 @@ export default function Home() {
                         speed={300}
                         loop={true}
                         autoplay={true}
-                        className="mySwiper">
-                        <SwiperSlide><img src="https://sdfsdf.dev/300x200.png"></img></SwiperSlide>
-                        <SwiperSlide><img src="https://sdfsdf.dev/300x200.png"></img></SwiperSlide>
-                        <SwiperSlide><img src="https://sdfsdf.dev/300x200.png"></img></SwiperSlide>
-                        <SwiperSlide><img src="https://sdfsdf.dev/300x200.png"></img></SwiperSlide>
-                        <SwiperSlide><img src="https://sdfsdf.dev/300x200.png"></img></SwiperSlide>
+                        className="mySwiper"
+                    >
+                        <SwiperSlide><img src="https://sdfsdf.dev/300x200.png" style={imgStyle} alt="c"></img></SwiperSlide>
+                        <SwiperSlide><img src="https://sdfsdf.dev/30x200.png" style={imgStyle} alt="c"></img></SwiperSlide>
+                        <SwiperSlide><img src="https://sdfsdf.dev/200x30.png" style={imgStyle} alt="c"></img></SwiperSlide>
+                        <SwiperSlide><img src="https://sdfsdf.dev/30x20.png" style={imgStyle} alt="c"></img></SwiperSlide>
+                        <SwiperSlide><img src="https://sdfsdf.dev/300x300.png" style={imgStyle} alt="c"></img></SwiperSlide>
                     </Swiper>
                 </div>
-                <div class="flex flex-row justify-center">
+                <div className="flex flex-row justify-center">
                     <div className="text-center mx-4 mb-2 mt-3 text-sm">
                         <Link to="/campus-loop">
                             <ion-icon name="bus" style={iconStyle}></ion-icon><br />

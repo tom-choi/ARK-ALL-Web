@@ -1,44 +1,42 @@
 import React from 'react'
-import { Link, Outlet } from 'react-router-dom'
+import { Link, Outlet, NavLink } from 'react-router-dom'
+import styles from './Info.module.css'
 
 export default function Info() {
   return (
-    <div>
-      <div className='flex justify-center'>
-        <h1>Info</h1>
-      </div>
-      <div className='flex justify-center'>
-        <Link to="activities">Activities</Link> |
-        <Link to="organizations">Organizations</Link> |
-        <Link to="news">News</Link> |
-        <Link to="um-activities">UM Activities</Link>
-      </div>
-      {/* 
-      <div class="text-sm font-medium text-center text-gray-500 border-b border-gray-200 dark:text-gray-400 dark:border-gray-700">
-        <ul class="flex flex-wrap -mb-px">
-          <li class="mr-2">
-            <Link to="activities" class="inline-block p-4 rounded-t-lg border-b-2 border-transparent hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300">
-              Activities
-            </Link>
+    <div className='border bg-white rounded-lg mb-3 pb-2 shadow flex flex-col justify-center'>
+      <div className="text-sm font-medium text-center text-gray-500 border-b border-gray-200">
+        <ul className="flex flex-wrap -mb-px justify-center">
+          <li className="mr-2">
+            <NavLink to="activities" className={({ isActive }) =>
+              isActive ? styles.active : styles.base
+            }>
+              組織活動
+            </NavLink>
           </li>
-          <li class="mr-2">
-            <Link to="organizations" class="inline-block p-4 text-blue-600 rounded-t-lg border-b-2 border-blue-600 active dark:text-blue-500 dark:border-blue-500">
-              Organizations
-            </Link>
+          <li className="mr-2">
+            <NavLink to="organizations" className={({ isActive }) =>
+              isActive ? styles.active : styles.base
+            }>
+              進駐組織
+            </NavLink>
           </li>
-          <li class="mr-2">
-            <Link to="news" class="inline-block p-4 rounded-t-lg border-b-2 border-transparent hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300">
-              News
-            </Link>
+          <li className="mr-2">
+            <NavLink to="news" className={({ isActive }) =>
+              isActive ? styles.active : styles.base
+            }>
+              新聞
+            </NavLink>
           </li>
-          <li class="mr-2">
-            <Link to="um-activities" class="inline-block p-4 rounded-t-lg border-b-2 border-transparent hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300">
-              UM Activities
-            </Link>
+          <li className="mr-2">
+            <NavLink to="um-activities" className={({ isActive }) =>
+              isActive ? styles.active : styles.base
+            }>
+              澳大活動
+            </NavLink>
           </li>
         </ul>
       </div>
-      */}
       <Outlet />
     </div>
   )
