@@ -1,12 +1,13 @@
-/*
+
 button:hover{
-  background-color: rgb(30, 58, 138) !important;
+  background-color: rgb(30, 58, 138);
 }
 
 a:hover{
-  color: rgb(30, 58, 138) !important;
+  color: rgb(30, 58, 138);
+  font-weight: bold;
 }
-*/
+
 
 .swiper {
     width: 100%;

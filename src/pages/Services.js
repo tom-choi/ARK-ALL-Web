@@ -59,82 +59,82 @@ export default function Services() {
         </div>
         <div className="grid grid-cols-5">
           <div className="text-center mb-2 text-sm">
-            <Link to="">
+            <Link to="/campus-loop">
               <Icon path={mdiBusStop} style={iconStyle} />
               校園巴士
             </Link>
           </div>
           <div className="text-center mb-2 text-sm">
-            <Link to="">
+            <a href="https://reg.um.edu.mo/university-almanac/?lang=zh-hant" target="_blank" rel="noreferrer">
               <Icon path={mdiCalendarToday} style={iconStyle} />
               校曆
-            </Link>
+            </a>
           </div>
           <div className="text-center mb-2 text-sm">
-            <Link to="">
+            <a href="https://maps.um.edu.mo" target="_blank" rel="noreferrer">
               <Icon path={mdiMap} style={iconStyle} />
               校園地圖
-            </Link>
+            </a>
           </div>
           <div className="text-center mb-2 text-sm">
-            <Link to="">
+            <a href="https://isw.um.edu.mo/umclassroom/" target="_blank" rel="noreferrer">
               <Icon path={mdiMapMarkerMultiple} style={iconStyle} />
               課室地圖
-            </Link>
+            </a>
           </div>
           <div className="text-center mb-2 text-sm">
-            <Link to="">
+            <a href="" target="_blank" rel="noreferrer">
               <Icon path={mdiCarBrakeParking} style={iconStyle} />
               車位
-            </Link>
+            </a>
           </div>
           <div className="text-center mb-2 text-sm">
-            <Link to="">
+            <a href="" target="_blank" rel="noreferrer">
               <Icon path={mdiDropbox} style={iconStyle} />
               資源借用
-            </Link>
+            </a>
           </div>
           <div className="text-center mb-2 text-sm">
-            <Link to="">
+            <a href="" target="_blank" rel="noreferrer">
               <Icon path={mdiConsoleNetwork} style={iconStyle} />
               公共電腦
-            </Link>
+            </a>
           </div>
           <div className="text-center mb-2 text-sm">
-            <Link to="">
+            <a href="" target="_blank" rel="noreferrer">
               <Icon path={mdiDoorClosedLock} style={iconStyle} />
               儲物箱
-            </Link>
+            </a>
           </div>
           <div className="text-center mb-2 text-sm">
-            <Link to="">
+            <a href="" target="_blank" rel="noreferrer">
               <Icon path={mdiHammerWrench} style={iconStyle} />
               維修預約
-            </Link>
+            </a>
           </div>
           <div className="text-center mb-2 text-sm">
-            <Link to="">
+            <a href="" target="_blank" rel="noreferrer">
               <Icon path={mdiBasketball} style={iconStyle} />
               體育預訂
-            </Link>
+            </a>
           </div>
           <div className="text-center mb-2 text-sm">
-            <Link to="">
+            <a href="" target="_blank" rel="noreferrer">
               <Icon path={mdiBookshelf} style={iconStyle} />
               圖書館
-            </Link>
+            </a>
           </div>
           <div className="text-center mb-2 text-sm">
-            <Link to="">
+            <a href="" target="_blank" rel="noreferrer">
               <Icon path={mdiPassport} style={iconStyle} />
               UM Pass
-            </Link>
+            </a>
           </div>
           <div className="text-center mb-2 text-sm">
-            <Link to="">
+            <a href="" target="_blank" rel="noreferrer">
               <Icon path={mdiViewGridPlus} style={iconStyle} />
               更多服務
-            </Link>
+            </a>
           </div>
         </div>
       </div>
@@ -145,64 +145,64 @@ export default function Services() {
         </div>
         <div className="grid grid-cols-5">
           <div className="text-center mb-2 text-sm">
-            <Link to="">
+            <a href="" target="_blank" rel="noreferrer">
               <Icon path={mdiAlphaMCircleOutline} style={iconStyle} />
               Moodle
-            </Link>
+            </a>
           </div>
           <div className="text-center mb-2 text-sm">
-            <Link to="">
+            <a href="" target="_blank" rel="noreferrer">
               <Icon path={mdiDatabaseSearch} style={iconStyle} />
               選咩課
-            </Link>
+            </a>
           </div>
           <div className="text-center mb-2 text-sm">
-            <Link to="">
+            <a href="" target="_blank" rel="noreferrer">
               <Icon path={mdiAbTesting} style={iconStyle} />
               ISW
-            </Link>
+            </a>
           </div>
           <div className="text-center mb-2 text-sm">
-            <Link to="">
+            <a href="" target="_blank" rel="noreferrer">
               <Icon path={mdiEyePlus} style={iconStyle} />
               預選課
-            </Link>
+            </a>
           </div>
           <div className="text-center mb-2 text-sm">
-            <Link to="">
+            <a href="" target="_blank" rel="noreferrer">
               <Icon path={mdiBankPlus} style={iconStyle} />
               Add Drop
-            </Link>
+            </a>
           </div>
           <div className="text-center mb-2 text-sm">
-            <Link to="">
+            <a href="" target="_blank" rel="noreferrer">
               <Icon path={mdiClipboardEdit} style={iconStyle} />
               課表模擬
-            </Link>
+            </a>
           </div>
           <div className="text-center mb-2 text-sm">
-            <Link to="">
+            <a href="" target="_blank" rel="noreferrer">
               <Icon path={mdiCow} style={iconStyle} />
               全人發展
-            </Link>
+            </a>
           </div>
           <div className="text-center mb-2 text-sm">
-            <Link to="">
+            <a href="" target="_blank" rel="noreferrer">
               <Icon path={mdiDolphin} style={iconStyle} />
               交流
-            </Link>
+            </a>
           </div>
           <div className="text-center mb-2 text-sm">
-            <Link to="">
+            <a href="" target="_blank" rel="noreferrer">
               <Icon path={mdiDiceMultiple} style={iconStyle} />
               獎學金
-            </Link>
+            </a>
           </div>
           <div className="text-center mb-2 text-sm">
-            <Link to="">
+            <a href="" target="_blank" rel="noreferrer">
               <Icon path={mdiBadgeAccount} style={iconStyle} />
               證明文件
-            </Link>
+            </a>
           </div>
         </div>
       </div>
@@ -213,28 +213,28 @@ export default function Services() {
         </div>
         <div className="grid grid-cols-5">
           <div className="text-center mb-2 text-sm">
-            <Link to="">
+            <a href="" target="_blank" rel="noreferrer">
               <Icon path={mdiCoffeeOutline} style={iconStyle} />
               澳大論壇
-            </Link>
+            </a>
           </div>
           <div className="text-center mb-2 text-sm">
-            <Link to="">
+            <a href="" target="_blank" rel="noreferrer">
               <Icon path={mdiTextBoxCheck} style={iconStyle} />
               失物認領
-            </Link>
+            </a>
           </div>
           <div className="text-center mb-2 text-sm">
-            <Link to="">
+            <a href="" target="_blank" rel="noreferrer">
               <Icon path={mdiCarMultiple} style={iconStyle} />
               泊車月票
-            </Link>
+            </a>
           </div>
           <div className="text-center mb-2 text-sm">
-            <Link to="">
+            <a href="" target="_blank" rel="noreferrer">
               <Icon path={mdiHumanDolly} style={iconStyle} />
               職位空缺
-            </Link>
+            </a>
           </div>
         </div>
       </div>
@@ -245,22 +245,22 @@ export default function Services() {
         </div>
         <div className="grid grid-cols-5">
           <div className="text-center mb-2 text-sm">
-            <Link to="">
+            <a href="" target="_blank" rel="noreferrer">
               <Icon path={mdiGhost} style={iconStyle} />
               生存指南
-            </Link>
+            </a>
           </div>
           <div className="text-center mb-2 text-sm">
-            <Link to="">
+            <a href="" target="_blank" rel="noreferrer">
               <Icon path={mdiBagSuitcase} style={iconStyle} />
               內地生
-            </Link>
+            </a>
           </div>
           <div className="text-center mb-2 text-sm">
-            <Link to="">
+            <a href="" target="_blank" rel="noreferrer">
               <Icon path={mdiAccountHeart} style={iconStyle} />
               圖文包
-            </Link>
+            </a>
           </div>
         </div>
       </div>
