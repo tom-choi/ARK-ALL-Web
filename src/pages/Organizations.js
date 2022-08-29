@@ -22,7 +22,7 @@ export default function Organizations() {
         {
           organizationsList.map((o) => {
             return (
-              <div className='m-2 rounded-lg border shadow-md flex flex-col p-2'>
+              <div className='m-2 rounded-lg border shadow-md flex flex-col p-2' key={o.club_num}>
                 <div className='p-3 flex-grow'>
                   <img src={baseURL + o.logo_url} style={{borderRadius:"50%"}}></img>
                 </div>

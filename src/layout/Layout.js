@@ -16,9 +16,9 @@ export default function Layout() {
             fixed left-0 bottom-0
             items-center text-white backdrop-blur-sm'>
                 <Link to="/" style={btnStyle}>主頁</Link> |
-                <Link to="info/activities" style={btnStyle}>資訊</Link> |
-                <Link to="services" style={btnStyle}>服務</Link> |
-                <Link to="user" style={btnStyle}>我的</Link>
+                <Link to="/info/activities" style={btnStyle}>資訊</Link> |
+                <Link to="/services" style={btnStyle}>服務</Link> |
+                <Link to="/user" style={btnStyle}>我的</Link>
             </div>
         </div>
     )

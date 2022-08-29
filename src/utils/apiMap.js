@@ -6,6 +6,6 @@ export const umAPI = {
 export const baseURL = "https://umall.one/";
 
 export const umallAPI = {
-    activities: baseURL + "api/get_activity/all/",
+    activities: baseURL + "api/get_activity/",
     organizations: baseURL + "api/get_club_info/all/"
 }

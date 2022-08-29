@@ -10,6 +10,7 @@ import News from "./pages/News";
 import UMActivities from "./pages/UMActivities";
 import Layout from "./layout/Layout";
 import About from "./pages/About";
+import ShowActivities from "./show/ShowActivities"
 
 function App() {
   return (
@@ -28,6 +29,11 @@ function App() {
         </Route>
         <Route path="/campus-loop" element={<CampusLoop />} />
         <Route path="/about" element={<About />} />
+        <Route path="/detail" element={<Layout />}>
+          <Route path="activities" element={<ShowActivities />}>
+            <Route path=":id" element={<ShowActivities />} />
+          </Route>
+        </Route>
       </Routes>
     </BrowserRouter>
   );
