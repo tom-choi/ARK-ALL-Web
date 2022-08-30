@@ -5,7 +5,8 @@ import styles from './Info.module.css'
 export default function Info() {
   return (
     <div className='border bg-white rounded-lg mb-3 pb-2 shadow flex flex-col justify-center'>
-      <div className="text-sm font-medium text-center text-gray-500 border-b border-gray-200">
+      <div className="text-sm font-medium text-center bg-white w-full text-gray-500 border-b border-gray-200
+      fixed left-0 top-14 z-50">
         <ul className="flex flex-wrap -mb-px justify-center">
           <li className="mr-2">
             <NavLink to="activities" className={({ isActive }) =>
@@ -37,7 +38,9 @@ export default function Info() {
           </li>
         </ul>
       </div>
+      <div className='mt-14'>
       <Outlet />
+      </div>
     </div>
   )
 }

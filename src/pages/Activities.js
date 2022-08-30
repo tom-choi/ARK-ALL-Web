@@ -5,18 +5,25 @@ import { useState, useEffect } from 'react'
 import Masonry, { ResponsiveMasonry } from "react-responsive-masonry"
 import { idToShortURL, shortURLtoID } from '../utils/helper'
 import { Link, Outlet } from 'react-router-dom'
+import Loading from "../pages/Loading";
 
 export default function Activities() {
   let [activitiesList, setActivitiesList] = useState([])
+  const [isLoading, setLoading] = useState(true)
 
   useEffect(() => {
-    axios.get(umallAPI.activities+"/all/").then(
+    axios.get(umallAPI.activities + "/all/").then(
       response => {
         setActivitiesList(response.data.content);
         console.log(response.data.content);
+        setLoading(false);
       }
     )
   }, [])
+
+  if (isLoading) {
+    return <div><Loading></Loading></div>;
+  }
 
   return (
     <div>
@@ -29,16 +36,16 @@ export default function Activities() {
               {
                 activitiesList.map(
                   a => {
-                    let shortenID = idToShortURL(a._id).slice(0, -1);
-                    console.log("Before:" + shortURLtoID(idToShortURL(a._id)).slice(0, -1))
-                    console.log("After:" + shortenID)
+                    let shortenID = idToShortURL(a._id);
+                    // console.log("Before:" + shortURLtoID(idToShortURL(a._id)))
+                    // console.log("After:" + shortenID)
                     return (
-                      <Link to={"/detail/activities/"+shortenID}>
+                      <Link to={"/detail/activities/" + shortenID}>
                         <div key={a._id} className="box-border shadow-sm border m-2 rounded-lg">
                           <img src={baseURL + a.cover_image_url}></img>
                           <div className='flex flex-row'>
                             <div className='m-2 flex-grow'>
-                              <p>{a.title}</p>
+                              <p className='font-semibold text-sm'>{a.title}</p>
                               <p className='text-sm text-gray-400'>{a.startdatetime.substring(5, 10)}</p>
                             </div>
                             <div className='grid content-center m-1 text-gray-500'>

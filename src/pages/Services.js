@@ -47,7 +47,7 @@ export default function Services() {
   return (
     <div className="m-1">
       <div className="flex">
-        <div className="rounded-lg mb-3 p-2 font-bold flex flex-row bg-blue-100 text-blue-600 flex-none">
+        <div className="rounded-lg my-3 p-2 font-bold flex flex-row bg-blue-100 text-blue-600 flex-none">
           <Icon path={mdiAlertCircle} size={0.8} className="m-1" />
           <div className="m-1 flex-1 align-middle text-sm">一切內容以官網為準！</div>
         </div>

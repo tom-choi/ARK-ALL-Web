@@ -3,9 +3,11 @@ export const umAPI = {
     token:"Bearer b3d1931f-f419-390f-9884-80b2326497bf"
 }
 
-export const baseURL = "https://umall.one/";
+export const baseURL = "https://umall.one";
 
 export const umallAPI = {
-    activities: baseURL + "api/get_activity/",
-    organizations: baseURL + "api/get_club_info/all/"
+    activities: baseURL + "/api/get_activity/",
+    organizations: baseURL + "/api/get_club_info/",
+    getClub : baseURL + "/api/get_club_info/club_num/?club_num=",
+    getAppInfo : baseURL + "/api/get_appInfo/"
 }

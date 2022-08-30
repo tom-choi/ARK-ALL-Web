@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { color, btnStyle } from "../utils/uiMap";
 
@@ -8,13 +8,15 @@ import "swiper/css";
 import "swiper/css/navigation";
 import { Autoplay, Navigation } from "swiper";
 
+import { umallAPI, baseURL } from "../utils/apiMap";
+import axios from "axios";
+
+import Loading from "../pages/Loading";
+
 export default function Home() {
-    //username初始值為Kelvin
-    const [username, setUsername] = useState('Kelvin')
-    const handleChangeUser = () => {
-        setUsername('Tony')
-        console.log(username)
-    }
+    const [carousel, setCarousel] = useState({})
+    const [isLoading, setLoading] = useState(true)
+
     //style
     const iconStyle = {
         fontSize: 40,
@@ -23,31 +25,51 @@ export default function Home() {
     const imgStyle = {
         maxHeight: "20rem",
         objectFit: "contain",
+        borderRadius: "0.75rem"
+    }
+
+    console.log(umallAPI.getAppInfo)
+
+    useEffect(() => {
+        axios.get(umallAPI.getAppInfo).then(
+            res => {
+                let data = res.data.content;
+                console.log(data.index_head_carousel);
+                setCarousel(data.index_head_carousel);
+                setLoading(false);
+            }
+        )
+    }, [])
+
+    const carouselFn = () => carousel.map((i) => {
+        return (
+            <SwiperSlide>
+                <div className="rounded-lg">
+                    <img src={baseURL + i.url} style={imgStyle}></img>
+                </div>
+            </SwiperSlide>
+        )
+    })
+
+    if (isLoading) {
+        return <div>
+            <Loading></Loading>
+        </div>;
     }
 
     return (
         <div className="m-1">
-            <div className="border bg-white rounded-lg mb-3 pb-2 shadow">
-                <div className='flex justify-center'>
-                    <h2>Hi! {username}</h2>
-                </div>
-                <div className='flex justify-center'>
-                    <button onClick={handleChangeUser}>Change User</button>
-                </div>
-                <div>
+            <div className="border bg-white mb-3 pb-2 shadow">
+                <div className="mt-2">
                     <Swiper
-                        navigation={true}
+                        navigation={false}
                         modules={[Navigation, Autoplay]}
                         speed={300}
                         loop={true}
                         autoplay={true}
                         className="mySwiper"
                     >
-                        <SwiperSlide><img src="https://sdfsdf.dev/300x200.png" style={imgStyle} alt="c"></img></SwiperSlide>
-                        <SwiperSlide><img src="https://sdfsdf.dev/30x200.png" style={imgStyle} alt="c"></img></SwiperSlide>
-                        <SwiperSlide><img src="https://sdfsdf.dev/200x30.png" style={imgStyle} alt="c"></img></SwiperSlide>
-                        <SwiperSlide><img src="https://sdfsdf.dev/30x20.png" style={imgStyle} alt="c"></img></SwiperSlide>
-                        <SwiperSlide><img src="https://sdfsdf.dev/300x300.png" style={imgStyle} alt="c"></img></SwiperSlide>
+                        {carouselFn()}
                     </Swiper>
                 </div>
                 <div className="flex flex-row justify-center">
@@ -84,7 +106,7 @@ export default function Home() {
                 </div>
             </div>
 
-            <div className="text-center border bg-white rounded-lg mb-3 p-2 shadow">
+            <div className="text-center border bg-white mb-3 p-2 shadow">
                 ARK ALL源自FST同學為愛發電TAT，並非官方應用程式！<br />
                 <div className="font-bold">
                     本軟件代碼在Github開源，歡迎✨✨<br />

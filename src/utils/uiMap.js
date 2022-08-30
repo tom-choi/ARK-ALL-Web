@@ -10,7 +10,7 @@ export const btnStyle = {
     padding: '0.5rem 0.75rem 0.5rem 0.75rem',
     margin: '0.25rem',
     borderRadius: '0.5rem',
-    display: 'inline-block'
+    display: 'inline-block',
 }
 
 export const hoverStyle ={

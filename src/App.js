@@ -11,6 +11,7 @@ import UMActivities from "./pages/UMActivities";
 import Layout from "./layout/Layout";
 import About from "./pages/About";
 import ShowActivities from "./show/ShowActivities"
+import ShowOrganizations from "./show/ShowOrganizations"
 
 function App() {
   return (
@@ -32,6 +33,9 @@ function App() {
         <Route path="/detail" element={<Layout />}>
           <Route path="activities" element={<ShowActivities />}>
             <Route path=":id" element={<ShowActivities />} />
+          </Route>
+          <Route path="organizations" element={<ShowOrganizations />}>
+            <Route path=":id" element={<ShowOrganizations />} />
           </Route>
         </Route>
       </Routes>
