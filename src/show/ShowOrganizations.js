@@ -112,7 +112,6 @@ export default function ShowOrganizations() {
                 src={src}
                 onClick={() => openImageViewer2(index)}
                 key={index}
-                style={{ margin: "2px" }}
                 className="max-h-80 object-cover w-full"
                 alt=""
               />
@@ -273,12 +272,12 @@ export default function ShowOrganizations() {
               if (c.type === "Website" || c.num.includes("https://"))
                 return <div key={index}>
                   <div className='w-20 inline-block'>{c.type}:</div>
-                  <a href={c.num} target="_blank" style={{ color: color.theme }} className="inline">{c.num}</a>
+                  <a href={c.num} target="_blank" style={{ color: color.theme, overflowWrap: "break-word" }} className="inline">{c.num}</a>
                 </div>
               else if (c.type === "Email")
                 return <div key={index}>
                   <div className='w-20 inline-block'>{c.type}:</div>
-                  <a href={"mailto:" + c.num} target="_blank" style={{ color: color.theme }} className="inline">{c.num}</a>
+                  <a href={"mailto:" + c.num} target="_blank" style={{ color: color.theme, overflowWrap: "break-word" }} className="inline">{c.num}</a>
                 </div>
               else return <div key={index}>
                 <div className='w-20 inline-block'>{c.type}:</div>

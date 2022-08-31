@@ -73,31 +73,31 @@ export default function Home() {
                     </Swiper>
                 </div>
                 <div className="flex flex-row justify-center">
-                    <div className="text-center mx-4 mb-2 mt-3 text-sm">
+                    <div className="homeIcon text-center mx-4 mb-2 mt-3 text-sm">
                         <Link to="/campus-loop">
                             <ion-icon name="bus" style={iconStyle}></ion-icon><br />
                             校園巴士
                         </Link>
                     </div>
-                    <div className="text-center mx-4 mb-2 mt-3 text-sm">
+                    <div className="homeIcon text-center mx-4 mb-2 mt-3 text-sm">
                         <Link to="/info/activities">
                             <ion-icon name="aperture-sharp" style={iconStyle}></ion-icon><br />
                             最近活動
                         </Link>
                     </div>
-                    <div className="text-center mx-4 mb-2 mt-3 text-sm">
+                    <div className="homeIcon text-center mx-4 mb-2 mt-3 text-sm">
                         <Link to="/info/organizations">
                             <ion-icon name="color-wand" style={iconStyle}></ion-icon><br />
                             澳大社團
                         </Link>
                     </div>
-                    <div className="text-center mx-4 mb-2 mt-3 text-sm">
+                    <div className="homeIcon text-center mx-4 mb-2 mt-3 text-sm">
                         <Link to="/info/news">
                             <ion-icon name="earth-sharp" style={iconStyle}></ion-icon><br />
                             澳大新聞
                         </Link>
                     </div>
-                    <div className="text-center mx-4 mb-2 mt-3 text-sm">
+                    <div className="homeIcon text-center mx-4 mb-2 mt-3 text-sm">
                         <Link to="/services">
                             <ion-icon name="grid" style={iconStyle}></ion-icon><br />
                             所有服務

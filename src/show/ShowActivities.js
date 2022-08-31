@@ -76,7 +76,7 @@ export default function ShowActivities() {
 
   return (
     <div>
-      <div className='overflow-hidden h-80'>
+      <div className='overflow-hidden max-h-80'>
         <div className='flex justify-center relative'>
           {images2.map((src, index) => (
             <img
@@ -84,7 +84,7 @@ export default function ShowActivities() {
               onClick={() => openImageViewer2(index)}
               key={index}
               style={{ margin: "2px" }}
-              className="absolute h-80 z-10"
+              className="absolute max-h-80 z-10"
               alt=""
             />
           ))}
@@ -129,9 +129,9 @@ export default function ShowActivities() {
 
       {(activity.introduction || activity.link) &&
         <div className='mt-2 p-4 bg-white shadow'>
-          <p style={{ color: color.theme }} className="font-bold">詳情</p>
+          <p style={{ color: color.theme}} className="font-bold">詳情</p>
           <hr className='my-2' />
-          <p>{activity.introduction}</p>
+          <p style={{ overflowWrap: "break-word" }}>{activity.introduction}</p>
           <a href={activity.link} target="_blacnk" style={{ color: color.theme }}>{activity.link}</a>
         </div>
       }

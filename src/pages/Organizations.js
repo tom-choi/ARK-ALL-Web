@@ -31,7 +31,7 @@ export default function Organizations() {
         {
           organizationsList.map((o) => {
             return (
-              <Link to={"/detail/organizations/" + o.club_num} className='m-1 lg:m-2 rounded-lg border shadow-md flex flex-col p-2' key={o.club_num}>
+              <Link to={"/detail/organizations/" + o.club_num} className='card m-1 lg:m-2 rounded-lg border shadow-md flex flex-col p-2' key={o.club_num}>
                 <div className='p-3 flex'>
                   <div className="flex flex-wrap content-center shadow rounded-full overflow-hidden aspect-square">
                   <img src={baseURL + o.logo_url}></img>

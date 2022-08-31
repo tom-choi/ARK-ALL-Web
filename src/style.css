@@ -62,3 +62,52 @@ a:hover{
 .imageViewer div {
   padding: 0.25rem;
 }
+
+.card:hover {
+  box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1); /*shadow-lg*/
+  transform: translate(0, -2px);
+  transition-duration: 0.5s;
+}
+
+.card{
+  transform: translate(0, 2px);
+  transition-duration: 0.5s;
+}
+
+.card:hover img{
+  transform: scale(1.03);
+  transition-duration: 0.75s;
+}
+
+.card img{
+  transform: scale(1);
+  transition-duration: 0.75s;
+}
+
+.servicePage svg:hover{
+  border-radius: 10%;
+  animation: pulse-animation 1s forwards;
+}
+
+@keyframes pulse-animation {
+  100% {
+    box-shadow: 0 0 0 2px rgb(0,95,149);
+    background-color: rgb(0,95,149);
+    color: white;
+  }
+}
+
+.homeIcon:hover{
+  border-radius: 10%;
+  animation: pulse-animation 1s forwards;
+}
+
+.homeIcon:hover ion-icon{
+  animation: toWhite 1s forwards;
+}
+
+@keyframes toWhite {
+  100%{
+    color:white;
+  }
+}

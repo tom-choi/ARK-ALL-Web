@@ -44,6 +44,7 @@ export function shortURLtoID(shortURL) {
 }
 
 export function dateParser(date) {
+	var date = date.replace(/-/g, "/")
 	var date = new Date(date);
 	let d = date.toLocaleString('zh-HK', { timeZone: 'Asia/Macau',hour12: false });
 	d = d.slice(0, -3)
