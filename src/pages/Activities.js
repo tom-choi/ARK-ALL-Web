@@ -39,10 +39,11 @@ export default function Activities() {
                     let shortenID = idToShortURL(a._id);
                     // console.log("Before:" + shortURLtoID(idToShortURL(a._id)))
                     // console.log("After:" + shortenID)
+                    if (a.type === "ACTIVITY")
                     return (
                       <Link to={"/detail/activities/" + shortenID}>
                         <div key={a._id} className="box-border shadow-sm border m-2 rounded-lg">
-                          <img src={baseURL + a.cover_image_url}></img>
+                          <img src={baseURL + a.cover_image_url} className="rounded-t-lg"></img>
                           <div className='flex flex-row'>
                             <div className='m-2 flex-grow'>
                               <p className='font-semibold text-sm'>{a.title}</p>
@@ -54,6 +55,24 @@ export default function Activities() {
                           </div>
                         </div>
                       </Link>
+                    )
+                    //webiste type
+                    else
+                    return(
+                      <a href={a.link} target="_blank">
+                        <div key={a._id} className="box-border shadow-sm border m-2 rounded-lg">
+                          <img src={baseURL + a.cover_image_url} className="rounded-t-lg"></img>
+                          <div className='flex flex-row'>
+                            <div className='m-2 flex-grow'>
+                              <p className='font-semibold text-sm'>{a.title}</p>
+                              <p className='text-sm text-gray-400'>{a.startdatetime.substring(5, 10)}</p>
+                            </div>
+                            <div className='grid content-center m-1 text-gray-500'>
+                              <ion-icon name="chevron-forward-outline"></ion-icon>
+                            </div>
+                          </div>
+                        </div>
+                      </a>
                     )
                   }
                 )

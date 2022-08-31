@@ -9,5 +9,6 @@ export const umallAPI = {
     activities: baseURL + "/api/get_activity/",
     organizations: baseURL + "/api/get_club_info/",
     getClub : baseURL + "/api/get_club_info/club_num/?club_num=",
-    getAppInfo : baseURL + "/api/get_appInfo/"
+    getAppInfo : baseURL + "/api/get_appInfo/",
+    activitiesByClub : baseURL + "/api/get_activity/club_num/?club_num="
 }

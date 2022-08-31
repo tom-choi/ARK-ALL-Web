@@ -31,9 +31,11 @@ export default function Organizations() {
         {
           organizationsList.map((o) => {
             return (
-              <Link to={"/detail/organizations/" + o.club_num} className='m-2 rounded-lg border shadow-md flex flex-col p-2' key={o.club_num}>
-                <div className='p-3 flex-grow'>
-                  <img src={baseURL + o.logo_url} style={{ borderRadius: "50%" }}></img>
+              <Link to={"/detail/organizations/" + o.club_num} className='m-1 lg:m-2 rounded-lg border shadow-md flex flex-col p-2' key={o.club_num}>
+                <div className='p-3 flex'>
+                  <div className="flex flex-wrap content-center shadow rounded-full overflow-hidden aspect-square">
+                  <img src={baseURL + o.logo_url}></img>
+                  </div>
                 </div>
                 <div className='flex flex-col text-center'>
                   <div className='text-sm'>{o.name}</div>

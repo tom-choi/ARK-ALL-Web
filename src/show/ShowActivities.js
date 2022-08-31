@@ -20,7 +20,7 @@ export default function ShowActivities() {
   //image viewer
   const [currentImage, setCurrentImage] = useState(0);
   const [isViewerOpen, setIsViewerOpen] = useState(false);
-  const [images, setImages] = useState(["https://sdfsdf.dev/150x150.png"]);
+  const [images, setImages] = useState([]);
 
   const openImageViewer = useCallback((index) => {
     setCurrentImage(index);
@@ -32,6 +32,21 @@ export default function ShowActivities() {
     setIsViewerOpen(false);
   };
 
+  //imageviewer2
+  const [currentImage2, setCurrentImage2] = useState(0);
+  const [isViewerOpen2, setIsViewerOpen2] = useState(false);
+  const [images2, setImages2] = useState([]);
+
+  const openImageViewer2 = useCallback((index) => {
+    setCurrentImage2(index);
+    setIsViewerOpen2(true);
+  }, []);
+
+  const closeImageViewer2 = () => {
+    setCurrentImage2(0);
+    setIsViewerOpen2(false);
+  };
+
   useEffect(() => {
     //get activity
     axios.get(umallAPI.activities + "id/?id=" + id).then(
@@ -41,6 +56,7 @@ export default function ShowActivities() {
         console.log("activity:", activityData);
         setImages(activityData.relate_image_url);
         console.log("images:", images);
+        setImages2([baseURL + activityData.cover_image_url])
         console.log(umallAPI.getClub + activityData.created_by, "@@@");
         //get CreatedBy after get activity
         axios.get(umallAPI.getClub + activityData.created_by).then(
@@ -62,7 +78,26 @@ export default function ShowActivities() {
     <div>
       <div className='overflow-hidden h-80'>
         <div className='flex justify-center relative'>
-          <img src={baseURL + activity.cover_image_url} className="absolute h-80 z-10"></img>
+          {images2.map((src, index) => (
+            <img
+              src={src}
+              onClick={() => openImageViewer2(index)}
+              key={index}
+              style={{ margin: "2px" }}
+              className="absolute h-80 z-10"
+              alt=""
+            />
+          ))}
+
+          {isViewerOpen2 && (
+            <ImageViewer
+              src={images2}
+              currentIndex={currentImage2}
+              onClose={closeImageViewer2}
+              disableScroll={false}
+              closeOnClickOutside={true}
+            />
+          )}
         </div>
         <img src={baseURL + activity.cover_image_url} className="filter blur brightness-75 object-center w-full"></img>
       </div>
@@ -79,9 +114,10 @@ export default function ShowActivities() {
           </div>
         </div>
         <div className='mt-2'>
-          <span className='rounded-full border shadow-xs mt-1 px-2 text-xs align-top inline-block' style={{ color: color.theme, borderColor: color.theme }}>
+          {activity.location && <><span className='rounded-full border shadow-xs mt-1 px-2 text-xs align-top inline-block' style={{ color: color.theme, borderColor: color.theme }}>
             @</span>
-          <span className='ml-2 inline-block align-bottom'>{activity.location}</span><br />
+            <span className='ml-2 inline-block align-bottom'>{activity.location}</span><br /></>}
+
           <span className='rounded-full border shadow-xs mt-1 px-2 text-xs align-top inline-block' style={{ color: color.theme, borderColor: color.theme }}>
             from</span>
           <span className='ml-2 inline-block align-bottom'>{dateParser(activity.startdatetime)}</span><br />
@@ -91,19 +127,20 @@ export default function ShowActivities() {
         </div>
       </div>
 
-      {activity.introduction &&
+      {(activity.introduction || activity.link) &&
         <div className='mt-2 p-4 bg-white shadow'>
           <p style={{ color: color.theme }} className="font-bold">詳情</p>
           <hr className='my-2' />
           <p>{activity.introduction}</p>
+          <a href={activity.link} target="_blacnk" style={{ color: color.theme }}>{activity.link}</a>
         </div>
       }
-      
+
       {images &&
         <div className='mt-2 p-4 bg-white shadow'>
           <p style={{ color: color.theme }} className="font-bold">相關照片</p>
           <hr className='my-2' />
-          <div className='grid grid-cols-4 imageViewer'>
+          <div className='grid lg:grid-cols-4 grid-cols-3 imageViewer'>
             {
               images.map((src, index) => (
                 <div>
