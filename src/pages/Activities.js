@@ -41,6 +41,7 @@ export default function Activities() {
         setLoading(false);
       }
     )
+    console.log("Changed!")
   }, [])
 
   if (isLoading) {

@@ -46,12 +46,27 @@ export function shortURLtoID(shortURL) {
 export function dateParser(date) {
 	var date = date.replace(/-/g, "/")
 	var date = new Date(date);
-	let d = date.toLocaleString('zh-HK', { timeZone: 'Asia/Macau',hour12: false });
+	let d = date.toLocaleString('zh-HK', { timeZone: 'Asia/Macau', hour12: false });
 	d = d.slice(0, -3)
-	if (d.includes("24:00")){
+	if (d.includes("24:00")) {
 		d = d.slice(0, -5)
 	}
 	let td = d.split(" ")
 	let dr = td[0].split("/").reverse().join("/");
-	return dr+" "+td[1]
+	return dr + " " + td[1]
 }
+
+export function newsIDtoURL(date, id) {
+	//publishDate + itemId (2022-08-25T00:00:00+08:00 + 53981) into 20220825-53981
+	return date.replace(/-/g, "").slice(0, 8) + "-" + id
+}
+
+/*
+export function URLtoNewsDate(url) {
+	//url:id 20220825-53981 into 2022-08-25T00:00:00+08:00 + 53981 (publishDate + itemId)
+	let date = url.split("-")[0]
+	let datetime = date.slice(0, 4) + "-" + date.slice(4, 6) + "-" + date.slice(6, 8)+"T00:00:00"
+	let id = url.split("-")[1]
+	return [datetime, id]
+}
+*/

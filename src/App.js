@@ -12,6 +12,7 @@ import Layout from "./layout/Layout";
 import About from "./pages/About";
 import ShowActivities from "./show/ShowActivities"
 import ShowOrganizations from "./show/ShowOrganizations"
+import ShowNews from "./show/ShowNews";
 
 function App() {
   return (
@@ -36,6 +37,9 @@ function App() {
           </Route>
           <Route path="organizations" element={<ShowOrganizations />}>
             <Route path=":id" element={<ShowOrganizations />} />
+          </Route>
+          <Route path="news" element={<ShowNews />}>
+            <Route path=":id" element={<ShowNews />} />
           </Route>
         </Route>
       </Routes>
