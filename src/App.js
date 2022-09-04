@@ -39,7 +39,7 @@ function App() {
             <Route path=":id" element={<ShowOrganizations />} />
           </Route>
           <Route path="news" element={<ShowNews />}>
-            <Route path=":id" element={<ShowNews />} />
+            <Route path=":id/:lang" element={<ShowNews />} />
           </Route>
         </Route>
       </Routes>

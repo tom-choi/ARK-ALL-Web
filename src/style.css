@@ -64,50 +64,117 @@ a:hover{
 }
 
 .card:hover {
-  box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1); /*shadow-lg*/
+  box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+  /*shadow-lg*/
   transform: translate(0, -2px);
   transition-duration: 0.5s;
 }
 
-.card{
+.card {
   transform: translate(0, 2px);
   transition-duration: 0.5s;
 }
 
-.card:hover img{
+.card:hover img {
   transform: scale(1.03);
   transition-duration: 0.75s;
 }
 
-.card img{
+.card img {
   transform: scale(1);
   transition-duration: 0.75s;
 }
 
-.servicePage svg:hover{
+.servicePage svg:hover {
   border-radius: 10%;
   animation: pulse-animation 1s forwards;
 }
 
 @keyframes pulse-animation {
   100% {
-    box-shadow: 0 0 0 2px rgb(0,95,149);
-    background-color: rgb(0,95,149);
+    box-shadow: 0 0 0 2px rgb(0, 95, 149);
+    background-color: rgb(0, 95, 149);
     color: white;
   }
 }
 
-.homeIcon:hover{
+.homeIcon:hover {
   border-radius: 10%;
   animation: pulse-animation 1s forwards;
 }
 
-.homeIcon:hover ion-icon{
+.homeIcon:hover ion-icon {
   animation: toWhite 1s forwards;
 }
 
 @keyframes toWhite {
-  100%{
-    color:white;
+  100% {
+    color: white;
   }
+}
+
+.image-gallery-image {
+  height: 24rem;
+}
+
+@media only screen and (max-width: 600px) {
+  .image-gallery-image {
+    height: 18rem;
+  }
+  .fullscreen .image-gallery-image {
+    height: auto;
+  }
+}
+
+.fullscreen .image-gallery-image {
+  height: auto;
+}
+
+.image-gallery-thumbnail-inner {
+  height: 4rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.image-gallery-thumbnail-image {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  margin: auto;
+}
+
+.image-gallery-svg{
+  height: 4px;
+}
+
+.newsContent span, .newsContent a, .newsContent p, .newsContent table{
+  font-size: 1rem !important;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif !important;
+}
+
+.newsContent a{
+  color: rgb(0, 95, 149) !important;
+}
+
+.newsContent table{
+  width: 100% !important;
+}
+
+.newsContent p{
+  margin-bottom: 1rem;
+}
+
+.newsCard:hover{
+  box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+  transition-duration: 0.75s;
+}
+
+.newsCard:hover img {
+  transform: scale(1.03);
+  transition-duration: 0.75s;
+}
+
+.newsCard img {
+  transform: scale(1);
+  transition-duration: 0.75s;
 }

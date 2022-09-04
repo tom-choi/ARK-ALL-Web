@@ -77,7 +77,7 @@ export default function News() {
   return (
     <div>
       <div className='flex justify-center text-gray-500'>
-        <p>Data source: data.um.edu.mo</p>
+        <p>Data source: <a href="https://data.um.edu.mo" target="_blank">data.um.edu.mo</a></p>
       </div>
       <div className="grid grid-cols-3">
         <button onClick={() => setLang("zh_TW")} className="p-1">中文</button>
@@ -99,11 +99,13 @@ export default function News() {
                     <>
                       <div key={n._id} className="flex flex-row my-3 ml-1 text-sm sm:text-base lg:text-lg px-2">
                         <div className='flex-grow w-48 mr-1'>
-                          <Link to={"/detail/news/"+newsIDtoURL(n.common.publishDate,n.itemId)} className='font-bold'>{l.title}</Link>
+                          <Link to={"/detail/news/" + newsIDtoURL(n.common.publishDate, n.itemId) + "/" + lang} className='font-bold'>{l.title}</Link>
                           <p className='text-gray-500'>@{n.common.publishDate.slice(5, 10)}</p>
                         </div>
-                        <div className='flex flex-wrap content-center justify-middle shadow rounded-lg h-20 lg:h-36 w-32 lg:w-48 overflow-hidden bg-gray-100'>
-                          <img src={n.common.imageUrls[0]} className="object-contain h-20 lg:h-36 w-32 lg:w-48" />
+                        <div className='newsCard flex flex-wrap content-center justify-middle shadow rounded-lg h-20 lg:h-36 w-32 lg:w-48 overflow-hidden bg-gray-100'>
+                          <Link to={"/detail/news/" + newsIDtoURL(n.common.publishDate, n.itemId) + "/" + lang}>
+                            <img src={n.common.imageUrls[0]} className="object-contain h-20 lg:h-36 w-32 lg:w-48" />
+                          </Link>
                         </div>
                       </div>
                       <hr />

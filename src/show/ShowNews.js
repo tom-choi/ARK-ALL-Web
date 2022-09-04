@@ -1,13 +1,18 @@
 import React from 'react'
-import { useParams } from 'react-router-dom'
+import { useParams, Link } from 'react-router-dom'
 import axios from 'axios'
 import { umAPI } from '../utils/apiMap'
 import { useState, useEffect } from 'react'
 import ImageGallery from 'react-image-gallery';
 import moment from 'moment'
+import Loading from '../pages/Loading'
+
+//table width bug unsolved in /detail/news/20220722-53859/zh_TW
 
 export default function ShowNews() {
   let id = useParams().id.slice(-5)
+  let lang = useParams().lang
+  let dateWithId = useParams().id
   console.log(id)
 
   let dateFrom = moment(useParams().id.slice(0,-6), "YYYYMMDD").subtract(1, 'days')
@@ -18,10 +23,12 @@ export default function ShowNews() {
   const [news, setNews] = useState([])
   const [isLoading, setLoading] = useState(true)
 
-  const [lang, setLang] = useState("zh_TW")
-
   const [images, setImages] = useState([])
   const [gallery, setGallery] = useState([])
+
+  let noZH = true;
+  let noEN = true;
+  let noPT = true;
   /*
     const images = [
       {
@@ -75,37 +82,63 @@ export default function ShowNews() {
     })
   }
 
+  if (isLoading) {
+    return <div><Loading></Loading></div>;
+  }
+
   return (
     <div className='bg-white shadow'>
+      <div className="grid grid-cols-3">
+        <Link to={"/detail/news/"+dateWithId+"/zh_TW"} className="p-1 text-center">中文</Link>
+        <Link to={"/detail/news/"+dateWithId+"/en_US"} className="p-1 text-center">English</Link>
+        <Link to={"/detail/news/"+dateWithId+"/pt_PT"} className="p-1 text-center">Português</Link>
+      </div>
+      <hr />
       {
         news.map((n) => {
           if (n.itemId.toString() === id) {
             return n.details.map((l) => {
+              if (l.locale === "zh_TW"){
+                noZH = false;
+                console.log("has ZH")
+              }
+              if (l.locale === "en_US"){
+                noEN = false;
+                console.log("has EN")
+              }
+              if (l.locale === "pt_PT"){
+                noPT = false;
+                console.log("has PT")
+              }
               if (l.locale === lang) {
                 return (
                   <div key={n._id} className="flex flex-col">
                     <div>
-                      {/*<img src={n.common.imageUrls[0]} />*/}
                       <ImageGallery
                         showPlayButton={false}
                         items={gallery}
                       />
                     </div>
-                    <div>
-                      <p className='font-bold'>{l.title}</p>
+                    <div className='p-4'>
+                      <p className='font-bold text-2xl'>{l.title}</p>
                       <p>{n.common.publishDate.slice(0, 10)}</p>
-                      <p dangerouslySetInnerHTML={createMarkup(l.content)} className="text-base"></p>
+                      <hr className='my-3'/>
+                      <div dangerouslySetInnerHTML={createMarkup(l.content)} class="newsContent"></div>
                     </div>
                   </div>
                 )
-              } else
+              } else{
                 return ""
+              }
             }
             )
           }
           else return ""
         })
       }
+      {lang==="pt_PT" && noPT && <div className='text-center'>Sorry, there is no Portuguese version.</div>}
+      {lang==="zh_TW" && noZH && <div className='text-center'>抱歉，此文章並未提供中文版本</div>}
+      {lang==="en_US" && noEN && <div className='text-center'>Sorry, there is no English version.</div>}
     </div>
   )
 }

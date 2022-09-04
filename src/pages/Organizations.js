@@ -38,8 +38,8 @@ export default function Organizations() {
                   </div>
                 </div>
                 <div className='flex flex-col text-center'>
-                  <div className='text-sm'>{o.name}</div>
-                  <div className='text-xs' style={{ color: color.theme }}>#{organizationsType[o.tag]}</div>
+                  <div className='text-sm md:text-base'>{o.name}</div>
+                  <div className='text-xs md:text-sm' style={{ color: color.theme }}>#{organizationsType[o.tag]}</div>
                 </div>
               </Link>
             )
