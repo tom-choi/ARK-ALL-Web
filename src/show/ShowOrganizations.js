@@ -9,6 +9,7 @@ import Loading from "../pages/Loading";
 import { dateParser, idToShortURL } from '../utils/helper';
 import { Link } from 'react-router-dom';
 import ImageViewer from 'react-simple-image-viewer';
+import moment from 'moment';
 
 export default function ShowOrganizations() {
   const [isLoading, setLoading] = useState(true)
@@ -84,9 +85,9 @@ export default function ShowOrganizations() {
             setActivitiesByClub(res.data.content);
             //check if there is no current or past activities
             res.data.content && res.data.content.map(a => {
-              if (Date.now() > Date.parse(new Date(a.enddatetime)))
+              if (moment() > moment(a.enddatetime))
                 setCheckPastA(checkPastA + 1)
-              if (Date.now() < Date.parse(new Date(a.enddatetime)))
+              if (moment() < moment(a.enddatetime))
                 setCheckCurrentA(checkCurrentA + 1)
             });
 
@@ -167,7 +168,7 @@ export default function ShowOrganizations() {
             <hr className='mt-2 mb-3' />
             <div className="flex flex-col">
               {activitiesByClub.map((a, index) => {
-                if (Date.now() < Date.parse(new Date(a.enddatetime)))
+                if (moment() < moment(a.enddatetime))
                   return (
                     <Link to={"/detail/activities/" + idToShortURL(a._id)}>
                       <div key={index} className="flex mb-3">
@@ -200,7 +201,7 @@ export default function ShowOrganizations() {
             <hr className='my-2' />
             <div className="flex flex-col">
               {activitiesByClub.map((a, index) => {
-                if (Date.now() > Date.parse(new Date(a.enddatetime)))
+                if (moment() > moment(a.enddatetime))
                   return (
                     <Link to={"/detail/activities/" + idToShortURL(a._id)} key={index}>
                       <div className="flex mt-3">

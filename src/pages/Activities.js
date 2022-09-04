@@ -6,6 +6,7 @@ import Masonry, { ResponsiveMasonry } from "react-responsive-masonry"
 import { idToShortURL, shortURLtoID } from '../utils/helper'
 import { Link, Outlet } from 'react-router-dom'
 import Loading from "../pages/Loading";
+import moment from 'moment'
 
 class Card extends Component {
   render() {
@@ -19,7 +20,7 @@ class Card extends Component {
           <div className='m-2 flex-grow'>
             <span className='font-semibold text-sm mr-1'>{a.title}</span>
             {a.type === "WEBSITE" && <span className='text-sm rounded-md border shadow-xs px-1 text-white bg-blue-500'>URL</span>}
-            {Date.now() < Date.parse(new Date(a.enddatetime)) && <span className='text-sm rounded-md border shadow-xs px-1 text-white bg-orange-500'>進行中</span>}
+            {moment() < moment(a.enddatetime) && <span className='text-sm rounded-md border shadow-xs px-1 text-white bg-orange-500'>進行中</span>}
             <div className='text-sm text-gray-400 flex-grow'>{a.startdatetime.substring(5, 10)}</div>
           </div>
           <div className='grid content-center m-1 text-gray-500'>
