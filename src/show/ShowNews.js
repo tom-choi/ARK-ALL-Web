@@ -47,6 +47,7 @@ export default function ShowNews() {
     */
 
   useEffect(() => {
+    window.scrollTo(0,0)
     axios.get(umAPI.news + "?date_from=" + encodeURIComponent(dateFrom.format()) + "&date_to=" + encodeURIComponent(dateTo.format()), {
       headers: {
         Accept: 'application/json',

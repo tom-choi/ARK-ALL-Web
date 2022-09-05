@@ -48,6 +48,7 @@ export default function ShowActivities() {
   };
 
   useEffect(() => {
+    window.scrollTo(0,0)
     //get activity
     axios.get(umallAPI.activities + "id/?id=" + id).then(
       response => {

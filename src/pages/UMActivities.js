@@ -13,6 +13,7 @@ import Masonry, { ResponsiveMasonry } from "react-responsive-masonry"
 
 export default function UMActivities() {
   const [isLoading, setLoading] = useState(true)
+  const [isLoadingMore, setLoadingMore] = useState(false)
   const [events, setEvents] = useState([])
   const [eventsLang, setEventsLang] = useState([])
   const [dateFrom, setDateFrom] = useState(moment())
@@ -20,6 +21,7 @@ export default function UMActivities() {
   const [lang, setLang] = useState("zh_TW")
 
   useEffect(() => {
+    window.scrollTo(0,0)
     console.log(dateFrom.format())
     axios.get(umAPI.events + "?date_from=" + encodeURIComponent(dateFrom.format().slice(0, 10)) + "&date_to=" + encodeURIComponent(dateTo.format().slice(0, 10)), {
       headers: {
@@ -46,7 +48,7 @@ export default function UMActivities() {
   }, [lang])
 
   function getMore() {
-    setLoading(true)
+    setLoadingMore(true)
     setDateTo(dateTo.add(15, 'days'))
     axios.get(umAPI.events + "?date_from=" + encodeURIComponent(moment().format().slice(0, 10)) + "&date_to=" + encodeURIComponent(dateTo.format().slice(0, 10)), {
       headers: {
@@ -65,10 +67,9 @@ export default function UMActivities() {
             }
           })
         })
-
-        console.log("New Events", response.data._embedded)
-
-        setLoading(false);
+        console.log("New Events", response.data._embedded);
+        window.scrollTo(0, document.documentElement.scrollTop);
+        setLoadingMore(false)
       }
     )
   }
@@ -103,12 +104,12 @@ export default function UMActivities() {
                     </div>
                     <div className='flex flex-row'>
                       <div className='m-2 flex-grow'>
-                      <span className='text-xs text-white font-semibold px-1 rounded-lg' style={{ backgroundColor: color.theme }}>{e.details.venues.map(v => v)}</span>
+                        <span className='text-xs text-white font-semibold px-1 rounded-lg' style={{ backgroundColor: color.theme }}>{e.details.venues.map(v => v)}</span>
                         <div className='font-semibold text-sm flex-grow' style={{ color: color.theme }}>
                           {e.common.dateFrom.slice(5, 10) + " | " + e.common.timeFrom.slice(11, 16) + "-" + e.common.timeTo.slice(11, 16)}
                         </div>
                         <div className='font-semibold text-sm mr-1'>{e.details.title}</div>
-                        
+
                       </div>
                     </div>
                   </Link>
@@ -119,9 +120,14 @@ export default function UMActivities() {
         </ResponsiveMasonry>
       }
       <div className="flex justify-center">
-        <button onClick={getMore} className="rounded shadow p-3 mt-2 text-white font-bold" style={{ "backgroundColor": color.theme }}>
-          加載更多
-        </button>
+        {isLoadingMore ?
+          <div class="loadingio-spinner-spin-wx94p40losn"><div class="ldio-mhvcbdpseok">
+            <div><div></div></div><div><div></div></div><div><div></div></div><div><div></div></div><div><div></div></div><div><div></div></div><div><div></div></div><div><div></div></div>
+          </div></div> :
+          <button onClick={getMore} className="rounded-full shadow p-3 mt-2 text-white font-bold" style={{ "backgroundColor": color.theme }}>
+            加載更多
+          </button>
+        }
       </div>
     </div>
   )

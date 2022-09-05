@@ -56,6 +56,7 @@ export default function ShowOrganizations() {
   };
 
   useEffect(() => {
+    window.scrollTo(0,0)
     axios.get(reqURL).then(
       res => {
         let clubData = res.data.content;

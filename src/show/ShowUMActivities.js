@@ -42,6 +42,7 @@ export default function ShowUMActivities() {
   };
 
   useEffect(() => {
+    window.scrollTo(0,0)
     console.log("dateFrom", dateFrom.format().slice(0, 10))
     console.log("dateTo", dateTo.format().slice(0, 10))
     axios.get(umAPI.events + "?date_from=" + encodeURIComponent(dateFrom.format().slice(0, 10)) + "&date_to=" + encodeURIComponent(dateTo.format().slice(0, 10)), {

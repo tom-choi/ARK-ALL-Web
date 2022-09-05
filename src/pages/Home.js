@@ -31,6 +31,7 @@ export default function Home() {
     console.log(umallAPI.getAppInfo)
 
     useEffect(() => {
+        window.scrollTo(0,0)
         axios.get(umallAPI.getAppInfo).then(
             res => {
                 let data = res.data.content;

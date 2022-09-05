@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import { useEffect } from "react";
 
 import Icon from '@mdi/react'
 import { mdiBusStop } from '@mdi/js'
@@ -44,6 +45,11 @@ export default function Services() {
     marginLeft: "auto",
     marginRight: "auto",
   }
+
+  useEffect(() => {
+    window.scrollTo(0,0)
+  }, [])
+
   return (
     <div className="m-1">
       <div className="flex">

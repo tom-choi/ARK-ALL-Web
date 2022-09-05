@@ -37,6 +37,7 @@ export default function Activities() {
   const [isLoading, setLoading] = useState(true)
 
   useEffect(() => {
+    window.scrollTo(0,0)
     axios.get(umallAPI.activities + "/all/").then(
       response => {
         setActivitiesList(response.data.content);

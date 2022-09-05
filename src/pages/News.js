@@ -12,6 +12,7 @@ import { newsIDtoURL } from '../utils/helper';
 
 export default function News() {
   const [isLoading, setLoading] = useState(true)
+  const [isLoadingMore, setLoadingMore] = useState(false)
   const [error, setError] = useState(false)
   const [hasMore, setHasMore] = useState(false)
 
@@ -26,6 +27,7 @@ export default function News() {
   const [newsTo, setNewsTo] = useState(moment())
 
   useEffect(() => {
+    window.scrollTo(0,0)
     axios.get(umAPI.news + "?date_from=" + encodeURIComponent(newsFrom.format()) + "&date_to=" + encodeURIComponent(newsTo.format()), {
       headers: {
         Accept: 'application/json',
@@ -46,7 +48,7 @@ export default function News() {
   }, [])
 
   function getMoreNews() {
-    setLoading(true);
+    setLoadingMore(true)
     setNewsFrom(newsFrom.subtract(15, 'days'))
     setNewsTo(newsTo.subtract(15, 'days'))
     axios.get(umAPI.news + "?date_from=" + encodeURIComponent(newsFrom.format()) + "&date_to=" + encodeURIComponent(newsTo.format()), {
@@ -62,7 +64,7 @@ export default function News() {
         //false when no more news
         setHasMore(response.data._embedded.length > 0)
         console.log("New News", response.data._embedded)
-        setLoading(false);
+        setLoadingMore(false)
       }
     ).catch(
       setError(true)
@@ -76,6 +78,7 @@ export default function News() {
 
   return (
     <div>
+      {window.scrollTo(0, document.documentElement.scrollTop)}
       <div className='flex justify-center text-gray-500'>
         <p>Data source: <a href="https://data.um.edu.mo" target="_blank">data.um.edu.mo</a></p>
       </div>
@@ -119,9 +122,13 @@ export default function News() {
         }
       </div>
       <div className="flex justify-center">
-        <button onClick={getMoreNews} className="rounded shadow p-3 mt-2 text-white font-bold" style={{ "backgroundColor": color.theme }}>
-          加載更多
-        </button>
+        {isLoadingMore ?
+          <div class="loadingio-spinner-spin-wx94p40losn"><div class="ldio-mhvcbdpseok">
+          <div><div></div></div><div><div></div></div><div><div></div></div><div><div></div></div><div><div></div></div><div><div></div></div><div><div></div></div><div><div></div></div>
+          </div></div> :
+          <button onClick={getMoreNews} className="rounded-full shadow p-3 mt-2 text-white font-bold" style={{ "backgroundColor": color.theme }}>
+            加載更多
+          </button>}
       </div>
     </div>
   )

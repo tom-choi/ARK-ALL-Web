@@ -12,6 +12,7 @@ export default function Organizations() {
   const [isLoading, setLoading] = useState(true)
 
   useEffect(() => {
+    window.scrollTo(0,0)
     axios.get(umallAPI.organizations + "all/").then(
       response => {
         setOrganizationsList(response.data.content);
