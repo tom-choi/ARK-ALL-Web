@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import Home from "./pages/Home";
 import Services from "./pages/Services";
 import CampusLoop from "./pages/CampusLoop";
@@ -13,6 +13,7 @@ import About from "./pages/About";
 import ShowActivities from "./show/ShowActivities"
 import ShowOrganizations from "./show/ShowOrganizations"
 import ShowNews from "./show/ShowNews";
+import ShowUMActivities from "./show/ShowUMActivities";
 
 function App() {
   return (
@@ -40,6 +41,9 @@ function App() {
           </Route>
           <Route path="news" element={<ShowNews />}>
             <Route path=":id/:lang" element={<ShowNews />} />
+          </Route>
+          <Route path="um-activities" element={<ShowUMActivities />}>
+            <Route path=":id/:lang" element={<ShowUMActivities />} />
           </Route>
         </Route>
       </Routes>

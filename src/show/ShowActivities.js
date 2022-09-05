@@ -132,7 +132,7 @@ export default function ShowActivities() {
           <p style={{ color: color.theme}} className="font-bold">詳情</p>
           <hr className='my-2' />
           <p style={{ overflowWrap: "break-word" }}>{activity.introduction}</p>
-          <a href={activity.link} target="_blacnk" style={{ color: color.theme }}>{activity.link}</a>
+          <a href={activity.link} target="_blacnk" style={{ color: color.theme, overflowWrap: "break-word" }}>{activity.link}</a>
         </div>
       }
 

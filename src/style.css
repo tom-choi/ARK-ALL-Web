@@ -121,6 +121,7 @@ a:hover{
   .image-gallery-image {
     height: 18rem;
   }
+
   .fullscreen .image-gallery-image {
     height: auto;
   }
@@ -143,28 +144,31 @@ a:hover{
   margin: auto;
 }
 
-.image-gallery-svg{
+.image-gallery-svg {
   height: 4px;
 }
 
-.newsContent span, .newsContent a, .newsContent p, .newsContent table{
+.newsContent span,
+.newsContent a,
+.newsContent p,
+.newsContent table {
   font-size: 1rem !important;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif !important;
 }
 
-.newsContent a{
+.newsContent a {
   color: rgb(0, 95, 149) !important;
 }
 
-.newsContent table{
+.newsContent table {
   width: 100% !important;
 }
 
-.newsContent p{
+.newsContent p {
   margin-bottom: 1rem;
 }
 
-.newsCard:hover{
+.newsCard:hover {
   box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
   transition-duration: 0.75s;
 }
@@ -177,4 +181,9 @@ a:hover{
 .newsCard img {
   transform: scale(1);
   transition-duration: 0.75s;
+}
+
+.newsTitle:hover {
+  color: rgb(0, 95, 149);
+  transition-duration: 0.5s;
 }

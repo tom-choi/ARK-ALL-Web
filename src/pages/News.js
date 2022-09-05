@@ -99,7 +99,7 @@ export default function News() {
                     <>
                       <div key={n._id} className="flex flex-row my-3 ml-1 text-sm sm:text-base lg:text-lg px-2">
                         <div className='flex-grow w-48 mr-1'>
-                          <Link to={"/detail/news/" + newsIDtoURL(n.common.publishDate, n.itemId) + "/" + lang} className='font-bold'>{l.title}</Link>
+                          <Link to={"/detail/news/" + newsIDtoURL(n.common.publishDate, n.itemId) + "/" + lang} className='font-bold newsTitle'>{l.title}</Link>
                           <p className='text-gray-500'>@{n.common.publishDate.slice(5, 10)}</p>
                         </div>
                         <div className='newsCard flex flex-wrap content-center justify-middle shadow rounded-lg h-20 lg:h-36 w-32 lg:w-48 overflow-hidden bg-gray-100'>
