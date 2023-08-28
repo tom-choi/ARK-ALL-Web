@@ -1,4 +1,10 @@
-# UM-ARK-Index website
+# ARK ALL Index Website
+
+# Setup
+
+```
+npm i
+```
 
 # Launch
 
