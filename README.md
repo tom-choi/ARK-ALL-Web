@@ -1,5 +1,7 @@
-# ark-all-web
+# UM-ARK-Index website
 
-### React Web
+# Launch
 
-With TailwindCSS
+```
+npm run dev
+```
