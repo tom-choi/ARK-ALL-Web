@@ -23,6 +23,8 @@ export const COLOR_DIY = {
 如要使用這些 themeColor，請先將你所需要的 themeColor 放入`tailwind.config.js`的`theme.colors`中:
 
 ```js
+  import {COLOR_DIY} from "????"    //這裡引用uiMap.js對於tailwind.config.js的相對路徑
+  ...   //其他設定
   theme: {
     extend: {
       colors: {
@@ -47,4 +49,4 @@ export const COLOR_DIY = {
 <div className="bg-themeColor"></div>
 ```
 
-其中,`themeColor`為你在`tailwind.config.js`中所設定的 themeColor 之 key 的名稱。
+其中,`themeColor`為你在`tailwind.config.js`中所設定的 themeColor 之 key 的名稱。注意，**不要使用傳統的`style={{color:COLOR_DIY.themeColor}}`**。這樣雖然不會有什麼編譯問題，但是會影響代碼可讀性，所以盡量全局統一使用 Tailwind。[Tailwind 官方文檔](https://www.tailwindcss.cn/)
