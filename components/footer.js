@@ -47,8 +47,9 @@ export default function Footer() {
                       width="32"
                       height="32"
                       className="w-8"
+                      style={{borderRadius:"6px"}}
                     />
-                  <span>UM-ARK</span>
+                  <span className="text-themeColor">UM-ARK</span>
               </Link>
             </div>
 
@@ -87,6 +88,7 @@ export default function Footer() {
             </div>
             <div className="flex mt-5 space-x-5 text-gray-400 dark:text-gray-500">
               <a
+                className="hover:opacity-50"
                 href="https://twitter.com"
                 target="_blank"
                 rel="noopener">
@@ -94,6 +96,7 @@ export default function Footer() {
                 <Twitter />
               </a>
               <a
+                className="hover:opacity-50"
                 href="https://facebook.com"
                 target="_blank"
                 rel="noopener">
@@ -101,6 +104,7 @@ export default function Footer() {
                 <Facebook />
               </a>
               <a
+                className="hover:opacity-50"
                 href="https://instagram.com"
                 target="_blank"
                 rel="noopener">
@@ -108,6 +112,7 @@ export default function Footer() {
                 <Instagram />
               </a>
               <a
+                className="hover:opacity-50"
                 href="https://github.com/UM-ARK"
                 target="_blank"
                 rel="noopener">
