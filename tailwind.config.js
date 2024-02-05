@@ -1,3 +1,5 @@
+import { COLOR_DIY } from "./utils/uiMap";
+
 const defaultTheme = require("tailwindcss/defaultTheme");
 const colors = require("tailwindcss/colors");
 
@@ -9,6 +11,7 @@ module.exports = {
     extend: {
       colors: {
         trueGray: colors.neutral,
+        themeColor: COLOR_DIY.themeColor,
       },
     },
     fontFamily: {
