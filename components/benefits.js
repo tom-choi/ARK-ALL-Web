@@ -21,6 +21,7 @@ const Benefits = (props) => {
             className={"object-cover p-5"}
             placeholder="blur"
             blurDataURL={data.image.src}
+            style={{borderRadius: "30px"}}
           />
           {/* <Canvas shadows flat linear>
             <Map/>
