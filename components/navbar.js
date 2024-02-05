@@ -8,6 +8,8 @@ import { useTranslation } from "react-i18next";
 
 import { useRouter } from 'next/router';
 
+import {COLOR_DIY} from '../utils/uiMap'
+
 const Navbar = () => {
 
   const router = useRouter();
@@ -52,7 +54,11 @@ const Navbar = () => {
                         className="w-8"
                       />
                     </span>
-                    <span>UM-ARK</span>
+                    <span
+                        style={{
+                          color: COLOR_DIY.themeColor,
+                        }}
+                    >UM-ARK</span>
                   </span>
                 </Link>
 
