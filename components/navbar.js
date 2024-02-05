@@ -54,10 +54,7 @@ const Navbar = () => {
                         className="w-8"
                       />
                     </span>
-                    <span
-                        style={{
-                          color: COLOR_DIY.themeColor,
-                        }}
+                    <span className="text-themeColor"
                     >UM-ARK</span>
                   </span>
                 </Link>
