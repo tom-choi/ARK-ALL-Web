@@ -84,10 +84,12 @@ const Ark = () => {
           <div className="flex flex-col justify-center">
             <div className="text-xl text-center text-gray-700 dark:text-white">
               {t("tb")} 
-              <span className="text-indigo-600" style={{ color: COLOR_DIY.themeColor }}>2000+</span>{" "}
+              <span className="text-indigo-600 text-themeColor">2000+</span>{" "}
               {t("siuom")}
             </div>
             <br></br>
+
+            {/* 支持者名單 */}
             <div className="text-xl text-center text-gray-700 dark:text-white">
               {t("Sponsor List")}
             </div>
