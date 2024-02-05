@@ -1,13 +1,20 @@
-# ARK ALL Index Website
+# 🎊ARK ALL Web Version🎊
 
 # Setup
 
 ```
-npm i
+yarn
 ```
 
 # Launch
 
 ```
-npm run dev
+yarn dev
+```
+
+# Start
+
+```
+yarn build
+yarn start
 ```
