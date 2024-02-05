@@ -18,7 +18,7 @@ const Benefits = (props) => {
             width="521"
             height="auto"
             alt="Benefits"
-            className={"object-cover"}
+            className={"object-cover p-5"}
             placeholder="blur"
             blurDataURL={data.image.src}
           />
@@ -33,10 +33,11 @@ const Benefits = (props) => {
           }`}>
           <div>
             <div className="flex flex-col w-full mt-4">
+              {/* 標題 */}
               <h3 className="max-w-2xl mt-3 text-3xl font-bold leading-snug tracking-tight text-gray-800 lg:leading-tight lg:text-4xl dark:text-white">
                 {data.title}
               </h3>
-
+              {/* 說明 */}
               <p className="max-w-2xl py-4 text-lg leading-normal text-gray-500 lg:text-xl xl:text-xl dark:text-gray-300">
                 {data.desc}
               </p>
@@ -60,7 +61,7 @@ function Benefit(props) {
   return (
     <>
       <div className="flex items-start mt-8 space-x-3">
-        <div className="flex items-center justify-center flex-shrink-0 mt-1 bg-indigo-500 rounded-md w-11 h-11 ">
+        <div className="flex items-center justify-center flex-shrink-0 mt-1 bg-themeColor bg-indigo-500 rounded-md w-11 h-11 ">
           {React.cloneElement(props.icon, {
             className: "w-7 h-7 text-indigo-50",
           })}
