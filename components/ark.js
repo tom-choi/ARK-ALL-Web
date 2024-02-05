@@ -29,7 +29,7 @@ const Ark = () => {
                   href="https://apps.apple.com/us/app/um-all/id1636670554"
                   target="_blank"
                   rel="noopener"
-                  className="px-5 py-4 text-lg font-medium text-center text-white bg-indigo-600 rounded-md bg-themeColor"
+                  className="px-5 py-4 text-lg font-medium text-center text-white rounded-md bg-themeColor hover:bg-themeColorLight"
                   >
                   iOS
                 </a>
@@ -37,14 +37,14 @@ const Ark = () => {
                   href="https://play.google.com/store/apps/details?id=one.umall"
                   target="_blank"
                   rel="noopener"
-                  className="px-5 py-4 text-lg font-medium text-center text-white bg-indigo-600 rounded-md bg-themeColor">
+                  className="px-5 py-4 text-lg font-medium text-center text-white bg-indigo-600 rounded-md bg-themeColor hover:bg-themeColorLight">
                   Android
                 </a>
                 <a
                   href="https://umall.one/static/release/app-release.apk"
                   target="_blank"
                   rel="noopener"
-                  className="px-5 py-4 text-lg font-medium text-center text-white bg-indigo-600 rounded-md bg-themeColor">
+                  className="px-5 py-4 text-lg font-medium text-center text-white bg-indigo-600 rounded-md bg-themeColor hover:bg-themeColorLight">
                   HUAWEI
                 </a>
                 
@@ -53,7 +53,7 @@ const Ark = () => {
                   href="https://github.com/UM-ARK"
                   target="_blank"
                   rel="noopener"
-                  className="flex items-center space-x-2 text-gray-500 dark:text-gray-400">
+                  className="flex items-center space-x-2 text-gray-500 dark:text-gray-400 hover:opacity-50">
                   <svg
                     role="img"
                     width="24"
