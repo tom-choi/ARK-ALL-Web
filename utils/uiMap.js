@@ -92,9 +92,4 @@ export const TIME_TABLE_COLOR = isLight ?
     ]
 
 
-export const VERSION_EMOJI = {
-    ve_Left: '⛱️',
-    ve_Right: '🕶️',
-}
-
 
