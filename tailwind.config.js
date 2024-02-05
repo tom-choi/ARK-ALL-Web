@@ -12,6 +12,8 @@ module.exports = {
       colors: {
         trueGray: colors.neutral,
         themeColor: COLOR_DIY.themeColor,
+        themeColorLight: COLOR_DIY.themeColorLight,
+        themeColorUltraLight: COLOR_DIY.themeColorUltraLight,
       },
     },
     fontFamily: {
