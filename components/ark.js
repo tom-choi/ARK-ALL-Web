@@ -6,6 +6,7 @@ import { Cube2 } from "./Cube2";
 import { Phone } from "./Phone";
 
 import { useTranslation } from "react-i18next";
+import { COLOR_DIY } from "../utils/uiMap"
 
 const Ark = () => {
   const { t } = useTranslation();
@@ -13,6 +14,7 @@ const Ark = () => {
   return (
       <>
         <Container className="flex flex-wrap w-full h-full">
+          {/* ARK介紹+下載按鈕 */}
           <div className="flex items-center w-full lg:w-1/2">
             <div className="max-w-2xl mb-8">
               <h1 className="text-4xl font-bold leading-snug tracking-tight text-gray-800 lg:text-4xl lg:leading-tight xl:text-6xl xl:leading-tight dark:text-white">
@@ -27,21 +29,24 @@ const Ark = () => {
                   href="https://apps.apple.com/us/app/um-all/id1636670554"
                   target="_blank"
                   rel="noopener"
-                  className="px-8 py-4 text-lg font-medium text-center text-white bg-indigo-600 rounded-md ">
-                  AppStore
+                  className="px-8 py-4 text-lg font-medium text-center text-white bg-indigo-600 rounded-md "
+                  style={{ backgroundColor: COLOR_DIY.themeColor}}>
+                  App Store
                 </a>
                 <a
                   href="https://play.google.com/store/apps/details?id=one.umall"
                   target="_blank"
                   rel="noopener"
-                  className="px-8 py-4 text-lg font-medium text-center text-white bg-indigo-600 rounded-md ">
+                  className="px-8 py-4 text-lg font-medium text-center text-white bg-indigo-600 rounded-md "
+                  style={{ backgroundColor: COLOR_DIY.themeColor}}>
                   Android
                 </a>
                 <a
                   href="https://umall.one/static/release/app-release.apk"
                   target="_blank"
                   rel="noopener"
-                  className="px-8 py-4 text-lg font-medium text-center text-white bg-indigo-600 rounded-md ">
+                  className="px-8 py-4 text-lg font-medium text-center text-white bg-indigo-600 rounded-md "
+                  style={{ backgroundColor: COLOR_DIY.themeColor}}>
                   HUAWEI
                 </a>
                 
@@ -67,6 +72,7 @@ const Ark = () => {
               </div>
             </div>
           </div>
+          {/* 兩個炫酷旋轉的正方體*/}
           <div className="flex items-center justify-center w-full lg:w-1/2">
             <Canvas shadows flat linear>
               <Cube1 />
@@ -79,7 +85,8 @@ const Ark = () => {
         <Container>
           <div className="flex flex-col justify-center">
             <div className="text-xl text-center text-gray-700 dark:text-white">
-              {t("tb")} <span className="text-indigo-600">2000+</span>{" "}
+              {t("tb")} 
+              <span className="text-indigo-600" style={{ color: COLOR_DIY.themeColor }}>2000+</span>{" "}
               {t("siuom")}
             </div>
             <br></br>
