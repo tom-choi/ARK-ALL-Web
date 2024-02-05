@@ -21,7 +21,7 @@ const Cta = () => {
             href="https://apps.apple.com/us/app/um-all/id1636670554"
             target="_blank"
             rel="noopener"
-            className="inline-block py-3 mx-auto text-themeColor text-lg font-medium text-center text-indigo-600 bg-white rounded-md px-7 lg:px-8 lg:py-3 ">
+            className="inline-block py-3 mx-auto text-themeColor text-lg font-medium text-center bg-white rounded-md px-7 lg:px-8 lg:py-3 hover:opacity-50">
             App Store
           </a>
         </div>
@@ -30,7 +30,7 @@ const Cta = () => {
             href="https://play.google.com/store/apps/details?id=one.umall"
             target="_blank"
             rel="noopener"
-            className="inline-block py-3 mx-auto text-themeColor text-lg font-medium text-center text-indigo-600 bg-white rounded-md px-7 lg:px-8 lg:py-3 ">
+            className="inline-block py-3 mx-auto text-themeColor text-lg font-medium text-center bg-white rounded-md px-7 lg:px-8 lg:py-3 hover:opacity-50">
             Android
           </a>
         </div>
@@ -39,7 +39,7 @@ const Cta = () => {
             href="https://umall.one/static/release/app-release.apk"
             target="_blank"
             rel="noopener"
-            className="inline-block py-3 mx-auto text-themeColor text-lg font-medium text-center text-indigo-600 bg-white rounded-md px-7 lg:px-8 lg:py-3 ">
+            className="inline-block py-3 mx-auto text-themeColor text-lg font-medium text-center bg-white rounded-md px-7 lg:px-8 lg:py-3 hover:opacity-50">
             HUAWEI
           </a>
         </div>
