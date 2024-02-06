@@ -130,45 +130,16 @@ const Navbar = () => {
         <div className="hidden text-center lg:flex lg:items-center">
           <ul className="items-center justify-end flex-1 pt-6 list-none lg:pt-0 lg:flex">
             {navigation.map((menu, index) => {
-              if (menu == "About_us")
-              {
                 return  (
                 <li className="mr-3 nav__item" key={index}>
-                <Link 
-                  href="/" className="inline-block px-4 py-2 text-lg font-normal text-gray-800 no-underline rounded-md dark:text-gray-200 hover:text-themeColor focus:text-themeColor focus:bg-themeColorUltraLight focus:outline-none dark:focus:bg-gray-800"
-                  onClick={()=> navigateToPage('/about_us')}
-                >
-                    {t(menu)}
-                </Link>
+                  <Link
+                    href={`/${menu.toLowerCase()}`} className="inline-block px-4 py-2 text-lg font-normal text-gray-800 no-underline rounded-md dark:text-gray-200 hover:text-themeColor hover:bg-themeColorUltraLight dark:hover:text-themeColor dark:hover:bg-gray-800 focus:text-themeColor focus:bg-indigo-100 focus:outline-none dark:focus:bg-gray-800"
+                    onClick={() => navigateToPage('/' + menu.toLowerCase())}>
+                      {t(menu)}
+                  </Link>
                 </li>
                 )
-              }
-              else if (menu == "Download")
-              {
-                return  (
-                <li className="mr-3 nav__item" key={index}>
-                <Link 
-                  href="/" className="inline-block px-4 py-2 text-lg font-normal text-gray-800 no-underline rounded-md dark:text-gray-200 hover:text-themeColor focus:text-themeColor focus:bg-themeColorUltraLight focus:outline-none dark:focus:bg-gray-800"
-                  onClick={() => navigateToPage('/')}
-                >
-                    {t(menu)}
-                </Link>
-                </li>
-                )
-              }
-              else
-              {
-                return  (
-                <li className="mr-3 nav__item" key={index}>
-                <Link 
-                  href="/" className="inline-block px-4 py-2 text-lg font-normal text-gray-800 no-underline rounded-md dark:text-gray-200 hover:text-themeColor focus:text-indigo-500 focus:bg-indigo-100 focus:outline-none dark:focus:bg-gray-800"
-                  onClick={() => navigateToPage('/' + menu.toLowerCase())}
-                >
-                    {t(menu)}
-                </Link>
-                </li>
-                )
-              }
+                  
             })}
           </ul>
         </div>
