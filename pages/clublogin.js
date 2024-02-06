@@ -68,7 +68,7 @@ const ClubLogin = () => {
         <Navbar/>
         <Container className="flex flex-col w-full h-full items-center justify-center">
             {/* UI Block*/}
-            <div className="block p-5 pb-10 bg-white dark:bg-gray-800 drop-shadow-xl rounded-lg items-center justify-center min-w-96 ">
+            <div className="block p-5 pb-10 bg-themeColorUltraLight dark:bg-gray-800 drop-shadow-xl rounded-lg items-center justify-center min-w-96 ">
                 <div className="text-2xl text-themeColor font-semibold mb-8 text-center">
                     <h1>社團賬號登入</h1>
                 </div>
@@ -76,9 +76,9 @@ const ClubLogin = () => {
                 <div className="flex felx-col items-center justify-center">
                     <ul className="space-y-4">
                         <li>
-                            <p className="text-themeColor font-bold">社團名稱</p>
+                            <p className="text-themeColor font-bold">社團用戶名</p>
                             <input
-                                className="border-2 rounded-lg h-10"
+                                className="border-2 border-themeColor rounded-lg h-10 p-2"
                                 placeholder="社團賬號"
                                 value={account}
                                 onChangeCapture={(event) => setAccount(event.target.value)}>
@@ -87,7 +87,7 @@ const ClubLogin = () => {
                         <li className="justify-center items-center">
                             <p className="text-themeColor font-bold">登入密碼</p>
                             <input
-                                className="border-2 rounded-lg h-10"
+                                className="border-2 border-themeColor rounded-lg h-10 p-2"
                                 placeholder="密碼"
                                 value={password}
                                 onChangeCapture={(event) => setPassword(event.target.value)}>
