@@ -135,7 +135,8 @@ const Navbar = () => {
                 return  (
                 <li className="mr-3 nav__item" key={index}>
                 <Link 
-                  href="https://github.com/UM-ARK" className="inline-block px-4 py-2 text-lg font-normal text-gray-800 no-underline rounded-md dark:text-gray-200 hover:text-themeColor focus:text-themeColor focus:bg-themeColorUltraLight focus:outline-none dark:focus:bg-gray-800"
+                  href="/" className="inline-block px-4 py-2 text-lg font-normal text-gray-800 no-underline rounded-md dark:text-gray-200 hover:text-themeColor focus:text-themeColor focus:bg-themeColorUltraLight focus:outline-none dark:focus:bg-gray-800"
+                  onClick={()=> navigateToPage('/about_us')}
                 >
                     {t(menu)}
                 </Link>
