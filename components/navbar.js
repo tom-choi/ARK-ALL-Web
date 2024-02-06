@@ -20,6 +20,7 @@ const Navbar = () => {
   const { t } = useTranslation();
 
   const navigation = [
+    "ClubLogin",
     "Download",
     "Tutorial",
     "QA",
@@ -97,7 +98,7 @@ const Navbar = () => {
                       else if (menu == "Download")
                       {
                         return (
-                          <Link key={index} href="/" className="w-full px-4 py-2 -ml-4 text-gray-500 rounded-md dark:text-gray-300 hover:text-themeColor focus:text-indigo-500 focus:bg-indigo-100 dark:focus:bg-gray-800 focus:outline-none"
+                          <Link key={index} href="/" className="w-full px-4 py-2 -ml-4 text-gray-500 rounded-md dark:text-gray-300 hover:text-themeColor focus:text-themeColor focus:bg-themeColorUltraLight dark:focus:bg-gray-800 focus:outline-none"
                           onClick={() => navigateToPage('/')}
                         >
                             {t(menu)}
@@ -107,7 +108,7 @@ const Navbar = () => {
                       else
                       {
                          return(
-                            <Link key={index} href="/" className="w-full px-4 py-2 -ml-4 text-gray-500 rounded-md dark:text-gray-300 hover:text-themeColor focus:text-indigo-500 focus:bg-indigo-100 dark:focus:bg-gray-800 focus:outline-none"
+                            <Link key={index} href="/" className="w-full px-4 py-2 -ml-4 text-gray-500 rounded-md dark:text-gray-300 hover:text-themeColor focus:text-themeColor focus:bg-themeColorUltraLight dark:focus:bg-gray-800 focus:outline-none"
                           onClick={() => navigateToPage('/' + menu.toLowerCase())}
                         >
                             {t(menu)}
@@ -134,7 +135,7 @@ const Navbar = () => {
                 return  (
                 <li className="mr-3 nav__item" key={index}>
                 <Link 
-                  href="https://github.com/UM-ARK" className="inline-block px-4 py-2 text-lg font-normal text-gray-800 no-underline rounded-md dark:text-gray-200 hover:text-themeColor focus:text-indigo-500 focus:bg-indigo-100 focus:outline-none dark:focus:bg-gray-800"
+                  href="https://github.com/UM-ARK" className="inline-block px-4 py-2 text-lg font-normal text-gray-800 no-underline rounded-md dark:text-gray-200 hover:text-themeColor focus:text-themeColor focus:bg-themeColorUltraLight focus:outline-none dark:focus:bg-gray-800"
                 >
                     {t(menu)}
                 </Link>
@@ -146,7 +147,7 @@ const Navbar = () => {
                 return  (
                 <li className="mr-3 nav__item" key={index}>
                 <Link 
-                  href="/" className="inline-block px-4 py-2 text-lg font-normal text-gray-800 no-underline rounded-md dark:text-gray-200 hover:text-themeColor focus:text-indigo-500 focus:bg-indigo-100 focus:outline-none dark:focus:bg-gray-800"
+                  href="/" className="inline-block px-4 py-2 text-lg font-normal text-gray-800 no-underline rounded-md dark:text-gray-200 hover:text-themeColor focus:text-themeColor focus:bg-themeColorUltraLight focus:outline-none dark:focus:bg-gray-800"
                   onClick={() => navigateToPage('/')}
                 >
                     {t(menu)}
