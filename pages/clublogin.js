@@ -95,7 +95,7 @@ const ClubLogin = () => {
                         </li>
                         <li className="flex justify-center items-center">
                             <button 
-                                className="bg-themeColor py-2 px-5 rounded-lg text-white font-bold hover:bg-themeColorLight"
+                                className="bg-themeColor py-2 px-10 mt-3 rounded-lg text-white font-bold hover:bg-themeColorLight"
                                 onClick={handleLoginPress}>
                                 Login
                             </button>
