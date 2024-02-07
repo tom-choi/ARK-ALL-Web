@@ -67,7 +67,7 @@ const ClubInfo = () => {
             <div className="flex justify-between mb-10">
                 
                 <button
-                    className="mb-5 text-themeColor text-lg font-bold"
+                    className="mb-5 text-themeColor text-lg font-bold hover:opacity-50"
                     onClick={returnToMain}>
                     返回ARK官網
                 </button>
