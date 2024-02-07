@@ -26,7 +26,7 @@ const Ark = () => {
                 {t("arkText")}
               </p>
 
-              <div className="flex md:flex-cols sm:flex-rows items-start space-y-3 sm:space-x-4 sm:space-y-0 sm:items-center sm:flex-row">
+              <div className="grid md:grid-cols-3 sm:grid-cols-1 gap-3 xl:mr-40 lg:mr-0 ">
                 <a
                   href="https://apps.apple.com/us/app/um-all/id1636670554"
                   target="_blank"
@@ -49,8 +49,8 @@ const Ark = () => {
                   className="px-5 py-4 text-lg font-medium text-center text-white bg-indigo-600 rounded-md bg-themeColor hover:bg-themeColorLight">
                   HUAWEI
                 </a>
-              </div>
-              <div className="flex mt-5">
+                </div>
+                <div className="flex mt-5">
                 <a
                 href="https://github.com/UM-ARK"
                 target="_blank"
