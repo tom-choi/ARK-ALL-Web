@@ -18,10 +18,10 @@ export function Cube2() {
 
   const textureLoader = new TextureLoader();
   const texture0 = textureLoader.load('/img/icon/Pride.png');
-  const texture1 = textureLoader.load('/img/icon/Sans Pixels.png');
+  const texture1 = textureLoader.load('/img/icon/Newspaper.png');
   const texture2 = textureLoader.load('/img/icon/Space.png');
-  const texture3 = textureLoader.load('/img/icon/Spring.png');
-  const texture4 = textureLoader.load('/img/icon/Summer.png');
+  const texture3 = textureLoader.load('/img/icon/VIP.png');
+  const texture4 = textureLoader.load('/img/icon/original.png');
   const texture5 = textureLoader.load('/img/icon/中秋.png');
 
   return (

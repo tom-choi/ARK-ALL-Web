@@ -16,12 +16,12 @@ export function Cube1() {
   });
 
   const textureLoader = new TextureLoader();
-  const texture0 = textureLoader.load('/img/icon/appstore.png');
+  const texture0 = textureLoader.load('/img/icon/Sans Pixels.png');
   const texture1 = textureLoader.load('/img/icon/hot.png');
   const texture2 = textureLoader.load('/img/icon/Christmas.png');
   const texture3 = textureLoader.load('/img/icon/Neon Fantasy.png');
-  const texture4 = textureLoader.load('/img/icon/Newspaper.png');
-  const texture5 = textureLoader.load('/img/icon/Bop Comics.png');
+  const texture4 = textureLoader.load('/img/icon/Summer.png');
+  const texture5 = textureLoader.load('/img/icon/Spring.png');
 
   return (
     <>
