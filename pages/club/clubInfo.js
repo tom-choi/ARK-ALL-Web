@@ -8,9 +8,12 @@ import ReactDOM from "react-dom/client"
 import { BASE_URI, BASE_HOST, GET } from '../../utils/pathMap';
 import Container from '../../components/container';
 import Navbar from '../../components/navbar';
+import ThemeChanger from '../../components/DarkSwitch';
+import LanguageSwitcher from '../../components/LanguageSwitcher';
 
 
 const returnToMain = () => {
+    localStorage.clear();
     window.location.href = "../";
 }
 
@@ -57,19 +60,27 @@ const ClubInfo = () => {
     return (
         <>
         <title>
-            社團編輯
+            {"社團-"}{clubProfileData && clubProfileData.content.name}
         </title>
         <Container>
-            <button
-                className="mb-5 text-themeColor text-lg font-bold"
-                onClick={returnToMain}>
-                返回ARK官網
-            </button>
+            {/* 頂欄*/}
+            <div className="flex justify-between mb-10">
+                
+                <button
+                    className="mb-5 text-themeColor text-lg font-bold"
+                    onClick={returnToMain}>
+                    返回ARK官網
+                </button>
+                <div className="hidden mr-3 space-x-4 lg:flex nav__item">
+                    <ThemeChanger />
+                    <LanguageSwitcher />
+                </div>
+            </div>
 
             <div className="flex justify-center">
                 {clubContentData && clubContentData.club_photos_list[0] ? (
                     <div key="0" className="flex flex-col mx-auto">
-                        <img src={`${BASE_HOST + clubContentData.club_photos_list[0]}`} alt="club_photos" className="max-w-96 rounded-lg h-auto"/>
+                        <img src={`${BASE_HOST + clubContentData.club_photos_list[0]}`} alt="club_photos" className="max-w-96 rounded-lg h-auto shadow-lg"/>
                     </div>
                 ) : (
                     <p>Loading..</p>
@@ -97,7 +108,8 @@ const ClubInfo = () => {
                 </div>                
             </div>
 
-            {/* 社團內容展示 */}
+            {/* 社團內容展示（聯繫方式和圖片的分欄） */}
+            {/* 這個內容做了響應式，其中不應再添加更多內容了。*/}
             <div className="lg:grid lg:grid-cols-2 md:block gap-4 items-top justify-center mt-5">
 
                 {/*聯繫方式(只展示不為空的聯繫方式) */}
