@@ -80,7 +80,7 @@ const ClubInfo = () => {
             <div>
                 <h3 className="text-themeColor text-2xl font-bold text-center">
                 歡迎你，
-                {clubProfileData.content.name?(clubProfileData.content.name):("社團")}
+                {clubProfileData && clubProfileData.content.name?(clubProfileData.content.name):("社團")}
                 負責人！
                 </h3>
             </div>
