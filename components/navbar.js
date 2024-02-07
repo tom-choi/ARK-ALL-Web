@@ -86,36 +86,16 @@ const Navbar = () => {
                 <Disclosure.Panel className="flex flex-wrap w-full my-5 lg:hidden">
                   <>
                     {navigation.map((menu, index) => {
-                      if (menu == "About_us")
-                      {
-                        return  (
-                          <Link key={index} href="https://github.com/UM-ARK" className="w-full px-4 py-2 -ml-4 text-gray-500 rounded-md dark:text-gray-300 hover:text-themeColor focus:text-indigo-500 focus:bg-indigo-100 dark:focus:bg-gray-800 focus:outline-none"
-                          >
-                              {t(menu)}
-                          </Link>
-                          )
-                      }
-                      else if (menu == "Download")
-                      {
-                        return (
-                          <Link key={index} href="/" className="w-full px-4 py-2 -ml-4 text-gray-500 rounded-md dark:text-gray-300 hover:text-themeColor focus:text-themeColor focus:bg-themeColorUltraLight dark:focus:bg-gray-800 focus:outline-none"
-                          onClick={() => navigateToPage('/')}
-                        >
+                      return  (
+                 
+                        <Link
+                          href={`/${menu.toLowerCase()}`} className="w-full px-4 py-2 -ml-4 text-gray-500 rounded-md dark:text-gray-200 hover:text-themeColor hover:bg-themeColorUltraLight dark:hover:text-themeColor dark:hover:bg-gray-800 focus:text-themeColor focus:bg-themeColorUltraLignt focus:outline-none dark:focus:bg-gray-800"
+                          onClick={() => navigateToPage('/' + menu.toLowerCase())}>
                             {t(menu)}
                         </Link>
-                        )
-                      }
-                      else
-                      {
-                         return(
-                            <Link key={index} href="/" className="w-full px-4 py-2 -ml-4 text-gray-500 rounded-md dark:text-gray-300 hover:text-themeColor focus:text-themeColor focus:bg-themeColorUltraLight dark:focus:bg-gray-800 focus:outline-none"
-                          onClick={() => navigateToPage('/' + menu.toLowerCase())}
-                        >
-                            {t(menu)}
-                        </Link>
-                          )
-                      }
-                    })}
+                      
+                      )
+                  })}
                     {/* <Link href="/" className="w-full px-6 py-2 mt-3 text-center text-white bg-indigo-600 rounded-md lg:ml-5">         
                         Get Started
                     </Link> */}
@@ -133,13 +113,12 @@ const Navbar = () => {
                 return  (
                 <li className="mr-3 nav__item" key={index}>
                   <Link
-                    href={`/${menu.toLowerCase()}`} className="inline-block px-4 py-2 text-lg font-normal text-gray-800 no-underline rounded-md dark:text-gray-200 hover:text-themeColor hover:bg-themeColorUltraLight dark:hover:text-themeColor dark:hover:bg-gray-800 focus:text-themeColor focus:bg-indigo-100 focus:outline-none dark:focus:bg-gray-800"
+                    href={`/${menu.toLowerCase()}`} className="inline-block px-4 py-2 text-lg font-normal text-gray-800 no-underline rounded-md dark:text-gray-200 hover:text-themeColor hover:bg-themeColorUltraLight dark:hover:text-themeColor dark:hover:bg-gray-800 focus:text-themeColor focus:bg-themeColorUltraLignt focus:outline-none dark:focus:bg-gray-800"
                     onClick={() => navigateToPage('/' + menu.toLowerCase())}>
                       {t(menu)}
                   </Link>
                 </li>
                 )
-                  
             })}
           </ul>
         </div>
