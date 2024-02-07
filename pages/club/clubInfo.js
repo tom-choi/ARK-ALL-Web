@@ -64,8 +64,7 @@ const ClubInfo = () => {
         </title>
         <Container>
             {/* 頂欄*/}
-            <div className="flex justify-between mb-10">
-                
+            <div className="flex justify-between items-center mb-10">
                 <button
                     className="mb-5 text-themeColor text-lg font-bold hover:opacity-50"
                     onClick={returnToMain}>
@@ -77,7 +76,18 @@ const ClubInfo = () => {
                 </div>
             </div>
 
-            <div className="flex justify-center">
+            {/* 歡迎詞 */}
+            <div>
+                <h3 className="text-themeColor text-2xl font-bold text-center">
+                歡迎你，
+                {clubProfileData.content.name?(clubProfileData.content.name):("社團")}
+                負責人！
+                </h3>
+            </div>
+
+            {/* 封面圖 */}
+            <div className="flex justify-center mt-10">
+                
                 {clubContentData && clubContentData.club_photos_list[0] ? (
                     <div key="0" className="flex flex-col mx-auto">
                         <img src={`${BASE_HOST + clubContentData.club_photos_list[0]}`} alt="club_photos" className="max-w-96 rounded-lg h-auto shadow-lg"/>
@@ -87,6 +97,7 @@ const ClubInfo = () => {
                 )}
             </div>
 
+            {/* 正文內容 */}
             <div className="flex bg-white dark:bg-gray-800 border-l-4 border-themeColorLight p-5 rounded-lg drop-shadow-md lg:items-center md:items-top  mt-5">
                 {/*社團Logo*/}
                 <img
