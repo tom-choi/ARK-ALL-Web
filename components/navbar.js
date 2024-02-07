@@ -52,11 +52,12 @@ const Navbar = () => {
                         alt="N"
                         width="32"
                         height="32"
-                        className="w-8"
+                        className="w-8 rounded-md"
                       />
                     </span>
-                    <span className="text-themeColor"
-                    >UM-ARK</span>
+                    <span className="text-themeColor font-bold">
+                      ARK ALL
+                    </span>
                   </span>
                 </Link>
 
