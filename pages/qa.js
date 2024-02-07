@@ -124,7 +124,7 @@ const qa = () => {
                           <ChevronUpIcon
                             className={`${
                               open ? "transform rotate-180" : ""
-                            } w-5 h-5 text-indigo-500`}
+                            } w-5 h-5 text-themeColor`}
                           />
                         </Disclosure.Button>
                         <Disclosure.Panel 
