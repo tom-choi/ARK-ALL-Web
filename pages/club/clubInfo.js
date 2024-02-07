@@ -56,14 +56,27 @@ const ClubInfo = () => {
 
     return (
         <>
+        <title>
+            社團編輯
+        </title>
         <Container>
             <button
-                onClick={returnToMain}
-            >
-                Back to website.
+                className="mb-5 text-themeColor text-lg font-bold"
+                onClick={returnToMain}>
+                返回ARK官網
             </button>
 
-            <div className="flex bg-white dark:bg-gray-800 border-l-4 border-themeColorLight p-5 rounded-lg drop-shadow-md items-center">
+            <div className="flex justify-center">
+                {clubContentData && clubContentData.club_photos_list[0] ? (
+                    <div key="0" className="flex flex-col mx-auto">
+                        <img src={`${BASE_HOST + clubContentData.club_photos_list[0]}`} alt="club_photos" className="max-w-96 rounded-lg h-auto"/>
+                    </div>
+                ) : (
+                    <p>Loading..</p>
+                )}
+            </div>
+
+            <div className="flex bg-white dark:bg-gray-800 border-l-4 border-themeColorLight p-5 rounded-lg drop-shadow-md lg:items-center md:items-top  mt-5">
                 {/*社團Logo*/}
                 <img
                     className="w-24 h-24 rounded-full "
@@ -75,9 +88,9 @@ const ClubInfo = () => {
                     <p className="text-xl text-themeColor font-bold">
                         {clubProfileData && clubProfileData.content.name}
                     </p>
-                    <p className="text-themeColor bg-themeColorUltraLight rounded-full text-center max-w-12">
+                    <span className="text-themeColor bg-themeColorUltraLight rounded-full text-center px-3">
                         {clubProfileData && clubProfileData.content.tag}
-                    </p>
+                    </span>
                     <p>
                         {clubProfileData && clubProfileData.content.intro}
                     </p>
@@ -85,14 +98,19 @@ const ClubInfo = () => {
             </div>
 
             {/* 社團內容展示 */}
-            <div className="mt-5">
+            <div className="lg:grid lg:grid-cols-2 md:block gap-4 items-top justify-center mt-5">
+
                 {/*聯繫方式(只展示不為空的聯繫方式) */}
-                <div className="bg-white dark:bg-gray-800 border-l-4 border-themeColorLight p-5 rounded-lg drop-shadow-md itmes-center">
+                <div className="bg-white dark:bg-gray-800 border-l-4 border-themeColorLight px-5 pt-3 pb-5 rounded-lg drop-shadow-md itmes-center mb-5">
+                    {/*標題*/}
+                    <div className="mb-3">
+                        <h3 className="text-xl font-bold text-themeColor">聯繫方式</h3>
+                    </div>
                     <ul>
                         {clubContentData?(
                             clubContentData.contact.filter(item => item.type && item.num).map((item, index) => (
-                                <li>
-                                    <div key={index} className="flex">
+                                <li key={index} >
+                                    <div className="flex">
                                         <p className="text-themeColor font-bold">{item.type}{':\u00A0\u00A0'}</p>
                                         <p>{item.num}</p>
                                     </div>
@@ -106,19 +124,28 @@ const ClubInfo = () => {
                     </ul>
                 </div>
 
-                {/* 其他訊息 */}
-                <div className="grid grid-cols-5 gap-4 mt-5">
-                    {clubContentData?(
-                        clubContentData.club_photos_list.map((item, index) => (
-                            <div className="justify-center">
-                                <img src={BASE_HOST + item} alt="club_photos" className="max-w-48 rounded-lg"/>
-                            </div>
-                        ))
-                    ):(
-                        <p>
-                            Loading..
-                        </p>
-                    )}
+                {/* 社團圖片 */}
+                <div className="bg-white dark:bg-gray-800 border-l-4 border-themeColorLight px-5 pt-3 pb-5 rounded-lg drop-shadow-md itmes-center mb-5">
+                    {/*標題*/}
+                    <div className="mb-3">
+                        <h3 className="text-xl font-bold text-themeColor">社團圖片</h3>
+                    </div>
+
+                    <div className="grid xl:grid-cols-5 lg:grid-cols-3 md:grid-cols-5 sm:grid-cols-1 gap-4 ">
+                        {clubContentData?(
+                            clubContentData.club_photos_list.map((item, index) => (
+                                <div key={index} className="flex flex-col mx-auto">
+                                    <a href={BASE_HOST + item} target="_blank">
+                                        <img src={BASE_HOST + item} alt="club_photos" className="md:max-w-24 sm:max-w-96 rounded-lg h-auto hover:cursor-pointer hover:opacity-50 hover:shadow-lg"/>
+                                    </a>
+                                </div>
+                            ))
+                        ):(
+                            <p>
+                                Loading..
+                            </p>
+                        )}
+                    </div>
                 </div>
             </div>
         </Container>
