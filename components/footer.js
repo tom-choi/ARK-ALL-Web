@@ -40,17 +40,22 @@ export default function Footer() {
           <div className="lg:col-span-2">
             <div>
               {" "}
-              <Link href="/" className="flex items-center space-x-2 text-2xl font-medium text-indigo-500 dark:text-gray-100">
-                    <Image
-                      src="/img/logo.png"
-                      alt="N"
-                      width="32"
-                      height="32"
-                      className="w-8"
-                      style={{borderRadius:"6px"}}
-                    />
-                  <span className="text-themeColor">UM-ARK</span>
-              </Link>
+              <Link href="/">
+              <span className="flex items-center space-x-2 text-2xl font-medium text-indigo-500 dark:text-gray-100">
+                <span>
+                  <Image
+                    src="/img/logo.png"
+                    alt="N"
+                    width="32"
+                    height="32"
+                    className="w-8 rounded-md"
+                  />
+                </span>
+                <span className="text-themeColor font-bold">
+                  ARK ALL
+                </span>
+              </span>
+            </Link>
             </div>
 
             <div className="max-w-md mt-4 text-gray-500 dark:text-gray-400">
@@ -62,7 +67,7 @@ export default function Footer() {
             <div className="flex flex-wrap w-full -mt-2 -ml-3 lg:ml-0">
               {navigation.map((menu, index) => (
                 <Link 
-                  key={index} href="/" className="w-full px-4 py-2 text-gray-500 rounded-md dark:text-gray-300 hover:text-themeColor focus:text-themeColor focus:bg-indigo-100 focus:outline-none dark:focus:bg-trueGray-700"
+                  key={index} href="/" className="w-full px-4 py-2 text-gray-500 rounded-md dark:text-gray-300 hover:text-themeColor hover:bg-themeColorUltraLight focus:text-themeColor focus:bg-themeColorUltraLight focus:outline-none dark:hover:text-themeColor dark:hover:bg-gray-800 dark:focus:bg-gray-800"
                   onClick={() => navigateToPage('/' + menu.toLowerCase())}
                   >                 
                     {t(menu)}
@@ -74,7 +79,7 @@ export default function Footer() {
             <div className="flex flex-wrap w-full -mt-2 -ml-3 lg:ml-0">
               {legal.map((menu, index) => (
                 <Link 
-                  key={index} href="/" className="w-full px-4 py-2 text-gray-500 rounded-md dark:text-gray-300 hover:text-themeColor focus:text-indigo-500 focus:bg-indigo-100 focus:outline-none dark:focus:bg-trueGray-700"
+                  key={index} href="/" className="w-full px-4 py-2 text-gray-500 rounded-md dark:text-gray-300 hover:text-themeColor hover:bg-themeColorUltraLight focus:text-indigo-500 focus:bg-themeColorUltraLight focus:outline-none dark:hover:text-themeColor dark:hover:bg-gray-800 dark:focus:bg-trueGray-700"
                   onClick={() => navigateToPage('/' + menu.toLowerCase())}
                   >      
                     {t(menu)}
