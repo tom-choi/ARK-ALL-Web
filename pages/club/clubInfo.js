@@ -3,6 +3,9 @@ import React, {useState, useEffect} from 'react';
 import axios from 'axios';
 import qs from 'qs';
 import ReactDOM from "react-dom/client"
+import {
+    PencilSquareIcon
+} from "@heroicons/react/24/solid";
 
 // 本地引用
 import { BASE_URI, BASE_HOST, GET } from '../../utils/pathMap';
@@ -97,6 +100,19 @@ const ClubInfo = () => {
                 )}
             </div>
 
+            {/* 編輯按鈕*/}
+            <div className="flex items-center justify-center mt-10">
+                <a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ">
+                    <div className="grid grid-cols-2  bg-themeColor py-3 px-5 rounded-full hover:opacity-50 hover:cursor-pointer">
+                        <div className="flex flex-col justify-center">
+                            <PencilSquareIcon className="w-5 h-5"/>
+                        </div>
+                        <div className="flex flex-col justify-center">
+                            <span>編輯</span>
+                        </div>
+                    </div>
+                </a>
+            </div>
             {/* 正文內容 */}
             <div className="flex bg-white dark:bg-gray-800 border-l-4 border-themeColorLight p-5 rounded-lg drop-shadow-md lg:items-center md:items-top  mt-5">
                 {/*社團Logo*/}
