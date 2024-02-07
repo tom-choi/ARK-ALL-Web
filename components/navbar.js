@@ -87,13 +87,11 @@ const Navbar = () => {
                   <>
                     {navigation.map((menu, index) => {
                       return  (
-                 
                         <Link
                           href={`/${menu.toLowerCase()}`} className="w-full px-4 py-2 -ml-4 text-gray-500 rounded-md dark:text-gray-200 hover:text-themeColor hover:bg-themeColorUltraLight dark:hover:text-themeColor dark:hover:bg-gray-800 focus:text-themeColor focus:bg-themeColorUltraLignt focus:outline-none dark:focus:bg-gray-800"
                           onClick={() => navigateToPage('/' + menu.toLowerCase())}>
                             {t(menu)}
                         </Link>
-                      
                       )
                   })}
                     {/* <Link href="/" className="w-full px-6 py-2 mt-3 text-center text-white bg-indigo-600 rounded-md lg:ml-5">         
