@@ -241,9 +241,9 @@ const ClubInfo = () => {
                         {clubActivities ? (
                             // 渲染單個活動模塊
                             clubActivities.map((item, index) => (
-                                <div key={index} className="bg-themeColorUltraLight dark:bg-gray-800 flex flex-col p-3 rounded-lg mx-auto">
+                                <div key={index} className="bg-themeColorUltraLight dark:bg-gray-800 flex flex-col p-3 rounded-lg mx-auto hover:cursor-pointer hover:opacity-50 hover:shadow-lg">
                                     <div className="flex flex-col lg:w-48 xl:w-64 md:w-48 sm:w-64 items-center ">
-                                        <img src={BASE_HOST + item.cover_image_url} alt="club_photos" className="md:w-48 h-64 object-cover sm:max-w-96 rounded-lg mb-3 hover:cursor-pointer hover:opacity-50 hover:shadow-lg" />
+                                        <img src={BASE_HOST + item.cover_image_url} alt="club_photos" className="md:w-48 h-64 object-cover sm:max-w-96 rounded-lg mb-3" />
                                         <div className="">
                                             <h3 className="text-lg text-center font-bold">
                                                 {item.title}
