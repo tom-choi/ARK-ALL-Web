@@ -13,6 +13,7 @@ import Container from '../../components/container';
 import Navbar from '../../components/navbar';
 import ThemeChanger from '../../components/DarkSwitch';
 import LanguageSwitcher from '../../components/LanguageSwitcher';
+import Footer from "../../components/footer";
 
 
 const returnToMain = () => {
@@ -273,6 +274,7 @@ const ClubInfo = () => {
                         )}
                     </div>
                 </div>
+                <Footer />
             </Container>
         </>
     );
