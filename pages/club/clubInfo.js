@@ -243,16 +243,16 @@ const ClubInfo = () => {
                             // 渲染單個活動模塊
                             clubActivities.map((item, index) => (
                                 <div key={index} className="bg-themeColorUltraLight dark:bg-gray-800 flex flex-col p-3 rounded-lg mx-auto hover:cursor-pointer hover:opacity-50 hover:shadow-lg">
-                                    <div className="flex flex-col lg:w-48 xl:w-64 md:w-48 sm:w-64 items-center ">
-                                        <img src={BASE_HOST + item.cover_image_url} alt="club_photos" className="md:w-48 h-64 object-cover sm:max-w-96 rounded-lg mb-3" />
-                                        <div className="">
-                                            <h3 className="text-lg text-center font-bold">
+                                    <div className="flex flex-col lg:w-48 xl:w-64 md:w-48 sm:w-64 items-center">
+                                        <img src={BASE_HOST + item.cover_image_url} alt="club_photos" className="md:w-48 h-64 object-cover sm:max-w-96 rounded-lg mb-5 shadow-lg" />
+                                        <div className="flex flex-col h-16 mb-3 mx-auto">
+                                            <h3 className="text-themeColor text-xl text-center font-bold">
                                                 {item.title}
                                             </h3>
                                         </div>
-                                        <div className="flex flex-col items-left">
+                                        <div className="flex flex-col  border-t-2 border-themeColorLight items-left font-bold text-themeColor opacity-80">
                                             <p clasName="text-left">
-                                                結束於:
+                                                🕐:
                                                 {' '}
                                                 {parseTimeString(item.enddatetime).Year}{'-'}
                                                 {parseTimeString(item.enddatetime).Month}{'-'}
@@ -261,7 +261,7 @@ const ClubInfo = () => {
                                                 {parseTimeString(item.enddatetime).Minute}
                                             </p>
                                             <p className="text-left">
-                                                地點：{item.location}
+                                                🚩：{item.location}
                                             </p>
                                         </div>
                                     </div>
