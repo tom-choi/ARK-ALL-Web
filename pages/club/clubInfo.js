@@ -145,7 +145,7 @@ const ClubInfo = () => {
                 {/* 編輯按鈕*/}
                 <div className="flex items-center justify-center mt-10">
                     <a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ">
-                        <div className="grid grid-cols-2  bg-themeColor py-3 px-5 rounded-full hover:opacity-50 hover:cursor-pointer">
+                        <div className="grid grid-cols-2  bg-themeColor py-3 px-5 rounded-full text-white hover:opacity-50 hover:cursor-pointer">
                             <div className="flex flex-col justify-center">
                                 <PencilSquareIcon className="w-5 h-5" />
                             </div>
