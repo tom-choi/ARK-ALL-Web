@@ -18,6 +18,14 @@ import { act } from 'react-three-fiber';
 const ActivityDetail = () => {
     const [activityData, setActivityData] = useState(null);
 
+    // 活動類型映射
+    const activityTypeMap = {
+        "ACTIVITY": "普通活動",
+        "OFFICIAL": "澳大官方",
+        "WEBSITE": "網頁"
+    };
+
+    // 從本地緩存中獲取活動資料
     const fetchActivityData = () => {
         var data = localStorage.getItem("CurActivity");
         data = JSON.parse(data);
@@ -25,6 +33,7 @@ const ActivityDetail = () => {
         console.log(data);
     }
 
+    // 返回社團詳情頁
     const returnToClubInfo = () => {
         window.location.href = "./clubInfo";
     }
@@ -82,6 +91,7 @@ const ActivityDetail = () => {
                         <div className="mb-3">
                             <h3 className="text-xl font-bold text-themeColor">基本訊息</h3>
                         </div>
+                        {/* 開始時間和結束時間*/}
                         <p>
                             <span className="text-themeColor font-bold">
                                 Start:{'  '}
@@ -94,11 +104,19 @@ const ActivityDetail = () => {
                             </span>
                             {activityData && activityData.enddatetime}
                         </p>
+                        {/* 地點 */}
                         <p>
                             <span className="text-themeColor font-bold">
                                 地點:{'  '}
                             </span>
                             {activityData && activityData.location}
+                        </p>
+                        {/* 活動類型*/}
+                        <p>
+                            <span className="text-themeColor font-bold">
+                                類型:{'  '}
+                            </span>
+                            {activityData && activityTypeMap[activityData.type]}
                         </p>
                     </div>
 
