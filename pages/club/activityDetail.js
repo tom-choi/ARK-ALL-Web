@@ -140,9 +140,11 @@ const ActivityDetail = () => {
                             <div className="mb-3">
                                 <h3 className="text-xl font-bold text-themeColor">相關圖片</h3>
                             </div>
-                            <div className="lg:grid lg:grid-cols-4 md:block gap-4 items-top justify-center mt-5">
+                            <div className="lg:grid lg:grid-cols-4 md:block lg:gap-4 items-top justify-center mt-5">
                                 {activityData && activityData.relate_image_url.map((item, index) => (
-                                    <img src={BASE_HOST + item} className="rounded-lg" />
+                                    <div className="flex flex-col mb-4">
+                                        <img src={BASE_HOST + item} className="rounded-lg " />
+                                    </div>
                                 ))}
                             </div>
                         </div>
