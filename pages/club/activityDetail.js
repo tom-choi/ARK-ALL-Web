@@ -49,7 +49,7 @@ const ActivityDetail = () => {
             method: 'post',
             url: BASE_URI + POST.EVENT_DEL + activityData._id,
         }).then(resp => {
-            window.alert("刪除成功！");
+            window.location.href = "./clubInfo";
         }
         ).catch(err => {
             window.alert("刪除活動失敗，請重試！");
