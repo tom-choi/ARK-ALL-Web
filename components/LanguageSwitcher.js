@@ -18,14 +18,14 @@ const LanguageSwitcher = () => {
 
     return (
         <div>
-            <div className="flex font-bold justify-between w-24">
-                <button onClick={handleLanguageChange} value={"zh"}>
+            <div className="flex font-bold justify-between items-center w-24">
+                <button onClick={handleLanguageChange} value={"zh"} className="hover:text-themeColor">
                     中
                 </button>
-                <button onClick={handleLanguageChange} value={"en"} >
+                <button onClick={handleLanguageChange} value={"en"} className="hover:text-themeColor" >
                     EN
                 </button>
-                <button onClick={handleLanguageChange} value={"ja"} >
+                <button onClick={handleLanguageChange} value={"ja"} className="hover:text-themeColor">
                     日
                 </button>
             </div>
