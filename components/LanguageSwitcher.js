@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useTheme } from "next-themes";
 import { useTranslation } from "react-i18next";
 
+
 const LanguageSwitcher = () => {
     const { t, i18n } = useTranslation();
     const [language, setLanguage] = useState("zh"); // 默认语言为中文
@@ -17,28 +18,31 @@ const LanguageSwitcher = () => {
 
     return (
         <div>
-            <button onClick={handleLanguageChange} value={"zh"} style={{ marginRight: "50px" }}>中</button>
-            <button onClick={handleLanguageChange} value={"en"} style={{ marginRight: "50px" }}>EN</button>
-            <button onClick={handleLanguageChange} value={"ja"} >日</button>
+            <button onClick={handleLanguageChange} value={"zh"} style={{ marginRight: "50px" }}>
+                中
+            </button>
+            <button onClick={handleLanguageChange} value={"en"} style={{ marginRight: "50px" }}>
+                EN
+            </button>
+            <button onClick={handleLanguageChange} value={"ja"} >
+                日
+            </button>
 
             {i18n.language === "zh" && (
                 <div>
-                    <h1>歡迎使用中英文轉換功能！</h1>
-                    <p>這是一段中文文本。</p>
+                    <h1>當前語言為:中文</h1>
                 </div>
             )}
 
             {i18n.language === "en" && (
                 <div>
-                    <h1>Welcome to the Language Switcher!</h1>
-                    <p>This is an English text.</p>
+                    <h1>Cuurent Language: English</h1>
                 </div>
             )}
 
             {i18n.language === "ja" && (
                 <div>
-                    <h1>言語切り替えへようこそ！</h1>
-                    <p>これは日本語のテキストです。</p>
+                    <h1>いまの言語は日本語です</h1>
                 </div>
             )}
         </div>
