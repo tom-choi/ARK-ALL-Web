@@ -275,7 +275,7 @@ const ClubInfo = () => {
                                         <img src={BASE_HOST + item.cover_image_url} alt="club_photos" className="md:w-48 h-64 object-cover sm:max-w-64 rounded-lg mb-5 shadow-lg" />
                                         {/*活動描述*/}
                                         <div className="flex flex-col h-16 mb-3 mx-auto">
-                                            <h3 className="text-themeColor text-xl text-center font-bold">
+                                            <h3 className="text-themeColor text-xl text-center font-bold text-ellipsis overflow-hidden">
                                                 {item.title}
                                             </h3>
                                         </div>
