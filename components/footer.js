@@ -17,7 +17,7 @@ export default function Footer() {
   const { t } = useTranslation();
 
   const navigation = [
-    "Download",
+    // "Download",
     "Tutorial",
     "QA",
     "User_Agreement",

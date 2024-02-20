@@ -21,7 +21,7 @@ const Navbar = () => {
 
   const navigation = [
     "ClubLogin",
-    "Download",
+    // "Download",
     "Tutorial",
     "QA",
     "User_Agreement",
