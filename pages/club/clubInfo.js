@@ -250,13 +250,13 @@ const ClubInfo = () => {
                             clubActivities.map((item, index) => (
                                 <div
                                     key={index}
-                                    className="bg-themeColorUltraLight dark:bg-gray-800 flex flex-col p-3 rounded-lg mx-auto hover:cursor-pointer hover:opacity-50 hover:shadow-lg"
+                                    className="bg-themeColorUltraLight dark:bg-gray-800 flex flex-col p-3 rounded-lg mx-auto hover:cursor-pointer hover:border-4 hover:border-themeColor hover:shadow-lg"
                                     onClick={event => onClickActivityCard(event, item)}>
 
 
                                     <div className="flex flex-col lg:w-48 xl:w-64 md:w-48 sm:w-64 items-center">
                                         {/*活動封面*/}
-                                        <img src={BASE_HOST + item.cover_image_url} alt="club_photos" className="md:w-48 h-64 object-cover sm:max-w-64 sm:h-auto rounded-lg mb-5 shadow-lg" />
+                                        <img src={BASE_HOST + item.cover_image_url} alt="club_photos" className="md:w-48 h-64 object-cover sm:max-w-64 rounded-lg mb-5 shadow-lg" />
                                         {/*活動描述*/}
                                         <div className="flex flex-col h-16 mb-3 mx-auto">
                                             <h3 className="text-themeColor text-xl text-center font-bold">
