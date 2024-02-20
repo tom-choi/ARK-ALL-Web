@@ -29,7 +29,7 @@ export const COLOR_DIY = {
     // 綠色，用在Toast上
     success: '#27ae60',
     warning: '#f39c12',
-    unread: '#f75353',
+    alert: '#f75353',
     disabled: isLight ? '#cad5de' : '#3a3d40',
 
     // 我的頁顏色

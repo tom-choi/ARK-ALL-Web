@@ -14,6 +14,7 @@ module.exports = {
         themeColor: COLOR_DIY.themeColor,
         themeColorLight: COLOR_DIY.themeColorLight,
         themeColorUltraLight: COLOR_DIY.themeColorUltraLight,
+        alert: COLOR_DIY.alert,
       },
     },
     fontFamily: {
