@@ -25,6 +25,10 @@ const ActivityDetail = () => {
         console.log(data);
     }
 
+    const returnToClubInfo = () => {
+        window.location.href = "./clubInfo";
+    }
+
     useEffect(() => {
         fetchActivityData();
     },
@@ -40,7 +44,21 @@ const ActivityDetail = () => {
                 {activityData && activityData.title} - 詳情
             </title>
             <Container>
-                <div className="flex flex-col items-center text-themeColor font-bold">
+                {/* 頂欄*/}
+                <div className="flex justify-between items-center mb-10">
+                    <button
+                        className="mb-5 text-themeColor text-lg font-bold hover:opacity-50"
+                        onClick={returnToClubInfo}>
+                        {'< '}返回{activityData && activityData.club_name}
+                    </button>
+                    <div className="hidden mr-3 space-x-4 lg:flex nav__item">
+                        <ThemeChanger />
+                        <LanguageSwitcher />
+                    </div>
+                </div>
+
+                {/* 社團名字+活動標題*/}
+                <div className="flex flex-col items-center text-themeColor font-bold mb-5">
                     <h3 className="text-xl mb-3">
                         {activityData && activityData.club_name}
                     </h3>
@@ -49,13 +67,14 @@ const ActivityDetail = () => {
                     </h1>
                 </div>
 
+                {/* 封面圖片 */}
                 <div className="flex flex-col items-center mb-5">
                     <img
                         className="w-96 shadow-lg rounded-xl"
                         src={activityData && BASE_HOST + activityData.cover_image_url} />
                 </div>
 
-                {/*時間和介紹*/}
+                {/* 時間和介紹 */}
                 <div className="lg:grid lg:grid-cols-2 md:block gap-4 items-top justify-center mt-5">
                     {/*開始和結束時間*/}
                     <div className="bg-white dark:bg-gray-800 border-l-4 border-themeColorLight px-5 pt-3 pb-5 rounded-lg drop-shadow-md itmes-center mb-5">
@@ -75,6 +94,12 @@ const ActivityDetail = () => {
                             </span>
                             {activityData && activityData.enddatetime}
                         </p>
+                        <p>
+                            <span className="text-themeColor font-bold">
+                                地點:{'  '}
+                            </span>
+                            {activityData && activityData.location}
+                        </p>
                     </div>
 
                     {/*活動介紹*/}
@@ -89,13 +114,19 @@ const ActivityDetail = () => {
                     </div>
 
                 </div>
-                <p>
-                    location: {activityData && activityData.location}
-                </p>
-                <h3> Related Images</h3>
-                {activityData && activityData.relate_image_url.map((item, index) => (
-                    <img src={BASE_HOST + item} />
-                ))}
+
+                {/* 相關圖片 */}
+                <div className="bg-white dark:bg-gray-800 border-l-4 border-themeColorLight px-5 pt-3 pb-5 rounded-lg drop-shadow-md itmes-center mb-5">
+                    <div className="mb-3">
+                        <h3 className="text-xl font-bold text-themeColor">相關圖片</h3>
+                    </div>
+                    <div className="lg:grid lg:grid-cols-4 md:block gap-4 items-top justify-center mt-5">
+                        {activityData && activityData.relate_image_url.map((item, index) => (
+                            <img src={BASE_HOST + item} className="rounded-lg" />
+                        ))}
+                    </div>
+                </div>
+
 
             </Container>
             <Footer />
