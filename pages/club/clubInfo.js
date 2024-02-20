@@ -4,7 +4,9 @@ import axios from 'axios';
 import qs from 'qs';
 import ReactDOM from "react-dom/client"
 import {
-    PencilSquareIcon
+    PencilSquareIcon,
+    PlusIcon,
+    PlusCircleIcon,
 } from "@heroicons/react/24/solid";
 
 // 本地引用
@@ -149,10 +151,11 @@ const ClubInfo = () => {
                     )}
                 </div>
 
-                {/* 編輯按鈕*/}
-                <div className="flex items-center justify-center mt-10">
-                    <a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ">
-                        <div className="grid grid-cols-2  bg-themeColor py-3 px-5 rounded-full text-white hover:opacity-50 hover:cursor-pointer">
+                {/*操作陣列*/}
+                <div className="flex items-center justify-center my-10">
+                    {/* 編輯按鈕*/}
+                    <div className="flex items-center justify-center mx-5" >
+                        <div className="grid grid-cols-2 bg-themeColor py-3 px-5 rounded-full text-white hover:opacity-50 hover:cursor-pointer">
                             <div className="flex flex-col justify-center">
                                 <PencilSquareIcon className="w-5 h-5" />
                             </div>
@@ -160,8 +163,21 @@ const ClubInfo = () => {
                                 <span>編輯</span>
                             </div>
                         </div>
-                    </a>
+                    </div>
+
+                    {/* 添加按鈕*/}
+                    <div className="flex items-center justify-center mx-5" >
+                        <div className="flex bg-themeColor py-3 px-5 rounded-full text-white hover:opacity-50 hover:cursor-pointer">
+                            <div className="flex flex-col justify-center">
+                                <PlusCircleIcon className="w-5 h-5" />
+                            </div>
+                            <div className="flex flex-col justify-center ml-3">
+                                <span>新活動</span>
+                            </div>
+                        </div>
+                    </div>
                 </div>
+
                 {/* 正文內容 */}
                 <div className="flex bg-white dark:bg-gray-800 border-l-4 border-themeColorLight p-5 rounded-lg drop-shadow-md lg:items-center md:items-top  mt-5">
                     {/*社團Logo*/}
