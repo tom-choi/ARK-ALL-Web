@@ -18,31 +18,33 @@ const LanguageSwitcher = () => {
 
     return (
         <div>
-            <button onClick={handleLanguageChange} value={"zh"} style={{ marginRight: "50px" }}>
-                中
-            </button>
-            <button onClick={handleLanguageChange} value={"en"} style={{ marginRight: "50px" }}>
-                EN
-            </button>
-            <button onClick={handleLanguageChange} value={"ja"} >
-                日
-            </button>
+            <div className="flex font-bold justify-between w-24">
+                <button onClick={handleLanguageChange} value={"zh"}>
+                    中
+                </button>
+                <button onClick={handleLanguageChange} value={"en"} >
+                    EN
+                </button>
+                <button onClick={handleLanguageChange} value={"ja"} >
+                    日
+                </button>
+            </div>
 
             {i18n.language === "zh" && (
-                <div>
-                    <h1>當前語言為:中文</h1>
+                <div className="text-sm">
+                    <h1>語言：中文</h1>
                 </div>
             )}
 
             {i18n.language === "en" && (
-                <div>
-                    <h1>Cuurent Language: English</h1>
+                <div className="text-sm">
+                    <h1>Languag: English</h1>
                 </div>
             )}
 
             {i18n.language === "ja" && (
-                <div>
-                    <h1>いまの言語は日本語です</h1>
+                <div className="text-sm">
+                    <h1>言語：日本語</h1>
                 </div>
             )}
         </div>
