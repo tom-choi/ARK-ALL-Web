@@ -5,6 +5,7 @@ import axios from 'axios';
 import qs from 'qs';
 import ReactDOM from "react-dom/client"
 import {
+    PencilSquareIcon,
     TrashIcon
 } from "@heroicons/react/24/solid";
 
@@ -100,17 +101,32 @@ const ActivityDetail = () => {
                         src={activityData && BASE_HOST + activityData.cover_image_url} />
                 </div>
 
-                {/* 刪除按鈕*/}
-                <div className="flex items-center justify-center mt-10" onClick={deleteActivity}>
-                    <div className="grid grid-cols-2  bg-alert py-3 px-5 rounded-full text-white hover:opacity-50 hover:cursor-pointer">
-                        <div className="flex flex-col justify-center">
-                            <TrashIcon className="w-5 h-5" />
+                {/*操作陣列*/}
+                <div className="flex items-center justify-center my-10">
+                    {/* 編輯按鈕*/}
+                    <div className="flex items-center justify-center mx-5" >
+                        <div className="grid grid-cols-2 bg-themeColor py-3 px-5 rounded-full text-white hover:opacity-50 hover:cursor-pointer">
+                            <div className="flex flex-col justify-center">
+                                <PencilSquareIcon className="w-5 h-5" />
+                            </div>
+                            <div className="flex flex-col justify-center">
+                                <span>編輯</span>
+                            </div>
                         </div>
-                        <div className="flex flex-col justify-center">
-                            <span>刪除</span>
+                    </div>
+                    {/* 刪除按鈕*/}
+                    <div className="flex items-center justify-center mx-5" onClick={deleteActivity}>
+                        <div className="grid grid-cols-2  bg-alert py-3 px-5 rounded-full text-white hover:opacity-50 hover:cursor-pointer">
+                            <div className="flex flex-col justify-center">
+                                <TrashIcon className="w-5 h-5" />
+                            </div>
+                            <div className="flex flex-col justify-center">
+                                <span>刪除</span>
+                            </div>
                         </div>
                     </div>
                 </div>
+
 
                 {/* 時間和介紹 */}
                 <div className="lg:grid lg:grid-cols-2 md:block gap-4 items-top justify-center mt-5">
