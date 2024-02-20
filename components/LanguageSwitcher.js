@@ -38,7 +38,7 @@ const LanguageSwitcher = () => {
 
             {i18n.language === "en" && (
                 <div className="text-sm">
-                    <h1>Languag: English</h1>
+                    <h1>Language: English</h1>
                 </div>
             )}
 
