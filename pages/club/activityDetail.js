@@ -145,8 +145,8 @@ const ActivityDetail = () => {
 
             <Container>
                 {/* 頂欄*/}
-                <div className="flex justify-between items-center mb-10 mb-5 text-themeColor text-xl font-bold">
-                    <div className="flex items-center">
+                <div className="flex justify-between items-center mb-10 mb-5">
+                    <div className="flex items-center  text-themeColor text-xl font-bold">
                         <div className="flex flex-col justify-center">
                             <ChevronLeftIcon className="w-5 h-5" />
                         </div>
