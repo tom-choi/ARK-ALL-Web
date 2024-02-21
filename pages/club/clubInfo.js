@@ -119,11 +119,16 @@ const ClubInfo = () => {
             <Container>
                 {/* 頂欄*/}
                 <div className="flex justify-between items-center mb-10">
-                    <button
-                        className="mb-5 text-themeColor text-lg font-bold hover:opacity-50"
-                        onClick={returnToMain}>
-                        返回ARK官網
-                    </button>
+                    <div className="flex items-center">
+                        <div className="flex flex-col justify-center">
+                            <ChevronLeftIcon className="w-5 h-5" />
+                        </div>
+                        <div
+                            className=" hover:cursor-pointer hover:opacity-50"
+                            onClick={returnToMain}>
+                            返回{activityData && activityData.club_name}
+                        </div>
+                    </div>
                     <div className="hidden mr-3 space-x-4 lg:flex nav__item">
                         <ThemeChanger />
                         <LanguageSwitcher />
