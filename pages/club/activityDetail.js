@@ -1,5 +1,5 @@
 // 包引用
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Router, Route, Link } from 'react-router';
 import axios from 'axios';
 import qs from 'qs';
@@ -23,7 +23,10 @@ import { act } from 'react-three-fiber';
 
 const ActivityDetail = () => {
     const [activityData, setActivityData] = useState(null);     // 活動數據
+
     const [isEditMode, setEditMode] = useState(false);          // 是否為編輯模式
+
+    const [addedRelatedImages, setAddedRelatedImages] = useState(null);  // 暫存活動圖片
 
     // 活動類型映射
     const activityTypeMap = {
@@ -50,15 +53,23 @@ const ActivityDetail = () => {
         setEditMode(true);
     }
 
-    // 推出編輯，可選擇是否保存
-    const exitEdit = (save) => {
-        if (save) {
-            console.log("save");
-            //TODO: 調用API上傳， 如果成功了就寫入localStorage。
-        } else {
-            // 如果不保存的話，就不使用編輯後的activityData，故而重新從已有的localStorage中調取。
-            fetchActivityData();
-        }
+    // 退出編輯，可選擇是否保存
+
+    const giveUpEdit = () => {
+        console.log("Give Up.")
+        // 如果不保存的話，就不使用編輯後的activityData，故而重新從已有的localStorage中調取。
+        fetchActivityData();
+        // 清空選中圖片
+        setAddedRelatedImages(null);
+        console.log(addedRelatedImages);
+
+        setEditMode(false);
+    }
+
+    const saveEdit = () => {
+        console.log("Save.");
+        //TODO: 調用API上傳， 如果成功了就寫入localStorage。
+
         setEditMode(false);
     }
 
@@ -76,6 +87,24 @@ const ActivityDetail = () => {
             window.alert("刪除活動失敗，請重試！");
         });
     }
+
+    // 上傳相關圖片
+    // 點擊上傳Placeholder
+    const handleFileSelected = (event) => {
+        // 獲取File Input元素並觸發點擊事件以打開文件選擇窗口
+        fileInputRef.current.click();
+    }
+
+    //獲取選擇的文件並存儲與state
+    const handleFileChange = (event) => {
+        //從File Input元素中獲取選中的文件
+        setAddedRelatedImages(event.target.files[0]);
+
+        console.log(addedRelatedImages);
+
+    }
+
+    const fileInputRef = useRef();
 
     useEffect(() => {
         fetchActivityData();
@@ -134,7 +163,7 @@ const ActivityDetail = () => {
                 {/*操作陣列*/}
                 <div className="flex items-center justify-center my-10">
                     {/* 編輯按鈕*/}
-                    <div className="flex items-center justify-center mx-5" onClick={isEditMode ? exitEdit : startEdit}>
+                    <div className="flex items-center justify-center mx-5" onClick={isEditMode ? giveUpEdit : startEdit}>
                         <div className="flex bg-themeColor py-3 px-5 rounded-full text-white hover:opacity-50 hover:cursor-pointer">
                             <div className="flex flex-col justify-center">
                                 <PencilSquareIcon className="w-5 h-5" />
@@ -237,15 +266,41 @@ const ActivityDetail = () => {
                                 <h3 className="text-xl font-bold text-themeColor">相關圖片</h3>
                             </div>
                             <div className="lg:grid lg:grid-cols-4 md:block lg:gap-4 items-top justify-center mt-5">
+                                {/* 一般的相關圖片 */}
                                 {activityData && activityData.relate_image_url.map((item, index) => (
                                     <div className="flex flex-col mb-4">
                                         <img src={BASE_HOST + item} className="rounded-lg " />
                                     </div>
                                 ))}
+                                {/* 添加圖片模塊：僅在編輯圖片時展示 */}
                                 {
                                     isEditMode && (
-                                        <div className="flex flex-col items-center justify-center bg-themeColorUltraLight rounded-lg border-4 border-themeColor border-dashed min-h-24 mb-4">
+
+                                        <div className="flex flex-col items-center justify-center bg-themeColorUltraLight rounded-lg border-4 border-themeColor border-dashed min-h-24 hover:cursor-pointer hover:opacity-50 mb-4"
+                                            onClick={event => handleFileSelected()}>
                                             <PlusCircleIcon className="w-10 h-10 text-themeColor" />
+                                            <input
+                                                type="file"
+                                                accept=".png "
+                                                ref={fileInputRef}
+                                                onChange={event => handleFileChange(event)}
+                                                className="flex w-full h-full hidden"
+                                            />
+                                        </div>
+                                    )
+                                }
+                            </div>
+                            {/* 添加的圖片名稱，編輯時展示 */}
+                            <div>
+                                {
+                                    isEditMode && (
+                                        <div className="flex items-center">
+                                            <p className="font-bold text-lg">
+                                                添加的圖片：
+                                            </p>
+                                            <span>
+                                                {addedRelatedImages && addedRelatedImages.name}
+                                            </span>
                                         </div>
                                     )
                                 }
@@ -254,24 +309,32 @@ const ActivityDetail = () => {
                     )}
 
                 {/*操作陣列*/}
-                <div className="flex items-center justify-center my-10">
-                    {/* 保存按鈕*/}
-                    {
-                        isEditMode && (
-                            <div className="flex items-center justify-center mx-5" onClick={event => exitEdit(event, true)}>
-                                <div className="flex bg-themeColor py-3 px-5 rounded-full text-white hover:opacity-50 hover:cursor-pointer">
-                                    <div className="flex flex-col justify-center">
-                                        <FolderArrowDownIcon className="w-5 h-5" />
-                                    </div>
-                                    <div className="flex flex-col justify-center ml-3">
-                                        <span>保存</span>
-                                    </div>
+                {isEditMode && (
+                    <div className="flex items-center justify-center my-10">
+                        {/* 保存按鈕*/}
+                        <div className="flex items-center justify-center mx-5" onClick={saveEdit}>
+                            <div className="flex bg-themeColor py-3 px-5 rounded-full text-white hover:opacity-50 hover:cursor-pointer">
+                                <div className="flex flex-col justify-center">
+                                    <FolderArrowDownIcon className="w-5 h-5" />
+                                </div>
+                                <div className="flex flex-col justify-center ml-3">
+                                    <span>本地保存</span>
                                 </div>
                             </div>
-                        )
-                    }
-
-                </div>
+                        </div>
+                        {/* 上傳*/}
+                        <div className="flex items-center justify-center mx-5" onClick={saveEdit}>
+                            <div className="flex bg-themeColor py-3 px-5 rounded-full text-white hover:opacity-50 hover:cursor-pointer">
+                                <div className="flex flex-col justify-center">
+                                    <FolderArrowDownIcon className="w-5 h-5" />
+                                </div>
+                                <div className="flex flex-col justify-center ml-3">
+                                    <span>上傳改動</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                )}
             </Container>
             <Footer />
         </>
