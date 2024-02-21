@@ -54,6 +54,10 @@ const ActivityDetail = () => {
     const exitEdit = (save) => {
         if (save) {
             console.log("save");
+            //TODO: 調用API上傳， 如果成功了就寫入localStorage。
+        } else {
+            // 如果不保存的話，就不使用編輯後的activityData，故而重新從已有的localStorage中調取。
+            fetchActivityData();
         }
         setEditMode(false);
     }
@@ -154,7 +158,6 @@ const ActivityDetail = () => {
                         </div>
                     )}
                 </div>
-
 
                 {/* 時間和介紹 */}
                 <div className="lg:grid lg:grid-cols-2 md:block gap-4 items-top justify-center mt-5">
