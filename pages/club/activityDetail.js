@@ -141,16 +141,18 @@ const ActivityDetail = () => {
                         </div>
                     </div>
                     {/* 刪除按鈕*/}
-                    <div className="flex items-center justify-center mx-5" onClick={deleteActivity}>
-                        <div className="grid grid-cols-2  bg-alert py-3 px-5 rounded-full text-white hover:opacity-50 hover:cursor-pointer">
-                            <div className="flex flex-col justify-center">
-                                <TrashIcon className="w-5 h-5" />
-                            </div>
-                            <div className="flex flex-col justify-center">
-                                <span>刪除</span>
+                    {isEditMode && (
+                        <div className="flex items-center justify-center mx-5" onClick={deleteActivity}>
+                            <div className="grid grid-cols-2  bg-alert py-3 px-5 rounded-full text-white hover:opacity-50 hover:cursor-pointer">
+                                <div className="flex flex-col justify-center">
+                                    <TrashIcon className="w-5 h-5" />
+                                </div>
+                                <div className="flex flex-col justify-center">
+                                    <span>刪除</span>
+                                </div>
                             </div>
                         </div>
-                    </div>
+                    )}
                 </div>
 
 
