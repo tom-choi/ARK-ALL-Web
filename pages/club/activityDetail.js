@@ -26,6 +26,9 @@ const ActivityDetail = () => {
 
     const [isEditMode, setEditMode] = useState(false);          // 是否為編輯模式
 
+    // 更改數據
+    const [editLoc, setEditLoc] = useState(null);                        // 地點
+    const [editIntro, setEditIntro] = useState(null);                    // 描述
     const [addedRelatedImages, setAddedRelatedImages] = useState(null);  // 暫存活動圖片
 
     // 活動類型映射
@@ -53,26 +56,43 @@ const ActivityDetail = () => {
         setEditMode(true);
     }
 
-    // 退出編輯，可選擇是否保存
-
+    // 放棄編輯
     const giveUpEdit = () => {
         console.log("Give Up.")
         // 如果不保存的話，就不使用編輯後的activityData，故而重新從已有的localStorage中調取。
         fetchActivityData();
         // 清空選中圖片
+        setEditLoc(null);
+        setEditIntro(null);
         setAddedRelatedImages(null);
         console.log(addedRelatedImages);
 
         setEditMode(false);
     }
 
+    // 保存編輯
     const saveEdit = () => {
         console.log("Save.");
-        //TODO: 調用API上傳， 如果成功了就寫入localStorage。
+        // 存儲預覽，僅限於state，刷新即失效(add)
+        editLoc && (activityData.location = editLoc);
+        editIntro && (activityData.introduction = editIntro);
 
         setEditMode(false);
     }
 
+    // 上傳編輯
+    const uploadEdit = () => {
+        // TODO: 調用API上傳， commit & push
+
+        // 如果上傳成功了就寫入localStorage，刷新頁面。
+
+        setEditMode(false);
+    }
+
+    // 檢測是否被編輯過
+    const isEdited = () => {
+        return editLoc || editIntro || addedRelatedImages;
+    }
 
     // 刪除活動
     const deleteActivity = async () => {
@@ -188,6 +208,21 @@ const ActivityDetail = () => {
                     )}
                 </div>
 
+                {/* 編輯提醒*/}
+                {isEdited() ? (
+                    <div class="font-bold">
+                        <p>
+                            您有編輯待上傳，刷新就會失效！
+                        </p>
+                    </div>
+                ) : (
+                    <div class="font-bold">
+                        <p>
+                            所有編輯均已上傳！
+                        </p>
+                    </div>
+                )}
+
                 {/* 時間和介紹 */}
                 <div className="lg:grid lg:grid-cols-2 md:block gap-4 items-top justify-center mt-5">
                     {/*開始和結束時間*/}
@@ -217,8 +252,9 @@ const ActivityDetail = () => {
                             {!isEditMode ? (activityData && activityData.location) : (
                                 <input
                                     placeholder={"地點"}
-                                    value={activityData && activityData.location}
-                                    className="text-lg border-4 border-themeColor rounded-lg h-10 p-2">
+                                    defaultValue={activityData && activityData.location}
+                                    className="text-lg border-4 border-themeColor rounded-lg h-10 p-2"
+                                    onChangeCapture={(event) => setEditLoc(event.target.value)}>
                                 </input>
                             )}
                         </p>
@@ -230,7 +266,7 @@ const ActivityDetail = () => {
                             {!isEditMode ? (activityData && activityTypeMap[activityData.type]) : (
                                 <input
                                     placeholder={"地點"}
-                                    value={activityData && activityTypeMap[activityData.type]}
+                                    defaultValue={activityData && activityTypeMap[activityData.type]}
                                     className="text-lg border-4 border-themeColor rounded-lg h-10 p-2">
                                 </input>
                             )}
@@ -250,8 +286,10 @@ const ActivityDetail = () => {
                         ) : (
                             <input
                                 placeholder={"簡介"}
-                                value={activityData && activityData.introduction}
-                                className="text-lg block w-full border-4 border-themeColor rounded-lg p-2 resize-none min-h-32">
+                                defaultValue={activityData && activityData.introduction}
+                                className="text-lg block w-full border-4 border-themeColor rounded-lg p-2 resize-none min-h-32"
+                                onChangeCapture={(event) => setEditIntro(event.target.value)}>
+
                             </input>
                         )}
                     </div>
