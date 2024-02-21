@@ -29,28 +29,28 @@ const returnToClubInfo = () => {
 
 const NewActivity = () => {
     // 標題和封面圖
-    const [editActivityTitle, setEditActivityTitle] = useState(null);                 //社團名稱
-    const [addedCoverImage, setAddedCoverImage] = useState(null);
+    const [m_title, setTitle] = useState(null);                 //社團名稱
+    const [m_coverImage, setCoverImage] = useState(null);
 
     // 基本訊息
-    const [editStartDate, setEditStartDate] = useState(null);   // 開始日期
-    const [editStartTime, setEditStartTime] = useState(null);   // 開始時間
-    const [editEndDate, setEditEndDate] = useState(null);       // 結束日期
-    const [editEndTime, setEditEndTime] = useState(null);       // 結束時間
+    const [m_sDate, setStartDate] = useState(null);   // 開始日期
+    const [m_sTime, setStartTime] = useState(null);   // 開始時間
+    const [m_eDate, setEndDate] = useState(null);     // 結束日期
+    const [m_eTime, setEndTime] = useState(null);     // 結束時間
 
-    const [editLoc, setEditLoc] = useState(null);               // 地點
-    const [editType, setEditType] = useState(null);             // 活動類型、
-    const activityTypeMap = {                                   // 活動類型映射
+    const [m_location, setLocation] = useState(null);     // 地點
+    const [m_type, setType] = useState(null);             // 活動類型、
+    const activityTypeMap = {                             // 活動類型映射
         "ACTIVITY": "普通活動",
         "OFFICIAL": "澳大官方",
         "WEBSITE": "網頁"
     };
 
     // 簡介
-    const [editIntro, setEditIntro] = useState(null);
+    const [m_intro, setIntro] = useState(null);
 
     //相關圖片
-    const [addedRelatedImages, setAddedRelatedImages] = useState(null);     // 暫存活動圖片
+    const [m_relatedImages, setRelatedImages] = useState(null);     // 暫存活動圖片
 
     /* -------------------------------狀態數據--------------------------------*/
 
@@ -66,21 +66,38 @@ const NewActivity = () => {
 
     /* -------------------------------圖片文件--------------------------------*/
     // 上傳相關圖片
-    // 點擊上傳Placeholder
+    // 點擊上傳Placeholder，該方法僅用於傳遞點擊事件
     const handleFileSelected = (event) => {
         // 獲取File Input元素並觸發點擊事件以打開文件選擇窗口
         fileInputRef.current.click();
     }
 
-    //獲取選擇的文件並存儲與state
-    const handleFileChange = (event) => {
+    // 獲取選擇的文件並存儲File Object與state
+    const handleFileChange = (event, type) => {
         //從File Input元素中獲取選中的文件
-        setAddedRelatedImages(event.target.files[0]);
-
-        console.log(addedRelatedImages);
+        if (type === "cover") {
+            setCoverImage(event.target.files[0]);
+            console.log(m_coverImage);
+        }
+        else if (type === "relate") {
+            setRelatedImages(event.target.files);
+            console.log(JSON.stringify(m_relatedImages));
+        }
     }
 
+
+
+    /*------------------------------------上傳------------------------------*/
+
+    /* 上傳前校驗*/
+    const validateUpdate = () => { }
+
+    /* 匯總數據*/
+    const summarizeData = () => { }
+
+
     const fileInputRef = useRef();
+
     return (
         <>
             <Container>
@@ -107,12 +124,12 @@ const NewActivity = () => {
                     <input
                         placeholder={"活動名稱"}
                         className="text-3xl border-4 border-themeColor rounded-lg h-10 p-2"
-                        onChangeCapture={(event) => setEditActivityTitle(event.target.value)}>
+                        onChangeCapture={(event) => setTitle(event.target.value)}>
                     </input>
                 </div>
 
                 {/* 添加封面圖片*/}
-                <div className="flex flex-col items-center mb-5">
+                <div id="cover-img-placeholder" className="flex flex-col items-center mb-5">
                     <div className="flex flex-col w-96 h-96 items-center justify-center bg-themeColorUltraLight dark:bg-gray-700 rounded-lg border-4 border-themeColor border-dashed min-h-24 hover:cursor-pointer hover:opacity-50 mb-4"
                         onClick={event => handleFileSelected()}>
                         <PlusCircleIcon className="w-10 h-10 text-themeColor" />
@@ -121,21 +138,24 @@ const NewActivity = () => {
                             type="file"
                             accept=".png "
                             ref={fileInputRef}
-                            onChange={event => handleFileChange(event)}
+                            onChange={(event) => handleFileChange(event, "cover")}
                             className="flex w-full h-full hidden"
                         />
                     </div>
                 </div>
 
-                {/* 時間和介紹 */}
+                {/* 基本訊息 + 簡介 */}
                 <div className="lg:grid lg:grid-cols-2 md:block gap-4 items-top justify-center mt-5">
+
                     {/*開始和結束時間*/}
                     <div className="bg-white dark:bg-gray-800 border-l-4 border-themeColorLight px-5 pt-3 pb-5 rounded-lg drop-shadow-md itmes-center mb-5">
-                        {/*標題*/}
+
+                        {/*基本訊息標題*/}
                         <div className="mb-3">
                             <h3 className="text-xl font-bold text-themeColor">基本訊息</h3>
                         </div>
-                        {/* 開始時間和結束時間*/}
+
+                        {/* 開始時間*/}
                         <div className="mb-5">
                             <span className="text-themeColor font-bold mr-5">
                                 Start:
@@ -143,13 +163,14 @@ const NewActivity = () => {
                             <input
                                 type="date"
                                 className="text-lg border-4 border-themeColor rounded-lg h-10 p-2 mr-3"
-                                onChangeCapture={(event) => setEditStartDate(event.target.value)} />
+                                onChangeCapture={(event) => setStartDate(event.target.value)} />
                             <input
                                 type="time"
                                 className="text-lg border-4 border-themeColor rounded-lg h-10 p-2 mr-3"
-                                onChangeCapture={(event) => setEditStartTime(event.target.value)} />
+                                onChangeCapture={(event) => setStartTime(event.target.value)} />
                         </div>
 
+                        {/* 結束時間*/}
                         <div className="mb-5">
                             <span className="text-themeColor font-bold mr-5">
                                 End:
@@ -157,11 +178,11 @@ const NewActivity = () => {
                             <input
                                 type="date"
                                 className="text-lg border-4 border-themeColor rounded-lg h-10 p-2 mr-3"
-                                onChangeCapture={(event) => setEditEndDate(event.target.value)} />
+                                onChangeCapture={(event) => setEndDate(event.target.value)} />
                             <input
                                 type="time"
                                 className="text-lg border-4 border-themeColor rounded-lg h-10 p-2 mr-3"
-                                onChangeCapture={(event) => setEditEndTime(event.target.value)}
+                                onChangeCapture={(event) => setEndTime(event.target.value)}
                             />
                         </div>
 
@@ -173,7 +194,7 @@ const NewActivity = () => {
                             <input
                                 placeholder={"地點"}
                                 className="text-lg border-4 border-themeColor rounded-lg h-10 p-2"
-                                onChangeCapture={(event) => setEditLoc(event.target.value)}>
+                                onChangeCapture={(event) => setLocation(event.target.value)}>
                             </input>
                         </div>
 
@@ -183,7 +204,7 @@ const NewActivity = () => {
                                 類型:
                             </span>
                             <select className="text-lg border-4 border-themeColor rounded-lg p-2"
-                                onChangeCapture={(event) => setEditType(event.target.value)}>
+                                onChangeCapture={(event) => setType(event.target.value)}>
                                 <option value="ACTIVITY">{activityTypeMap['ACTIVITY']}</option>
                                 <option value="OFFICIAL">{activityTypeMap['OFFICIAL']}</option>
                                 <option value="WEBSITE">{activityTypeMap['WEBSITE']}</option>
@@ -202,21 +223,19 @@ const NewActivity = () => {
                             placeholder={"簡介"}
                             className="text-lg block w-full border-4 border-themeColor rounded-lg p-2 resize-none min-h-32"
                             rows="10"
-                            onChangeCapture={(event) => setEditIntro(event.target.value)}>
+                            onChangeCapture={(event) => setIntro(event.target.value)}>
                         </textarea>
                     </div>
-
-
                 </div>
 
+                {/*相關圖片*/}
                 <div className="bg-white dark:bg-gray-800 border-l-4 border-themeColorLight px-5 pt-3 pb-5 rounded-lg drop-shadow-md itmes-center mb-5">
                     <div className="mb-3">
                         <h3 className="text-xl font-bold text-themeColor">相關圖片</h3>
                     </div>
                     <div className="lg:grid lg:grid-cols-4 md:block lg:gap-4 items-top justify-center mt-5">
 
-                        {/* 添加圖片模塊：僅在編輯圖片時展示 */}
-
+                        {/* 添加圖片模塊 */}
                         <div className="flex flex-col items-center justify-center bg-themeColorUltraLight dark:bg-gray-700 rounded-lg border-4 border-themeColor border-dashed min-h-24 hover:cursor-pointer hover:opacity-50 mb-4"
                             onClick={event => handleFileSelected()}>
                             <PlusCircleIcon className="w-10 h-10 text-themeColor" />
@@ -224,12 +243,11 @@ const NewActivity = () => {
                                 type="file"
                                 accept=".png "
                                 ref={fileInputRef}
-                                onChange={event => handleFileChange(event)}
+                                onChange={event => handleFileChange(event, "relate")}
                                 className="flex w-full h-full hidden"
+                                multiple
                             />
                         </div>
-
-
                     </div>
 
                     {/* 添加的圖片名稱，編輯時展示 */}
@@ -238,9 +256,8 @@ const NewActivity = () => {
                             <p className="font-bold text-lg">
                                 添加的圖片：
                             </p>
-                            <span>
-                                {addedRelatedImages && addedRelatedImages.name}
-                            </span>
+
+
                         </div>
                     </div>
                 </div>
