@@ -210,13 +210,13 @@ const ActivityDetail = () => {
 
                 {/* 編輯提醒*/}
                 {isEdited() ? (
-                    <div class="font-bold">
+                    <div class="font-bold text-warning">
                         <p>
                             您有編輯待上傳，刷新就會失效！
                         </p>
                     </div>
                 ) : (
-                    <div class="font-bold">
+                    <div class="font-bold text-success">
                         <p>
                             所有編輯均已上傳！
                         </p>
