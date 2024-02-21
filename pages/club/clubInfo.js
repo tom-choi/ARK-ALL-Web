@@ -24,6 +24,10 @@ const returnToMain = () => {
     window.location.href = "../";
 }
 
+const toNewActivity = () => {
+    window.location.href = "./newActivity";
+}
+
 const ClubInfo = () => {
     const [clubProfileData, setProfileData] = useState(null);   //登錄信息
     const [clubContentData, setContentData] = useState(null);   //社團內容，如聯繫方式等
@@ -172,7 +176,7 @@ const ClubInfo = () => {
                     </div>
 
                     {/* 添加按鈕*/}
-                    <div className="flex items-center justify-center mx-5" >
+                    <div className="flex items-center justify-center mx-5" onClick={toNewActivity} >
                         <div className="flex bg-themeColor py-3 px-5 rounded-full text-white hover:opacity-50 hover:cursor-pointer">
                             <div className="flex flex-col justify-center">
                                 <PlusCircleIcon className="w-5 h-5" />
