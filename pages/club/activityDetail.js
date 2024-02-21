@@ -239,7 +239,7 @@ const ActivityDetail = () => {
                                 ))}
                                 {
                                     isEditMode && (
-                                        <div className="flex flex-col items-center justify-center bg-themeColorUltraLight rounded-lg border-4 border-themeColor border-dashed mb-4">
+                                        <div className="flex flex-col items-center justify-center bg-themeColorUltraLight rounded-lg border-4 border-themeColor border-dashed min-h-24 mb-4">
                                             <PlusCircleIcon className="w-10 h-10 text-themeColor" />
                                         </div>
                                     )
