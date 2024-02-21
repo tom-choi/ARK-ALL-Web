@@ -323,8 +323,7 @@ const ActivityDetail = () => {
                                 {/* 添加圖片模塊：僅在編輯圖片時展示 */}
                                 {
                                     isEditMode && (
-
-                                        <div className="flex flex-col items-center justify-center bg-themeColorUltraLight rounded-lg border-4 border-themeColor border-dashed min-h-24 hover:cursor-pointer hover:opacity-50 mb-4"
+                                        <div className="flex flex-col items-center justify-center bg-themeColorUltraLight dark:bg-gray-700 rounded-lg border-4 border-themeColor border-dashed min-h-24 hover:cursor-pointer hover:opacity-50 mb-4"
                                             onClick={event => handleFileSelected()}>
                                             <PlusCircleIcon className="w-10 h-10 text-themeColor" />
                                             <input
