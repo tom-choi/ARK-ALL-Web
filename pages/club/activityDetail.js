@@ -7,7 +7,8 @@ import ReactDOM from "react-dom/client"
 import {
     PencilSquareIcon,
     TrashIcon,
-    FolderArrowDownIcon
+    FolderArrowDownIcon,
+    PlusCircleIcon
 } from "@heroicons/react/24/solid";
 
 // 本地引用
@@ -42,11 +43,6 @@ const ActivityDetail = () => {
     // 返回社團詳情頁
     const returnToClubInfo = () => {
         window.location.href = "./clubInfo";
-    }
-
-    // 切換編輯模式
-    const toggleEditMode = () => {
-        setEditMode(!isEditMode);
     }
 
     // 開始編輯
@@ -229,7 +225,7 @@ const ActivityDetail = () => {
                 </div>
 
                 {/* 相關圖片 (如果沒有相關圖片就不展示該模塊) */}
-                {activityData && activityData.relate_image_url.length > 0 &&
+                {activityData && (activityData.relate_image_url.length > 0 || isEditMode) &&
                     (
                         <div className="bg-white dark:bg-gray-800 border-l-4 border-themeColorLight px-5 pt-3 pb-5 rounded-lg drop-shadow-md itmes-center mb-5">
                             <div className="mb-3">
@@ -241,6 +237,13 @@ const ActivityDetail = () => {
                                         <img src={BASE_HOST + item} className="rounded-lg " />
                                     </div>
                                 ))}
+                                {
+                                    isEditMode && (
+                                        <div className="flex flex-col items-center justify-center bg-themeColorUltraLight rounded-lg border-4 border-themeColor border-dashed mb-4">
+                                            <PlusCircleIcon className="w-10 h-10 text-themeColor" />
+                                        </div>
+                                    )
+                                }
                             </div>
                         </div>
                     )}
