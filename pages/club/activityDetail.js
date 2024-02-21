@@ -6,7 +6,8 @@ import qs from 'qs';
 import ReactDOM from "react-dom/client"
 import {
     PencilSquareIcon,
-    TrashIcon
+    TrashIcon,
+    FolderArrowDownIcon
 } from "@heroicons/react/24/solid";
 
 // 本地引用
@@ -20,7 +21,8 @@ import { act } from 'react-three-fiber';
 
 
 const ActivityDetail = () => {
-    const [activityData, setActivityData] = useState(null);
+    const [activityData, setActivityData] = useState(null);     // 活動數據
+    const [isEditMode, setEditMode] = useState(false);          // 是否為編輯模式
 
     // 活動類型映射
     const activityTypeMap = {
@@ -41,6 +43,25 @@ const ActivityDetail = () => {
     const returnToClubInfo = () => {
         window.location.href = "./clubInfo";
     }
+
+    // 切換編輯模式
+    const toggleEditMode = () => {
+        setEditMode(!isEditMode);
+    }
+
+    // 開始編輯
+    const startEdit = () => {
+        setEditMode(true);
+    }
+
+    // 推出編輯，可選擇是否保存
+    const exitEdit = (save) => {
+        if (save) {
+            console.log("save");
+        }
+        setEditMode(false);
+    }
+
 
     // 刪除活動
     const deleteActivity = async () => {
@@ -70,6 +91,7 @@ const ActivityDetail = () => {
             <title>
                 {activityData && activityData.title} - 詳情
             </title>
+
             <Container>
                 {/* 頂欄*/}
                 <div className="flex justify-between items-center mb-10">
@@ -89,9 +111,17 @@ const ActivityDetail = () => {
                     <h3 className="text-xl mb-3">
                         {activityData && activityData.club_name}
                     </h3>
-                    <h1 className="text-3xl">
-                        {activityData && activityData.title}
-                    </h1>
+                    {!isEditMode ? (
+                        <h1 className="text-3xl">
+                            {activityData && activityData.title}
+                        </h1>
+                    ) : (
+                        <input
+                            placeholder={"社團名字"}
+                            value={activityData && activityData.title}
+                            className="text-3xl border-4 border-themeColor rounded-lg h-10 p-2">
+                        </input>
+                    )}
                 </div>
 
                 {/* 封面圖片 */}
@@ -104,13 +134,13 @@ const ActivityDetail = () => {
                 {/*操作陣列*/}
                 <div className="flex items-center justify-center my-10">
                     {/* 編輯按鈕*/}
-                    <div className="flex items-center justify-center mx-5" >
-                        <div className="grid grid-cols-2 bg-themeColor py-3 px-5 rounded-full text-white hover:opacity-50 hover:cursor-pointer">
+                    <div className="flex items-center justify-center mx-5" onClick={isEditMode ? exitEdit : startEdit}>
+                        <div className="flex bg-themeColor py-3 px-5 rounded-full text-white hover:opacity-50 hover:cursor-pointer">
                             <div className="flex flex-col justify-center">
                                 <PencilSquareIcon className="w-5 h-5" />
                             </div>
-                            <div className="flex flex-col justify-center">
-                                <span>編輯</span>
+                            <div className="flex flex-col justify-center ml-3">
+                                {isEditMode ? <span>取消編輯</span> : <span>編輯</span>}
                             </div>
                         </div>
                     </div>
@@ -154,14 +184,26 @@ const ActivityDetail = () => {
                             <span className="text-themeColor font-bold">
                                 地點:{'  '}
                             </span>
-                            {activityData && activityData.location}
+                            {!isEditMode ? (activityData && activityData.location) : (
+                                <input
+                                    placeholder={"地點"}
+                                    value={activityData && activityData.location}
+                                    className="text-lg border-4 border-themeColor rounded-lg h-10 p-2">
+                                </input>
+                            )}
                         </p>
                         {/* 活動類型*/}
                         <p>
                             <span className="text-themeColor font-bold">
                                 類型:{'  '}
                             </span>
-                            {activityData && activityTypeMap[activityData.type]}
+                            {!isEditMode ? (activityData && activityTypeMap[activityData.type]) : (
+                                <input
+                                    placeholder={"地點"}
+                                    value={activityData && activityTypeMap[activityData.type]}
+                                    className="text-lg border-4 border-themeColor rounded-lg h-10 p-2">
+                                </input>
+                            )}
                         </p>
                     </div>
 
@@ -171,9 +213,17 @@ const ActivityDetail = () => {
                         <div className="mb-3">
                             <h3 className="text-xl font-bold text-themeColor">簡介</h3>
                         </div>
-                        <p className="text-ellipsis overflow-hidden">
-                            {activityData && activityData.introduction}
-                        </p>
+                        {!isEditMode ? (
+                            <p className="text-ellipsis overflow-hidden">
+                                {activityData && activityData.introduction}
+                            </p>
+                        ) : (
+                            <input
+                                placeholder={"簡介"}
+                                value={activityData && activityData.introduction}
+                                className="text-lg block w-full border-4 border-themeColor rounded-lg p-2 resize-none min-h-32">
+                            </input>
+                        )}
                     </div>
 
                 </div>
@@ -195,8 +245,25 @@ const ActivityDetail = () => {
                         </div>
                     )}
 
+                {/*操作陣列*/}
+                <div className="flex items-center justify-center my-10">
+                    {/* 保存按鈕*/}
+                    {
+                        isEditMode && (
+                            <div className="flex items-center justify-center mx-5" onClick={event => exitEdit(event, true)}>
+                                <div className="flex bg-themeColor py-3 px-5 rounded-full text-white hover:opacity-50 hover:cursor-pointer">
+                                    <div className="flex flex-col justify-center">
+                                        <FolderArrowDownIcon className="w-5 h-5" />
+                                    </div>
+                                    <div className="flex flex-col justify-center ml-3">
+                                        <span>保存</span>
+                                    </div>
+                                </div>
+                            </div>
+                        )
+                    }
 
-
+                </div>
             </Container>
             <Footer />
         </>
