@@ -9,7 +9,8 @@ import {
     TrashIcon,
     FolderArrowDownIcon,
     PlusCircleIcon,
-    ChevronLeftIcon
+    ChevronLeftIcon,
+    ArrowUpIcon,
 } from "@heroicons/react/24/solid";
 
 // 本地引用
@@ -373,7 +374,7 @@ const ActivityDetail = () => {
                         <div className="flex items-center justify-center mx-5" onClick={saveEdit}>
                             <div className="flex bg-themeColor py-3 px-5 rounded-full text-white hover:opacity-50 hover:cursor-pointer">
                                 <div className="flex flex-col justify-center">
-                                    <FolderArrowDownIcon className="w-5 h-5" />
+                                    <ArrowUpIcon className="w-5 h-5" />
                                 </div>
                                 <div className="flex flex-col justify-center ml-3">
                                     <span>上傳改動</span>
