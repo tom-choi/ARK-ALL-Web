@@ -314,8 +314,10 @@ const ActivityDetail = () => {
                             <div className="lg:grid lg:grid-cols-4 md:block lg:gap-4 items-top justify-center mt-5">
                                 {/* 一般的相關圖片 */}
                                 {activityData && activityData.relate_image_url.map((item, index) => (
-                                    <div className="flex flex-col mb-4">
-                                        <img src={BASE_HOST + item} className="rounded-lg " />
+                                    <div key={index} className="flex flex-col mb-4 hover:cursor-pointer hover:opacity-80">
+                                        <a href={BASE_HOST + item} target="_blank">
+                                            <img src={BASE_HOST + item} className="rounded-lg" />
+                                        </a>
                                     </div>
                                 ))}
                                 {/* 添加圖片模塊：僅在編輯圖片時展示 */}
