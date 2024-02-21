@@ -284,13 +284,13 @@ const ActivityDetail = () => {
                                 {activityData && activityData.introduction}
                             </p>
                         ) : (
-                            <input
+                            <textarea
                                 placeholder={"簡介"}
-                                defaultValue={activityData && activityData.introduction}
                                 className="text-lg block w-full border-4 border-themeColor rounded-lg p-2 resize-none min-h-32"
+                                rows="10"
                                 onChangeCapture={(event) => setEditIntro(event.target.value)}>
-
-                            </input>
+                                {activityData && activityData.introduction}
+                            </textarea>
                         )}
                     </div>
 
