@@ -27,9 +27,10 @@ const ActivityDetail = () => {
     const [isEditMode, setEditMode] = useState(false);          // 是否為編輯模式
 
     // 更改數據
-    const [editLoc, setEditLoc] = useState(null);                        // 地點
-    const [editIntro, setEditIntro] = useState(null);                    // 描述
-    const [addedRelatedImages, setAddedRelatedImages] = useState(null);  // 暫存活動圖片
+    const [editActivityTitle, setEditActivityTitle] = useState(null);                 //社團名稱
+    const [editLoc, setEditLoc] = useState(null);                           // 地點
+    const [editIntro, setEditIntro] = useState(null);                       // 描述
+    const [addedRelatedImages, setAddedRelatedImages] = useState(null);     // 暫存活動圖片
 
     // 活動類型映射
     const activityTypeMap = {
@@ -74,6 +75,7 @@ const ActivityDetail = () => {
     const saveEdit = () => {
         console.log("Save.");
         // 存儲預覽，僅限於state，刷新即失效(add)
+        editActivityTitle && (activityData.title = editActivityTitle);
         editLoc && (activityData.location = editLoc);
         editIntro && (activityData.introduction = editIntro);
 
@@ -91,7 +93,7 @@ const ActivityDetail = () => {
 
     // 檢測是否被編輯過
     const isEdited = () => {
-        return editLoc || editIntro || addedRelatedImages;
+        return editActivityTitle || editLoc || editIntro || addedRelatedImages;
     }
 
     // 刪除活動
@@ -121,7 +123,6 @@ const ActivityDetail = () => {
         setAddedRelatedImages(event.target.files[0]);
 
         console.log(addedRelatedImages);
-
     }
 
     const fileInputRef = useRef();
@@ -166,9 +167,10 @@ const ActivityDetail = () => {
                         </h1>
                     ) : (
                         <input
-                            placeholder={"社團名字"}
-                            value={activityData && activityData.title}
-                            className="text-3xl border-4 border-themeColor rounded-lg h-10 p-2">
+                            placeholder={"活動名稱"}
+                            defaultValue={activityData && activityData.title}
+                            className="text-3xl border-4 border-themeColor rounded-lg h-10 p-2"
+                            onChangeCapture={(event) => setEditActivityTitle(event.target.value)}>
                         </input>
                     )}
                 </div>
