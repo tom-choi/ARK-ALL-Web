@@ -242,7 +242,7 @@ const NewActivity = () => {
                                 類型:
                             </span>
                             <select className="text-lg border-4 border-themeColor rounded-lg p-2"
-                                defaultValue={m_type}
+                                value={m_type}
                                 onChangeCapture={(event) => setType(event.target.value)}>
                                 <option value="ACTIVITY">{activityTypeMap['ACTIVITY']}</option>
                                 <option value="WEBSITE">{activityTypeMap['WEBSITE']}</option>
