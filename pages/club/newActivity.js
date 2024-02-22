@@ -184,6 +184,9 @@ const NewActivity = () => {
     console.log("Start Date Time ", squashDateTime(m_sDate, m_sTime));
     console.log("End Date ", m_eDate);
 
+    console.log(moment(new Date()).format("YYYY/MM/DD"));
+    console.log(m_sTime);
+
     return (
         <>
             <Container>
@@ -269,16 +272,16 @@ const NewActivity = () => {
                         {/* 開始時間*/}
                         <div className="mb-5">
                             <span className="text-themeColor font-bold mr-5">
-                                Start:
+                                開始:
                             </span>
                             <input
                                 type="date"
-                                defaultValue={m_sDate ? m_sDate : ""}
+                                defaultValue={m_sDate ? m_sDate : moment(new Date()).format("YYYY-MM-DD")}
                                 className="text-lg border-4 border-themeColor rounded-lg h-10 p-2 mr-3"
                                 onChangeCapture={(event) => setStartDate(event.target.value)} />
                             <input
                                 type="time"
-                                defaultValue={m_sTime ? m_sTime : ""}
+                                defaultValue={m_sTime ? m_sTime : moment(new Date()).format("HH:MM")}
                                 className="text-lg border-4 border-themeColor rounded-lg h-10 p-2 mr-3"
                                 onChangeCapture={(event) => setStartTime(event.target.value)} />
                         </div>
@@ -286,16 +289,16 @@ const NewActivity = () => {
                         {/* 結束時間*/}
                         <div className="mb-5">
                             <span className="text-themeColor font-bold mr-5">
-                                End:
+                                結束:
                             </span>
                             <input
                                 type="date"
-                                defaultValue={m_eDate ? m_eDate : ""}
+                                defaultValue={m_eDate ? m_eDate : moment(new Date()).format("YYYY-MM-DD")}
                                 className="text-lg border-4 border-themeColor rounded-lg h-10 p-2 mr-3"
                                 onChangeCapture={(event) => setEndDate(event.target.value)} />
                             <input
                                 type="time"
-                                defaultValue={m_eTime ? m_eTime : ""}
+                                defaultValue={m_eTime ? m_eTime : moment(new Date()).format("HH:MM")}
                                 className="text-lg border-4 border-themeColor rounded-lg h-10 p-2 mr-3"
                                 onChangeCapture={(event) => setEndTime(event.target.value)}
                             />
