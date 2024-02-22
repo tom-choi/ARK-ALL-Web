@@ -12,6 +12,7 @@ import {
     ChevronLeftIcon,
     ArrowUpIcon
 } from "@heroicons/react/24/solid";
+import moment from 'moment/moment';
 
 // 本地引用
 import { BASE_URI, BASE_HOST, GET, POST } from '../../utils/pathMap';
@@ -64,6 +65,10 @@ const NewActivity = () => {
         return m_title && m_coverImage && m_sDate && m_sTime && m_eDate && m_eTime && m_location && m_type && m_intro;
     }
 
+    const squashDateTime = (date, time) => {
+        return date + "T" + time;
+    }
+
     const saveEdit = () => {
         // 將數據匯總並存儲至localStorage
 
@@ -100,6 +105,10 @@ const NewActivity = () => {
             window.alert("請檢查内容！");
             return;
         }
+        // 預處理一些數據
+        let s_DateTIme = squashDateTime(m_sDate, m_sTime);
+        let e_DateTime = squashDateTime(m_eDate, m_eTime);
+
         // 將本地存儲的編輯數據上傳至伺服器
     }
 
@@ -172,7 +181,8 @@ const NewActivity = () => {
     const coverImageRef = useRef();
     const relateImageInputRef = useRef();
 
-    console.log("Current type: ", m_type);
+    console.log("Start Date Time ", squashDateTime(m_sDate, m_sTime));
+    console.log("End Date ", m_eDate);
 
     return (
         <>
