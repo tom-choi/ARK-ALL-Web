@@ -48,6 +48,7 @@ const NewActivity = () => {
     const [m_eTime, setEndTime] = useState(null);     // 結束時間
 
     const [m_location, setLocation] = useState(null);     // 地點
+    const [m_link, setLink] = useState(null);               // 鏈接
     const [m_type, setType] = useState("ACTIVITY");             // 活動類型
 
     // 簡介
@@ -75,6 +76,7 @@ const NewActivity = () => {
             m_eDate: m_eDate,
             m_eTime: m_eTime,
             m_location: m_location,
+            m_link: m_link,
             m_type: m_type,
             m_intro: m_intro,
             //m_relatedImages: m_relatedImages
@@ -119,6 +121,7 @@ const NewActivity = () => {
             createdActivityInfo.m_eDate && setEndDate(createdActivityInfo.m_eDate);
             createdActivityInfo.m_eTime && setEndTime(createdActivityInfo.m_eTime);
             createdActivityInfo.m_location && setLocation(createdActivityInfo.m_location);
+            createdActivityInfo.m_link && setLink(createdActivityInfo.m_link);
             createdActivityInfo.m_type && setType(createdActivityInfo.m_type);
 
             // 簡介
@@ -281,6 +284,21 @@ const NewActivity = () => {
                                 </span>
                                 <input
                                     placeholder={"地點"}
+                                    defaultValue={m_location ? m_location : ""}
+                                    className="text-lg border-4 border-themeColor rounded-lg h-10 p-2"
+                                    onChangeCapture={(event) => setLocation(event.target.value)}>
+                                </input>
+                            </div>
+                        )}
+
+                        {/* 鏈接 */}
+                        {m_type == "WEBSITE" && (
+                            <div className="mb-5">
+                                <span className="text-themeColor font-bold mr-5">
+                                    鏈接:
+                                </span>
+                                <input
+                                    placeholder={"鏈接"}
                                     defaultValue={m_location ? m_location : ""}
                                     className="text-lg border-4 border-themeColor rounded-lg h-10 p-2"
                                     onChangeCapture={(event) => setLocation(event.target.value)}>
