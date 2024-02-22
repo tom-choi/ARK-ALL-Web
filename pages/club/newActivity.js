@@ -151,9 +151,13 @@ const NewActivity = () => {
     function handleFileChange(event, type) {
         if (type === "cover") {
             console.log(event.target.files[0]);
-            setCoverImage(event.target.files[0]);
+            let image = URL.createObjectURL(event.target.files[0]);
+            setCoverImage(image);
         } else if (type === "relate") {
-            console.log(event.target.files);
+            let imgArr = event.target.files;
+            imgArr.map(i => {
+                console.log(i);
+            })
             setRelatedImages(event.target.files);
         }
         console.log('type', type);
@@ -168,7 +172,7 @@ const NewActivity = () => {
     const coverImageRef = useRef();
     const relateImageInputRef = useRef();
 
-    console.log("Activity Type: ", m_type);
+    console.log("Current type: ", m_type);
 
     return (
         <>
@@ -202,7 +206,7 @@ const NewActivity = () => {
                 </div>
 
                 {/* 添加封面圖片*/}
-                <div id="cover-img-placeholder" className="flex flex-col items-center mb-5">
+                <div id="cover-img-placeholder" className="flex flex-col items-center mb-5" >
                     <div className="flex flex-col w-96 h-96 items-center justify-center bg-themeColorUltraLight dark:bg-gray-700 rounded-lg border-4 border-themeColor border-dashed min-h-24 hover:cursor-pointer hover:opacity-50 mb-4"
                         onClick={() => coverImageRef.current.click()}
                     >
@@ -214,6 +218,9 @@ const NewActivity = () => {
                             ref={coverImageRef}
                             onChange={(event) => handleFileChange(event, "cover")}
                             className="flex w-full h-full hidden"
+                        />
+                        <img
+                            src={m_coverImage}
                         />
                     </div>
                 </div>
