@@ -119,7 +119,7 @@ const NewActivity = () => {
             createdActivityInfo.m_eDate && setEndDate(createdActivityInfo.m_eDate);
             createdActivityInfo.m_eTime && setEndTime(createdActivityInfo.m_eTime);
             createdActivityInfo.m_location && setLocation(createdActivityInfo.m_location);
-            createdActivityInfo.m_type && setType(activityTypeMap[createdActivityInfo.m_type]);
+            createdActivityInfo.m_type && setType(createdActivityInfo.m_type);
 
             // 簡介
             createdActivityInfo.m_intro && setIntro(createdActivityInfo.m_intro);
@@ -164,6 +164,8 @@ const NewActivity = () => {
 
     const coverImageRef = useRef();
     const relateImageInputRef = useRef();
+
+    console.log("Activity Type: ", m_type);
 
     return (
         <>
@@ -272,18 +274,20 @@ const NewActivity = () => {
                         </div>
 
                         {/* 地點 */}
+                        {m_type == "ACTIVITY" && (
+                            <div className="mb-5">
+                                <span className="text-themeColor font-bold mr-5">
+                                    地點:
+                                </span>
+                                <input
+                                    placeholder={"地點"}
+                                    defaultValue={m_location ? m_location : ""}
+                                    className="text-lg border-4 border-themeColor rounded-lg h-10 p-2"
+                                    onChangeCapture={(event) => setLocation(event.target.value)}>
+                                </input>
+                            </div>
+                        )}
 
-                        <div className="mb-5">
-                            <span className="text-themeColor font-bold mr-5">
-                                地點:
-                            </span>
-                            <input
-                                placeholder={"地點"}
-                                defaultValue={m_location ? m_location : ""}
-                                className="text-lg border-4 border-themeColor rounded-lg h-10 p-2"
-                                onChangeCapture={(event) => setLocation(event.target.value)}>
-                            </input>
-                        </div>
 
 
 
