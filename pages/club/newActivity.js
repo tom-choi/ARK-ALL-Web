@@ -20,7 +20,6 @@ import Navbar from '../../components/navbar';
 import ThemeChanger from '../../components/DarkSwitch';
 import LanguageSwitcher from '../../components/LanguageSwitcher';
 import Footer from "../../components/footer";
-import { act } from 'react-three-fiber';
 
 // 返回社團詳情頁
 const returnToClubInfo = () => {
@@ -28,9 +27,12 @@ const returnToClubInfo = () => {
 }
 
 const NewActivity = () => {
+    /*--------------------------------一般-------------------------------*/
+
+    /* -------------------------------狀態數據--------------------------------*/
     // 標題和封面圖
-    const [m_title, setTitle] = useState(null);                 //社團名稱
-    const [m_coverImage, setCoverImage] = useState(null);
+    const [m_title, setTitle] = useState(null);                 // 社團名稱
+    const [m_coverImage, setCoverImage] = useState(null);       // 封面圖片
 
     // 基本訊息
     const [m_sDate, setStartDate] = useState(null);   // 開始日期
@@ -39,7 +41,7 @@ const NewActivity = () => {
     const [m_eTime, setEndTime] = useState(null);     // 結束時間
 
     const [m_location, setLocation] = useState(null);     // 地點
-    const [m_type, setType] = useState(null);             // 活動類型、
+    const [m_type, setType] = useState(null);             // 活動類型
     const activityTypeMap = {                             // 活動類型映射
         "ACTIVITY": "普通活動",
         "OFFICIAL": "澳大官方",
@@ -49,54 +51,113 @@ const NewActivity = () => {
     // 簡介
     const [m_intro, setIntro] = useState(null);
 
-    //相關圖片
+    // 相關圖片
     const [m_relatedImages, setRelatedImages] = useState(null);     // 暫存活動圖片
 
-    /* -------------------------------狀態數據--------------------------------*/
 
     /* -------------------------------編輯狀態--------------------------------*/
+    const isEditValid = () => {
+        // 除了“相關圖片”以外均是必須的
+        return m_title && m_coverImage && m_sDate && m_sTime && m_eDate && m_eTime && m_location && m_type && m_intro;
+    }
+
     const saveEdit = () => {
+        // 將數據匯總並存儲至localStorage
+
+        // 數據匯總
+        let createdActivityInfo = {
+            m_title: m_title,
+            m_coverImage: m_coverImage,
+            m_startDate: m_sDate,
+            m_startTime: m_sTime,
+            m_endDate: m_eDate,
+            m_endTime: m_eTime,
+            m_location: m_location,
+            m_type: m_type,
+            m_intro: m_intro,
+            m_relatedImages: m_relatedImages
+        }
+
+        // 存儲至localStorage
+        localStorage.setItem("createdActivityInfo", JSON.stringify(createdActivityInfo));
+
+        window.alert("本地保存成功！");
     }
 
     const giveUpEdit = () => {
+        // 將localStorage中的相關數據清空
+        localStorage.removeItem("createdActivityInfo");
+        window.refresh();
+        window.alert("本地保存已清空！");
     }
 
     const uploadEdit = () => {
+        if (!isEditValid()) {
+            window.alert("請檢查内容！");
+            return;
+        }
+        // 將本地存儲的編輯數據上傳至伺服器
+    }
+
+    const restoreEdits = () => {
+
+        // 獲取localStorage中存儲的編輯
+        let createdActivityInfo = JSON.parse(localStorage.getItem("createdActivityInfo"));
+
+        console.log("本地緩存中保存的新建活動訊息：", createdActivityInfo);
+
+        if (createdActivityInfo) {
+            // 封面和標題
+            createdActivityInfo.m_title && setTitle(createdActivityInfo.m_title);
+            createdActivityInfo.m_coverImage && setCoverImage(createdActivityInfo.m_coverImage);
+
+            // 基本訊息
+            createdActivityInfo.m_sDate && setStartDate(createdActivityInfo.m_sDate);
+            createdActivityInfo.m_sTime && setStartTime(createdActivityInfo.m_sTime);
+            createdActivityInfo.m_eDate && setEndDate(createdActivityInfo.m_eDate);
+            createdActivityInfo.m_eTime && setEndTime(createdActivityInfo.m_eTime);
+            createdActivityInfo.m_location && setLocation(createdActivityInfo.m_location);
+            createdActivityInfo.m_type && setType(activityTypeMap[createdActivityInfo.m_type]);
+
+            // 簡介
+            createdActivityInfo.m_intro && setIntro(createdActivityInfo.m_intro);
+
+            // 相關圖片
+            createdActivityInfo.m_relatedImages && setRelatedImages(createdActivityInfo.m_relatedImages);
+        }
     }
 
     /* -------------------------------圖片文件--------------------------------*/
     // 上傳相關圖片
-    // 點擊上傳Placeholder，該方法僅用於傳遞點擊事件
-    const handleFileSelected = (event) => {
-        // 獲取File Input元素並觸發點擊事件以打開文件選擇窗口
-        fileInputRef.current.click();
-    }
 
     // 獲取選擇的文件並存儲File Object與state
-    const handleFileChange = (event, type) => {
-        //從File Input元素中獲取選中的文件
+    // const handleFileChange = (event, type) => {
+    // const handleFileChange = ({ event }) => {
+    //從File Input元素中獲取選中的文件
+    // if (type === "cover") {
+    //     setCoverImage(event.target.files[0]);
+    //     console.log(m_coverImage);
+    // }
+    // else if (type === "relate") {
+    //     setRelatedImages(event.target.files);
+    //     console.log(JSON.stringify(m_relatedImages));
+    // }
+    // }
+    function handleFileChange(e, type) {
         if (type === "cover") {
             setCoverImage(event.target.files[0]);
             console.log(m_coverImage);
         }
-        else if (type === "relate") {
-            setRelatedImages(event.target.files);
-            console.log(JSON.stringify(m_relatedImages));
-        }
     }
 
+    /*---------------------------------初始化----------------------------------*/
+    useEffect(() => {
+        // TODO:初始化狀態數據,檢查localStorage中是否有保存編輯内容。
+        restoreEdits();
+    }, []);
 
-
-    /*------------------------------------上傳------------------------------*/
-
-    /* 上傳前校驗*/
-    const validateUpdate = () => { }
-
-    /* 匯總數據*/
-    const summarizeData = () => { }
-
-
-    const fileInputRef = useRef();
+    const coverImageRef = useRef();
+    const relateImageInputRef = useRef();
 
     return (
         <>
@@ -123,6 +184,7 @@ const NewActivity = () => {
                 <div className="flex flex-col items-center text-themeColor font-bold mb-5">
                     <input
                         placeholder={"活動名稱"}
+                        defaultValue={m_title ? m_title : ""}
                         className="text-3xl border-4 border-themeColor rounded-lg h-10 p-2"
                         onChangeCapture={(event) => setTitle(event.target.value)}>
                     </input>
@@ -131,13 +193,14 @@ const NewActivity = () => {
                 {/* 添加封面圖片*/}
                 <div id="cover-img-placeholder" className="flex flex-col items-center mb-5">
                     <div className="flex flex-col w-96 h-96 items-center justify-center bg-themeColorUltraLight dark:bg-gray-700 rounded-lg border-4 border-themeColor border-dashed min-h-24 hover:cursor-pointer hover:opacity-50 mb-4"
-                        onClick={event => handleFileSelected()}>
+                        onClick={() => coverImageRef.current.click()}
+                    >
                         <PlusCircleIcon className="w-10 h-10 text-themeColor" />
                         <h3 className="font-bold text-xl text-themeColor">封面圖片</h3>
                         <input
                             type="file"
-                            accept=".png "
-                            ref={fileInputRef}
+                            accept=".png"
+                            ref={coverImageRef}
                             onChange={(event) => handleFileChange(event, "cover")}
                             className="flex w-full h-full hidden"
                         />
@@ -162,10 +225,12 @@ const NewActivity = () => {
                             </span>
                             <input
                                 type="date"
+                                defaultValue={m_sDate ? m_sDate : ""}
                                 className="text-lg border-4 border-themeColor rounded-lg h-10 p-2 mr-3"
                                 onChangeCapture={(event) => setStartDate(event.target.value)} />
                             <input
                                 type="time"
+                                defaultValue={m_sTime ? m_sTime : ""}
                                 className="text-lg border-4 border-themeColor rounded-lg h-10 p-2 mr-3"
                                 onChangeCapture={(event) => setStartTime(event.target.value)} />
                         </div>
@@ -177,10 +242,12 @@ const NewActivity = () => {
                             </span>
                             <input
                                 type="date"
+                                defaultValue={m_eDate ? m_eDate : ""}
                                 className="text-lg border-4 border-themeColor rounded-lg h-10 p-2 mr-3"
                                 onChangeCapture={(event) => setEndDate(event.target.value)} />
                             <input
                                 type="time"
+                                defaultValue={m_eTime ? m_eTime : ""}
                                 className="text-lg border-4 border-themeColor rounded-lg h-10 p-2 mr-3"
                                 onChangeCapture={(event) => setEndTime(event.target.value)}
                             />
@@ -193,6 +260,7 @@ const NewActivity = () => {
                             </span>
                             <input
                                 placeholder={"地點"}
+                                defaultValue={m_location ? m_location : ""}
                                 className="text-lg border-4 border-themeColor rounded-lg h-10 p-2"
                                 onChangeCapture={(event) => setLocation(event.target.value)}>
                             </input>
@@ -221,6 +289,7 @@ const NewActivity = () => {
                         </div>
                         <textarea
                             placeholder={"簡介"}
+                            defaultValue={m_intro ? m_intro : ""}
                             className="text-lg block w-full border-4 border-themeColor rounded-lg p-2 resize-none min-h-32"
                             rows="10"
                             onChangeCapture={(event) => setIntro(event.target.value)}>
@@ -237,12 +306,12 @@ const NewActivity = () => {
 
                         {/* 添加圖片模塊 */}
                         <div className="flex flex-col items-center justify-center bg-themeColorUltraLight dark:bg-gray-700 rounded-lg border-4 border-themeColor border-dashed min-h-24 hover:cursor-pointer hover:opacity-50 mb-4"
-                            onClick={event => handleFileSelected()}>
+                            onClick={() => relateImageInputRef.current.click()}>
                             <PlusCircleIcon className="w-10 h-10 text-themeColor" />
                             <input
                                 type="file"
                                 accept=".png "
-                                ref={fileInputRef}
+                                ref={relateImageInputRef}
                                 onChange={event => handleFileChange(event, "relate")}
                                 className="flex w-full h-full hidden"
                                 multiple
@@ -256,13 +325,23 @@ const NewActivity = () => {
                             <p className="font-bold text-lg">
                                 添加的圖片：
                             </p>
-
-
                         </div>
                     </div>
                 </div>
 
                 <div className="flex items-center justify-center my-10">
+                    {/* 放棄*/}
+                    <div className="flex items-center justify-center mx-5" onClick={giveUpEdit}>
+                        <div className="flex bg-themeColor py-3 px-5 rounded-full text-white hover:opacity-50 hover:cursor-pointer">
+                            <div className="flex flex-col justify-center">
+                                <ArrowUpIcon className="w-5 h-5" />
+                            </div>
+                            <div className="flex flex-col justify-center ml-3">
+                                <span>放棄改動</span>
+                            </div>
+                        </div>
+                    </div>
+
                     {/* 保存按鈕*/}
                     <div className="flex items-center justify-center mx-5" onClick={saveEdit}>
                         <div className="flex bg-themeColor py-3 px-5 rounded-full text-white hover:opacity-50 hover:cursor-pointer">
