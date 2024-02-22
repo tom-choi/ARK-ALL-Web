@@ -159,7 +159,6 @@ const NewActivity = () => {
     // }
     function handleFileChange(event, type) {
         if (type === "cover") {
-            console.log(event.target.files[0]);
             let image = URL.createObjectURL(event.target.files[0]);
             setCoverImage(image);
         } else if (type === "relate") {
@@ -181,11 +180,11 @@ const NewActivity = () => {
     const coverImageRef = useRef();
     const relateImageInputRef = useRef();
 
-    console.log("Start Date Time ", squashDateTime(m_sDate, m_sTime));
-    console.log("End Date ", m_eDate);
+    // console.log("Start Date Time ", squashDateTime(m_sDate, m_sTime));
+    // console.log("End Date ", m_eDate);
 
-    console.log(moment(new Date()).format("YYYY/MM/DD"));
-    console.log(m_sTime);
+    // console.log(moment(new Date()).format("YYYY/MM/DD"));
+    // console.log(m_sTime);
 
     return (
         <>
@@ -223,8 +222,17 @@ const NewActivity = () => {
                     <div className="flex flex-col w-96 h-96 items-center justify-center bg-themeColorUltraLight dark:bg-gray-700 rounded-lg border-4 border-themeColor border-dashed min-h-24 hover:cursor-pointer hover:opacity-50 mb-4"
                         onClick={() => coverImageRef.current.click()}
                     >
-                        <PlusCircleIcon className="w-10 h-10 text-themeColor" />
-                        <h3 className="font-bold text-xl text-themeColor">封面圖片</h3>
+                        {!m_coverImage && (
+                            <div clasName="flex flex-col justify-center">
+                                <div className="flex items-center justify-center mb-2">
+                                    <PlusCircleIcon className="w-10 h-10 text-themeColor" />
+                                </div>
+                                <div>
+                                    <h3 className="font-bold text-xl text-themeColor">封面圖片</h3>
+                                </div>
+                            </div>
+                        )}
+
                         <input
                             type="file"
                             accept=".png"
