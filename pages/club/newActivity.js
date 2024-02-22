@@ -398,12 +398,12 @@ const NewActivity = () => {
                 <div className="flex items-center justify-center my-10">
                     {/* 放棄*/}
                     <div className="flex items-center justify-center mx-5" onClick={giveUpEdit}>
-                        <div className="flex bg-themeColor py-3 px-5 rounded-full text-white hover:opacity-50 hover:cursor-pointer">
+                        <div className="flex bg-alert py-3 px-5 rounded-full text-white hover:opacity-50 hover:cursor-pointer">
                             <div className="flex flex-col justify-center">
-                                <ArrowUpIcon className="w-5 h-5" />
+                                <TrashIcon className="w-5 h-5" />
                             </div>
                             <div className="flex flex-col justify-center ml-3">
-                                <span>放棄改動</span>
+                                <span>清空編輯</span>
                             </div>
                         </div>
                     </div>
