@@ -219,7 +219,14 @@ const NewActivity = () => {
                 </div>
 
                 {/* 基本訊息 + 簡介 */}
-                <div className="lg:grid lg:grid-cols-2 md:block gap-4 items-top justify-center mt-5">
+                <div className={`
+                    lg:grid 
+                    ${m_type == "ACTIVITY" && `lg:grid-cols-2 `}
+                    md:block
+                    gap-4 
+                    items-top 
+                    justify-center mt-5
+                `}>
 
                     {/*開始和結束時間*/}
                     <div className="bg-white dark:bg-gray-800 border-l-4 border-themeColorLight px-5 pt-3 pb-5 rounded-lg drop-shadow-md itmes-center mb-5">
@@ -235,6 +242,7 @@ const NewActivity = () => {
                                 類型:
                             </span>
                             <select className="text-lg border-4 border-themeColor rounded-lg p-2"
+                                defaultValue={m_type}
                                 onChangeCapture={(event) => setType(event.target.value)}>
                                 <option value="ACTIVITY">{activityTypeMap['ACTIVITY']}</option>
                                 <option value="WEBSITE">{activityTypeMap['WEBSITE']}</option>
@@ -305,60 +313,59 @@ const NewActivity = () => {
                                 </input>
                             </div>
                         )}
-
-
-
-
-
                     </div>
 
-                    {/*活動介紹*/}
+                    {m_type == "ACTIVITY" && (
+                        //{/*活動介紹*/ }
+                        <div className="bg-white dark:bg-gray-800 border-l-4 border-themeColorLight px-5 pt-3 pb-5 rounded-lg drop-shadow-md itmes-center mb-5">
+                            {/*標題*/}
+                            <div className="mb-3">
+                                <h3 className="text-xl font-bold text-themeColor">簡介</h3>
+                            </div>
+                            <textarea
+                                placeholder={"簡介"}
+                                defaultValue={m_intro ? m_intro : ""}
+                                className="text-lg block w-full border-4 border-themeColor rounded-lg p-2 resize-none min-h-32"
+                                rows="10"
+                                onChangeCapture={(event) => setIntro(event.target.value)}>
+                            </textarea>
+                        </div>
+                    )}
+                </div>
+
+                {m_type == "ACTIVITY" && (
+                    // {/*相關圖片*/}
                     <div className="bg-white dark:bg-gray-800 border-l-4 border-themeColorLight px-5 pt-3 pb-5 rounded-lg drop-shadow-md itmes-center mb-5">
-                        {/*標題*/}
                         <div className="mb-3">
-                            <h3 className="text-xl font-bold text-themeColor">簡介</h3>
+                            <h3 className="text-xl font-bold text-themeColor">相關圖片</h3>
                         </div>
-                        <textarea
-                            placeholder={"簡介"}
-                            defaultValue={m_intro ? m_intro : ""}
-                            className="text-lg block w-full border-4 border-themeColor rounded-lg p-2 resize-none min-h-32"
-                            rows="10"
-                            onChangeCapture={(event) => setIntro(event.target.value)}>
-                        </textarea>
-                    </div>
-                </div>
+                        <div className="lg:grid lg:grid-cols-4 md:block lg:gap-4 items-top justify-center mt-5">
 
-                {/*相關圖片*/}
-                <div className="bg-white dark:bg-gray-800 border-l-4 border-themeColorLight px-5 pt-3 pb-5 rounded-lg drop-shadow-md itmes-center mb-5">
-                    <div className="mb-3">
-                        <h3 className="text-xl font-bold text-themeColor">相關圖片</h3>
-                    </div>
-                    <div className="lg:grid lg:grid-cols-4 md:block lg:gap-4 items-top justify-center mt-5">
+                            {/* 添加圖片模塊 */}
+                            <div className="flex flex-col items-center justify-center bg-themeColorUltraLight dark:bg-gray-700 rounded-lg border-4 border-themeColor border-dashed min-h-24 hover:cursor-pointer hover:opacity-50 mb-4"
+                                onClick={() => relateImageInputRef.current.click()}>
+                                <PlusCircleIcon className="w-10 h-10 text-themeColor" />
+                                <input
+                                    type="file"
+                                    accept=".png "
+                                    ref={relateImageInputRef}
+                                    onChange={event => handleFileChange(event, "relate")}
+                                    className="flex w-full h-full hidden"
+                                    multiple
+                                />
+                            </div>
+                        </div>
 
-                        {/* 添加圖片模塊 */}
-                        <div className="flex flex-col items-center justify-center bg-themeColorUltraLight dark:bg-gray-700 rounded-lg border-4 border-themeColor border-dashed min-h-24 hover:cursor-pointer hover:opacity-50 mb-4"
-                            onClick={() => relateImageInputRef.current.click()}>
-                            <PlusCircleIcon className="w-10 h-10 text-themeColor" />
-                            <input
-                                type="file"
-                                accept=".png "
-                                ref={relateImageInputRef}
-                                onChange={event => handleFileChange(event, "relate")}
-                                className="flex w-full h-full hidden"
-                                multiple
-                            />
+                        {/* 添加的圖片名稱，編輯時展示 */}
+                        <div>
+                            <div className="flex items-center">
+                                <p className="font-bold text-lg">
+                                    添加的圖片：
+                                </p>
+                            </div>
                         </div>
                     </div>
-
-                    {/* 添加的圖片名稱，編輯時展示 */}
-                    <div>
-                        <div className="flex items-center">
-                            <p className="font-bold text-lg">
-                                添加的圖片：
-                            </p>
-                        </div>
-                    </div>
-                </div>
+                )}
 
                 <div className="flex items-center justify-center my-10">
                     {/* 放棄*/}
