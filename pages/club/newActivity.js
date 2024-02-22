@@ -26,6 +26,13 @@ const returnToClubInfo = () => {
     window.location.href = "./clubInfo";
 }
 
+// 活動類型映射
+const activityTypeMap = {
+    "ACTIVITY": "普通活動",
+    "OFFICIAL": "澳大官方",
+    "WEBSITE": "網頁"
+};
+
 const NewActivity = () => {
     /*--------------------------------一般-------------------------------*/
 
@@ -41,12 +48,7 @@ const NewActivity = () => {
     const [m_eTime, setEndTime] = useState(null);     // 結束時間
 
     const [m_location, setLocation] = useState(null);     // 地點
-    const [m_type, setType] = useState(null);             // 活動類型
-    const activityTypeMap = {                             // 活動類型映射
-        "ACTIVITY": "普通活動",
-        "OFFICIAL": "澳大官方",
-        "WEBSITE": "網頁"
-    };
+    const [m_type, setType] = useState("ACTIVITY");             // 活動類型
 
     // 簡介
     const [m_intro, setIntro] = useState(null);
@@ -67,15 +69,15 @@ const NewActivity = () => {
         // 數據匯總
         let createdActivityInfo = {
             m_title: m_title,
-            m_coverImage: m_coverImage,
-            m_startDate: m_sDate,
-            m_startTime: m_sTime,
-            m_endDate: m_eDate,
-            m_endTime: m_eTime,
+            //m_coverImage: m_coverImage,
+            m_sDate: m_sDate,
+            m_sTime: m_sTime,
+            m_eDate: m_eDate,
+            m_eTime: m_eTime,
             m_location: m_location,
             m_type: m_type,
             m_intro: m_intro,
-            m_relatedImages: m_relatedImages
+            //m_relatedImages: m_relatedImages
         }
 
         // 存儲至localStorage
@@ -87,7 +89,7 @@ const NewActivity = () => {
     const giveUpEdit = () => {
         // 將localStorage中的相關數據清空
         localStorage.removeItem("createdActivityInfo");
-        window.refresh();
+        location.reload();
         window.alert("本地保存已清空！");
     }
 
@@ -109,7 +111,7 @@ const NewActivity = () => {
         if (createdActivityInfo) {
             // 封面和標題
             createdActivityInfo.m_title && setTitle(createdActivityInfo.m_title);
-            createdActivityInfo.m_coverImage && setCoverImage(createdActivityInfo.m_coverImage);
+            //createdActivityInfo.m_coverImage && setCoverImage(createdActivityInfo.m_coverImage);
 
             // 基本訊息
             createdActivityInfo.m_sDate && setStartDate(createdActivityInfo.m_sDate);
@@ -123,7 +125,7 @@ const NewActivity = () => {
             createdActivityInfo.m_intro && setIntro(createdActivityInfo.m_intro);
 
             // 相關圖片
-            createdActivityInfo.m_relatedImages && setRelatedImages(createdActivityInfo.m_relatedImages);
+            //createdActivityInfo.m_relatedImages && setRelatedImages(createdActivityInfo.m_relatedImages);
         }
     }
 
@@ -143,11 +145,15 @@ const NewActivity = () => {
     //     console.log(JSON.stringify(m_relatedImages));
     // }
     // }
-    function handleFileChange(e, type) {
+    function handleFileChange(event, type) {
         if (type === "cover") {
+            console.log(event.target.files[0]);
             setCoverImage(event.target.files[0]);
-            console.log(m_coverImage);
+        } else if (type === "relate") {
+            console.log(event.target.files);
+            setRelatedImages(event.target.files);
         }
+        console.log('type', type);
     }
 
     /*---------------------------------初始化----------------------------------*/
@@ -218,6 +224,18 @@ const NewActivity = () => {
                             <h3 className="text-xl font-bold text-themeColor">基本訊息</h3>
                         </div>
 
+                        {/* 活動類型*/}
+                        <div className="flex items-center mb-5">
+                            <span className="text-themeColor font-bold mr-5">
+                                類型:
+                            </span>
+                            <select className="text-lg border-4 border-themeColor rounded-lg p-2"
+                                onChangeCapture={(event) => setType(event.target.value)}>
+                                <option value="ACTIVITY">{activityTypeMap['ACTIVITY']}</option>
+                                <option value="WEBSITE">{activityTypeMap['WEBSITE']}</option>
+                            </select>
+                        </div>
+
                         {/* 開始時間*/}
                         <div className="mb-5">
                             <span className="text-themeColor font-bold mr-5">
@@ -254,6 +272,7 @@ const NewActivity = () => {
                         </div>
 
                         {/* 地點 */}
+
                         <div className="mb-5">
                             <span className="text-themeColor font-bold mr-5">
                                 地點:
@@ -266,18 +285,8 @@ const NewActivity = () => {
                             </input>
                         </div>
 
-                        {/* 活動類型*/}
-                        <div className="flex items-center">
-                            <span className="text-themeColor font-bold mr-5">
-                                類型:
-                            </span>
-                            <select className="text-lg border-4 border-themeColor rounded-lg p-2"
-                                onChangeCapture={(event) => setType(event.target.value)}>
-                                <option value="ACTIVITY">{activityTypeMap['ACTIVITY']}</option>
-                                <option value="OFFICIAL">{activityTypeMap['OFFICIAL']}</option>
-                                <option value="WEBSITE">{activityTypeMap['WEBSITE']}</option>
-                            </select>
-                        </div>
+
+
 
                     </div>
 
