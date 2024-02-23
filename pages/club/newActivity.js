@@ -60,16 +60,29 @@ const NewActivity = () => {
 
 
     /* -------------------------------編輯狀態--------------------------------*/
-    const isEditValid = () => {
+    const isEditValidToSave = () => {
+        let sDateTime = squashDateTime(m_sDate, m_sTime);
+        let eDateTime = squashDateTime(m_eDate, m_eTime);
+        let b = moment(sDateTime).isSameOrBefore(eDateTime);
+        if (!b) {
+            window.alert("開始時間必須在結束時間之前！");
+        }
+        return b;
+    }
+
+    const isEditValidToUpload = () => {
         // 除了“相關圖片”以外均是必須的
         return m_title && m_coverImage && m_sDate && m_sTime && m_eDate && m_eTime && m_location && m_type && m_intro;
     }
+
 
     const squashDateTime = (date, time) => {
         return date + "T" + time;
     }
 
     const saveEdit = () => {
+        if (!isEditValidToSave())
+            return;
         // 將數據匯總並存儲至localStorage
 
         // 數據匯總
@@ -101,7 +114,7 @@ const NewActivity = () => {
     }
 
     const uploadEdit = () => {
-        if (!isEditValid()) {
+        if (!isEditValidToUpload()) {
             window.alert("請檢查内容！");
             return;
         }
