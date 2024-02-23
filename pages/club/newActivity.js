@@ -215,13 +215,9 @@ const NewActivity = () => {
     // 返回社團詳情頁
     const returnToClubInfo = () => {
         if (m_isEdited) {
-            let isUserConfirmExit = confirm("您有未緩存的編輯！是否緩存？");
-            if (!isUserConfirmExit) {
-                return;
-            }
-            saveEdit();
+            let isUserConfirmExit = confirm("您有未緩存的編輯！退出會導致編輯失效！是否保存後退出？");
+            isUserConfirmExit && saveEdit();    // 用戶選擇保存
         }
-
         window.location.href = "./clubInfo";
     }
     /*---------------------------------初始化----------------------------------*/
