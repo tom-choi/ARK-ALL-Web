@@ -22,10 +22,7 @@ import ThemeChanger from '../../components/DarkSwitch';
 import LanguageSwitcher from '../../components/LanguageSwitcher';
 import Footer from "../../components/footer";
 
-// 返回社團詳情頁
-const returnToClubInfo = () => {
-    window.location.href = "./clubInfo";
-}
+
 
 // 活動類型映射
 const activityTypeMap = {
@@ -36,6 +33,9 @@ const activityTypeMap = {
 
 const NewActivity = () => {
     /*--------------------------------一般-------------------------------*/
+    /*
+        注：這裡的“是否編輯過”指的是修改過的信息是否存儲到本地了，跟雲端無關。
+    */
     const [m_isEdited, setIsEdited] = useState(false);
 
     /* -------------------------------狀態數據--------------------------------*/
@@ -105,6 +105,7 @@ const NewActivity = () => {
     const saveEdit = () => {
         if (!isEditValidToSave())
             return;
+
         // 將數據匯總並存儲至localStorage
 
         // 數據匯總
@@ -125,14 +126,21 @@ const NewActivity = () => {
         // 存儲至localStorage
         localStorage.setItem("createdActivityInfo", JSON.stringify(createdActivityInfo));
 
+        // 窗口提示
         window.alert("本地保存成功！");
+
+        // 重置編輯狀態
+        setIsEdited(false);
     }
 
     const discardEdit = () => {
         // 將localStorage中的相關數據清空
         localStorage.removeItem("createdActivityInfo");
         location.reload();
+        // 窗口提示
         window.alert("本地保存已清空！");
+        // 重置編輯狀態
+        setIsEdited(false);
     }
 
     const uploadEdit = () => {
@@ -203,7 +211,19 @@ const NewActivity = () => {
         }
         console.log('type', type);
     }
+    /*---------------------------------頁間導航--------------------------------*/
+    // 返回社團詳情頁
+    const returnToClubInfo = () => {
+        if (m_isEdited) {
+            let isUserConfirmExit = confirm("您有未緩存的編輯！是否緩存？");
+            if (!isUserConfirmExit) {
+                return;
+            }
+            saveEdit();
+        }
 
+        window.location.href = "./clubInfo";
+    }
     /*---------------------------------初始化----------------------------------*/
     useEffect(() => {
         // TODO:初始化狀態數據,檢查localStorage中是否有保存編輯内容。
