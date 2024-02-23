@@ -156,30 +156,28 @@ const NewActivity = () => {
 
     /* -------------------------------圖片文件--------------------------------*/
     // 上傳相關圖片
-
-    // 獲取選擇的文件並存儲File Object與state
-    // const handleFileChange = (event, type) => {
-    // const handleFileChange = ({ event }) => {
-    //從File Input元素中獲取選中的文件
-    // if (type === "cover") {
-    //     setCoverImage(event.target.files[0]);
-    //     console.log(m_coverImage);
-    // }
-    // else if (type === "relate") {
-    //     setRelatedImages(event.target.files);
-    //     console.log(JSON.stringify(m_relatedImages));
-    // }
-    // }
     function handleFileChange(event, type) {
         if (type === "cover") {
+            // 封面圖片
             let image = URL.createObjectURL(event.target.files[0]);
             setCoverImage(image);
         } else if (type === "relate") {
-            let imgArr = event.target.files;
-            imgArr.map(i => {
-                console.log(i);
+            // 相關圖片
+            // 生數組，File Object
+            let imgRawArr = event.target.files;
+            imgRawArr = Array.prototype.slice.call(imgRawArr);    // 偽數組改成真數組
+            // 熟數組，File URL
+            let imgURLArr = [];
+            imgRawArr.map(image => {
+                let imgURL = URL.createObjectURL(image);
+                imgURLArr.push(imgURL);
+                console.log(imgURL);
             })
-            setRelatedImages(event.target.files);
+            // 數組中已經有數據，就插入，不把原來的替換掉了
+            if (m_relatedImages && m_relatedImages instanceof Array) {
+                imgURLArr = m_relatedImages.concat(imgURLArr);
+            }
+            setRelatedImages(imgURLArr);
         }
         console.log('type', type);
     }
@@ -192,12 +190,6 @@ const NewActivity = () => {
 
     const coverImageRef = useRef();
     const relateImageInputRef = useRef();
-
-    // console.log("Start Date Time ", squashDateTime(m_sDate, m_sTime));
-    // console.log("End Date ", m_eDate);
-
-    // console.log(moment(new Date()).format("YYYY/MM/DD"));
-    // console.log(m_sTime);
 
     return (
         <>
@@ -381,7 +373,14 @@ const NewActivity = () => {
                             <h3 className="text-xl font-bold text-themeColor">相關圖片</h3>
                         </div>
                         <div className="lg:grid lg:grid-cols-4 md:block lg:gap-4 items-top justify-center mt-5">
-
+                            {/* 一般的相關圖片 */}
+                            {m_relatedImages && m_relatedImages.map((item, index) => (
+                                <div key={index} className="flex flex-col mb-4 hover:cursor-pointer hover:opacity-80">
+                                    <a href={item} target="_blank">
+                                        <img src={item} className="rounded-lg" />
+                                    </a>
+                                </div>
+                            ))}
                             {/* 添加圖片模塊 */}
                             <div className="flex flex-col items-center justify-center bg-themeColorUltraLight dark:bg-gray-700 rounded-lg border-4 border-themeColor border-dashed min-h-24 hover:cursor-pointer hover:opacity-50 mb-4"
                                 onClick={() => relateImageInputRef.current.click()}>
