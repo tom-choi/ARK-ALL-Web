@@ -60,6 +60,10 @@ const NewActivity = () => {
 
 
     /* -------------------------------編輯狀態--------------------------------*/
+    const checkIsEdited = () => {
+
+    }
+
     const isEditValidToSave = () => {
         let sDateTime = squashDateTime(m_sDate, m_sTime);
         let eDateTime = squashDateTime(m_eDate, m_eTime);
@@ -191,6 +195,7 @@ const NewActivity = () => {
     const coverImageRef = useRef();
     const relateImageInputRef = useRef();
 
+    /*----------------------------------渲染-----------------------------------*/
     return (
         <>
             <Container>
