@@ -36,6 +36,7 @@ const activityTypeMap = {
 
 const NewActivity = () => {
     /*--------------------------------一般-------------------------------*/
+    const [m_isEdited, setIsEdited] = useState(false);
 
     /* -------------------------------狀態數據--------------------------------*/
     // 標題和封面圖
@@ -43,10 +44,10 @@ const NewActivity = () => {
     const [m_coverImage, setCoverImage] = useState(null);       // 封面圖片
 
     // 基本訊息
-    const [m_sDate, setStartDate] = useState(null);   // 開始日期
-    const [m_sTime, setStartTime] = useState(null);   // 開始時間
-    const [m_eDate, setEndDate] = useState(null);     // 結束日期
-    const [m_eTime, setEndTime] = useState(null);     // 結束時間
+    const [m_sDate, setStartDate] = useState(moment(new Date()).format("YYYY-MM-DD"));   // 開始日期
+    const [m_sTime, setStartTime] = useState(moment(new Date()).format("HH:MM"));   // 開始時間
+    const [m_eDate, setEndDate] = useState(moment(new Date()).format("YYYY-MM-DD"));     // 結束日期
+    const [m_eTime, setEndTime] = useState(moment(new Date()).format("HH:MM"));     // 結束時間
 
     const [m_location, setLocation] = useState(null);     // 地點
     const [m_link, setLink] = useState(null);               // 鏈接
@@ -60,8 +61,25 @@ const NewActivity = () => {
 
 
     /* -------------------------------編輯狀態--------------------------------*/
-    const checkIsEdited = () => {
+    const makeChange = (variable, value) => {
+        setIsEdited(true);
+        console.log(m_isEdited);
 
+        switch (variable) {
+            case "m_title": setTitle(value); break;
+            //case "m_coverImage": setCoverImage(value); break;
+
+            case "m_sDate": setStartDate(value); break;
+            case "m_sTime": setStartTime(value); break;
+            case "m_eDate": setEndDate(value); break;
+            case "m_eTime": setEndTime(value); break;
+
+            case "m_location": setLocation(value); break;
+            case "m_link": setLink(value); break;
+            case "m_type": setType(value); break;
+
+            case "m_intro": setIntro(value); break;
+        }
     }
 
     const isEditValidToSave = () => {
@@ -223,7 +241,7 @@ const NewActivity = () => {
                         placeholder={"活動名稱"}
                         defaultValue={m_title ? m_title : ""}
                         className="text-3xl border-4 border-themeColor rounded-lg h-10 p-2"
-                        onChangeCapture={(event) => setTitle(event.target.value)}>
+                        onChangeCapture={(event) => makeChange("m_title", event.target.value)}>
                     </input>
                 </div>
 
@@ -233,7 +251,7 @@ const NewActivity = () => {
                         onClick={() => coverImageRef.current.click()}
                     >
                         {!m_coverImage && (
-                            <div clasName="flex flex-col justify-center">
+                            <div className="flex flex-col justify-center">
                                 <div className="flex items-center justify-center mb-2">
                                     <PlusCircleIcon className="w-10 h-10 text-themeColor" />
                                 </div>
@@ -281,7 +299,7 @@ const NewActivity = () => {
                             </span>
                             <select className="text-lg border-4 border-themeColor rounded-lg p-2"
                                 value={m_type}
-                                onChangeCapture={(event) => setType(event.target.value)}>
+                                onChange={(event) => makeChange("m_type", event.target.value)}>
                                 <option value="ACTIVITY">{activityTypeMap['ACTIVITY']}</option>
                                 <option value="WEBSITE">{activityTypeMap['WEBSITE']}</option>
                             </select>
@@ -296,12 +314,12 @@ const NewActivity = () => {
                                 type="date"
                                 defaultValue={m_sDate ? m_sDate : moment(new Date()).format("YYYY-MM-DD")}
                                 className="text-lg border-4 border-themeColor rounded-lg h-10 p-2 mr-3"
-                                onChangeCapture={(event) => setStartDate(event.target.value)} />
+                                onChangeCapture={(event) => makeChange("m_sDate", event.target.value)} />
                             <input
                                 type="time"
                                 defaultValue={m_sTime ? m_sTime : moment(new Date()).format("HH:MM")}
                                 className="text-lg border-4 border-themeColor rounded-lg h-10 p-2 mr-3"
-                                onChangeCapture={(event) => setStartTime(event.target.value)} />
+                                onChangeCapture={(event) => makeChange("m_sTime", event.target.value)} />
                         </div>
 
                         {/* 結束時間*/}
@@ -313,12 +331,12 @@ const NewActivity = () => {
                                 type="date"
                                 defaultValue={m_eDate ? m_eDate : moment(new Date()).format("YYYY-MM-DD")}
                                 className="text-lg border-4 border-themeColor rounded-lg h-10 p-2 mr-3"
-                                onChangeCapture={(event) => setEndDate(event.target.value)} />
+                                onChangeCapture={(event) => makeChange("m_eDate", event.target.value)} />
                             <input
                                 type="time"
                                 defaultValue={m_eTime ? m_eTime : moment(new Date()).format("HH:MM")}
                                 className="text-lg border-4 border-themeColor rounded-lg h-10 p-2 mr-3"
-                                onChangeCapture={(event) => setEndTime(event.target.value)}
+                                onChangeCapture={(event) => makeChange("m_eTime", event.target.value)}
                             />
                         </div>
 
@@ -332,7 +350,7 @@ const NewActivity = () => {
                                     placeholder={"地點"}
                                     defaultValue={m_location ? m_location : ""}
                                     className="text-lg border-4 border-themeColor rounded-lg h-10 p-2"
-                                    onChangeCapture={(event) => setLocation(event.target.value)}>
+                                    onChangeCapture={(event) => makeChange("m_location", event.target.value)}>
                                 </input>
                             </div>
                         )}
@@ -347,7 +365,7 @@ const NewActivity = () => {
                                     placeholder={"鏈接"}
                                     defaultValue={m_location ? m_location : ""}
                                     className="text-lg border-4 border-themeColor rounded-lg h-10 p-2"
-                                    onChangeCapture={(event) => setLocation(event.target.value)}>
+                                    onChangeCapture={(event) => makeChange("m_link", event.target.value)}>
                                 </input>
                             </div>
                         )}
@@ -365,7 +383,7 @@ const NewActivity = () => {
                                 defaultValue={m_intro ? m_intro : ""}
                                 className="text-lg block w-full border-4 border-themeColor rounded-lg p-2 resize-none min-h-32"
                                 rows="10"
-                                onChangeCapture={(event) => setIntro(event.target.value)}>
+                                onChangeCapture={(event) => makeChange("m_intro", event.target.value)}>
                             </textarea>
                         </div>
                     )}
@@ -401,14 +419,6 @@ const NewActivity = () => {
                             </div>
                         </div>
 
-                        {/* 添加的圖片名稱，編輯時展示 */}
-                        <div>
-                            <div className="flex items-center">
-                                <p className="font-bold text-lg">
-                                    添加的圖片：
-                                </p>
-                            </div>
-                        </div>
                     </div>
                 )}
 
