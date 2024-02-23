@@ -110,7 +110,7 @@ const NewActivity = () => {
         window.alert("本地保存成功！");
     }
 
-    const giveUpEdit = () => {
+    const discardEdit = () => {
         // 將localStorage中的相關數據清空
         localStorage.removeItem("createdActivityInfo");
         location.reload();
@@ -414,7 +414,7 @@ const NewActivity = () => {
 
                 <div className="flex items-center justify-center my-10">
                     {/* 放棄*/}
-                    <div className="flex items-center justify-center mx-5" onClick={giveUpEdit}>
+                    <div className="flex items-center justify-center mx-5" onClick={discardEdit}>
                         <div className="flex bg-alert py-3 px-5 rounded-full text-white hover:opacity-50 hover:cursor-pointer">
                             <div className="flex flex-col justify-center">
                                 <TrashIcon className="w-5 h-5" />
