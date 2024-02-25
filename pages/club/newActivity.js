@@ -216,9 +216,9 @@ const NewActivity = () => {
             setCoverImage(imgFileObj);
         } else if (type === "relate") {
             // 相關圖片
-            // 生數組，File Object
             let imgRawArr = event.target.files;
             let imgArr = [];
+
             Object.keys(imgRawArr).map(
                 key => {
                     imgArr.push(imgRawArr[key]);
@@ -231,7 +231,7 @@ const NewActivity = () => {
             }
 
             // 選擇圖片不能超過4張
-            if (imgArr.length >= 4) {
+            if (imgArr.length > 4) {
                 window.alert("選擇圖片不能超過4張");
                 return;
             }
