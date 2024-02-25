@@ -95,7 +95,29 @@ const NewActivity = () => {
 
     const isEditValidToUpload = () => {
         // 除了“相關圖片”以外均是必須的
-        return m_title && m_coverImage && m_sDate && m_sTime && m_eDate && m_eTime && m_location && m_type && m_intro;
+        let isCommonDataFulfilled = (
+            m_title && m_coverImage && m_sDate && m_sTime && m_eDate && m_eTime && m_type
+        );
+
+        if (!isCommonDataFulfilled) {
+            window.alert("標題、封面、開始和結束的時間以及活動類型是必填項目！");
+            return false;
+        }
+
+        let isLinkOrIntroFulfilled = m_type == "ACTIVITY" ? m_intro : m_link;
+
+        if (!isLinkOrIntroFulfilled) {
+            let hint = m_type == "ACTIVITY" ? "活動簡介" : "活動連結";
+            window.alert(hint + "為必填項目");
+            return false;
+        }
+
+        let isLocationFulfilled = m_type == "WEBSITE" || m_location;
+
+        if (!isLocationFulfilled) {
+            window.alert("地點為必填項目");
+            return false;
+        }
     }
 
 
@@ -146,9 +168,9 @@ const NewActivity = () => {
 
     const uploadEdit = async () => {
         if (!isEditValidToUpload()) {
-            window.alert("請檢查内容！");
             return;
         }
+
         // 預處理一些數據
         let s_DateTime = squashDateTime(m_sDate, m_sTime, 'T');
         let e_DateTime = squashDateTime(m_eDate, m_eTime, 'T');
@@ -161,6 +183,9 @@ const NewActivity = () => {
 
         // 圖片
         data.append('cover_image_file', m_coverImage);
+        m_relatedImages.map(image => {
+            data.append('add_relate_image', image);
+        });
 
 
         // 開始和結束時間
@@ -173,7 +198,8 @@ const NewActivity = () => {
 
         // 
         let URL = BASE_URI + POST.EVENT_CREATE;
-        await axios.post().then().catch();
+        console.log(data);
+        //await axios.post().then().catch();
     }
 
     const restoreEdits = () => {
@@ -512,7 +538,7 @@ const NewActivity = () => {
                     </div>
 
                     {/* 上傳*/}
-                    <div className="flex items-center justify-center mx-5" onClick={saveEdit}>
+                    <div className="flex items-center justify-center mx-5" onClick={uploadEdit}>
                         <div className="flex bg-themeColor py-3 px-5 rounded-full text-white hover:opacity-50 hover:cursor-pointer">
                             <div className="flex flex-col justify-center">
                                 <ArrowUpIcon className="w-5 h-5" />
