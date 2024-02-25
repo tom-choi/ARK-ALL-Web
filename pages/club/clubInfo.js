@@ -17,6 +17,7 @@ import Navbar from '../../components/navbar';
 import ThemeChanger from '../../components/DarkSwitch';
 import LanguageSwitcher from '../../components/LanguageSwitcher';
 import Footer from "../../components/footer";
+import { customSettings } from '../../utils/settings';
 
 
 const returnToMain = () => {
@@ -123,22 +124,32 @@ const ClubInfo = () => {
             </title>
             <Container>
                 {/* 頂欄*/}
-                <div className="flex justify-between items-center mb-10">
-                    <div className="flex items-center  text-themeColor text-xl font-bold">
-                        <div className="flex flex-col justify-center">
-                            <ChevronLeftIcon className="w-5 h-5" />
+                <div className="w-full mb-5">
+                    {/* 選項*/}
+                    <div className="flex justify-between items-center mb-10">
+                        <div className="flex items-center  text-themeColor text-xl font-bold">
+                            <div className="flex flex-col justify-center">
+                                <ChevronLeftIcon className="w-5 h-5" />
+                            </div>
+                            <div
+                                className=" hover:cursor-pointer hover:opacity-50"
+                                onClick={returnToMain}>
+                                返回主頁
+                            </div>
                         </div>
-                        <div
-                            className=" hover:cursor-pointer hover:opacity-50"
-                            onClick={returnToMain}>
-                            返回主頁
+                        <div className="hidden mr-3 space-x-4 lg:flex nav__item">
+                            <ThemeChanger />
+                            <LanguageSwitcher />
                         </div>
                     </div>
-                    <div className="hidden mr-3 space-x-4 lg:flex nav__item">
-                        <ThemeChanger />
-                        <LanguageSwitcher />
-                    </div>
+                    {/* 本地測試警告 */}
+                    {customSettings.is_local_test && (
+                        <div className="bg-alert pl-3 py-2">
+                            <p><strong>警告:</strong> 您現在使用的是本地服務器。</p>
+                        </div>
+                    )}
                 </div>
+
 
                 {/* 歡迎詞 */}
                 <div>
