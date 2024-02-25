@@ -270,7 +270,7 @@ const ClubInfo = () => {
                         <h3 className="text-xl font-bold text-themeColor">社團活動</h3>
                     </div>
                     {/* 渲染活動格子*/}
-                    <div className="grid xl:grid-cols-5 lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-1 gap-4 ">
+                    <div className="grid 2xl:grid-cols-5 lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-1 gap-4 ">
                         {clubActivities ? (
                             // 渲染單個活動模塊
                             clubActivities.map((item, index) => (
@@ -278,7 +278,6 @@ const ClubInfo = () => {
                                     key={index}
                                     className="bg-themeColorUltraLight dark:bg-gray-800 flex flex-col p-3 rounded-lg mx-auto hover:cursor-pointer hover:border-4 hover:border-themeColor hover:shadow-lg"
                                     onClick={event => onClickActivityCard(event, item)}>
-
 
                                     <div className="flex flex-col lg:w-48 xl:w-64 md:w-48 sm:w-64 items-center">
                                         {/*活動封面*/}
