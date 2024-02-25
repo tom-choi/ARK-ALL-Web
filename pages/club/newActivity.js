@@ -218,18 +218,25 @@ const NewActivity = () => {
             // 相關圖片
             // 生數組，File Object
             let imgRawArr = event.target.files;
-            imgRawArr = Array.prototype.slice.call(imgRawArr);    // 偽數組改成真數組
-            // 熟數組，File URL
-            let imgURLArr = [];
-            imgRawArr.map(image => {
-                //let imgURL = URL.createObjectURL(image);
-                imgURLArr.push(image);
-            })
+            let imgArr = [];
+            Object.keys(imgRawArr).map(
+                key => {
+                    imgArr.push(imgRawArr[key]);
+                }
+            );
+
             // 數組中已經有數據，就插入，不把原來的替換掉了
             if (m_relatedImages && m_relatedImages instanceof Array) {
-                imgURLArr = m_relatedImages.concat(imgURLArr);
+                imgArr = m_relatedImages.concat(imgArr);
             }
-            setRelatedImages(imgURLArr);
+
+            // 選擇圖片不能超過4張
+            if (imgArr.length >= 4) {
+                window.alert("選擇圖片不能超過4張");
+                return;
+            }
+
+            setRelatedImages(imgArr);
         }
         console.log('type', type);
     }
