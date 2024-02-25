@@ -8,7 +8,7 @@ import { useTranslation } from "react-i18next";
 
 import { useRouter } from 'next/router';
 
-import { settings } from '../utils/settings';
+import { customSettings } from '../utils/settings';
 
 const Navbar = () => {
 
@@ -131,7 +131,7 @@ const Navbar = () => {
           <LanguageSwitcher />
         </div>
       </nav>
-      {settings.is_local_test && (
+      {customSettings.is_local_test && (
         <div className="bg-alert pl-3 py-2">
           <p><strong>警告:</strong> 您現在使用的是本地服務器。</p>
         </div>
