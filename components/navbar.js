@@ -132,8 +132,8 @@ const Navbar = () => {
         </div>
       </nav>
       {settings.is_local_test && (
-        <div className="bg-alert pl-3">
-          <p><strong>Warning:</strong> This is a local test server.</p>
+        <div className="bg-alert pl-3 py-2">
+          <p><strong>警告:</strong> 您現在使用的是本地服務器。</p>
         </div>
       )}
     </div>

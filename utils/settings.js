@@ -1,3 +1,3 @@
 export const settings = {
-    is_local_test: false,
+    is_local_test: true,
 };
