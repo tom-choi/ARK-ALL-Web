@@ -290,6 +290,15 @@ const NewActivity = () => {
                     </div>
                 </div>
 
+                {/* 編輯提示 */}
+                <div className="font-bold">
+                    {m_isEdited ? (
+                        <p className="text-warning">您有未保存的編輯！</p>
+                    ) : (
+                        <p className="text-success">所有編輯已保存到本地，記得上傳！</p>
+                    )}
+                </div>
+
                 {/* 基本訊息 + 簡介 */}
                 <div className={`
                     lg:grid 
