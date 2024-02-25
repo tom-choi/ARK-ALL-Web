@@ -87,7 +87,7 @@ const NewActivity = () => {
         let eDateTime = squashDateTime(m_eDate, m_eTime);
         let b = moment(sDateTime).isSameOrBefore(eDateTime);
         if (!b) {
-            window.alert("開始時間必須在結束時間之前！");
+            window.alert("結束時間應該在開始時間之後！");
         }
         return b;
     }
