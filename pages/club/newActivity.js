@@ -99,8 +99,8 @@ const NewActivity = () => {
     }
 
 
-    const squashDateTime = (date, time) => {
-        return date + "T" + time;
+    const squashDateTime = (date, time, divider = " ") => {
+        return date + divider + time;
     }
 
     const saveEdit = () => {
@@ -144,16 +144,36 @@ const NewActivity = () => {
         setIsEdited(false);
     }
 
-    const uploadEdit = () => {
+    const uploadEdit = async () => {
         if (!isEditValidToUpload()) {
             window.alert("請檢查内容！");
             return;
         }
         // 預處理一些數據
-        let s_DateTIme = squashDateTime(m_sDate, m_sTime);
-        let e_DateTime = squashDateTime(m_eDate, m_eTime);
+        let s_DateTime = squashDateTime(m_sDate, m_sTime, 'T');
+        let e_DateTime = squashDateTime(m_eDate, m_eTime, 'T');
 
         // 將本地存儲的編輯數據上傳至伺服器
+        let data = new FormData();
+        data.append('title', m_title);
+        data.append('type', m_type.toUpperCase());
+        data.append('link', m_link);
+
+        // 圖片
+        data.append('cover_image_file', m_coverImage);
+
+
+        // 開始和結束時間
+        data.append('startdatetime', s_DateTime);
+        data.append('enddatetime', e_DateTime);
+
+        data.append('location', m_location);
+        data.append('introduction', m_intro);
+        data.append('cann_follow', true);
+
+        // 
+        let URL = BASE_URI + POST.EVENT_CREATE;
+        await axios.post().then().catch();
     }
 
     const restoreEdits = () => {
@@ -185,13 +205,15 @@ const NewActivity = () => {
         }
     }
 
+
     /* -------------------------------圖片文件--------------------------------*/
     // 上傳相關圖片
     function handleFileChange(event, type) {
         if (type === "cover") {
             // 封面圖片
-            let image = URL.createObjectURL(event.target.files[0]);
-            setCoverImage(image);
+            //let image = URL.createObjectURL(event.target.files[0]);
+            let imgFileObj = event.target.files[0];
+            setCoverImage(imgFileObj);
         } else if (type === "relate") {
             // 相關圖片
             // 生數組，File Object
@@ -200,9 +222,8 @@ const NewActivity = () => {
             // 熟數組，File URL
             let imgURLArr = [];
             imgRawArr.map(image => {
-                let imgURL = URL.createObjectURL(image);
-                imgURLArr.push(imgURL);
-                console.log(imgURL);
+                //let imgURL = URL.createObjectURL(image);
+                imgURLArr.push(image);
             })
             // 數組中已經有數據，就插入，不把原來的替換掉了
             if (m_relatedImages && m_relatedImages instanceof Array) {
@@ -293,9 +314,11 @@ const NewActivity = () => {
                             onChange={(event) => handleFileChange(event, "cover")}
                             className="flex w-full h-full hidden"
                         />
-                        <img
-                            src={m_coverImage}
-                        />
+                        {m_coverImage && (
+                            <img
+                                src={URL.createObjectURL(m_coverImage)}
+                            />
+                        )}
                     </div>
                 </div>
 
@@ -433,8 +456,8 @@ const NewActivity = () => {
                             {/* 一般的相關圖片 */}
                             {m_relatedImages && m_relatedImages.map((item, index) => (
                                 <div key={index} className="flex flex-col mb-4 hover:cursor-pointer hover:opacity-80">
-                                    <a href={item} target="_blank">
-                                        <img src={item} className="rounded-lg" />
+                                    <a href={URL.createObjectURL(item)} target="_blank">
+                                        <img src={URL.createObjectURL(item)} className="rounded-lg" />
                                     </a>
                                 </div>
                             ))}
