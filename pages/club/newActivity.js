@@ -118,6 +118,8 @@ const NewActivity = () => {
             window.alert("地點為必填項目");
             return false;
         }
+
+        return true;
     }
 
 
@@ -167,7 +169,9 @@ const NewActivity = () => {
     }
 
     const uploadEdit = async () => {
+
         if (!isEditValidToUpload()) {
+
             return;
         }
 
@@ -183,10 +187,13 @@ const NewActivity = () => {
 
         // 圖片
         data.append('cover_image_file', m_coverImage);
-        m_relatedImages.map(image => {
-            data.append('add_relate_image', image);
-        });
-
+        if (m_relatedImages) {
+            m_relatedImages.map(image => {
+                data.append('add_relate_image', image);
+            });
+        } else {
+            data.append('add_relate_image', "[]");
+        }
 
         // 開始和結束時間
         data.append('startdatetime', s_DateTime);
@@ -198,8 +205,24 @@ const NewActivity = () => {
 
         // 
         let URL = BASE_URI + POST.EVENT_CREATE;
-        console.log(data);
-        //await axios.post().then().catch();
+        console.log("POST URL:", URL);
+        await axios.post(URL, data, {
+            headers: {
+                'Content-Type': "multipart/form-data",
+                "Access-Control-Allow-Origin": "*",
+            },
+        }).then(res => {
+            let json = res.data;
+            console.log(json);
+            if (json.message == 'success') {
+                alert('上傳成功！');
+            } else {
+                alert('上傳失敗！');
+            }
+        }).catch(err => {
+            console.log(err);
+            alert('請求錯誤，請檢查網路。');
+        });
     }
 
     const restoreEdits = () => {

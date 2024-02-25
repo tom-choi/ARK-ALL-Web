@@ -2,9 +2,9 @@
 import { customSettings } from "./settings";
 
 // 服務器基地址，其他分地址可以直接寫'/bus'、'/login'
-export const BASE_URI = customSettings.is_local_test ? 'http://127.0.0.1:8000/api/' : 'https://umall.one/api/';
+export const BASE_URI = customSettings.is_local_test ? 'http://localhost:8000/api/' : 'https://umall.one/api/';
 // 用適配API返回的圖片相對路徑
-export const BASE_HOST = customSettings.is_local_test ? 'http://127.0.0.1:8000' : 'https://umall.one';
+export const BASE_HOST = customSettings.is_local_test ? 'http://localhost:8000' : 'https://umall.one';
 
 export const APPSTORE_URL = 'https://apps.apple.com/us/app/um-all/id1636670554';
 
