@@ -24,7 +24,6 @@ import Footer from "../../components/footer";
 import { customSettings } from '../../utils/settings';
 
 
-
 // 活動類型映射
 const activityTypeMap = {
     "ACTIVITY": "普通活動",
@@ -183,7 +182,7 @@ const NewActivity = () => {
         let data = new FormData();
         data.append('title', m_title);
         data.append('type', m_type.toUpperCase());
-        data.append('link', m_link);
+        data.append('link', m_link ? m_link : "");
 
         // 圖片
         data.append('cover_image_file', m_coverImage);
@@ -199,21 +198,15 @@ const NewActivity = () => {
         data.append('startdatetime', s_DateTime);
         data.append('enddatetime', e_DateTime);
 
-        data.append('location', m_location);
+        data.append('location', m_location ? m_location : "");
         data.append('introduction', m_intro);
-        data.append('cann_follow', true);
+        data.append('can_follow', 'true');
 
-        // 
         let URL = BASE_URI + POST.EVENT_CREATE;
-        console.log("POST URL:", URL);
         await axios.post(URL, data, {
-            headers: {
-                'Content-Type': "multipart/form-data",
-                "Access-Control-Allow-Origin": "*",
-            },
+            withCredentials: true,
         }).then(res => {
             let json = res.data;
-            console.log(json);
             if (json.message == 'success') {
                 alert('上傳成功！');
             } else {
@@ -287,7 +280,7 @@ const NewActivity = () => {
 
             setRelatedImages(imgArr);
         }
-        console.log('type', type);
+        // console.log('type', type);
     }
     /*---------------------------------頁間導航--------------------------------*/
     // 返回社團詳情頁
