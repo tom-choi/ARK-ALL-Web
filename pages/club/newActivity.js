@@ -207,6 +207,8 @@ const NewActivity = () => {
             let json = res.data;
             if (json.message == 'success') {
                 alert('上傳成功！');
+                // 本地保存清空
+                localStorage.removeItem("createdActivityInfo");
                 // 回退上一頁面
                 window.location.href = "../club/clubInfo";
             } else {
