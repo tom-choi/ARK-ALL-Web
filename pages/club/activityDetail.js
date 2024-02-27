@@ -21,6 +21,7 @@ import ThemeChanger from '../../components/DarkSwitch';
 import LanguageSwitcher from '../../components/LanguageSwitcher';
 import Footer from "../../components/footer";
 import { act } from 'react-three-fiber';
+import { Form } from 'react-hook-form';
 
 
 const ActivityDetail = () => {
@@ -100,12 +101,20 @@ const ActivityDetail = () => {
 
     // 刪除活動
     const deleteActivity = async () => {
-        await axios({
-            headers: { 'Content-Type': 'application/x-www-form-urlencoded', },
-            method: 'post',
-            url: BASE_URI + POST.EVENT_DEL + activityData._id,
+        let URL = BASE_URI + POST.EVENT_DEL;
+        let data = new FormData();
+        data.append("id", activityData._id);
+
+        await axios.post(URL, data, {
+            withCredentials: true,
         }).then(resp => {
-            window.location.href = "./clubInfo";
+            let json = resp.data;
+            console.log(json);
+            if (json.message == "success") {
+                window.location.href = "./clubInfo";
+            } else {
+                alert("删除活动失败");
+            }
         }
         ).catch(err => {
             window.alert("刪除活動失敗，請重試！");
