@@ -120,7 +120,6 @@ const NewActivity = () => {
         return true;
     }
 
-
     const squashDateTime = (date, time, divider = " ") => {
         return date + divider + time;
     }
@@ -368,6 +367,7 @@ const NewActivity = () => {
                         {m_coverImage && (
                             <img
                                 src={URL.createObjectURL(m_coverImage)}
+                                className="h-96"
                             />
                         )}
                     </div>
