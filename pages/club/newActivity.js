@@ -59,7 +59,6 @@ const NewActivity = () => {
     // 相關圖片
     const [m_relatedImages, setRelatedImages] = useState(null);     // 暫存活動圖片
 
-
     /* -------------------------------編輯狀態--------------------------------*/
     const makeChange = (variable, value) => {
         setIsEdited(true);
@@ -168,9 +167,8 @@ const NewActivity = () => {
     }
 
     const uploadEdit = async () => {
-
+        // 校驗輸入滿足要求
         if (!isEditValidToUpload()) {
-
             return;
         }
 
@@ -209,6 +207,8 @@ const NewActivity = () => {
             let json = res.data;
             if (json.message == 'success') {
                 alert('上傳成功！');
+                // 回退上一頁面
+                window.location.href = "../club/clubInfo";
             } else {
                 alert('上傳失敗！');
             }
