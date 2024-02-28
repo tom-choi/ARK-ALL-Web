@@ -44,14 +44,14 @@ const NewActivity = () => {
     const [m_coverImage, setCoverImage] = useState(null);       // 封面圖片
 
     // 基本訊息
-    const [m_sDate, setStartDate] = useState(moment(new Date()).format("YYYY-MM-DD"));   // 開始日期
-    const [m_sTime, setStartTime] = useState(moment(new Date()).format("HH:MM"));   // 開始時間
-    const [m_eDate, setEndDate] = useState(moment(new Date()).format("YYYY-MM-DD"));     // 結束日期
-    const [m_eTime, setEndTime] = useState(moment(new Date()).format("HH:MM"));     // 結束時間
+    const [m_sDate, setStartDate] = useState(moment(new Date()).format("YYYY-MM-DD"));  // 開始日期
+    const [m_sTime, setStartTime] = useState(moment(new Date()).format("HH:MM"));       // 開始時間
+    const [m_eDate, setEndDate] = useState(moment(new Date()).format("YYYY-MM-DD"));    // 結束日期
+    const [m_eTime, setEndTime] = useState(moment(new Date()).format("HH:MM"));         // 結束時間
 
     const [m_location, setLocation] = useState(null);     // 地點
-    const [m_link, setLink] = useState(null);               // 鏈接
-    const [m_type, setType] = useState("ACTIVITY");             // 活動類型
+    const [m_link, setLink] = useState(null);             // 鏈接
+    const [m_type, setType] = useState("ACTIVITY");       // 活動類型
 
     // 簡介
     const [m_intro, setIntro] = useState(null);
@@ -286,7 +286,7 @@ const NewActivity = () => {
 
     // 刪除圖片
     function handleImageRemove(event, indexToRemove) {
-        console.log(indexToRemove);
+        // 新的圖片數組
         const updatedImageArr = m_relatedImages.filter((item, index) => index != indexToRemove);
         setRelatedImages(updatedImageArr);
     }
