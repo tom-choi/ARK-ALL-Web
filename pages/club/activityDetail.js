@@ -12,6 +12,7 @@ import {
     ChevronLeftIcon,
     ArrowUpIcon,
 } from "@heroicons/react/24/solid";
+import moment from 'moment';
 
 // 本地引用
 import { BASE_URI, BASE_HOST, GET, POST } from '../../utils/pathMap';
@@ -24,35 +25,61 @@ import { act } from 'react-three-fiber';
 import { Form } from 'react-hook-form';
 
 
+// 活動類型映射
+const activityTypeMap = {
+    "ACTIVITY": "普通活動",
+    "OFFICIAL": "澳大官方",
+    "WEBSITE": "網頁"
+};
+
 const ActivityDetail = () => {
     const [activityData, setActivityData] = useState(null);     // 活動數據
 
     const [isEditMode, setEditMode] = useState(false);          // 是否為編輯模式
 
-    // 更改數據
-    const [editActivityTitle, setEditActivityTitle] = useState(null);                 //社團名稱
-    const [editLoc, setEditLoc] = useState(null);                           // 地點
-    const [editIntro, setEditIntro] = useState(null);                       // 描述
-    const [addedRelatedImages, setAddedRelatedImages] = useState(null);     // 暫存活動圖片
+    /* -------------------------------編輯狀態--------------------------------*/
+    // 標題和封面圖
+    const [m_title, setTitle] = useState(null);                 //社團名稱
+    const [m_coverImage, setCoverImage] = useState(null);
 
-    // 活動類型映射
-    const activityTypeMap = {
-        "ACTIVITY": "普通活動",
-        "OFFICIAL": "澳大官方",
-        "WEBSITE": "網頁"
-    };
+    // 基本訊息
+    const [m_sDate, setStartDate] = useState(moment(new Date()).format("YYYY-MM-DD"));   // 開始日期
+    const [m_sTime, setStartTime] = useState(moment(new Date()).format("HH:MM"));        // 開始時間
+    const [m_eDate, setEndDate] = useState(moment(new Date()).format("YYYY-MM-DD"));     // 結束日期
+    const [m_eTime, setEndTime] = useState(moment(new Date()).format("HH:MM"));          // 結束時間
+
+    const [m_location, setLocation] = useState(null);                           // 地點
+    const [m_link, setLink] = useState(null);
+    const [m_type, setType] = useState("ACTIVITY");
+
+    // 簡介
+    const [m_intro, setIntro] = useState(null);                       // 描述
+
+    // 相關圖片
+    const [m_relatedImages, setAddedRelatedImages] = useState(null);     // 暫存活動圖片
+
 
     // 從本地緩存中獲取活動資料
     const fetchActivityData = () => {
-        var data = localStorage.getItem("CurActivity");
-        data = JSON.parse(data);
-        setActivityData(data);
-        console.log(data);
-    }
+        var curActivityInfo = JSON.parse(localStorage.getItem("CurActivity"));
+        setActivityData(curActivityInfo);
+        if (curActivityInfo) {
+            // 封面和標題
+            curActivityInfo.m_title && setTitle(curActivityInfo.m_title);
+            //createdActivityInfo.m_coverImage && setCoverImage(createdActivityInfo.m_coverImage);
 
-    // 返回社團詳情頁
-    const returnToClubInfo = () => {
-        window.location.href = "./clubInfo";
+            // 基本訊息
+            curActivityInfo.m_sDate && setStartDate(curActivityInfo.m_sDate);
+            curActivityInfo.m_sTime && setStartTime(curActivityInfo.m_sTime);
+            curActivityInfo.m_eDate && setEndDate(curActivityInfo.m_eDate);
+            curActivityInfo.m_eTime && setEndTime(curActivityInfo.m_eTime);
+            curActivityInfo.m_location && setLocation(curActivityInfo.m_location);
+            curActivityInfo.m_link && setLink(curActivityInfo.m_link);
+            curActivityInfo.m_type && setType(curActivityInfo.m_type);
+
+            // 簡介
+            curActivityInfo.m_intro && setIntro(curActivityInfo.m_intro);
+        }
     }
 
     // 開始編輯
@@ -61,28 +88,13 @@ const ActivityDetail = () => {
     }
 
     // 放棄編輯
-    const giveUpEdit = () => {
-        console.log("Give Up.")
-        // 如果不保存的話，就不使用編輯後的activityData，故而重新從已有的localStorage中調取。
-        fetchActivityData();
-        // 清空選中圖片
-        setEditLoc(null);
-        setEditIntro(null);
-        setAddedRelatedImages(null);
-        console.log(addedRelatedImages);
-
-        setEditMode(false);
+    const discardEdit = () => {
+        setEditMode(true);
     }
 
     // 保存編輯
     const saveEdit = () => {
-        console.log("Save.");
-        // 存儲預覽，僅限於state，刷新即失效(add)
-        editActivityTitle && (activityData.title = editActivityTitle);
-        editLoc && (activityData.location = editLoc);
-        editIntro && (activityData.introduction = editIntro);
 
-        setEditMode(false);
     }
 
     // 上傳編輯
@@ -96,7 +108,7 @@ const ActivityDetail = () => {
 
     // 檢測是否被編輯過
     const isEdited = () => {
-        return editActivityTitle || editLoc || editIntro || addedRelatedImages;
+
     }
 
     // 刪除活動
@@ -121,28 +133,56 @@ const ActivityDetail = () => {
         });
     }
 
+    /* -------------------------------圖片文件--------------------------------*/
     // 上傳相關圖片
-    // 點擊上傳Placeholder
-    const handleFileSelected = (event) => {
-        // 獲取File Input元素並觸發點擊事件以打開文件選擇窗口
-        fileInputRef.current.click();
+    function handleFileChange(event, type) {
+        if (type === "cover") {
+            // 封面圖片
+            //let image = URL.createObjectURL(event.target.files[0]);
+            let imgFileObj = event.target.files[0];
+            setCoverImage(imgFileObj);
+        } else if (type === "relate") {
+            // 相關圖片
+            let imgRawArr = event.target.files;
+            let imgArr = [];
+
+            Object.keys(imgRawArr).map(
+                key => {
+                    imgArr.push(imgRawArr[key]);
+                }
+            );
+
+            // 數組中已經有數據，就插入，不把原來的替換掉了
+            if (m_relatedImages && m_relatedImages instanceof Array) {
+                imgArr = m_relatedImages.concat(imgArr);
+            }
+
+            // 選擇圖片不能超過4張
+            if (imgArr.length > 4) {
+                window.alert("選擇圖片不能超過4張");
+                return;
+            }
+
+            setRelatedImages(imgArr);
+        }
+        // console.log('type', type);
     }
 
-    //獲取選擇的文件並存儲與state
-    const handleFileChange = (event) => {
-        //從File Input元素中獲取選中的文件
-        setAddedRelatedImages(event.target.files[0]);
-
-        console.log(addedRelatedImages);
+    /*---------------------------------頁間導航--------------------------------*/
+    // 返回社團詳情頁
+    const returnToClubInfo = () => {
+        window.location.href = "./clubInfo";
     }
 
-    const fileInputRef = useRef();
-
+    /*---------------------------------初始化----------------------------------*/
     useEffect(() => {
         fetchActivityData();
     },
         []
     );
+
+    const coverImageRef = useRef();
+    const relateImageInputRef = useRef();
 
 
     return (
@@ -186,7 +226,7 @@ const ActivityDetail = () => {
                             placeholder={"活動名稱"}
                             defaultValue={activityData && activityData.title}
                             className="text-3xl border-4 border-themeColor rounded-lg h-10 p-2"
-                            onChangeCapture={(event) => setEditActivityTitle(event.target.value)}>
+                            onChangeCapture={(event) => setTitle(event.target.value)}>
                         </input>
                     )}
                 </div>
@@ -201,7 +241,7 @@ const ActivityDetail = () => {
                 {/*操作陣列*/}
                 <div className="flex items-center justify-center my-10">
                     {/* 編輯按鈕*/}
-                    <div className="flex items-center justify-center mx-5" onClick={isEditMode ? giveUpEdit : startEdit}>
+                    <div className="flex items-center justify-center mx-5" onClick={isEditMode ? discardEdit : startEdit}>
                         <div className="flex bg-themeColor py-3 px-5 rounded-full text-white hover:opacity-50 hover:cursor-pointer">
                             <div className="flex flex-col justify-center">
                                 <PencilSquareIcon className="w-5 h-5" />
@@ -272,7 +312,7 @@ const ActivityDetail = () => {
                                     placeholder={"地點"}
                                     defaultValue={activityData && activityData.location}
                                     className="text-lg border-4 border-themeColor rounded-lg h-10 p-2"
-                                    onChangeCapture={(event) => setEditLoc(event.target.value)}>
+                                    onChangeCapture={(event) => setLocation(event.target.value)}>
                                 </input>
                             )}
                         </p>
@@ -306,7 +346,7 @@ const ActivityDetail = () => {
                                 placeholder={"簡介"}
                                 className="text-lg block w-full border-4 border-themeColor rounded-lg p-2 resize-none min-h-32"
                                 rows="10"
-                                onChangeCapture={(event) => setEditIntro(event.target.value)}>
+                                onChangeCapture={(event) => setIntro(event.target.value)}>
                                 {activityData && activityData.introduction}
                             </textarea>
                         )}
@@ -334,13 +374,14 @@ const ActivityDetail = () => {
                                 {
                                     isEditMode && (
                                         <div className="flex flex-col items-center justify-center bg-themeColorUltraLight dark:bg-gray-700 rounded-lg border-4 border-themeColor border-dashed min-h-24 hover:cursor-pointer hover:opacity-50 mb-4"
-                                            onClick={event => handleFileSelected()}>
+                                            onClick={event => relateImageInputRef.current.click()}>
                                             <PlusCircleIcon className="w-10 h-10 text-themeColor" />
                                             <input
                                                 type="file"
                                                 accept=".png "
-                                                ref={fileInputRef}
-                                                onChange={event => handleFileChange(event)}
+                                                multiple
+                                                ref={relateImageInputRef}
+                                                onChange={event => handleFileChange(event, "relate")}
                                                 className="flex w-full h-full hidden"
                                             />
                                         </div>
@@ -356,7 +397,7 @@ const ActivityDetail = () => {
                                                 添加的圖片：
                                             </p>
                                             <span>
-                                                {addedRelatedImages && addedRelatedImages.name}
+                                                {m_relatedImages && m_relatedImages.name}
                                             </span>
                                         </div>
                                     )
