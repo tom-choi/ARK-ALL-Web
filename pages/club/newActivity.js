@@ -166,8 +166,9 @@ const NewActivity = () => {
     }
 
     const uploadEdit = async () => {
+        let isUserConfirmUpload = confirm("您即將上傳！");
         // 校驗輸入滿足要求
-        if (!isEditValidToUpload()) {
+        if (!isUserConfirmUpload || !isEditValidToUpload()) {
             return;
         }
 
