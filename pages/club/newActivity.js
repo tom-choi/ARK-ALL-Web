@@ -283,6 +283,14 @@ const NewActivity = () => {
         }
         // console.log('type', type);
     }
+
+    // 刪除圖片
+    function handleImageRemove(event, indexToRemove) {
+        console.log(indexToRemove);
+        const updatedImageArr = m_relatedImages.filter((item, index) => index != indexToRemove);
+        setRelatedImages(updatedImageArr);
+    }
+
     /*---------------------------------頁間導航--------------------------------*/
     // 返回社團詳情頁
     const returnToClubInfo = () => {
@@ -506,10 +514,8 @@ const NewActivity = () => {
                         <div className="lg:grid lg:grid-cols-4 md:block lg:gap-4 items-top justify-center mt-5">
                             {/* 一般的相關圖片 */}
                             {m_relatedImages && m_relatedImages.map((item, index) => (
-                                <div key={index} className="flex flex-col mb-4 hover:cursor-pointer hover:opacity-80">
-                                    <a href={URL.createObjectURL(item)} target="_blank">
-                                        <img src={URL.createObjectURL(item)} className="rounded-lg" />
-                                    </a>
+                                <div key={index} className="flex flex-col mb-4 hover:cursor-pointer hover:opacity-80" onClick={(event) => handleImageRemove(event, index)}>
+                                    <img src={URL.createObjectURL(item)} className="rounded-lg" />
                                 </div>
                             ))}
                             {/* 添加圖片模塊 */}
