@@ -89,7 +89,7 @@ const ActivityDetail = () => {
 
     // 放棄編輯
     const discardEdit = () => {
-        setEditMode(true);
+        setEditMode(false);
     }
 
     // 保存編輯
@@ -113,6 +113,11 @@ const ActivityDetail = () => {
 
     // 刪除活動
     const deleteActivity = async () => {
+        let isUserConfirmDelete = confirm("確定要刪除這個活動嗎？這個操作無法撤銷。");
+        if (!isUserConfirmDelete) {
+            return;
+        }
+
         let URL = BASE_URI + POST.EVENT_DEL;
         let data = new FormData();
         data.append("id", activityData._id);
