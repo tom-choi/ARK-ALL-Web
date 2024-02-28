@@ -515,8 +515,11 @@ const NewActivity = () => {
                         <div className="lg:grid lg:grid-cols-4 md:block lg:gap-4 items-top justify-center mt-5">
                             {/* 一般的相關圖片 */}
                             {m_relatedImages && m_relatedImages.map((item, index) => (
-                                <div key={index} className="flex flex-col mb-4 hover:cursor-pointer hover:opacity-80" onClick={(event) => handleImageRemove(event, index)}>
+                                <div key={index} className="flex flex-col mb-4 items-center justify-center hover:cursor-pointer hover:opacity-80" >
                                     <img src={URL.createObjectURL(item)} className="rounded-lg" />
+                                    <div className="absolute flex flex-col bg-black text-white text-2xl p-5 rounded-lg text-center justify-center w-64 h-48 opacity-0 hover:opacity-50" onClick={(event) => handleImageRemove(event, index)}>
+                                        <p>刪除</p>
+                                    </div>
                                 </div>
                             ))}
                             {/* 添加圖片模塊 */}
