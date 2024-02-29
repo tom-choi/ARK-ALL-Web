@@ -165,7 +165,7 @@ const ClubInfo = () => {
 
                     {clubContentData && clubContentData.club_photos_list[0] ? (
                         <div key="0" className="flex flex-col mx-auto">
-                            <img src={`${BASE_HOST + clubContentData.club_photos_list[0]}`} alt="club_photos" className="max-w-96 rounded-lg h-auto shadow-lg" />
+                            <img src={`${BASE_HOST + clubContentData.club_photos_list[0]}`} alt="club_photos" className="max-w-96 rounded-lg h-auto shadow-lg" style={{ backgroundColor: '#fff' }} />
                         </div>
                     ) : (
                         <p>你可以使用編輯功能補充此處的信息</p>
@@ -204,6 +204,7 @@ const ClubInfo = () => {
                     {/*社團Logo*/}
                     <img
                         className="w-24 h-24 rounded-full "
+                        style={{ backgroundColor: '#fff' }}
                         src={BASE_HOST + (clubProfileData && clubProfileData.content.logo_url)}
                     />
 
@@ -261,7 +262,7 @@ const ClubInfo = () => {
                                 clubContentData.club_photos_list.map((item, index) => (
                                     <div key={index} className="flex flex-col mx-auto">
                                         <a href={BASE_HOST + item} target="_blank">
-                                            <img src={BASE_HOST + item} alt="club_photos" className="md:max-w-24 sm:max-w-96 rounded-lg h-auto hover:cursor-pointer hover:opacity-50 hover:shadow-lg" />
+                                            <img src={BASE_HOST + item} alt="club_photos" className="md:max-w-24 sm:max-w-96 rounded-lg h-auto hover:cursor-pointer hover:opacity-50 hover:shadow-lg" style={{ backgroundColor: '#fff' }} />
                                         </a>
                                     </div>
                                 ))
@@ -292,7 +293,7 @@ const ClubInfo = () => {
 
                                     <div className="flex flex-col lg:w-48 xl:w-64 md:w-48 sm:w-64 items-center">
                                         {/*活動封面*/}
-                                        <img src={BASE_HOST + item.cover_image_url} alt="club_photos" className="hover:border-4 hover:cursor-pointer hover:border-themeColor hover:shadow-lg md:w-48 h-64 object-cover sm:max-w-64 rounded-lg mb-5 shadow-lg" />
+                                        <img src={BASE_HOST + item.cover_image_url} alt="club_photos" className="hover:border-4 hover:cursor-pointer hover:border-themeColor hover:shadow-lg md:w-48 h-64 object-cover sm:max-w-64 rounded-lg mb-5 shadow-lg" style={{ backgroundColor: '#fff' }} />
                                         {/*活動描述*/}
                                         <div className="flex flex-col h-16 mb-3 mx-auto">
                                             <h3 className="text-themeColor text-xl text-center font-bold text-ellipsis overflow-hidden">
