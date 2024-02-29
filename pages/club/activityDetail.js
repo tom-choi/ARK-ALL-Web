@@ -240,6 +240,7 @@ const ActivityDetail = () => {
                 <div className="flex flex-col items-center mb-5">
                     <img
                         className="w-96 shadow-lg rounded-xl"
+                        style={{ backgroundColor: '#fff' }}
                         src={activityData && BASE_HOST + activityData.cover_image_url} />
                 </div>
 
@@ -371,7 +372,7 @@ const ActivityDetail = () => {
                                 {activityData && activityData.relate_image_url.map((item, index) => (
                                     <div key={index} className="flex flex-col mb-4 hover:cursor-pointer hover:opacity-80">
                                         <a href={BASE_HOST + item} target="_blank">
-                                            <img src={BASE_HOST + item} className="rounded-lg" />
+                                            <img src={BASE_HOST + item} className="rounded-lg" style={{ backgroundColor: '#fff' }} />
                                         </a>
                                     </div>
                                 ))}
