@@ -168,7 +168,7 @@ const ClubInfo = () => {
                             <img src={`${BASE_HOST + clubContentData.club_photos_list[0]}`} alt="club_photos" className="max-w-96 rounded-lg h-auto shadow-lg" />
                         </div>
                     ) : (
-                        <p>Loading..</p>
+                        <p>你可以使用編輯功能補充此處的信息</p>
                     )}
                 </div>
 
@@ -282,8 +282,8 @@ const ClubInfo = () => {
                     </div>
                     {/* 渲染活動格子*/}
                     <div className="grid 2xl:grid-cols-5 lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-1 gap-4 ">
-                        {clubActivities ? (
-                            // 渲染單個活動模塊
+                        {/* 渲染活動卡片 */}
+                        {clubActivities && clubActivities.length > 0 ? (
                             clubActivities.map((item, index) => (
                                 <div
                                     key={index}
@@ -317,9 +317,7 @@ const ClubInfo = () => {
                                 </div>
                             ))
                         ) : (
-                            <p>
-                                Loading..
-                            </p>
+                            <p>你可以使用編輯功能補充此處的信息</p>
                         )}
                     </div>
                 </div>
