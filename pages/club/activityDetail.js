@@ -384,7 +384,7 @@ const ActivityDetail = () => {
                                             <PlusCircleIcon className="w-10 h-10 text-themeColor" />
                                             <input
                                                 type="file"
-                                                accept=".png "
+                                                accept="image/*"
                                                 multiple
                                                 ref={relateImageInputRef}
                                                 onChange={event => handleFileChange(event, "relate")}

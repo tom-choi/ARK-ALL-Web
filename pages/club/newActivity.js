@@ -368,7 +368,7 @@ const NewActivity = () => {
 
                         <input
                             type="file"
-                            accept=".png"
+                            accept="image/*"
                             ref={coverImageRef}
                             onChange={(event) => handleFileChange(event, "cover")}
                             className="flex w-full h-full hidden"
@@ -528,7 +528,7 @@ const NewActivity = () => {
                                 <PlusCircleIcon className="w-10 h-10 text-themeColor" />
                                 <input
                                     type="file"
-                                    accept=".png "
+                                    accept="image/*"
                                     ref={relateImageInputRef}
                                     onChange={event => handleFileChange(event, "relate")}
                                     className="flex w-full h-full hidden"
