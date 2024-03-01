@@ -107,7 +107,7 @@ export default function clubInfoEdit() {
                             className=" hover:cursor-pointer hover:opacity-50"
                             onClick={returnToClubInfo}
                         >
-                            返回主頁
+                            返回組織賬號頁
                         </div>
                     </div>
                     <div className="hidden mr-3 space-x-4 lg:flex nav__item">
