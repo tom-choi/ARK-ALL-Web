@@ -37,6 +37,21 @@ const ClubInfo = () => {
     const [clubProfileData, setProfileData] = useState(null);   //登錄信息
     const [clubContentData, setContentData] = useState(null);   //社團內容，如聯繫方式等
     const [clubActivities, setClubActivities] = useState(null); //社團活動列表
+    const [isloading, setIsLoading] = useState(true);
+
+    useEffect(() => {
+        const fetchedProfileData = localStorage.getItem("ClubData");
+        if (fetchedProfileData) {
+            var profile = JSON.parse(fetchedProfileData);
+            setProfileData(profile);
+            getClubContent(profile.content.club_num);
+            getClubActivity(profile.content.club_num);
+            setIsLoading(false);
+        } else {
+            alert('請前往登錄賬號!');
+            window.location.href = '../clublogin';
+        }
+    }, []);
 
     // 獲取社團Profile訊息
     const getClubContent = async (curClubNum) => {
@@ -53,7 +68,7 @@ const ClubInfo = () => {
             }
             else {
                 window.alert("獲取社團內容失敗，請刷新頁面！");
-                console.log(resp);
+                console.log("獲取社團內容失敗，請刷新頁面！", resp);
             }
         }).catch(err => {
             window.alert("網絡錯誤！");
@@ -69,8 +84,6 @@ const ClubInfo = () => {
             url: BASE_URI + GET.EVENT_INFO_CLUB_NUM + curClubNum,
         }).then(resp => {
             let json = resp.data;
-            // 測試
-            console.log(json);
             setClubActivities(json.content);
         }).catch(err => {
             console.log("獲取Activity錯誤！" + err)
@@ -108,53 +121,38 @@ const ClubInfo = () => {
         window.location.href = "activityDetail";
     }
 
-    useEffect(() => {
-        const fetchedProfileData = localStorage.getItem("ClubData");
-        if (fetchedProfileData) {
-            var profile = JSON.parse(fetchedProfileData);
-            setProfileData(profile);
-            getClubContent(profile.content.club_num);
-            getClubActivity(profile.content.club_num);
-        }
-    },
-        []
-    );
-
-
-    return (
-        <>
-            <title>
-                {"社團-"}{clubProfileData && clubProfileData.content.name}
-            </title>
-            <Container>
-                {/* 頂欄*/}
-                <div className="w-full mb-5">
-                    {/* 選項*/}
-                    <div className="flex justify-between items-center mb-10">
-                        <div className="flex items-center  text-themeColor text-xl font-bold">
-                            <div className="flex flex-col justify-center">
-                                <ChevronLeftIcon className="w-5 h-5" />
-                            </div>
-                            <div
-                                className=" hover:cursor-pointer hover:opacity-50"
-                                onClick={returnToMain}>
-                                返回主頁
-                            </div>
+    return (<>
+        <title>
+            {"社團-"}{clubProfileData && clubProfileData.content.name}
+        </title>
+        <Container>
+            {/* 頂欄*/}
+            <div className="w-full mb-5">
+                {/* 選項*/}
+                <div className="flex justify-between items-center mb-10">
+                    <div className="flex items-center  text-themeColor text-xl font-bold">
+                        <div className="flex flex-col justify-center">
+                            <ChevronLeftIcon className="w-5 h-5" />
                         </div>
-                        <div className="hidden mr-3 space-x-4 lg:flex nav__item">
-                            <ThemeChanger />
-                            <LanguageSwitcher />
+                        <div
+                            className=" hover:cursor-pointer hover:opacity-50"
+                            onClick={returnToMain}>
+                            返回主頁
                         </div>
                     </div>
-                    {/* 本地測試警告 */}
-                    {customSettings.is_local_test && (
-                        <div className="bg-alert pl-3 py-2">
-                            <p><strong>警告:</strong> 您現在使用的是本地服務器。</p>
-                        </div>
-                    )}
+                    <div className="hidden mr-3 space-x-4 lg:flex nav__item">
+                        <ThemeChanger />
+                        <LanguageSwitcher />
+                    </div>
                 </div>
-
-
+                {/* 本地測試警告 */}
+                {customSettings.is_local_test && (
+                    <div className="bg-alert pl-3 py-2">
+                        <p><strong>警告:</strong> 您現在使用的是本地服務器。</p>
+                    </div>
+                )}
+            </div>
+            {!isloading ? (<>
                 {/* 歡迎詞 */}
                 <div>
                     <h3 className="text-themeColor text-2xl font-bold text-center">
@@ -327,9 +325,10 @@ const ClubInfo = () => {
                     </div>
                 </div>
                 <Footer />
-            </Container>
-        </>
-    );
+            </>) : null}
+
+        </Container>
+    </>);
 }
 
 export default ClubInfo;
