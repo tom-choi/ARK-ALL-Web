@@ -371,6 +371,7 @@ const ActivityDetail = () => {
                 {/* 時間和介紹 */}
                 <div className="lg:grid lg:grid-cols-2 md:block gap-4 items-top justify-center mt-5">
                     {/*開始和結束時間*/}
+                    {/* TODO: 編輯時間 */}
                     <div className="bg-white dark:bg-gray-800 border-l-4 border-themeColorLight px-5 pt-3 pb-5 rounded-lg drop-shadow-md itmes-center mb-5">
                         {/*標題*/}
                         <div className="mb-3">
@@ -403,19 +404,6 @@ const ActivityDetail = () => {
                                 </input>
                             )}
                         </p>
-                        {/* 活動類型*/}
-                        <p>
-                            <span className="text-themeColor font-bold">
-                                類型:{'  '}
-                            </span>
-                            {!isEditMode ? (activityData && activityTypeMap[activityData.type]) : (
-                                <input
-                                    placeholder={"地點"}
-                                    defaultValue={activityData && activityTypeMap[activityData.type]}
-                                    className="text-lg border-4 border-themeColor rounded-lg h-10 p-2">
-                                </input>
-                            )}
-                        </p>
                     </div>
 
                     {/*活動介紹*/}
@@ -440,6 +428,8 @@ const ActivityDetail = () => {
                     </div>
 
                 </div>
+
+                {/* TODO: Link類型 */}
 
                 {/* 相關圖片 (如果沒有相關圖片就不展示該模塊) */}
                 {activityData && (activityData.relate_image_url.length > 0 || isEditMode) && (
