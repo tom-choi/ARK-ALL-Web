@@ -252,7 +252,7 @@ const ActivityDetail = () => {
                             </div>
                         </div>
                     </div>
-                    {/* 刪除按鈕*/}
+                    {/* TODO: 刪除按鈕*/}
                     {isEditMode && (
                         <div className="flex items-center justify-center mx-5" onClick={deleteActivity}>
                             <div className="grid grid-cols-2  bg-alert py-3 px-5 rounded-full text-white hover:opacity-50 hover:cursor-pointer">
@@ -360,12 +360,23 @@ const ActivityDetail = () => {
                         {/* 渲染具體相關圖片 */}
                         <div className="grid grid-cols-4 gap-4 items-top justify-center mt-5">
                             {m_relatedImages && m_relatedImages.map((item, index) => (
-                                <div key={index} className="flex  mb-4 items-center justify-center hover:cursor-pointer hover:opacity-80" >
+                                <div key={index} className="flex mb-4 items-center justify-center" >
                                     <img src={URL.createObjectURL(item)} className="rounded-lg" />
-                                    {/* TODO: 刪除按鈕 */}
-                                    {/* <div className="absolute flex flex-col bg-black text-white text-2xl p-5 rounded-lg text-center justify-center w-64 h-48 opacity-0 hover:opacity-50" onClick={(event) => handleImageRemove(event, index)}>
+                                    {/* 刪除按鈕 */}
+                                    <div className="absolute flex flex-col 
+                                    bg-black text-white
+                                    text-xl p-3 rounded-lg text-center justify-center opacity-50 
+                                    hover:cursor-pointer hover:opacity-100"
+                                        onClick={() => {
+                                            if (confirm('確認刪除這張圖片嗎？')) {
+                                                // 克隆一次File Object，使用JSON會使File Object變為{}
+                                                let arr = m_relatedImages.map(i => new File([i], i.name, { type: i.type }))
+                                                arr.splice(index, 1);
+                                                setAddedRelatedImages(arr);
+                                            }
+                                        }}>
                                         <p>刪除</p>
-                                    </div> */}
+                                    </div>
                                 </div>
                             ))}
                             {/* 添加圖片模塊：僅在編輯圖片時展示 */}
