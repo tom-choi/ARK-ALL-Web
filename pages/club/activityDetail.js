@@ -53,6 +53,7 @@ const ActivityDetail = () => {
 
     // 相關圖片
     const [m_relatedImages, setRelatedImages] = useState(null);     // 暫存活動圖片
+    let add_relate_image = [];
     let del_relate_image = [];
 
     const [isLoading, setIsLoading] = useState(true);
@@ -63,6 +64,9 @@ const ActivityDetail = () => {
     /*---------------------------------初始化----------------------------------*/
     useEffect(() => {
         fetchActivityData();
+
+        add_relate_image = [];
+        del_relate_image = [];
     }, []);
 
     // 從本地緩存中獲取活動資料
@@ -116,6 +120,7 @@ const ActivityDetail = () => {
             data.append('cover_image_file', m_coverImage);
         }
         // TODO: relate images
+        console.log('add_relate_image', add_relate_image);
         return
         // 上傳圖片，form data類型上傳數組需要逐個加入
         if (add_relate_image.length > 0) {
@@ -151,6 +156,7 @@ const ActivityDetail = () => {
 
         // TODO: 圖片壓縮
 
+        // 上傳
         let URL = BASE_URI + POST.EVENT_EDIT;
         return;
         await axios.post(URL, data, {
@@ -172,11 +178,6 @@ const ActivityDetail = () => {
             console.log('err', err);
             alert('請求錯誤');
         });
-    }
-
-    // 檢測是否被編輯過
-    const isEdited = () => {
-        return false
     }
 
     // 刪除活動
@@ -223,7 +224,7 @@ const ActivityDetail = () => {
             });
 
             // 數組中已經有數據，就插入，不把原來的替換掉了
-            if (m_relatedImages && m_relatedImages instanceof Array) {
+            if (m_relatedImages && m_relatedImages.length > 0) {
                 imgArr = m_relatedImages.concat(imgArr);
             }
 
@@ -234,13 +235,30 @@ const ActivityDetail = () => {
             }
 
             setRelatedImages(imgArr);
+            add_relate_image = add_relate_image.concat(imgArr);
         }
     }
 
     // TODO: 圖片刪除
     const handleImageDelete = (index) => {
         // 如果選擇刪除的圖片處於服務器數據中，上傳需刪除圖片的資訊
-
+        // TODO: 需刪除add image數組中的對應圖片
+        let imageUrlArr = m_relatedImages;
+        if ('relate_image_url' in activityData &&
+            index + 1 <= activityData.relate_image_url.length
+        ) {
+            console.log('需刪已儲存數組');
+            // del_relate_image.push(imageUrlArr[index]);
+        } else {
+            console.log('需刪除add數組');
+            // let indexOfAddArray = add_relate_image.indexOf(
+            //     imageUrlArr[index],
+            // );
+            // add_relate_image.splice(indexOfAddArray, 1);
+        }
+        // imageUrlArr.splice(index, 1);
+        // imageUrlArr.push('');
+        // m_relatedImages(imageUrlArr);
     }
 
     /*---------------------------------頁間導航--------------------------------*/
@@ -357,17 +375,6 @@ const ActivityDetail = () => {
                     )}
                 </div>
 
-                {/* 編輯提醒*/}
-                {isEdited() ? (
-                    <div class="font-bold text-warning">
-                        <p>您有編輯待上傳，刷新就會失效！</p>
-                    </div>
-                ) : (
-                    <div class="font-bold text-success">
-                        <p>所有編輯均已上傳！</p>
-                    </div>
-                )}
-
                 {/* 時間和介紹 */}
                 <div className="lg:grid lg:grid-cols-2 md:block gap-4 items-top justify-center mt-5">
                     {/*開始和結束時間*/}
@@ -449,6 +456,7 @@ const ActivityDetail = () => {
                                     hover:cursor-pointer hover:opacity-100 hover:bg-alert"
                                         onClick={() => {
                                             if (confirm('確認刪除這張圖片嗎？')) {
+                                                // TODO: 已存在服務器的，普通URL 文本類型
                                                 // 克隆一次File Object，使用JSON會使File Object變為{}
                                                 let arr = m_relatedImages.map(i => new File([i], i.name, { type: i.type }))
                                                 arr.splice(index, 1);
