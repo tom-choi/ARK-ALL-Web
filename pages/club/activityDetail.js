@@ -446,7 +446,7 @@ const ActivityDetail = () => {
                                     <div className="absolute flex flex-col 
                                     bg-black text-white
                                     text-xl p-3 rounded-lg text-center justify-center opacity-50 
-                                    hover:cursor-pointer hover:opacity-100"
+                                    hover:cursor-pointer hover:opacity-100 hover:bg-alert"
                                         onClick={() => {
                                             if (confirm('確認刪除這張圖片嗎？')) {
                                                 // 克隆一次File Object，使用JSON會使File Object變為{}
