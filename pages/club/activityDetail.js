@@ -60,6 +60,14 @@ const ActivityDetail = () => {
 
     const [isLoading, setIsLoading] = useState(true);
 
+    const coverImageRef = useRef();
+    const relateImageInputRef = useRef();
+
+    /*---------------------------------初始化----------------------------------*/
+    useEffect(() => {
+        fetchActivityData();
+    }, []);
+
     // 從本地緩存中獲取活動資料
     const fetchActivityData = () => {
         var curActivityInfo = JSON.parse(localStorage.getItem("CurActivity"));
@@ -153,11 +161,9 @@ const ActivityDetail = () => {
             let imgRawArr = event.target.files;
             let imgArr = [];
 
-            Object.keys(imgRawArr).map(
-                key => {
-                    imgArr.push(imgRawArr[key]);
-                }
-            );
+            Object.keys(imgRawArr).map(key => {
+                imgArr.push(imgRawArr[key]);
+            });
 
             // 數組中已經有數據，就插入，不把原來的替換掉了
             if (m_relatedImages && m_relatedImages instanceof Array) {
@@ -170,9 +176,8 @@ const ActivityDetail = () => {
                 return;
             }
 
-            setRelatedImages(imgArr);
+            setAddedRelatedImages(imgArr);
         }
-        // console.log('type', type);
     }
 
     /*---------------------------------頁間導航--------------------------------*/
@@ -180,14 +185,6 @@ const ActivityDetail = () => {
     const returnToClubInfo = () => {
         window.location.href = "./clubInfo";
     }
-
-    /*---------------------------------初始化----------------------------------*/
-    useEffect(() => {
-        fetchActivityData();
-    }, []);
-
-    const coverImageRef = useRef();
-    const relateImageInputRef = useRef();
 
     return (<>
         <title>
@@ -360,47 +357,32 @@ const ActivityDetail = () => {
                         <div className="mb-3">
                             <h3 className="text-xl font-bold text-themeColor">相關圖片</h3>
                         </div>
-                        <div className="lg:grid lg:grid-cols-4 md:block lg:gap-4 items-top justify-center mt-5">
-                            {/* 一般的相關圖片 */}
-                            {activityData && activityData.relate_image_url.map((item, index) => (
-                                <div key={index} className="flex flex-col mb-4 hover:cursor-pointer hover:opacity-80">
-                                    <a href={BASE_HOST + item} target="_blank">
-                                        <img src={BASE_HOST + item} className="rounded-lg" style={{ backgroundColor: '#fff' }} />
-                                    </a>
+                        {/* 渲染具體相關圖片 */}
+                        <div className="grid grid-cols-4 gap-4 items-top justify-center mt-5">
+                            {m_relatedImages && m_relatedImages.map((item, index) => (
+                                <div key={index} className="flex  mb-4 items-center justify-center hover:cursor-pointer hover:opacity-80" >
+                                    <img src={URL.createObjectURL(item)} className="rounded-lg" />
+                                    {/* TODO: 刪除按鈕 */}
+                                    {/* <div className="absolute flex flex-col bg-black text-white text-2xl p-5 rounded-lg text-center justify-center w-64 h-48 opacity-0 hover:opacity-50" onClick={(event) => handleImageRemove(event, index)}>
+                                        <p>刪除</p>
+                                    </div> */}
                                 </div>
                             ))}
                             {/* 添加圖片模塊：僅在編輯圖片時展示 */}
-                            {
-                                isEditMode && (
-                                    <div className="flex flex-col items-center justify-center bg-themeColorUltraLight dark:bg-gray-700 rounded-lg border-4 border-themeColor border-dashed min-h-24 hover:cursor-pointer hover:opacity-50 mb-4"
-                                        onClick={event => relateImageInputRef.current.click()}>
-                                        <PlusCircleIcon className="w-10 h-10 text-themeColor" />
-                                        <input
-                                            type="file"
-                                            accept="image/*"
-                                            multiple
-                                            ref={relateImageInputRef}
-                                            onChange={event => handleFileChange(event, "relate")}
-                                            className="flex w-full h-full hidden"
-                                        />
-                                    </div>
-                                )
-                            }
-                        </div>
-                        {/* 添加的圖片名稱，編輯時展示 */}
-                        <div>
-                            {
-                                isEditMode && (
-                                    <div className="flex items-center">
-                                        <p className="font-bold text-lg">
-                                            添加的圖片：
-                                        </p>
-                                        <span>
-                                            {m_relatedImages && m_relatedImages.name}
-                                        </span>
-                                    </div>
-                                )
-                            }
+                            {isEditMode && (m_relatedImages ? m_relatedImages.length < 4 : true) && (
+                                <div className="flex flex-col items-center justify-center bg-themeColorUltraLight dark:bg-gray-700 rounded-lg border-4 border-themeColor border-dashed min-h-24 hover:cursor-pointer hover:opacity-50 mb-4"
+                                    onClick={event => relateImageInputRef.current.click()}>
+                                    <PlusCircleIcon className="w-10 h-10 text-themeColor" />
+                                    <input
+                                        type="file"
+                                        accept="image/*"
+                                        multiple
+                                        ref={relateImageInputRef}
+                                        onChange={event => handleFileChange(event, "relate")}
+                                        className="flex w-full h-full hidden"
+                                    />
+                                </div>
+                            )}
                         </div>
                     </div>
                 )}
