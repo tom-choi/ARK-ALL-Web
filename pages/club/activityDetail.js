@@ -28,6 +28,9 @@ const activityTypeMap = {
     "WEBSITE": "網頁"
 };
 
+let add_relate_image = [];
+let del_relate_image = [];
+
 const ActivityDetail = () => {
     const [activityData, setActivityData] = useState(null);     // 活動數據
 
@@ -53,8 +56,6 @@ const ActivityDetail = () => {
 
     // 相關圖片
     const [m_relatedImages, setRelatedImages] = useState(null);     // 暫存活動圖片
-    let add_relate_image = [];
-    let del_relate_image = [];
 
     const [isLoading, setIsLoading] = useState(true);
 
@@ -67,18 +68,25 @@ const ActivityDetail = () => {
 
         add_relate_image = [];
         del_relate_image = [];
+
+        return () => {
+            add_relate_image = [];
+            del_relate_image = [];
+        }
     }, []);
 
     // 從本地緩存中獲取活動資料
     const fetchActivityData = () => {
         var curActivityInfo = JSON.parse(localStorage.getItem("CurActivity"));
         setActivityData(curActivityInfo);
+        console.log('curActivityInfo', curActivityInfo);
         if (curActivityInfo) {
             // 封面和標題
-            curActivityInfo.m_title && setTitle(curActivityInfo.m_title);
+            curActivityInfo.title && setTitle(curActivityInfo.title);
             curActivityInfo.cover_image_url && setCoverImage(curActivityInfo.cover_image_url);
 
             // 基本訊息
+            // TODO: 去除m_
             curActivityInfo.m_sDate && setStartDate(curActivityInfo.m_sDate);
             curActivityInfo.m_sTime && setStartTime(curActivityInfo.m_sTime);
             curActivityInfo.m_eDate && setEndDate(curActivityInfo.m_eDate);
@@ -120,45 +128,37 @@ const ActivityDetail = () => {
             data.append('cover_image_file', m_coverImage);
         }
         // TODO: relate images
-        console.log('add_relate_image', add_relate_image);
-        return
+        console.log('上傳add_relate_image', add_relate_image);
+
         // 上傳圖片，form data類型上傳數組需要逐個加入
         if (add_relate_image.length > 0) {
             add_relate_image.map(item => {
-                data.append('add_relate_image', {
-                    name: item.fileName,
-                    type: item.type,
-                    uri:
-                        Platform.OS === 'android'
-                            ? item.uri
-                            : item.uri.replace('file://', ''),
-                });
+                data.append('add_relate_image', item);
             });
         } else {
             data.append('add_relate_image', '[]');
         }
-        if (mode == 'edit') {
-            if (del_relate_image.length > 0) {
-                // 刪除後綴，根據21.07.30的後端標準，圖片需後端相對路徑
-                let delHostArr = [];
-                del_relate_image.map(itm => {
-                    delHostArr.push(itm.slice(BASE_HOST.length));
-                });
-                del_relate_image = delHostArr;
-                data.append(
-                    'del_relate_image',
-                    JSON.stringify(del_relate_image),
-                );
-            } else {
-                data.append('del_relate_image', '[]');
-            }
+
+        if (del_relate_image.length > 0) {
+            // 刪除後綴，根據21.07.30的後端標準，圖片需後端相對路徑
+            let delHostArr = [];
+            del_relate_image.map(itm => {
+                delHostArr.push(itm.slice(BASE_HOST.length));
+            });
+            del_relate_image = delHostArr;
+            data.append('del_relate_image', JSON.stringify(del_relate_image),);
+        } else {
+            data.append('del_relate_image', '[]');
         }
 
         // TODO: 圖片壓縮
 
+        for (var pair of data.entries()) {
+            console.log(pair[0] + ', ' + pair[1]);
+        }
+        return;
         // 上傳
         let URL = BASE_URI + POST.EVENT_EDIT;
-        return;
         await axios.post(URL, data, {
             withCredentials: true,
         }).then(res => {
@@ -216,26 +216,24 @@ const ActivityDetail = () => {
             setCoverImage(imgFileObj);
         } else if (type === "relate") {
             // 相關圖片
-            let imgRawArr = event.target.files;
-            let imgArr = [];
-
-            Object.keys(imgRawArr).map(key => {
-                imgArr.push(imgRawArr[key]);
-            });
+            let selectImgRawArr = event.target.files;
+            let selectImgArr = Object.keys(selectImgRawArr).map(key => selectImgRawArr[key]);
 
             // 數組中已經有數據，就插入，不把原來的替換掉了
             if (m_relatedImages && m_relatedImages.length > 0) {
-                imgArr = m_relatedImages.concat(imgArr);
+                selectImgArr = m_relatedImages.concat(selectImgArr);
             }
 
             // 選擇圖片不能超過4張
-            if (imgArr.length > 4) {
-                window.alert("選擇圖片不能超過4張");
+            if (selectImgArr.length > 4) {
+                window.alert("不能選擇超過4張圖片！");
                 return;
             }
 
-            setRelatedImages(imgArr);
-            add_relate_image = add_relate_image.concat(imgArr);
+            setRelatedImages(selectImgArr);
+            add_relate_image.push(...selectImgArr);
+            // TODO: 本來存在relate image的情況
+            console.log('新增', add_relate_image);
         }
     }
 
