@@ -278,7 +278,7 @@ const ClubInfo = () => {
                                             </h3>
                                         </div>
                                         <div className="flex flex-col  border-t-2 border-themeColorLight items-left font-bold text-themeColor opacity-80">
-                                            <p clasName="text-left">
+                                            <p className="text-left">
                                                 🕐:
                                                 {' '}
                                                 {parseTimeString(item.enddatetime).Year}{'-'}
