@@ -49,7 +49,7 @@ const ClubLogin = () => {
         let URL = BASE_URI + GET.CLUB_SIGN_IN;
         await axios.post(URL, qs.stringify(data), {
             // 使axios自動設置Cookies，登錄成功獲取ARK_TOKEN很重要
-            // withCredentials: true,
+            withCredentials: true,
         }).then(res => {
             let json = res.data;
             // 登錄成功
@@ -57,6 +57,7 @@ const ClubLogin = () => {
                 console.log("登入成功！")
                 localStorage.setItem("isClub", true);
                 localStorage.setItem("ClubData", JSON.stringify(json));
+                console.log(json);
                 window.location.href = "./club/clubInfo";
             }
             // 登錄失敗
