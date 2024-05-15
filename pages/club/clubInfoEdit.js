@@ -22,10 +22,14 @@ import ThemeChanger from '../../components/DarkSwitch';
 import LanguageSwitcher from '../../components/LanguageSwitcher';
 import Footer from "../../components/footer";
 import { customSettings } from '../../utils/settings';
+import NavBarSecondary from '../../components/navBarSecondary';
 
 export default function clubInfoEdit() {
+    const [m_clubImages, setClubImages] = useState(null);
+
     const [clubData, setClubData] = useState(null);
-    const [tempImgArr, setTempImgArr] = useState([null, null, null, null, null]);
+
+    const relateImageInputRef = useRef();
 
     useEffect(() => {
         getData('0');
@@ -89,6 +93,48 @@ export default function clubInfoEdit() {
         console.log('選擇的圖片ObjArr', fileObjArr);
     }
 
+    /**
+     * 
+     * @param {*} e 讀取文件事件，附帶一系列圖片文件 
+     */
+    function handleFileChange(e) {
+        // Object數組
+        let imgRawArr = e.target.files;
+        let imgArr = [];
+
+        // 將圖片推入數組
+        Object.keys(imgRawArr).map(
+            key => {
+                imgArr.push(imgRawArr[key]);
+            }
+        );
+
+        // 數組中已經有數據，就插入，不把原來的替換掉了
+        if (m_clubImages && m_clubImages instanceof Array) {
+            imgArr = m_clubImages.concat(imgArr);
+        }
+
+        // 選擇圖片不能超過五張
+        if (imgArr.length > 5) {
+            imgArr = imgArr.slice(0, 5);
+            window.alert('選擇圖片不能超過五張！');
+        }
+
+        setClubImages(imgArr);
+
+    }
+
+    /**
+     * 
+     * @param {*} e 讀取文件事件
+     * @param {*} indexToRemove 需要移除的文件的位置 
+     */
+    function handleImageRemove(e, indexToRemove) {
+        // 新的圖片數組
+        const updatedImageArr = m_clubImages.filter((item, index) => index != indexToRemove);
+        setClubImages(updatedImageArr);
+    }
+
     // TODO: 
     // 簡介
     // 圖片
@@ -97,31 +143,7 @@ export default function clubInfoEdit() {
     return (
         <Container>
             {/* 頂欄*/}
-            <div className="w-full mb-5">
-                <div className="flex justify-between items-center mb-10">
-                    <div className="flex items-center  text-themeColor text-xl font-bold">
-                        <div className="flex flex-col justify-center">
-                            <ChevronLeftIcon className="w-5 h-5" />
-                        </div>
-                        <div
-                            className=" hover:cursor-pointer hover:opacity-50"
-                            onClick={returnToClubInfo}
-                        >
-                            返回組織賬號頁
-                        </div>
-                    </div>
-                    <div className="hidden mr-3 space-x-4 lg:flex nav__item">
-                        <ThemeChanger />
-                        <LanguageSwitcher />
-                    </div>
-                </div>
-                {/* 本地測試警告 */}
-                {customSettings.is_local_test && (
-                    <div className="bg-alert pl-3 py-2">
-                        <p><strong>警告:</strong> 您現在使用的是本地服務器。</p>
-                    </div>
-                )}
-            </div>
+            <NavBarSecondary returnLocation="./clubInfo"></NavBarSecondary>
 
             {/* 照片 */}
             <p>照片修改 - 最多5張</p>
@@ -131,6 +153,41 @@ export default function clubInfoEdit() {
 
             <br />
             <button type="submit" id="submitButton">submit</button>
-        </Container >
+
+            {/*相關圖片*/}
+            <div className="bg-white dark:bg-gray-800 border-l-4 border-themeColorLight px-5 pt-3 pb-5 rounded-lg drop-shadow-md itmes-center mb-5">
+                <div className="mb-3">
+                    <h3 className="text-xl font-bold text-themeColor">相關圖片</h3>
+                </div>
+                <div className="lg:grid lg:grid-cols-4 md:block lg:gap-4 items-top justify-center mt-5">
+
+                    {/* 一般的相關圖片 */}
+                    {m_clubImages && m_clubImages.map((item, index) => (
+                        <div key={index} className="flex flex-col mb-4 items-center justify-center hover:cursor-pointer hover:opacity-80" >
+                            <img src={URL.createObjectURL(item)} className="rounded-lg" />
+                            <div className="absolute flex flex-col bg-black text-white text-2xl p-5 rounded-lg text-center justify-center w-64 h-48 opacity-0 hover:opacity-50"
+                                onClick={(e) => handleImageRemove(e, index)}>
+                                <p>刪除</p>
+                            </div>
+                        </div>
+                    ))}
+
+                    {/* 添加圖片模塊 */}
+                    <div className="flex flex-col items-center justify-center bg-themeColorUltraLight dark:bg-gray-700 rounded-lg border-4 border-themeColor border-dashed min-h-24 hover:cursor-pointer hover:opacity-50 mb-4"
+                        onClick={() => relateImageInputRef.current.click()}>
+                        <PlusCircleIcon className="w-10 h-10 text-themeColor" />
+                        <input
+                            type="file"
+                            accept="image/*"
+                            ref={relateImageInputRef}
+                            onChange={(e) => handleFileChange(e)}
+                            className="flex w-full h-full hidden"
+                            multiple
+                        />
+                    </div>
+                </div>
+
+            </div>
+        </Container>
     )
 }
