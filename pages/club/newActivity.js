@@ -22,6 +22,7 @@ import ThemeChanger from '../../components/DarkSwitch';
 import LanguageSwitcher from '../../components/LanguageSwitcher';
 import Footer from "../../components/footer";
 import { customSettings } from '../../utils/settings';
+import NavBarSecondary from '../../components/navBarSecondary';
 
 
 // 活動類型映射
@@ -252,13 +253,17 @@ const NewActivity = () => {
 
     /* -------------------------------圖片文件--------------------------------*/
     // 上傳相關圖片
-    function handleFileChange(event, type) {
+    function handleFileChange(event, type, drop = false) {
         if (type === "cover") {
             // 封面圖片
             //let image = URL.createObjectURL(event.target.files[0]);
-            let imgFileObj = event.target.files[0];
+            let imgFileObj = !drop ? event.target.files[0] : event.dataTransfer.files[0];
+            if (!imgFileObj) {
+                return;
+            }
             setCoverImage(imgFileObj);
-        } else if (type === "relate") {
+        }
+        else if (type === "relate") {
             // 相關圖片
             let imgRawArr = event.target.files;
             let imgArr = [];
@@ -301,13 +306,16 @@ const NewActivity = () => {
         }
         window.location.href = "./clubInfo";
     }
+
     /*---------------------------------初始化----------------------------------*/
     useEffect(() => {
         // TODO:初始化狀態數據,檢查localStorage中是否有保存編輯内容。
         restoreEdits();
     }, []);
 
-    const coverImageRef = useRef();
+    /*-------------------------------組件引用--------------------------------- */
+    const coverImgContainer = useRef();
+    const coverImgInput = useRef();
     const relateImageInputRef = useRef();
 
     /*----------------------------------渲染-----------------------------------*/
@@ -315,30 +323,7 @@ const NewActivity = () => {
         <>
             <Container>
                 {/* 頂欄*/}
-                <div className="w-full mb-5">
-                    <div className="flex justify-between items-center mb-10">
-                        <div className="flex items-center  text-themeColor text-xl font-bold">
-                            <div className="flex flex-col justify-center">
-                                <ChevronLeftIcon className="w-5 h-5" />
-                            </div>
-                            <div
-                                className=" hover:cursor-pointer hover:opacity-50"
-                                onClick={returnToClubInfo}>
-                                返回主頁
-                            </div>
-                        </div>
-                        <div className="hidden mr-3 space-x-4 lg:flex nav__item">
-                            <ThemeChanger />
-                            <LanguageSwitcher />
-                        </div>
-                    </div>
-                    {/* 本地測試警告 */}
-                    {customSettings.is_local_test && (
-                        <div className="bg-alert pl-3 py-2">
-                            <p><strong>警告:</strong> 您現在使用的是本地服務器。</p>
-                        </div>
-                    )}
-                </div>
+                <NavBarSecondary returnLocation={'../'}></NavBarSecondary>
 
                 {/* 輸入活動名稱 */}
                 <div className="flex flex-col items-center text-themeColor font-bold mb-5">
@@ -352,9 +337,25 @@ const NewActivity = () => {
 
                 {/* 添加封面圖片*/}
                 <div id="cover-img-placeholder" className="flex flex-col items-center mb-5" >
-                    <div className="flex flex-col w-96 h-96 items-center justify-center bg-themeColorUltraLight dark:bg-gray-700 rounded-lg border-4 border-themeColor border-dashed min-h-24 hover:cursor-pointer hover:opacity-50 mb-4"
-                        onClick={() => coverImageRef.current.click()}
-                    >
+                    <div className={`flex flex-col w-96 h-96 items-center justify-center bg-themeColorUltraLight dark:bg-gray-700 rounded-lg border-4 border-themeColor border-dashed min-h-24 hover:cursor-pointer hover:opacity-50 mb-4`}
+                        ref={coverImgContainer}
+                        onClick={() => coverImgInput.current.click()}
+                        onDragOver={(e) => {
+                            e.preventDefault();
+                            coverImgContainer.current.style.opacity = 0.5
+                        }}
+                        onDragLeave={(e) => coverImgContainer.current.style.opacity = null}
+                        onDrop={(e) => {
+                            e.preventDefault();
+                            if (e.dataTransfer.files.length > 0) {
+                                const file = e.dataTransfer.files[0];
+                                if (file.type.startsWith('image/')) {
+                                    handleFileChange(e, 'cover', true);
+                                } else {
+                                    alert('只支持图片上传！');
+                                }
+                            }
+                        }}>
                         {!m_coverImage && (
                             <div className="flex flex-col justify-center">
                                 <div className="flex items-center justify-center mb-2">
@@ -369,7 +370,7 @@ const NewActivity = () => {
                         <input
                             type="file"
                             accept="image/*"
-                            ref={coverImageRef}
+                            ref={coverImgInput}
                             onChange={(event) => handleFileChange(event, "cover")}
                             className="flex w-full h-full hidden"
                         />
