@@ -342,6 +342,7 @@ const NewActivity = () => {
                         onClick={() => coverImgInput.current.click()}
                         onDragOver={(e) => {
                             e.preventDefault();
+                            e.dataTransfer.dropEffect = 'copy';
                             coverImgContainer.current.style.opacity = 0.5
                         }}
                         onDragLeave={(e) => coverImgContainer.current.style.opacity = null}
