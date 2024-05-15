@@ -77,7 +77,7 @@ const ClubLogin = () => {
             <Navbar />
             <Container className="flex flex-col w-full h-full items-center justify-center">
                 {/* UI Block*/}
-                <div className="block p-5 pb-10 bg-themeColorUltraLight dark:bg-gray-800 drop-shadow-xl rounded-lg items-center justify-center min-w-96 ">
+                <div className="block p-5 pb-10 bg-themeColorUltraLight dark:bg-gray-800 drop-shadow-xl rounded-lg items-center justify-center min-w-96 hover: cursor-pointer hover:scale-105 transition ease-in-out">
                     <div className="text-2xl text-themeColor font-semibold mb-8 text-center">
                         <h1>{t("CLUB_LOGIN")}</h1>
                     </div>
