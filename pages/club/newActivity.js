@@ -1,15 +1,10 @@
 // 包引用
 import React, { useState, useEffect, useRef } from 'react';
-import { Router, Route, Link } from 'react-router';
 import axios from 'axios';
-import qs from 'qs';
-import ReactDOM from "react-dom/client"
 import {
-    PencilSquareIcon,
     TrashIcon,
     FolderArrowDownIcon,
     PlusCircleIcon,
-    ChevronLeftIcon,
     ArrowUpIcon
 } from "@heroicons/react/24/solid";
 import moment from 'moment/moment';
@@ -17,12 +12,8 @@ import moment from 'moment/moment';
 // 本地引用
 import { BASE_URI, BASE_HOST, GET, POST } from '../../utils/pathMap';
 import Container from '../../components/container';
-import Navbar from '../../components/navbar';
-import ThemeChanger from '../../components/DarkSwitch';
-import LanguageSwitcher from '../../components/LanguageSwitcher';
-import Footer from "../../components/footer";
-import { customSettings } from '../../utils/settings';
 import NavBarSecondary from '../../components/navBarSecondary';
+import u_fileHandle from '../../utils/functions/u_fileHandle';
 
 
 // 活動類型映射
