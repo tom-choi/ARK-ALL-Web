@@ -13,7 +13,7 @@ import moment from 'moment/moment';
 import { BASE_URI, BASE_HOST, GET, POST } from '../../utils/pathMap';
 import Container from '../../components/container';
 import NavBarSecondary from '../../components/navBarSecondary';
-import u_fileHandle from '../../utils/functions/u_fileHandle';
+import { handleFileChange } from '../../utils/functions/u_fileHandle';
 
 
 // 活動類型映射
@@ -284,7 +284,7 @@ const NewActivity = () => {
      * @param {*} drop 添加文件的方式，默認為點擊添加。也可拖拽添加。拖拽添加調用事件的dataTransfer而非target。
      * @returns 
      */
-    function handleFileChange(event, type, drop = false) {
+    function _handleFileChange(event, type, drop = false) {
         if (type === "cover") {
             // 封面圖片
             //let image = URL.createObjectURL(event.target.files[0]);
@@ -332,16 +332,6 @@ const NewActivity = () => {
         setRelatedImages(updatedImageArr);
     }
 
-    /*---------------------------------頁間導航--------------------------------*/
-    // 返回社團詳情頁
-    const returnToClubInfo = () => {
-        if (m_isEdited) {
-            let isUserConfirmExit = confirm("您有未緩存的編輯！退出會導致編輯失效！是否保存後退出？");
-            isUserConfirmExit && saveEdit();    // 用戶選擇保存
-        }
-        window.location.href = "./clubInfo";
-    }
-
     /*---------------------------------初始化----------------------------------*/
     useEffect(() => {
         // TODO:初始化狀態數據,檢查localStorage中是否有保存編輯内容。
@@ -386,7 +376,8 @@ const NewActivity = () => {
                             if (e.dataTransfer.files.length > 0) {
                                 const file = e.dataTransfer.files[0];
                                 if (file.type.startsWith('image/')) {
-                                    handleFileChange(e, 'cover', true);
+                                    // handleFileChange(e, 'cover', true);
+                                    handleFileChange(e, m_coverImage, setCoverImage, true, true);
                                 } else {
                                     alert('只支持图片上传！');
                                 }
@@ -407,7 +398,7 @@ const NewActivity = () => {
                             type="file"
                             accept="image/*"
                             ref={coverImgInput}
-                            onChange={(event) => handleFileChange(event, "cover")}
+                            onChange={(e) => handleFileChange(e, m_coverImage, setCoverImage, false, true)}
                             className="flex w-full h-full hidden"
                         />
                         {m_coverImage && (
@@ -543,6 +534,7 @@ const NewActivity = () => {
                     )}
                 </div>
 
+                {/* 相關圖片 */}
                 {m_type == "ACTIVITY" && (
                     // {/*相關圖片*/}
                     <div className="bg-white dark:bg-gray-800 border-l-4 border-themeColorLight px-5 pt-3 pb-5 rounded-lg drop-shadow-md itmes-center mb-5">
@@ -550,6 +542,7 @@ const NewActivity = () => {
                             <h3 className="text-xl font-bold text-themeColor">相關圖片</h3>
                         </div>
                         <div className="lg:grid lg:grid-cols-4 md:block lg:gap-4 items-top justify-center mt-5">
+
                             {/* 一般的相關圖片 */}
                             {m_relatedImages && m_relatedImages.map((item, index) => (
                                 <div key={index} className="flex flex-col mb-4 items-center justify-center hover:cursor-pointer hover:opacity-80" >
@@ -559,6 +552,7 @@ const NewActivity = () => {
                                     </div>
                                 </div>
                             ))}
+
                             {/* 添加圖片模塊 */}
                             <div className="flex flex-col items-center justify-center bg-themeColorUltraLight dark:bg-gray-700 rounded-lg border-4 border-themeColor border-dashed min-h-24 hover:cursor-pointer hover:opacity-50 mb-4"
                                 onClick={() => relateImageInputRef.current.click()}>
@@ -567,7 +561,7 @@ const NewActivity = () => {
                                     type="file"
                                     accept="image/*"
                                     ref={relateImageInputRef}
-                                    onChange={event => handleFileChange(event, "relate")}
+                                    onChange={(e) => handleFileChange(e, m_relatedImages, setRelatedImages, false, false, 4)}
                                     className="flex w-full h-full hidden"
                                     multiple
                                 />
