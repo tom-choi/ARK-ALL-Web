@@ -278,50 +278,6 @@ const NewActivity = () => {
 
     /* -------------------------------圖片文件--------------------------------*/
     /**
-     * 上傳相關圖片。
-     * @param {*} event 瀏覽器的事件，包含文件的對象
-     * @param {*} type 上傳圖片的類型，為封面圖片（唯一）或者相關圖片（多）。
-     * @param {*} drop 添加文件的方式，默認為點擊添加。也可拖拽添加。拖拽添加調用事件的dataTransfer而非target。
-     * @returns 
-     */
-    function _handleFileChange(event, type, drop = false) {
-        if (type === "cover") {
-            // 封面圖片
-            //let image = URL.createObjectURL(event.target.files[0]);
-            let imgFileObj = !drop ? event.target.files[0] : event.dataTransfer.files[0];
-            if (!imgFileObj) {
-                return;
-            }
-            setCoverImage(imgFileObj);
-        }
-        else if (type === "relate") {
-            // 相關圖片
-            let imgRawArr = event.target.files;
-            let imgArr = [];
-
-            Object.keys(imgRawArr).map(
-                key => {
-                    imgArr.push(imgRawArr[key]);
-                }
-            );
-
-            // 數組中已經有數據，就插入，不把原來的替換掉了
-            if (m_relatedImages && m_relatedImages instanceof Array) {
-                imgArr = m_relatedImages.concat(imgArr);
-            }
-
-            // 選擇圖片不能超過4張
-            if (imgArr.length > 4) {
-                window.alert("選擇圖片不能超過4張");
-                return;
-            }
-
-            setRelatedImages(imgArr);
-        }
-        // console.log('type', type);
-    }
-
-    /**
      * 刪除圖片。
      * @param {*} event 瀏覽器的事件，包含文件對象數組。
      * @param {*} indexToRemove 需要移除的項目。
