@@ -61,6 +61,11 @@ const NewActivity = () => {
     const [m_relatedImages, setRelatedImages] = useState(null);     // 暫存活動圖片
 
     /* -------------------------------編輯狀態--------------------------------*/
+    /**
+     * 統一的變更變量函數。
+     * @param {*} variable 需要更改的變量名
+     * @param {*} value 更改變量為目標值
+     */
     const makeChange = (variable, value) => {
         setIsEdited(true);
         console.log(m_isEdited);
@@ -82,6 +87,10 @@ const NewActivity = () => {
         }
     }
 
+    /**
+     * 檢測是否允許本地存儲。
+     * @returns 布爾值：是否允許本地存儲
+     */
     const isEditValidToSave = () => {
         let sDateTime = squashDateTime(m_sDate, m_sTime);
         let eDateTime = squashDateTime(m_eDate, m_eTime);
@@ -92,6 +101,10 @@ const NewActivity = () => {
         return b;
     }
 
+    /**
+     * 檢測是否允許上傳。
+     * @returns 布爾值：是否允許雲端
+     */
     const isEditValidToUpload = () => {
         // 除了“相關圖片”以外均是必須的
         let isCommonDataFulfilled = (
@@ -121,10 +134,21 @@ const NewActivity = () => {
         return true;
     }
 
+    /**
+     * 將時間字符串轉換爲目標格式。
+     * @param {*} date  日期
+     * @param {*} time  時間
+     * @param {*} divider   分隔符號 
+     * @returns 格式化的日期字符串
+     */
     const squashDateTime = (date, time, divider = " ") => {
         return date + divider + time;
     }
 
+    /**
+     * 保存編輯内容到本地。
+     * @returns 
+     */
     const saveEdit = () => {
         if (!isEditValidToSave())
             return;
@@ -156,6 +180,9 @@ const NewActivity = () => {
         setIsEdited(false);
     }
 
+    /**
+     * 放棄本地編輯。
+     */
     const discardEdit = () => {
         // 將localStorage中的相關數據清空
         localStorage.removeItem("createdActivityInfo");
@@ -166,6 +193,10 @@ const NewActivity = () => {
         setIsEdited(false);
     }
 
+    /**
+     * 異步上傳編輯内容到服務器。
+     * @returns 
+     */
     const uploadEdit = async () => {
         let isUserConfirmUpload = confirm("您即將上傳！");
         // 校驗輸入滿足要求
@@ -221,6 +252,9 @@ const NewActivity = () => {
         });
     }
 
+    /**
+     * 恢復存儲于本地的編輯内容。
+     */
     const restoreEdits = () => {
 
         // 獲取localStorage中存儲的編輯
@@ -252,7 +286,13 @@ const NewActivity = () => {
 
 
     /* -------------------------------圖片文件--------------------------------*/
-    // 上傳相關圖片
+    /**
+     * 上傳相關圖片。
+     * @param {*} event 瀏覽器的事件，包含文件的對象
+     * @param {*} type 上傳圖片的類型，為封面圖片（唯一）或者相關圖片（多）。
+     * @param {*} drop 添加文件的方式，默認為點擊添加。也可拖拽添加。拖拽添加調用事件的dataTransfer而非target。
+     * @returns 
+     */
     function handleFileChange(event, type, drop = false) {
         if (type === "cover") {
             // 封面圖片
@@ -290,7 +330,11 @@ const NewActivity = () => {
         // console.log('type', type);
     }
 
-    // 刪除圖片
+    /**
+     * 刪除圖片。
+     * @param {*} event 瀏覽器的事件，包含文件對象數組。
+     * @param {*} indexToRemove 需要移除的項目。
+     */
     function handleImageRemove(event, indexToRemove) {
         // 新的圖片數組
         const updatedImageArr = m_relatedImages.filter((item, index) => index != indexToRemove);
