@@ -14,6 +14,7 @@ import { BASE_URI, BASE_HOST, GET, POST } from '../../utils/pathMap';
 import Container from '../../components/container';
 import NavBarSecondary from '../../components/navBarSecondary';
 import { handleFileChange } from '../../utils/functions/u_fileHandle';
+import { upload } from '../../utils/functions/u_server';
 
 
 // 活動類型映射
@@ -185,16 +186,10 @@ const NewActivity = () => {
     }
 
     /**
-     * 異步上傳編輯内容到服務器。
+     * 製作上傳表單
      * @returns 
      */
-    const uploadEdit = async () => {
-        let isUserConfirmUpload = confirm("您即將上傳！");
-        // 校驗輸入滿足要求
-        if (!isUserConfirmUpload || !isEditValidToUpload()) {
-            return;
-        }
-
+    const getUploadNewActivityFormData = () => {
         // 預處理一些數據
         let s_DateTime = squashDateTime(m_sDate, m_sTime, 'T');
         let e_DateTime = squashDateTime(m_eDate, m_eTime, 'T');
@@ -207,6 +202,8 @@ const NewActivity = () => {
 
         // 圖片
         data.append('cover_image_file', m_coverImage);
+
+        // 相关图片
         if (m_relatedImages) {
             m_relatedImages.map(image => {
                 data.append('add_relate_image', image);
@@ -223,24 +220,21 @@ const NewActivity = () => {
         data.append('introduction', m_intro);
         data.append('can_follow', 'true');
 
-        let URL = BASE_URI + POST.EVENT_CREATE;
-        await axios.post(URL, data, {
-            withCredentials: true,
-        }).then(res => {
-            let json = res.data;
-            if (json.message == 'success') {
-                alert('上傳成功！');
-                // 本地保存清空
-                localStorage.removeItem("createdActivityInfo");
-                // 回退上一頁面
-                window.location.href = "../club/clubInfo";
-            } else {
-                alert('上傳失敗！');
-            }
-        }).catch(err => {
-            console.log(err);
-            alert('請求錯誤，請檢查網路。');
-        });
+        return data;
+    }
+
+    /**
+     * 異步上傳編輯内容到服務器。
+     * @returns 
+     */
+    const uploadEdit = async () => {
+        // 校驗輸入滿足要求
+        let guard = isEditValidToUpload();
+
+        // 获取上传表单
+        let uploadFormData = getUploadNewActivityFormData();
+
+        await upload(uploadFormData, BASE_URI + POST.EVENT_CREATE, 'createdActivityInfo', '../club/clubInfo', guard, true);
     }
 
     /**
@@ -275,8 +269,6 @@ const NewActivity = () => {
         }
     }
 
-
-    /* -------------------------------圖片文件--------------------------------*/
     /**
      * 刪除圖片。
      * @param {*} event 瀏覽器的事件，包含文件對象數組。
@@ -294,7 +286,6 @@ const NewActivity = () => {
         restoreEdits();
     }, []);
 
-    /*-------------------------------組件引用--------------------------------- */
     const coverImgContainer = useRef();
     const coverImgInput = useRef();
     const relateImageInputRef = useRef();
@@ -517,7 +508,9 @@ const NewActivity = () => {
                                     type="file"
                                     accept="image/*"
                                     ref={relateImageInputRef}
-                                    onChange={(e) => handleFileChange(e, m_relatedImages, setRelatedImages, false, false, 4)}
+                                    onChange={(e) =>
+                                        handleFileChange(e, m_relatedImages, setRelatedImages, false, false, 4)
+                                    }
                                     className="flex w-full h-full hidden"
                                     multiple
                                 />
