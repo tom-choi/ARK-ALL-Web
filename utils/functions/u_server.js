@@ -17,7 +17,7 @@ export async function upload(uploadFormData, apiURL, clearLocalStorage, returnLo
     }
 
     // 校驗輸入滿足要求
-    let allowUpload = guard && clearLocalStorage != '' && returnLoc != '' && isUserConfirmUpload;
+    let allowUpload = guard && returnLoc != '' && isUserConfirmUpload;
     if (!allowUpload) {
         return;
     }
@@ -43,13 +43,14 @@ export async function upload(uploadFormData, apiURL, clearLocalStorage, returnLo
         uploadFormData,
         { withCredentials: true, }
     ).then(res => {
+        // console.log(res.data);
         let json = res.data;
         if (json.message == 'success') {
-            alert('上傳成功！');
+            alert('成功！');
             localStorage.removeItem(clearLocalStorage);
             window.location.href = returnLoc;
         } else {
-            alert('上傳失敗！');
+            alert('失敗！');
         }
     }).catch(err => {
         alert('請求錯誤，請檢查網路。');
