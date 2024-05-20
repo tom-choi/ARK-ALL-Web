@@ -22,6 +22,7 @@ import Footer from "../../components/footer";
 import { upload } from "../../utils/functions/u_server";
 import { handleFileChange } from '../../utils/functions/u_fileHandle';
 import { squashDateTime } from '../../utils/functions/u_format';
+import NavBarSecondary from '../../components/navBarSecondary';
 
 
 // 活動類型映射
@@ -258,11 +259,6 @@ const ActivityDetail = () => {
 
 
     /*---------------------------------頁間導航--------------------------------*/
-    // 返回社團詳情頁
-    const returnToClubInfo = () => {
-        window.location.href = "./clubInfo";
-    }
-
     return (<>
         <title>
             {activityData && activityData.title} - 詳情
@@ -270,22 +266,7 @@ const ActivityDetail = () => {
 
         <Container>
             {/* 頂欄*/}
-            <div className="flex justify-between items-center mb-5">
-                <div className="flex items-center  text-themeColor text-xl font-bold">
-                    <div className="flex flex-col justify-center">
-                        <ChevronLeftIcon className="w-5 h-5" />
-                    </div>
-                    <div
-                        className=" hover:cursor-pointer hover:opacity-50"
-                        onClick={returnToClubInfo}>
-                        返回{activityData && activityData.club_name}
-                    </div>
-                </div>
-                <div className="hidden mr-3 space-x-4 lg:flex nav__item">
-                    <ThemeChanger />
-                    <LanguageSwitcher />
-                </div>
-            </div>
+            <NavBarSecondary returnLocation="./clubInfo"></NavBarSecondary>
 
             {!isLoading && (<>
                 {/* 社團名字+活動標題*/}

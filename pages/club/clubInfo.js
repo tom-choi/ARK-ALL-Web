@@ -124,7 +124,7 @@ const ClubInfo = () => {
         <Container>
 
             {/* 二級頂欄 */}
-            <NavBarSecondary returnLocation={'../'}>
+            <NavBarSecondary returnLocation={'../'} clearLocStorage>
             </NavBarSecondary>
 
             {!isloading ? (<>

@@ -284,7 +284,7 @@ const NewActivity = () => {
         <>
             <Container>
                 {/* 頂欄*/}
-                <NavBarSecondary returnLocation={'../'}></NavBarSecondary>
+                <NavBarSecondary returnLocation={'./clubInfo'}></NavBarSecondary>
 
                 {/* 輸入活動名稱 */}
                 <div className="flex flex-col items-center text-themeColor font-bold mb-5">
