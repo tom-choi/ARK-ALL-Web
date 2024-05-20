@@ -10,6 +10,8 @@ import LanguageSwitcher from "./LanguageSwitcher";
 
 const NavBarSecondary = (props) => {
 
+    const returnStr = props.returnStr ? props.returnStr : "主頁";
+
     const returnToPrevious = () => {
         if (props.clearLocStorage) localStorage.clear();
         window.location.href = props.returnLocation;
@@ -25,7 +27,7 @@ const NavBarSecondary = (props) => {
                     <div
                         className=" hover:cursor-pointer hover:opacity-50"
                         onClick={returnToPrevious}>
-                        返回主頁
+                        返回{returnStr}
                     </div>
                 </div>
                 <div className="hidden mr-3 space-x-4 lg:flex nav__item">

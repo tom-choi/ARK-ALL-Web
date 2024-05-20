@@ -266,7 +266,7 @@ const ActivityDetail = () => {
 
         <Container>
             {/* 頂欄*/}
-            <NavBarSecondary returnLocation="./clubInfo"></NavBarSecondary>
+            <NavBarSecondary returnLocation="./clubInfo" returnStr={'社團訊息'}></NavBarSecondary>
 
             {!isLoading && (<>
                 {/* 社團名字+活動標題*/}

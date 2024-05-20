@@ -143,7 +143,7 @@ export default function clubInfoEdit() {
     return (
         <Container>
             {/* 頂欄*/}
-            <NavBarSecondary returnLocation="./clubInfo"></NavBarSecondary>
+            <NavBarSecondary returnLocation="./clubInfo" returnStr={'社團訊息'}></NavBarSecondary>
 
             {/* 照片 */}
             <p>照片修改 - 最多5張</p>
