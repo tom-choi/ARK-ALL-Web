@@ -15,7 +15,7 @@ import Container from '../../components/container';
 import NavBarSecondary from '../../components/navBarSecondary';
 import { handleFileChange } from '../../utils/functions/u_fileHandle';
 import { upload } from '../../utils/functions/u_server';
-
+import { squashDateTime } from '../../utils/functions/u_format';
 
 // 活動類型映射
 const activityTypeMap = {
@@ -124,17 +124,6 @@ const NewActivity = () => {
         }
 
         return true;
-    }
-
-    /**
-     * 將時間字符串轉換爲目標格式。
-     * @param {*} date  日期
-     * @param {*} time  時間
-     * @param {*} divider   分隔符號 
-     * @returns 格式化的日期字符串
-     */
-    const squashDateTime = (date, time, divider = " ") => {
-        return date + divider + time;
     }
 
     /**
