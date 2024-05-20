@@ -19,6 +19,9 @@ import Navbar from '../../components/navbar';
 import ThemeChanger from '../../components/DarkSwitch';
 import LanguageSwitcher from '../../components/LanguageSwitcher';
 import Footer from "../../components/footer";
+import { upload } from "../../utils/functions/u_server";
+import { handleFileChange } from '../../utils/functions/u_fileHandle';
+import { squashDateTime } from '../../utils/functions/u_format';
 
 
 // 活動類型映射
@@ -57,29 +60,34 @@ const ActivityDetail = () => {
     // 相關圖片
     const [m_relatedImages, setRelatedImages] = useState(null);     // 暫存活動圖片
 
+    // 動態變量
     const [isLoading, setIsLoading] = useState(true);
 
-    const coverImageRef = useRef();
-    const relateImageInputRef = useRef();
+    /* -------------------------------編輯狀態--------------------------------*/
 
-    /*---------------------------------初始化----------------------------------*/
-    useEffect(() => {
-        fetchActivityData();
-
-        add_relate_image = [];
-        del_relate_image = [];
-
-        return () => {
-            add_relate_image = [];
-            del_relate_image = [];
+    /**
+     * 檢測是否允許本地存儲。
+     * @returns 布爾值：是否允許本地存儲
+     */
+    const isEditValidToSave = () => {
+        let sDateTime = squashDateTime(m_sDate, m_sTime);
+        let eDateTime = squashDateTime(m_eDate, m_eTime);
+        let b = moment(sDateTime).isSameOrBefore(eDateTime);
+        if (!b) {
+            window.alert("結束時間應該在開始時間之後！");
         }
-    }, []);
+        return b;
+    }
 
-    // 從本地緩存中獲取活動資料
+    /**
+     * 從本地緩存中獲取資料
+     */
     const fetchActivityData = () => {
+
+        // 從本地存儲中獲取活動訊息
         var curActivityInfo = JSON.parse(localStorage.getItem("CurActivity"));
         setActivityData(curActivityInfo);
-        console.log('curActivityInfo', curActivityInfo);
+
         if (curActivityInfo) {
             // 封面和標題
             curActivityInfo.title && setTitle(curActivityInfo.title);
@@ -97,40 +105,56 @@ const ActivityDetail = () => {
 
             // 簡介
             curActivityInfo.m_intro && setIntro(curActivityInfo.m_intro);
+
+            // 數據加載完畢，關閉lock
             setIsLoading(false);
         }
     }
 
-    // 開始編輯
+    /**
+     * 開始編輯
+     */
     const startEdit = () => {
         setEditMode(true);
     }
 
-    // 放棄編輯
+    /**
+     * 放棄編輯
+     */
     const discardEdit = () => {
         setEditMode(false);
     }
 
-    // 保存編輯
+    /**
+     * 保存編輯
+     */
     const saveEdit = () => {
-
+        if (!isEditValidToSave()) return;
     }
 
-    // 上傳編輯
-    const uploadEdit = async () => {
+    /**
+     * 製作上傳表單
+     */
+    const getUploadEditActivityFormData = () => {
+        // 預處理
+        let s_DateTime = squashDateTime(m_sDate, m_sTime, 'T');
+        let e_DateTime = squashDateTime(m_eDate, m_eTime, 'T');
+
+        // TODO: 校驗滿足上傳要求
+        // 獲取上傳表單
         let data = new FormData();
         data.append('id', activityData._id);
         data.append('title', m_title);
         data.append('type', m_type);
         data.append('link', m_link);
+
+        // 封面圖片
         if (m_coverImage != activityData.cover_image_url) {
             // 此時m_coverImage是file類型
             data.append('cover_image_file', m_coverImage);
         }
-        // TODO: relate images
-        console.log('上傳add_relate_image', add_relate_image);
 
-        // 上傳圖片，form data類型上傳數組需要逐個加入
+        // 相關圖片 - 增加
         if (add_relate_image.length > 0) {
             add_relate_image.map(item => {
                 data.append('add_relate_image', item);
@@ -139,6 +163,7 @@ const ActivityDetail = () => {
             data.append('add_relate_image', '[]');
         }
 
+        // 相關圖片 - 減少
         if (del_relate_image.length > 0) {
             // 刪除後綴，根據21.07.30的後端標準，圖片需後端相對路徑
             let delHostArr = [];
@@ -151,91 +176,46 @@ const ActivityDetail = () => {
             data.append('del_relate_image', '[]');
         }
 
-        // TODO: 圖片壓縮
+        // 開始和結束時間
+        data.append('startdatetime', s_DateTime);
+        data.append('enddatetime', e_DateTime);
+        data.append('loacation', m_location ? m_location : "");
+        data.append('introduction', m_intro);
+        data.append('can_follow', 'true');
 
-        for (var pair of data.entries()) {
-            console.log(pair[0] + ', ' + pair[1]);
-        }
-        return;
-        // 上傳
-        let URL = BASE_URI + POST.EVENT_EDIT;
-        await axios.post(URL, data, {
-            withCredentials: true,
-        }).then(res => {
-            let json = res.data;
-            // 上傳成功
-            if (json.message == 'success') {
-                alert('上傳成功');
-                // TODO: 如果上傳成功了就寫入localStorage，刷新頁面。
-                window.location.href = "./activityDetail";
-                setEditMode(false);
-            }
-            else {
-                alert('上傳失敗');
-                console.log(json);
-            }
-        }).catch(err => {
-            console.log('err', err);
-            alert('請求錯誤');
-        });
+        return data;
     }
 
-    // 刪除活動
+    /**
+     * 異步上傳編輯内容到服務器。
+     * @returns 
+     */
+    const uploadEdit = async () => {
+        // 獲取表單數據
+        let uploadFormData = getUploadEditActivityFormData();
+
+        // 上傳
+        await upload(uploadFormData, BASE_URI + POST.EVENT_EDIT, '', './activityDetail');
+        return;
+    }
+
+    /**
+     * 刪除活動
+     * @returns 
+     */
     const deleteActivity = async () => {
         let isUserConfirmDelete = confirm("確定要刪除這個活動嗎？這個操作無法撤銷。");
-        if (!isUserConfirmDelete) {
-            return;
-        }
+        if (!isUserConfirmDelete) return;
 
         let URL = BASE_URI + POST.EVENT_DEL;
         let data = new FormData();
         data.append("id", activityData._id);
 
-        await axios.post(URL, data, {
-            withCredentials: true,
-        }).then(resp => {
-            let json = resp.data;
-            console.log(json);
-            if (json.message == "success") {
-                window.location.href = "./clubInfo";
-            } else {
-                alert("删除活动失败");
-            }
-        }
-        ).catch(err => {
-            window.alert("刪除活動失敗，請重試！");
-        });
+        await upload(data, URL, '', './clubInfo');
+        return;
     }
 
     /* -------------------------------圖片文件--------------------------------*/
-    // 上傳相關圖片
-    function handleFileChange(event, type) {
-        if (type === "cover") {
-            // 封面圖片
-            let imgFileObj = event.target.files[0];
-            setCoverImage(imgFileObj);
-        } else if (type === "relate") {
-            // 相關圖片
-            let selectImgRawArr = event.target.files;
-            let selectImgArr = Object.keys(selectImgRawArr).map(key => selectImgRawArr[key]);
-
-            // 數組中已經有數據，就插入，不把原來的替換掉了
-            if (m_relatedImages && m_relatedImages.length > 0) {
-                selectImgArr = m_relatedImages.concat(selectImgArr);
-            }
-
-            // 選擇圖片不能超過4張
-            if (selectImgArr.length > 4) {
-                window.alert("不能選擇超過4張圖片！");
-                return;
-            }
-
-            setRelatedImages(selectImgArr);
-            add_relate_image.push(...selectImgArr);
-            // TODO: 本來存在relate image的情況
-            console.log('新增', add_relate_image);
-        }
-    }
 
     // TODO: 圖片刪除
     const handleImageDelete = (index) => {
@@ -258,6 +238,24 @@ const ActivityDetail = () => {
         // imageUrlArr.push('');
         // m_relatedImages(imageUrlArr);
     }
+
+
+    /*---------------------------------初始化----------------------------------*/
+    useEffect(() => {
+        fetchActivityData();
+
+        add_relate_image = [];
+        del_relate_image = [];
+
+        return () => {
+            add_relate_image = [];
+            del_relate_image = [];
+        }
+    }, []);
+
+    const coverImageRef = useRef();
+    const relateImageInputRef = useRef();
+
 
     /*---------------------------------頁間導航--------------------------------*/
     // 返回社團詳情頁
@@ -327,7 +325,7 @@ const ActivityDetail = () => {
                                 type="file"
                                 accept="image/*"
                                 ref={coverImageRef}
-                                onChange={event => handleFileChange(event, "cover")}
+                                onChange={event => handleFileChange(event, m_coverImage, setCoverImage, false, true)}
                                 className="w-full h-full hidden"
                             />
                         </div>
