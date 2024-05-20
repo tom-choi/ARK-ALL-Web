@@ -89,10 +89,13 @@ const ActivityDetail = () => {
         var curActivityInfo = JSON.parse(localStorage.getItem("CurActivity"));
         setActivityData(curActivityInfo);
 
+
         if (curActivityInfo) {
             // 封面和標題
             curActivityInfo.title && setTitle(curActivityInfo.title);
             curActivityInfo.cover_image_url && setCoverImage(curActivityInfo.cover_image_url);
+            curActivityInfo.relate_image_url && setRelatedImages(curActivityInfo.relate_image_url);
+            // curActivityInfo.relate_image_url && console.log(curActivityInfo.relate_image_url);
 
             // 基本訊息
             // TODO: 去除m_
@@ -219,25 +222,19 @@ const ActivityDetail = () => {
     /* -------------------------------圖片文件--------------------------------*/
 
     // TODO: 圖片刪除
-    const handleImageDelete = (index) => {
-        // 如果選擇刪除的圖片處於服務器數據中，上傳需刪除圖片的資訊
-        // TODO: 需刪除add image數組中的對應圖片
+    const handleImageDelete = (e, index) => {
+        let isCurImgInServer = index + 1 <= activityData.relate_image_url.length;
         let imageUrlArr = m_relatedImages;
-        if ('relate_image_url' in activityData &&
-            index + 1 <= activityData.relate_image_url.length
-        ) {
-            console.log('需刪已儲存數組');
-            // del_relate_image.push(imageUrlArr[index]);
+
+        if (isCurImgInServer) {
+            // 刪除服務器中的數組
+            del_relate_image.push(imageUrlArr[index]);
         } else {
-            console.log('需刪除add數組');
-            // let indexOfAddArray = add_relate_image.indexOf(
-            //     imageUrlArr[index],
-            // );
-            // add_relate_image.splice(indexOfAddArray, 1);
+            // 單純刪除本地存儲數組即可
+            // 新的圖片數組
+            const updatedImageArr = m_relatedImages.filter((item, index) => index != indexToRemove);
+            setRelatedImages(updatedImageArr);
         }
-        // imageUrlArr.splice(index, 1);
-        // imageUrlArr.push('');
-        // m_relatedImages(imageUrlArr);
     }
 
 
@@ -425,23 +422,27 @@ const ActivityDetail = () => {
                         <div className="grid grid-cols-4 gap-4 items-top justify-center mt-5">
                             {m_relatedImages && m_relatedImages.map((item, index) => (
                                 <div key={index} className="flex mb-4 items-center justify-center" >
-                                    <img src={URL.createObjectURL(item)} className="rounded-lg border-themeColor border-4" />
+                                    <img src={
+                                        typeof item == 'object' ? URL.createObjectURL(item) : BASE_HOST + item
+                                    } className="rounded-lg border-themeColor border-4" />
                                     {/* 刪除按鈕 */}
-                                    <div className="absolute flex flex-col 
-                                    bg-black text-white
-                                    text-xl p-3 rounded-lg text-center justify-center opacity-50 
-                                    hover:cursor-pointer hover:opacity-100 hover:bg-alert"
-                                        onClick={() => {
-                                            if (confirm('確認刪除這張圖片嗎？')) {
-                                                // TODO: 已存在服務器的，普通URL 文本類型
-                                                // 克隆一次File Object，使用JSON會使File Object變為{}
-                                                let arr = m_relatedImages.map(i => new File([i], i.name, { type: i.type }))
-                                                arr.splice(index, 1);
-                                                setRelatedImages(arr);
-                                            }
-                                        }}>
-                                        <p>刪除</p>
-                                    </div>
+                                    {isEditMode && (
+                                        <div className="absolute flex flex-col 
+                                        bg-black text-white
+                                        text-xl p-3 rounded-lg text-center justify-center opacity-50 
+                                        hover:cursor-pointer hover:opacity-100 hover:bg-alert"
+                                            onClick={() => {
+                                                if (confirm('確認刪除這張圖片嗎？')) {
+                                                    // TODO: 已存在服務器的，普通URL 文本類型
+                                                    // 克隆一次File Object，使用JSON會使File Object變為{}
+                                                    let arr = m_relatedImages.map(i => new File([i], i.name, { type: i.type }))
+                                                    arr.splice(index, 1);
+                                                    setRelatedImages(arr);
+                                                }
+                                            }}>
+                                            <p>刪除</p>
+                                        </div>
+                                    )}
                                 </div>
                             ))}
                             {/* 添加圖片模塊：僅在編輯圖片時展示 */}
@@ -454,7 +455,7 @@ const ActivityDetail = () => {
                                         accept="image/*"
                                         multiple
                                         ref={relateImageInputRef}
-                                        onChange={event => handleFileChange(event, "relate")}
+                                        onChange={event => handleFileChange(event, m_relatedImages, setRelatedImages, false, false, 4)}
                                         className="flex w-full h-full hidden"
                                     />
                                 </div>
