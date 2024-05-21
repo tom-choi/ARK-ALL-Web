@@ -11,6 +11,7 @@ import moment from 'moment';
 // 本地引用
 import { BASE_URI, BASE_HOST, GET, POST } from '../../utils/pathMap';
 import Container from '../../components/container';
+import { AfterLoading } from '../../components/uiComponents/AfterLoading';
 import Footer from "../../components/footer";
 import { upload } from "../../utils/functions/u_server";
 import { handleFileChange } from '../../utils/functions/u_fileHandle';
@@ -18,6 +19,7 @@ import { squashDateTime } from '../../utils/functions/u_format';
 import NavBarSecondary from '../../components/navBarSecondary';
 import { ListImage, ListImageAdd } from '../../components/uiComponents/ListImage';
 import { StdButton } from '../../components/uiComponents/StdButton';
+import { ContentBlock } from '../../components/uiComponents/ContentBlock';
 
 
 // 活動類型映射
@@ -265,190 +267,179 @@ const ActivityDetail = () => {
             {/* 頂欄*/}
             <NavBarSecondary returnLocation="./clubInfo" returnStr={'社團訊息'}></NavBarSecondary>
 
-            {!isLoading && (<>
-                {/* 社團名字+活動標題*/}
-                <div className="flex flex-col items-center text-themeColor font-bold mb-5">
-                    {!isEditMode ? (
-                        <h1 className="text-3xl">
-                            {activityData && activityData.title}
-                        </h1>
-                    ) : (
-                        <input
-                            placeholder={"活動名稱"}
-                            defaultValue={activityData && activityData.title}
-                            className="text-3xl border-4 border-themeColor rounded-lg h-10 p-2"
-                            onChangeCapture={(event) => setTitle(event.target.value)}>
-                        </input>
-                    )}
-                    {/* 社團名字 */}
-                    <h3 className="text-xl mb-3">
-                        {'By ' + (activityData && activityData.club_name)}
-                    </h3>
-                </div>
-
-                {/* 封面圖片 */}
-                <div className="flex flex-col items-center mb-5">
-                    <img className="w-96 shadow-lg rounded-xl" style={{ backgroundColor: '#fff' }}
-                        src={typeof m_coverImage == 'object' ? URL.createObjectURL(m_coverImage) : BASE_HOST + m_coverImage}
-                    />
-                    {/* 更換圖片按鈕 */}
-                    {isEditMode && (<div className="absolute flex items-center justify-center mt-3">
-                        <div className="flex flex-col bg-black text-white
-                            text-xl p-3 rounded-lg text-center justify-center opacity-50 
-                            hover:cursor-pointer hover:opacity-100"
-                            onClick={() => coverImageRef.current.click()}
-                        >
-                            <p>更換</p>
-                            <input
-                                type="file"
-                                accept="image/*"
-                                ref={coverImageRef}
-                                onChange={event => handleFileChange(event, m_coverImage, setCoverImage, false, true)}
-                                className="w-full h-full hidden"
-                            />
-                        </div>
-                        {activityData.cover_image_url != m_coverImage && (
-                            <div className="ml-5 flex flex-col bg-black text-white
-                            text-xl p-3 rounded-lg text-center justify-center opacity-50 
-                            hover:cursor-pointer hover:opacity-100"
-                                onClick={() => setCoverImage(activityData.cover_image_url)}
-                            >
-                                <p>還原</p>
-                            </div>
-                        )}
-                    </div>)}
-                </div>
-
-                {/*操作陣列*/}
-                <div className="flex items-center justify-center my-10">
-                    {/* 編輯按鈕*/}
-                    <StdButton color="bg-themeColor" onClickFunc={isEditMode ? discardEdit : startEdit} textContent={isEditMode ? '取消編輯' : '編輯'} Icon={PencilSquareIcon}></StdButton>
-
-                    {/* TODO: 刪除活動按鈕*/}
-                    {isEditMode && (
-                        <StdButton color="bg-alert" onClickFunc={deleteActivity} textContent={'刪除活動'} Icon={TrashIcon}></StdButton>
-                    )}
-                </div>
-
-                {/* 時間和介紹 */}
-                <div className="lg:grid lg:grid-cols-2 md:block gap-4 items-top justify-center mt-5">
-                    {/*開始和結束時間*/}
-                    {/* TODO: 編輯時間 */}
-                    <div className="bg-white dark:bg-gray-800 border-l-4 border-themeColorLight px-5 pt-3 pb-5 rounded-lg drop-shadow-md itmes-center mb-5">
-                        {/*標題*/}
-                        <div className="mb-3">
-                            <h3 className="text-xl font-bold text-themeColor">基本訊息</h3>
-                        </div>
-                        {/* 開始時間和結束時間*/}
-                        <p>
-                            <span className="text-themeColor font-bold">
-                                開始:{'  '}
-                            </span>
-                            {activityData && moment(activityData.timestamp).format("YYYY-MM-DD HH:mm")}
-                        </p>
-                        <p>
-                            <span className="text-themeColor font-bold">
-                                結束:{'  '}
-                            </span>
-                            {activityData && moment(activityData.enddatetime).format("YYYY-MM-DD HH:mm")}
-                        </p>
-                        {/* 地點 */}
-                        <p>
-                            <span className="text-themeColor font-bold">
-                                地點:{'  '}
-                            </span>
-                            {!isEditMode ? (activityData && activityData.location) : (
-                                <input
-                                    placeholder={"地點"}
-                                    defaultValue={activityData && activityData.location}
-                                    className="text-lg border-4 border-themeColor rounded-lg h-10 p-2"
-                                    onChangeCapture={(event) => setLocation(event.target.value)}>
-                                </input>
-                            )}
-                        </p>
-                    </div>
-
-                    {/*活動介紹*/}
-                    <div className="bg-white dark:bg-gray-800 border-l-4 border-themeColorLight px-5 pt-3 pb-5 rounded-lg drop-shadow-md itmes-center mb-5">
-                        {/*標題*/}
-                        <div className="mb-3">
-                            <h3 className="text-xl font-bold text-themeColor">簡介</h3>
-                        </div>
+            <AfterLoading isLoading={isLoading}>
+                <>
+                    {/* 社團名字+活動標題*/}
+                    <div className="flex flex-col items-center text-themeColor font-bold mb-5">
                         {!isEditMode ? (
-                            <p className="text-ellipsis overflow-hidden">
-                                {activityData && activityData.introduction}
-                            </p>
+                            <h1 className="text-3xl">
+                                {activityData && activityData.title}
+                            </h1>
                         ) : (
-                            <textarea
-                                placeholder={"簡介"}
-                                className="text-lg block w-full border-4 border-themeColor rounded-lg p-2 resize-none min-h-32"
-                                rows="10"
-                                onChangeCapture={(event) => setIntro(event.target.value)}>
-                                {activityData && activityData.introduction}
-                            </textarea>
+                            <input
+                                placeholder={"活動名稱"}
+                                defaultValue={activityData && activityData.title}
+                                className="text-3xl border-4 border-themeColor rounded-lg h-10 p-2"
+                                onChangeCapture={(event) => setTitle(event.target.value)}>
+                            </input>
+                        )}
+                        {/* 社團名字 */}
+                        <h3 className="text-xl mb-3">
+                            {'By ' + (activityData && activityData.club_name)}
+                        </h3>
+                    </div>
+
+                    {/* 封面圖片 */}
+                    <div className="flex flex-col items-center mb-5">
+                        <img className="w-96 shadow-lg rounded-xl" style={{ backgroundColor: '#fff' }}
+                            src={m_coverImage && typeof m_coverImage == 'object' ? URL.createObjectURL(m_coverImage) : BASE_HOST + m_coverImage}
+                        />
+                        {/* 更換圖片按鈕 */}
+                        {isEditMode && (
+                            <div className="absolute flex items-center justify-center mt-3">
+                                <div className="flex flex-col bg-black text-white
+                    text-xl p-3 rounded-lg text-center justify-center opacity-50 
+                    hover:cursor-pointer hover:opacity-100"
+                                    onClick={() => coverImageRef.current.click()}>
+                                    <p>更換</p>
+                                    <input
+                                        type="file"
+                                        accept="image/*"
+                                        ref={coverImageRef}
+                                        onChange={event => handleFileChange(event, m_coverImage, setCoverImage, false, true)}
+                                        className="w-full h-full hidden"
+                                    />
+                                </div>
+                                {activityData.cover_image_url != m_coverImage && (
+                                    <div className="ml-5 flex flex-col bg-black text-white
+                    text-xl p-3 rounded-lg text-center justify-center opacity-50 
+                    hover:cursor-pointer hover:opacity-100"
+                                        onClick={() => setCoverImage(activityData.cover_image_url)}
+                                    >
+                                        <p>還原</p>
+                                    </div>
+                                )}
+                            </div>)}
+                    </div>
+
+                    {/*操作陣列*/}
+                    <div className="flex items-center justify-center my-10">
+                        {/* 編輯按鈕*/}
+                        <StdButton color="bg-themeColor" onClickFunc={isEditMode ? discardEdit : startEdit} textContent={isEditMode ? '取消編輯' : '編輯'} Icon={PencilSquareIcon}></StdButton>
+
+                        {/* TODO: 刪除活動按鈕*/}
+                        {isEditMode && (
+                            <StdButton color="bg-alert" onClickFunc={deleteActivity} textContent={'刪除活動'} Icon={TrashIcon}></StdButton>
                         )}
                     </div>
 
-                </div>
+                    {/* 時間和介紹 */}
+                    <div className="lg:grid lg:grid-cols-2 md:block gap-4 items-top justify-center mt-5">
+                        {/*開始和結束時間*/}
+                        <ContentBlock title="基本訊息">
+                            {/* 開始時間和結束時間*/}
+                            <p>
+                                <span className="text-themeColor font-bold">
+                                    開始:{'  '}
+                                </span>
+                                {activityData && moment(activityData.timestamp).format("YYYY-MM-DD HH:mm")}
+                            </p>
+                            <p>
+                                <span className="text-themeColor font-bold">
+                                    結束:{'  '}
+                                </span>
+                                {activityData && moment(activityData.enddatetime).format("YYYY-MM-DD HH:mm")}
+                            </p>
+                            {/* 地點 */}
+                            <p>
+                                <span className="text-themeColor font-bold">
+                                    地點:{'  '}
+                                </span>
+                                {!isEditMode ? (activityData && activityData.location) : (
+                                    <input
+                                        placeholder={"地點"}
+                                        defaultValue={activityData && activityData.location}
+                                        className="text-lg border-4 border-themeColor rounded-lg h-10 p-2"
+                                        onChangeCapture={(event) => setLocation(event.target.value)}>
+                                    </input>
+                                )}
+                            </p>
+                        </ContentBlock>
 
-                {/* TODO: Link類型 */}
-
-                {/* 相關圖片 (如果沒有相關圖片就不展示該模塊) */}
-                {activityData && (activityData.relate_image_url.length > 0 || isEditMode) && (
-                    <div className="bg-white dark:bg-gray-800 border-l-4 border-themeColorLight px-5 pt-3 pb-5 rounded-lg drop-shadow-md itmes-center mb-5">
-                        <div className="mb-3">
-                            <h3 className="text-xl font-bold text-themeColor">相關圖片</h3>
-                        </div>
-                        {/* 渲染具體相關圖片 */}
-                        <div className="grid grid-cols-4 gap-4 items-top justify-center mt-5">
-                            {/* 相關圖片 */}
-                            {m_relatedImages && m_relatedImages.map((item, index) =>
-                                !del_relate_image_index.some(ele => ele == index) &&
-                                (
-                                    <ListImage item={item} index={index} isEditMode={isEditMode} handleImageDelete={handleImageDelete}></ListImage>
-                                ))}
-
-                            {/* 添加圖片模塊：僅在編輯圖片時展示 */}
-                            {isEditMode && (m_relatedImages ? m_relatedImages.length < 4 : true) && (
-                                <ListImageAdd
-                                    relateImageInputRef={relateImageInputRef}
-                                    imageList={m_relatedImages}
-                                    setImageList={setRelatedImages}
-                                    fileNumLimit={4}>
-                                </ListImageAdd>
+                        {/*活動介紹*/}
+                        <ContentBlock title="簡介">
+                            {!isEditMode ? (
+                                <p className="text-ellipsis overflow-hidden">
+                                    {activityData && activityData.introduction}
+                                </p>
+                            ) : (
+                                <textarea
+                                    placeholder={"簡介"}
+                                    className="text-lg block w-full border-4 border-themeColor rounded-lg p-2 resize-none min-h-32"
+                                    rows="10"
+                                    onChangeCapture={(event) => setIntro(event.target.value)}>
+                                    {activityData && activityData.introduction}
+                                </textarea>
                             )}
-                        </div>
+                        </ContentBlock>
                     </div>
-                )}
 
-                {/*操作陣列*/}
-                {isEditMode && (
-                    <div className="flex items-center justify-center my-10">
-                        {/* 保存按鈕*/}
-                        <div className="flex items-center justify-center mx-5" onClick={saveEdit}>
-                            <div className="flex bg-themeColor py-3 px-5 rounded-full text-white hover:opacity-50 hover:cursor-pointer">
-                                <div className="flex flex-col justify-center">
-                                    <FolderArrowDownIcon className="w-5 h-5" />
+                    {/* TODO: Link類型 */}
+
+                    {/* 相關圖片 (如果沒有相關圖片就不展示該模塊) */}
+                    {activityData && (activityData.relate_image_url.length > 0 || isEditMode) && (
+                        <ContentBlock title="相關圖片">
+                            {/* 渲染具體相關圖片 */}
+                            <div className="grid grid-cols-4 gap-4 items-top justify-center mt-5">
+                                {/* 相關圖片 */}
+                                {m_relatedImages && m_relatedImages.map((item, index) =>
+                                    !del_relate_image_index.some(ele => ele == index) &&
+                                    (
+                                        <ListImage item={item} index={index} isEditMode={isEditMode} handleImageDelete={handleImageDelete}></ListImage>
+                                    ))}
+
+                                {/* 添加圖片模塊：僅在編輯圖片時展示 */}
+                                {isEditMode && (m_relatedImages ? m_relatedImages.length < 4 : true) && (
+                                    <ListImageAdd
+                                        relateImageInputRef={relateImageInputRef}
+                                        imageList={m_relatedImages}
+                                        setImageList={setRelatedImages}
+                                        fileNumLimit={4}>
+                                    </ListImageAdd>
+                                )}
+                            </div>
+                        </ContentBlock>
+                    )}
+
+                    {/*操作陣列*/}
+                    {isEditMode && (
+                        <div className="flex items-center justify-center my-10">
+                            {/* 保存按鈕*/}
+                            <div className="flex items-center justify-center mx-5" onClick={saveEdit}>
+                                <div className="flex bg-themeColor py-3 px-5 rounded-full text-white hover:opacity-50 hover:cursor-pointer">
+                                    <div className="flex flex-col justify-center">
+                                        <FolderArrowDownIcon className="w-5 h-5" />
+                                    </div>
+                                    <div className="flex flex-col justify-center ml-3">
+                                        <span>本地保存</span>
+                                    </div>
                                 </div>
-                                <div className="flex flex-col justify-center ml-3">
-                                    <span>本地保存</span>
+                            </div>
+                            {/* 上傳*/}
+                            <div className="flex items-center justify-center mx-5" onClick={uploadEdit}>
+                                <div className="flex bg-themeColor py-3 px-5 rounded-full text-white hover:opacity-50 hover:cursor-pointer">
+                                    <div className="flex flex-col justify-center">
+                                        <ArrowUpIcon className="w-5 h-5" />
+                                    </div>
+                                    <div className="flex flex-col justify-center ml-3">
+                                        <span>上傳改動</span>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                        {/* 上傳*/}
-                        <div className="flex items-center justify-center mx-5" onClick={uploadEdit}>
-                            <div className="flex bg-themeColor py-3 px-5 rounded-full text-white hover:opacity-50 hover:cursor-pointer">
-                                <div className="flex flex-col justify-center">
-                                    <ArrowUpIcon className="w-5 h-5" />
-                                </div>
-                                <div className="flex flex-col justify-center ml-3">
-                                    <span>上傳改動</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                )}
-            </>)}
+                    )}
+                </>
+            </AfterLoading>
 
         </Container>
 
