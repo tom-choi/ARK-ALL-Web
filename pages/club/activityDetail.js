@@ -19,7 +19,7 @@ import { squashDateTime } from '../../utils/functions/u_format';
 import NavBarSecondary from '../../components/navBarSecondary';
 import { ListImage, ListImageAdd } from '../../components/uiComponents/ListImage';
 import { StdButton } from '../../components/uiComponents/StdButton';
-import { ContentBlock } from '../../components/uiComponents/ContentBlock';
+import { ContentBlock, ContentBlockGrid } from '../../components/uiComponents/ContentBlock';
 
 
 // 活動類型映射
@@ -334,7 +334,7 @@ const ActivityDetail = () => {
                     </div>
 
                     {/* 時間和介紹 */}
-                    <div className="lg:grid lg:grid-cols-2 md:block gap-4 items-top justify-center mt-5">
+                    <ContentBlockGrid>
                         {/*開始和結束時間*/}
                         <ContentBlock title="基本訊息">
                             {/* 開始時間和結束時間*/}
@@ -382,7 +382,7 @@ const ActivityDetail = () => {
                                 </textarea>
                             )}
                         </ContentBlock>
-                    </div>
+                    </ContentBlockGrid>
 
                     {/* TODO: Link類型 */}
 

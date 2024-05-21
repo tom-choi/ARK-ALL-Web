@@ -9,3 +9,11 @@ export const ContentBlock = (props) => {
         </div>
     );
 }
+
+export const ContentBlockGrid = (props) => {
+    return (
+        <div className="lg:grid lg:grid-cols-2 md:block gap-4 items-top justify-center mt-5">
+            {props.children}
+        </div>
+    );
+}

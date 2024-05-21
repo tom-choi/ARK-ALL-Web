@@ -14,7 +14,7 @@ import NavBarSecondary from '../../components/navBarSecondary';
 import Footer from "../../components/footer";
 import { parseTimeString } from '../../utils/functions/u_format';
 import { StdButton } from '../../components/uiComponents/StdButton';
-import { ContentBlock } from '../../components/uiComponents/ContentBlock';
+import { ContentBlock, ContentBlockGrid } from '../../components/uiComponents/ContentBlock';
 
 
 const toNewActivity = () => {
@@ -198,8 +198,8 @@ const ClubInfo = () => {
                     </div>
 
                     {/* 社團內容展示（聯繫方式和圖片的分欄） */}
-                    {/* 這個內容做了響應式，其中不應再添加更多內容了。*/}
-                    <div className="lg:grid lg:grid-cols-2 md:block gap-4 items-top justify-center mt-5">
+                    <ContentBlockGrid>
+
                         {/*聯繫方式(只展示不為空的聯繫方式) */}
                         <ContentBlock title="聯繫方式">
                             <ul>
@@ -238,7 +238,7 @@ const ClubInfo = () => {
                                 )}
                             </div>
                         </ContentBlock>
-                    </div>
+                    </ContentBlockGrid>
 
                     {/* 社團活動 */}
                     <div className="px-5 pt-3 pb-5 rounded-lg drop-shadow-md itmes-center mb-5">
