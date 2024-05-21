@@ -7,6 +7,7 @@ import {
     ArrowUpIcon,
 } from "@heroicons/react/24/solid";
 import moment from 'moment';
+import axios from 'axios';
 
 // 本地引用
 import { BASE_URI, BASE_HOST, GET, POST } from '../../utils/pathMap';
@@ -81,7 +82,7 @@ const ActivityDetail = () => {
     /**
      * 從本地緩存中獲取資料
      */
-    const fetchActivityData = () => {
+    const fetchActivityDataFromLocalStorage = () => {
 
         // 從本地存儲中獲取活動訊息
         var curActivityInfo = JSON.parse(localStorage.getItem("CurActivity"));
@@ -111,12 +112,36 @@ const ActivityDetail = () => {
             // 數據加載完畢，關閉lock
             setIsLoading(false);
         }
+
+    }
+
+    /**
+     * 從網絡刷新活動數據
+     */
+    const refreshActivityData = async () => {
+        // 獲取Activity ID
+        let activityID = activityData._id;
+        await axios({
+            headers: { 'Content-Type': 'application/x-ww-form-urlencoded', },
+            method: 'get',
+            url: BASE_URI + GET.EVENT_INFO_EVENT_ID + activityID,
+        }).then(resp => {
+            let json = resp.data;
+            if (json.message = 'success') {
+                localStorage.setItem('CurActivity', JSON.stringify(json.content));
+            } else {
+                window.alert('無法獲取活動訊息！');
+            }
+        }).catch(err => {
+            window.alert('網絡錯誤！');
+        });
     }
 
     /**
      * 開始編輯
      */
     const startEdit = () => {
+        console.log(m_relatedImages);
         setEditMode(true);
     }
 
@@ -142,7 +167,6 @@ const ActivityDetail = () => {
         let s_DateTime = squashDateTime(m_sDate, m_sTime, 'T');
         let e_DateTime = squashDateTime(m_eDate, m_eTime, 'T');
 
-        // TODO: 校驗滿足上傳要求
         // 獲取上傳表單
         let data = new FormData();
         data.append('id', activityData._id);
@@ -157,10 +181,10 @@ const ActivityDetail = () => {
         }
 
         // 相關圖片 - 增加
+        // 析取数组中为object的项目，即爲要上傳的圖片
+        let add_relate_image = m_relatedImages.filter(item => typeof item == 'object');
         if (add_relate_image.length > 0) {
-            add_relate_image.map(item => {
-                data.append('add_relate_image', item);
-            });
+            add_relate_image.map(imageFileObj => data.append('add_relate_image', imageFileObj));
         } else {
             data.append('add_relate_image', '[]');
         }
@@ -168,12 +192,10 @@ const ActivityDetail = () => {
         // 相關圖片 - 減少
         if (del_relate_image.length > 0) {
             // 刪除後綴，根據21.07.30的後端標準，圖片需後端相對路徑
-            let delHostArr = [];
-            del_relate_image.map(itm => {
-                delHostArr.push(itm.slice(BASE_HOST.length));
+            del_relate_image.map(imageURL => {
+                let thisURL = imageURL.slice(BASE_HOST.length);
+                data.append('del_relate_image', thisURL);
             });
-            del_relate_image = delHostArr;
-            data.append('del_relate_image', JSON.stringify(del_relate_image),);
         } else {
             data.append('del_relate_image', '[]');
         }
@@ -198,6 +220,9 @@ const ActivityDetail = () => {
 
         // 上傳
         await upload(uploadFormData, BASE_URI + POST.EVENT_EDIT, '', './activityDetail');
+
+        // 刷新
+        await refreshActivityData();
         return;
     }
 
@@ -218,31 +243,41 @@ const ActivityDetail = () => {
     }
 
     /* -------------------------------圖片文件--------------------------------*/
-    const handleImageDelete = (e, index) => {
-        // TODO: 判斷圖片是否是服務器圖片，需要更好的方法
-        let len = activityData.relate_image_url.length;
-        let isCurImgInServer = index + 1 <= len;
+    /**
+     * 刪除圖片
+     * @param {event} e 刪除圖片事件 
+     * @param {int} indexToRemove 刪除圖片的序號
+     */
+    const handleRelateImgDelete = (e, indexToRemove) => {
+        // item為string: 服務器圖片；item為Object：本地圖片
+        let isCurImgInServer = void 0;
+        if (typeof m_relatedImages[indexToRemove] == 'object') {
+            isCurImgInServer = false;
+        } else if (typeof m_relatedImages[indexToRemove] == 'string') {
+            isCurImgInServer = true;
+        } else {
+            throw new Exception('圖片類型有誤！');
+        }
 
-        let imageUrlArr = m_relatedImages;
+        let curImage = m_relatedImages[indexToRemove];
 
         if (isCurImgInServer) {
-            // 刪除服務器中的數組
-            del_relate_image.push(imageUrlArr[index]);
-            del_relate_image_index.push(index);
-        } else {
-            // 單純刪除本地存儲數組即可
-            // 新的圖片數組
-            const updatedImageArr = m_relatedImages.filter((item, index) => index != indexToRemove);
-            setRelatedImages(updatedImageArr);
+            // 刪除服務器中的數組。不直接刪除，而是保留在數組中，最後上傳服務器刪除。保證數據庫裏的圖片長度一定。
+            del_relate_image.push(curImage);
         }
+
+        // 單純刪除本地數組中存儲的即可
+        const updatedImageArr = m_relatedImages.filter((item, index) => index != indexToRemove);
+        setRelatedImages(updatedImageArr);
+
     }
 
 
     /*---------------------------------初始化----------------------------------*/
     useEffect(() => {
-        fetchActivityData();
+        fetchActivityDataFromLocalStorage();
 
-        add_relate_image = [];
+        // add_relate_image = [];
         del_relate_image = [];
 
         return () => {
@@ -389,13 +424,11 @@ const ActivityDetail = () => {
                         <div className="grid grid-cols-4 gap-4 items-top justify-center mt-5">
                             {/* 相關圖片 */}
                             {m_relatedImages && m_relatedImages.map((item, index) =>
-                                !del_relate_image_index.some(ele => ele == index) &&
-                                (
-                                    <ListImage item={item} index={index} isEditMode={isEditMode} handleImageDelete={handleImageDelete}></ListImage>
-                                ))}
+                                (<ListImage item={item} index={index} isEditMode={isEditMode} handleImageDelete={handleRelateImgDelete}></ListImage>)
+                            )}
 
                             {/* 添加圖片模塊：僅在編輯圖片時展示 */}
-                            {isEditMode && (m_relatedImages ? m_relatedImages.length < 4 : true) && (
+                            {isEditMode && (
                                 <ListImageAdd
                                     relateImageInputRef={relateImageInputRef}
                                     imageList={m_relatedImages}

@@ -196,8 +196,8 @@ const NewActivity = () => {
 
         // 相关图片
         if (m_relatedImages) {
-            m_relatedImages.map(image => {
-                data.append('add_relate_image', image);
+            m_relatedImages.map(imageFileObj => {
+                data.append('add_relate_image', imageFileObj);
             });
         } else {
             data.append('add_relate_image', "[]");
