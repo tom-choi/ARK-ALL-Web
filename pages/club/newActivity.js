@@ -16,6 +16,7 @@ import NavBarSecondary from '../../components/navBarSecondary';
 import { handleFileChange } from '../../utils/functions/u_fileHandle';
 import { upload } from '../../utils/functions/u_server';
 import { squashDateTime } from '../../utils/functions/u_format';
+import { ListImage, ListImageAdd } from '../../components/uiComponents/ListImage';
 
 // 活動類型映射
 const activityTypeMap = {
@@ -481,29 +482,16 @@ const NewActivity = () => {
 
                             {/* 一般的相關圖片 */}
                             {m_relatedImages && m_relatedImages.map((item, index) => (
-                                <div key={index} className="flex flex-col mb-4 items-center justify-center hover:cursor-pointer hover:opacity-80" >
-                                    <img src={URL.createObjectURL(item)} className="rounded-lg" />
-                                    <div className="absolute flex flex-col bg-black text-white text-2xl p-5 rounded-lg text-center justify-center w-64 h-48 opacity-0 hover:opacity-50" onClick={(event) => handleImageRemove(event, index)}>
-                                        <p>刪除</p>
-                                    </div>
-                                </div>
+                                <ListImage item={item} index={index} isEditMode={true} handleImageDelete={handleImageRemove}></ListImage>
                             ))}
 
                             {/* 添加圖片模塊 */}
-                            <div className="flex flex-col items-center justify-center bg-themeColorUltraLight dark:bg-gray-700 rounded-lg border-4 border-themeColor border-dashed min-h-24 hover:cursor-pointer hover:opacity-50 mb-4"
-                                onClick={() => relateImageInputRef.current.click()}>
-                                <PlusCircleIcon className="w-10 h-10 text-themeColor" />
-                                <input
-                                    type="file"
-                                    accept="image/*"
-                                    ref={relateImageInputRef}
-                                    onChange={(e) =>
-                                        handleFileChange(e, m_relatedImages, setRelatedImages, false, false, 4)
-                                    }
-                                    className="flex w-full h-full hidden"
-                                    multiple
-                                />
-                            </div>
+                            <ListImageAdd
+                                relateImageInputRef={relateImageInputRef}
+                                imageList={m_relatedImages}
+                                setImageList={setRelatedImages}
+                                fileNumLimit={4}>
+                            </ListImageAdd>
                         </div>
 
                     </div>

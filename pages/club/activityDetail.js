@@ -1,13 +1,9 @@
 // 包引用
 import React, { useState, useEffect, useRef } from 'react';
-import { Router, Route, Link } from 'react-router';
-import axios from 'axios';
 import {
     PencilSquareIcon,
     TrashIcon,
     FolderArrowDownIcon,
-    PlusCircleIcon,
-    ChevronLeftIcon,
     ArrowUpIcon,
 } from "@heroicons/react/24/solid";
 import moment from 'moment';
@@ -15,14 +11,12 @@ import moment from 'moment';
 // 本地引用
 import { BASE_URI, BASE_HOST, GET, POST } from '../../utils/pathMap';
 import Container from '../../components/container';
-import Navbar from '../../components/navbar';
-import ThemeChanger from '../../components/DarkSwitch';
-import LanguageSwitcher from '../../components/LanguageSwitcher';
 import Footer from "../../components/footer";
 import { upload } from "../../utils/functions/u_server";
 import { handleFileChange } from '../../utils/functions/u_fileHandle';
 import { squashDateTime } from '../../utils/functions/u_format';
 import NavBarSecondary from '../../components/navBarSecondary';
+import { ListImage, ListImageAdd } from '../../components/uiComponents/ListImage';
 
 
 // 活動類型映射
@@ -34,6 +28,7 @@ const activityTypeMap = {
 
 let add_relate_image = [];
 let del_relate_image = [];
+let del_relate_image_index = [];
 
 const ActivityDetail = () => {
     const [activityData, setActivityData] = useState(null);     // 活動數據
@@ -221,14 +216,18 @@ const ActivityDetail = () => {
 
     /* -------------------------------圖片文件--------------------------------*/
 
-    // TODO: 圖片刪除
+
     const handleImageDelete = (e, index) => {
-        let isCurImgInServer = index + 1 <= activityData.relate_image_url.length;
+        // TODO: 判斷圖片是否是服務器圖片，需要更好的方法
+        let len = activityData.relate_image_url.length;
+        let isCurImgInServer = index + 1 <= len;
+
         let imageUrlArr = m_relatedImages;
 
         if (isCurImgInServer) {
             // 刪除服務器中的數組
             del_relate_image.push(imageUrlArr[index]);
+            del_relate_image_index.push(index);
         } else {
             // 單純刪除本地存儲數組即可
             // 新的圖片數組
@@ -420,45 +419,21 @@ const ActivityDetail = () => {
                         </div>
                         {/* 渲染具體相關圖片 */}
                         <div className="grid grid-cols-4 gap-4 items-top justify-center mt-5">
-                            {m_relatedImages && m_relatedImages.map((item, index) => (
-                                <div key={index} className="flex mb-4 items-center justify-center" >
-                                    <img src={
-                                        typeof item == 'object' ? URL.createObjectURL(item) : BASE_HOST + item
-                                    } className="rounded-lg border-themeColor border-4" />
-                                    {/* 刪除按鈕 */}
-                                    {isEditMode && (
-                                        <div className="absolute flex flex-col 
-                                        bg-black text-white
-                                        text-xl p-3 rounded-lg text-center justify-center opacity-50 
-                                        hover:cursor-pointer hover:opacity-100 hover:bg-alert"
-                                            onClick={() => {
-                                                if (confirm('確認刪除這張圖片嗎？')) {
-                                                    // TODO: 已存在服務器的，普通URL 文本類型
-                                                    // 克隆一次File Object，使用JSON會使File Object變為{}
-                                                    let arr = m_relatedImages.map(i => new File([i], i.name, { type: i.type }))
-                                                    arr.splice(index, 1);
-                                                    setRelatedImages(arr);
-                                                }
-                                            }}>
-                                            <p>刪除</p>
-                                        </div>
-                                    )}
-                                </div>
-                            ))}
+                            {/* 相關圖片 */}
+                            {m_relatedImages && m_relatedImages.map((item, index) =>
+                                !del_relate_image_index.some(ele => ele == index) &&
+                                (
+                                    <ListImage item={item} index={index} isEditMode={isEditMode} handleImageDelete={handleImageDelete}></ListImage>
+                                ))}
+
                             {/* 添加圖片模塊：僅在編輯圖片時展示 */}
                             {isEditMode && (m_relatedImages ? m_relatedImages.length < 4 : true) && (
-                                <div className="flex flex-col items-center justify-center bg-themeColorUltraLight dark:bg-gray-700 rounded-lg border-4 border-themeColor border-dashed min-h-24 hover:cursor-pointer hover:opacity-50 mb-4"
-                                    onClick={event => relateImageInputRef.current.click()}>
-                                    <PlusCircleIcon className="w-10 h-10 text-themeColor" />
-                                    <input
-                                        type="file"
-                                        accept="image/*"
-                                        multiple
-                                        ref={relateImageInputRef}
-                                        onChange={event => handleFileChange(event, m_relatedImages, setRelatedImages, false, false, 4)}
-                                        className="flex w-full h-full hidden"
-                                    />
-                                </div>
+                                <ListImageAdd
+                                    relateImageInputRef={relateImageInputRef}
+                                    imageList={m_relatedImages}
+                                    setImageList={setRelatedImages}
+                                    fileNumLimit={4}>
+                                </ListImageAdd>
                             )}
                         </div>
                     </div>
