@@ -17,7 +17,7 @@ import { handleFileChange } from '../../utils/functions/u_fileHandle';
 import { upload } from '../../utils/functions/u_server';
 import { squashDateTime } from '../../utils/functions/u_format';
 import { ListImage, ListImageAdd } from '../../components/uiComponents/ListImage';
-import { StdButton } from '../../components/uiComponents/StdButton';
+import { StdButton, StdButtonGrid } from '../../components/uiComponents/StdButton';
 
 // 活動類型映射
 const activityTypeMap = {
@@ -498,7 +498,7 @@ const NewActivity = () => {
                     </div>
                 )}
 
-                <div className="flex items-center justify-center my-10">
+                <StdButtonGrid>
                     {/* 放棄*/}
                     <StdButton color="bg-alert" onClickFunc={discardEdit} textContent={'清空編輯'} Icon={TrashIcon}></StdButton>
 
@@ -507,7 +507,7 @@ const NewActivity = () => {
 
                     {/* 上傳*/}
                     <StdButton color="bg-themeColor" onClickFunc={uploadEdit} textContent={'上傳編輯'} Icon={ArrowUpIcon}></StdButton>
-                </div>
+                </StdButtonGrid>
 
             </Container >
         </>

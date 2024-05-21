@@ -218,8 +218,6 @@ const ActivityDetail = () => {
     }
 
     /* -------------------------------圖片文件--------------------------------*/
-
-
     const handleImageDelete = (e, index) => {
         // TODO: 判斷圖片是否是服務器圖片，需要更好的方法
         let len = activityData.relate_image_url.length;
