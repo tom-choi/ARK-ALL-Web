@@ -13,7 +13,7 @@ import { AfterLoading } from '../../components/uiComponents/AfterLoading';
 import NavBarSecondary from '../../components/navBarSecondary';
 import Footer from "../../components/footer";
 import { parseTimeString } from '../../utils/functions/u_format';
-import { StdButton } from '../../components/uiComponents/StdButton';
+import { StdButton, StdButtonGrid } from '../../components/uiComponents/StdButton';
 import { ContentBlock, ContentBlockGrid } from '../../components/uiComponents/ContentBlock';
 
 
@@ -162,12 +162,12 @@ const ClubInfo = () => {
                     </div>
 
                     {/*操作陣列*/}
-                    <div className="flex items-center justify-center my-10">
+                    <StdButtonGrid>
                         {/* 編輯按鈕*/}
                         <StdButton color="bg-themeColor" onClickFunc={toClubInfoEdit} textContent={'編輯'} Icon={PencilSquareIcon}></StdButton>
                         {/* 添加按鈕*/}
                         <StdButton color="bg-themeColor" onClickFunc={toNewActivity} textContent={'新活動'} Icon={PlusCircleIcon}></StdButton>
-                    </div>
+                    </StdButtonGrid>
 
                     {/* 正文內容 */}
                     <div className="flex bg-white dark:bg-gray-800 border-l-4 border-themeColorLight p-5 rounded-lg drop-shadow-md lg:items-center md:items-top  mt-5">

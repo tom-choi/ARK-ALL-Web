@@ -25,3 +25,21 @@ export const StdButton = (props) => {
         </div>
     );
 }
+
+/**
+ * 按鈕操作陣列
+ * @param {*} props 
+ * @param {bool} condition 只有條件滿足的情況下才顯示。可空。
+ * @returns 
+ */
+export const StdButtonGrid = (props) => {
+    let condition = props.condition != void 0 ? props.condition : true;
+
+    return (
+        condition && (
+            <div className="flex items-center justify-center my-10">
+                {props.children}
+            </div>
+        )
+    );
+}

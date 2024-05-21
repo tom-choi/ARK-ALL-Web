@@ -18,7 +18,7 @@ import { handleFileChange } from '../../utils/functions/u_fileHandle';
 import { squashDateTime } from '../../utils/functions/u_format';
 import NavBarSecondary from '../../components/navBarSecondary';
 import { ListImage, ListImageAdd } from '../../components/uiComponents/ListImage';
-import { StdButton } from '../../components/uiComponents/StdButton';
+import { StdButton, StdButtonGrid } from '../../components/uiComponents/StdButton';
 import { ContentBlock, ContentBlockGrid } from '../../components/uiComponents/ContentBlock';
 
 
@@ -323,7 +323,7 @@ const ActivityDetail = () => {
                     </div>
 
                     {/*操作陣列*/}
-                    <div className="flex items-center justify-center my-10">
+                    <StdButtonGrid>
                         {/* 編輯按鈕*/}
                         <StdButton color="bg-themeColor" onClickFunc={isEditMode ? discardEdit : startEdit} textContent={isEditMode ? '取消編輯' : '編輯'} Icon={PencilSquareIcon}></StdButton>
 
@@ -331,7 +331,7 @@ const ActivityDetail = () => {
                         {isEditMode && (
                             <StdButton color="bg-alert" onClickFunc={deleteActivity} textContent={'刪除活動'} Icon={TrashIcon}></StdButton>
                         )}
-                    </div>
+                    </StdButtonGrid>
 
                     {/* 時間和介紹 */}
                     <ContentBlockGrid>
@@ -412,15 +412,13 @@ const ActivityDetail = () => {
                     )}
 
                     {/*操作陣列*/}
-                    {isEditMode && (
-                        <div className="flex items-center justify-center my-10">
-                            {/* 保存按鈕*/}
-                            <StdButton onClickFunc={saveEdit} textContent={'本地保存'} Icon={FolderArrowDownIcon}></StdButton>
+                    <StdButtonGrid condition={isEditMode}>
+                        {/* 保存按鈕*/}
+                        <StdButton onClickFunc={saveEdit} textContent={'本地保存'} Icon={FolderArrowDownIcon}></StdButton>
 
-                            {/* 上傳*/}
-                            <StdButton onClickFunc={uploadEdit} textContent={'上傳編輯'} Icon={ArrowUpIcon}></StdButton>
-                        </div>
-                    )}
+                        {/* 上傳*/}
+                        <StdButton onClickFunc={uploadEdit} textContent={'上傳編輯'} Icon={ArrowUpIcon}></StdButton>
+                    </StdButtonGrid>
                 </>
             </AfterLoading>
 
