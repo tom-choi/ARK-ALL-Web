@@ -1,24 +1,17 @@
 // 包引用
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import qs from 'qs';
-import ReactDOM from "react-dom/client"
 import {
     PencilSquareIcon,
-    PlusIcon,
     PlusCircleIcon,
-    ChevronLeftIcon
 } from "@heroicons/react/24/solid";
 
 // 本地引用
 import { BASE_URI, BASE_HOST, GET } from '../../utils/pathMap';
 import Container from '../../components/container';
 import NavBarSecondary from '../../components/navBarSecondary';
-import Navbar from '../../components/navbar';
-import ThemeChanger from '../../components/DarkSwitch';
-import LanguageSwitcher from '../../components/LanguageSwitcher';
 import Footer from "../../components/footer";
-import { customSettings } from '../../utils/settings';
+import { parseTimeString } from '../../utils/functions/u_format';
 
 
 const toNewActivity = () => {
@@ -40,8 +33,11 @@ const ClubInfo = () => {
         if (fetchedProfileData) {
             var profile = JSON.parse(fetchedProfileData);
             setProfileData(profile);
-            getClubContent(profile.content.club_num);
-            getClubActivity(profile.content.club_num);
+
+            // 根據已登錄的club ID 進一步獲取club的内容和活動
+            getClubXX(profile.content.club_num, GET.CLUB_INFO_NUM, setContentData, '無法獲取社團信息！');
+            getClubXX(profile.content.club_num, GET.EVENT_INFO_CLUB_NUM, setClubActivities, '無法獲取社團內容！');
+
             setIsLoading(false);
         } else {
             alert('請前往登錄賬號!');
@@ -49,66 +45,27 @@ const ClubInfo = () => {
         }
     }, []);
 
-    // 獲取社團Profile訊息
-    const getClubContent = async (curClubNum) => {
+
+    /**
+     * 根據社團號碼獲取相關訊息
+     * @param {*} curClubNum 當前帳號號碼
+     * @param {string} GET_URL API路徑
+     */
+    const getClubXX = async (curClubNum, GET_URL, setFunc, alert = void 0) => {
         await axios({
             headers: { 'Content-Type': 'application/x-www-form-urlencoded', },
             method: 'get',
-            url: BASE_URI + GET.CLUB_INFO_NUM + curClubNum,
+            url: BASE_URI + GET_URL + curClubNum,
         }).then(resp => {
             let json = resp.data;
             if (json.message == 'success') {
-                console.log("獲取社團信息成功");
-                //localStorage.setItem("ClubContentData",JSON.stringify(json));
-                setContentData(json.content);
-            }
-            else {
-                window.alert("獲取社團內容失敗，請刷新頁面！");
-                console.log("獲取社團內容失敗，請刷新頁面！", resp);
+                setFunc(json.content);
+            } else if (alert) {
+                window.alert(alert);
             }
         }).catch(err => {
-            window.alert("網絡錯誤！");
-            console.log("獲取Content錯誤: ", err);
+            window.alert('網絡錯誤！');
         });
-    }
-
-    // 根據社團號碼獲取活動訊息
-    const getClubActivity = async (curClubNum) => {
-        await axios({
-            headers: { 'Content-Type': 'application/x-www-form-urlencoded', },
-            method: 'get',
-            url: BASE_URI + GET.EVENT_INFO_CLUB_NUM + curClubNum,
-        }).then(resp => {
-            let json = resp.data;
-            setClubActivities(json.content);
-        }).catch(err => {
-            console.log("獲取Activity錯誤！" + err)
-        }
-        );
-    }
-
-    // 分割時間序列
-    const parseTimeString = (timestamp) => {
-        const dateObj = new Date(timestamp);
-        const year = dateObj.getUTCFullYear();
-        const month = dateObj.getUTCMonth() + 1;
-        const day = dateObj.getUTCDate();
-        const hour = dateObj.getUTCHours();
-        const minute = dateObj.getUTCMinutes();
-
-        let minuteStr = minute.toString();
-        if (minute == 0) {
-            minuteStr = '0' + minuteStr;
-        }
-
-        return {
-            "Year": year,
-            "Month": month,
-            "Day": day,
-            "Hour": hour,
-            "Minute": minuteStr,
-        }
-
     }
 
     // 用戶點擊活動卡片跳轉到卡片詳情頁
