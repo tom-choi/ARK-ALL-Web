@@ -17,6 +17,7 @@ import { handleFileChange } from '../../utils/functions/u_fileHandle';
 import { squashDateTime } from '../../utils/functions/u_format';
 import NavBarSecondary from '../../components/navBarSecondary';
 import { ListImage, ListImageAdd } from '../../components/uiComponents/ListImage';
+import { StdButton } from '../../components/uiComponents/StdButton';
 
 
 // 活動類型映射
@@ -321,30 +322,11 @@ const ActivityDetail = () => {
                 {/*操作陣列*/}
                 <div className="flex items-center justify-center my-10">
                     {/* 編輯按鈕*/}
-                    <div className="flex items-center justify-center mr-5" onClick={isEditMode ? discardEdit : startEdit}>
-                        <div className="flex bg-themeColor py-3 px-5 rounded-full text-white 
-                        hover:opacity-50 hover:cursor-pointer">
-                            <div className="flex flex-col justify-center">
-                                <PencilSquareIcon className="w-5 h-5" />
-                            </div>
-                            <div className="flex flex-col justify-center ml-3">
-                                {isEditMode ? <span>取消編輯</span> : <span>編輯</span>}
-                            </div>
-                        </div>
-                    </div>
+                    <StdButton color="bg-themeColor" onClickFunc={isEditMode ? discardEdit : startEdit} textContent={isEditMode ? '取消編輯' : '編輯'} Icon={PencilSquareIcon}></StdButton>
+
                     {/* TODO: 刪除活動按鈕*/}
                     {isEditMode && (
-                        <div className="flex items-center justify-center ml-5" onClick={deleteActivity}>
-                            <div className="flex bg-alert py-3 px-5 rounded-full text-white 
-                            hover:opacity-50 hover:cursor-pointer">
-                                <div className="flex flex-col justify-center">
-                                    <TrashIcon className="w-5 h-5" />
-                                </div>
-                                <div className="flex flex-col justify-center ml-3">
-                                    <span>刪除活動</span>
-                                </div>
-                            </div>
-                        </div>
+                        <StdButton color="bg-alert" onClickFunc={deleteActivity} textContent={'刪除活動'} Icon={TrashIcon}></StdButton>
                     )}
                 </div>
 

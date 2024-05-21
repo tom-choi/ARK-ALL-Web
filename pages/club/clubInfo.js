@@ -12,6 +12,7 @@ import Container from '../../components/container';
 import NavBarSecondary from '../../components/navBarSecondary';
 import Footer from "../../components/footer";
 import { parseTimeString } from '../../utils/functions/u_format';
+import { StdButton } from '../../components/uiComponents/StdButton';
 
 
 const toNewActivity = () => {
@@ -109,28 +110,9 @@ const ClubInfo = () => {
                 {/*操作陣列*/}
                 <div className="flex items-center justify-center my-10">
                     {/* 編輯按鈕*/}
-                    <div className="flex items-center justify-center mx-5" onClick={toClubInfoEdit} >
-                        <div className="grid grid-cols-2 bg-themeColor py-3 px-5 rounded-full text-white hover:opacity-50 hover:cursor-pointer">
-                            <div className="flex flex-col justify-center">
-                                <PencilSquareIcon className="w-5 h-5" />
-                            </div>
-                            <div className="flex flex-col justify-center">
-                                <span>編輯</span>
-                            </div>
-                        </div>
-                    </div>
-
+                    <StdButton color="bg-themeColor" onClickFunc={toClubInfoEdit} textContent={'編輯'} Icon={PencilSquareIcon}></StdButton>
                     {/* 添加按鈕*/}
-                    <div className="flex items-center justify-center mx-5" onClick={toNewActivity} >
-                        <div className="flex bg-themeColor py-3 px-5 rounded-full text-white hover:opacity-50 hover:cursor-pointer">
-                            <div className="flex flex-col justify-center">
-                                <PlusCircleIcon className="w-5 h-5" />
-                            </div>
-                            <div className="flex flex-col justify-center ml-3">
-                                <span>新活動</span>
-                            </div>
-                        </div>
-                    </div>
+                    <StdButton color="bg-themeColor" onClickFunc={toNewActivity} textContent={'新活動'} Icon={PlusCircleIcon}></StdButton>
                 </div>
 
                 {/* 正文內容 */}
