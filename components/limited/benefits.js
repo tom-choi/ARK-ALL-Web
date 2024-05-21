@@ -1,8 +1,8 @@
 import Image from "next/image";
 import React from "react";
-import Container from "./container";
+import Container from "../container";
 import { Canvas } from '@react-three/fiber';
-import { Map } from "./Map"
+import { Map } from "../Map"
 
 const Benefits = (props) => {
   const { data } = props;
@@ -10,9 +10,8 @@ const Benefits = (props) => {
     <>
       <Container className="flex flex-wrap lg:flex-nowrap w-full h-full">
         <div
-          className={`flex items-center justify-center w-full h-full lg:w-1/2 ${
-            props.imgPos === "right" ? "lg:order-1" : ""
-          }`}>
+          className={`flex items-center justify-center w-full h-full lg:w-1/2 ${props.imgPos === "right" ? "lg:order-1" : ""
+            }`}>
           <Image
             src={data.image}
             width="521"
@@ -21,7 +20,7 @@ const Benefits = (props) => {
             className={"object-cover p-5"}
             placeholder="blur"
             blurDataURL={data.image.src}
-            style={{borderRadius: "30px"}}
+            style={{ borderRadius: "30px" }}
           />
           {/* <Canvas shadows flat linear>
             <Map/>
@@ -29,9 +28,8 @@ const Benefits = (props) => {
         </div>
 
         <div
-          className={`flex flex-wrap items-center w-full lg:w-1/2 ${
-            data.imgPos === "right" ? "lg:justify-end" : ""
-          }`}>
+          className={`flex flex-wrap items-center w-full lg:w-1/2 ${data.imgPos === "right" ? "lg:justify-end" : ""
+            }`}>
           <div>
             <div className="flex flex-col w-full mt-4">
               {/* 標題 */}

@@ -1,12 +1,12 @@
 import Image from "next/image";
-import Container from "./container";
+import Container from "../container";
 import { Canvas } from '@react-three/fiber';
 import { Cube1 } from "./Cube1";
 import { Cube2 } from "./Cube2";
 import { Phone } from "./Phone";
 
 import { useTranslation } from "react-i18next";
-import { COLOR_DIY } from "../utils/uiMap"
+import { COLOR_DIY } from "../../utils/uiMap"
 
 const Ark = () => {
   const { t } = useTranslation();

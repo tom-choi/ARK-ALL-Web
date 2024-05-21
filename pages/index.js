@@ -1,5 +1,5 @@
 import Head from "next/head";
-import Ark from "../components/ark";
+import Ark from "../components/limited/ark";
 import Navbar from "../components/navbar";
 import SectionTitle from "../components/sectionTitle";
 
@@ -21,11 +21,11 @@ import EventImg from "../public/img/社團活動(宣傳).png";
 
 
 import Video from "../components/video";
-import Benefits from "../components/benefits";
+import Benefits from "../components/limited/benefits";
 import Footer from "../components/footer";
 import Testimonials from "../components/testimonials";
-import Cta from "../components/cta";
-import Faq from "../components/faq";
+import Cta from "../components/limited/cta";
+import Faq from "../components/limited/faq";
 import PopupWidget from "../components/popupWidget";
 
 import { useTranslation, I18nextProvider } from "react-i18next";
@@ -46,14 +46,9 @@ const Home = () => {
         desc: t("THBbullets1-desc"),
         icon: <FaceSmileIcon />,
       },
-      // {
-      //   title: "Improve acquisition",
-      //   desc: "aaabbb",
-      //   icon: <ChartBarSquareIcon />,
-      // }
     ],
   };
-  
+
   const benefitTwo = {
     title: t("Club Activity Tracking"),
     desc: t("CATdesc"),
@@ -64,14 +59,9 @@ const Home = () => {
         desc: t("CATbullets1-desc"),
         icon: <DevicePhoneMobileIcon />,
       },
-      // {
-      //   title: "aaabbb",
-      //   desc: "aaabbb",
-      //   icon: <AdjustmentsHorizontalIcon />,
-      // }
     ],
   };
-  
+
   // data
 
   const router = useRouter();
@@ -92,26 +82,15 @@ const Home = () => {
       <Navbar />
       <Ark />
       <SectionTitle
-        pretitle = {t("More Features")}
+        pretitle={t("More Features")}
         title={t("Why Use UM-ARK-ALL?")}>
         {t("arkText")}
       </SectionTitle>
       <Benefits data={benefitOne} />
       <Benefits imgPos="right" data={benefitTwo} />
-      {/* <SectionTitle
-        pretitle={t("Promotional Video")}
-        title={t("Tutorial")}>
-        {t("Tutorial")}
-      </SectionTitle> */}
-      {/* <Video /> */}
-      {/* <SectionTitle
-        pretitle={t("User Feedback")}
-        title={t("See Feedback from UM Students")}>
-      </SectionTitle> */}
-      {/* <Testimonials /> */}
-      <SectionTitle 
-      pretitle={t("FAQ")} 
-      title={t("ARK ALL Frequently Asked Questions")}>
+      <SectionTitle
+        pretitle={t("FAQ")}
+        title={t("ARK ALL Frequently Asked Questions")}>
         {t("Frequently Asked Questions")}
       </SectionTitle>
       <Faq />
