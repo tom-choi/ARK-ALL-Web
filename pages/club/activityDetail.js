@@ -415,27 +415,10 @@ const ActivityDetail = () => {
                     {isEditMode && (
                         <div className="flex items-center justify-center my-10">
                             {/* 保存按鈕*/}
-                            <div className="flex items-center justify-center mx-5" onClick={saveEdit}>
-                                <div className="flex bg-themeColor py-3 px-5 rounded-full text-white hover:opacity-50 hover:cursor-pointer">
-                                    <div className="flex flex-col justify-center">
-                                        <FolderArrowDownIcon className="w-5 h-5" />
-                                    </div>
-                                    <div className="flex flex-col justify-center ml-3">
-                                        <span>本地保存</span>
-                                    </div>
-                                </div>
-                            </div>
+                            <StdButton onClickFunc={saveEdit} textContent={'本地保存'} Icon={FolderArrowDownIcon}></StdButton>
+
                             {/* 上傳*/}
-                            <div className="flex items-center justify-center mx-5" onClick={uploadEdit}>
-                                <div className="flex bg-themeColor py-3 px-5 rounded-full text-white hover:opacity-50 hover:cursor-pointer">
-                                    <div className="flex flex-col justify-center">
-                                        <ArrowUpIcon className="w-5 h-5" />
-                                    </div>
-                                    <div className="flex flex-col justify-center ml-3">
-                                        <span>上傳改動</span>
-                                    </div>
-                                </div>
-                            </div>
+                            <StdButton onClickFunc={uploadEdit} textContent={'上傳編輯'} Icon={ArrowUpIcon}></StdButton>
                         </div>
                     )}
                 </>

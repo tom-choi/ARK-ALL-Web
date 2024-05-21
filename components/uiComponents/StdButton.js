@@ -10,7 +10,7 @@
 export const StdButton = (props) => {
     const { color, onClickFunc, textContent, Icon } = props;
 
-    const btnStyle = "flex " + color + " py-3 px-5 rounded-full text-white hover:opacity-50 hover:cursor-pointer";
+    const btnStyle = "flex " + (color ? color : 'bg-themeColor') + " py-3 px-5 rounded-full text-white hover:opacity-50 hover:cursor-pointer";
 
     return (
         <div className="flex items-center justify-center mx-5" onClick={onClickFunc} >
