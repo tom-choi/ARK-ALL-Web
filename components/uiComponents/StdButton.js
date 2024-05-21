@@ -8,21 +8,23 @@
  * @returns 
  */
 export const StdButton = (props) => {
-    const { color, onClickFunc, textContent, Icon } = props;
+    const { color, onClickFunc, textContent, Icon, condition } = props;
 
     const btnStyle = "flex " + (color ? color : 'bg-themeColor') + " py-3 px-5 rounded-full text-white hover:opacity-50 hover:cursor-pointer";
 
     return (
-        <div className="flex items-center justify-center mx-5" onClick={onClickFunc} >
-            <div className={btnStyle}>
-                <div className="flex flex-col justify-center">
-                    <Icon className="w-5 h-5" />
-                </div>
-                <div className="flex flex-col justify-center ml-3">
-                    <span>{textContent}</span>
+        (condition == void 0 || condition == true) && (
+            <div className="flex items-center justify-center mx-5" onClick={onClickFunc} >
+                <div className={btnStyle}>
+                    <div className="flex flex-col justify-center">
+                        <Icon className="w-5 h-5" />
+                    </div>
+                    <div className="flex flex-col justify-center ml-3">
+                        <span>{textContent}</span>
+                    </div>
                 </div>
             </div>
-        </div>
+        )
     );
 }
 

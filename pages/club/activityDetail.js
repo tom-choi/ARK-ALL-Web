@@ -327,10 +327,9 @@ const ActivityDetail = () => {
                         {/* 編輯按鈕*/}
                         <StdButton color="bg-themeColor" onClickFunc={isEditMode ? discardEdit : startEdit} textContent={isEditMode ? '取消編輯' : '編輯'} Icon={PencilSquareIcon}></StdButton>
 
-                        {/* TODO: 刪除活動按鈕*/}
-                        {isEditMode && (
-                            <StdButton color="bg-alert" onClickFunc={deleteActivity} textContent={'刪除活動'} Icon={TrashIcon}></StdButton>
-                        )}
+                        {/* 刪除活動按鈕*/}
+                        <StdButton color="bg-alert" onClickFunc={deleteActivity} textContent={'刪除活動'} Icon={TrashIcon} condition={isEditMode}></StdButton>
+
                     </StdButtonGrid>
 
                     {/* 時間和介紹 */}
@@ -387,29 +386,28 @@ const ActivityDetail = () => {
                     {/* TODO: Link類型 */}
 
                     {/* 相關圖片 (如果沒有相關圖片就不展示該模塊) */}
-                    {activityData && (activityData.relate_image_url.length > 0 || isEditMode) && (
-                        <ContentBlock title="相關圖片">
-                            {/* 渲染具體相關圖片 */}
-                            <div className="grid grid-cols-4 gap-4 items-top justify-center mt-5">
-                                {/* 相關圖片 */}
-                                {m_relatedImages && m_relatedImages.map((item, index) =>
-                                    !del_relate_image_index.some(ele => ele == index) &&
-                                    (
-                                        <ListImage item={item} index={index} isEditMode={isEditMode} handleImageDelete={handleImageDelete}></ListImage>
-                                    ))}
+                    <ContentBlock title="相關圖片" condition={activityData && (activityData.relate_image_url.length > 0 || isEditMode)}>
+                        {/* 渲染具體相關圖片 */}
+                        <div className="grid grid-cols-4 gap-4 items-top justify-center mt-5">
+                            {/* 相關圖片 */}
+                            {m_relatedImages && m_relatedImages.map((item, index) =>
+                                !del_relate_image_index.some(ele => ele == index) &&
+                                (
+                                    <ListImage item={item} index={index} isEditMode={isEditMode} handleImageDelete={handleImageDelete}></ListImage>
+                                ))}
 
-                                {/* 添加圖片模塊：僅在編輯圖片時展示 */}
-                                {isEditMode && (m_relatedImages ? m_relatedImages.length < 4 : true) && (
-                                    <ListImageAdd
-                                        relateImageInputRef={relateImageInputRef}
-                                        imageList={m_relatedImages}
-                                        setImageList={setRelatedImages}
-                                        fileNumLimit={4}>
-                                    </ListImageAdd>
-                                )}
-                            </div>
-                        </ContentBlock>
-                    )}
+                            {/* 添加圖片模塊：僅在編輯圖片時展示 */}
+                            {isEditMode && (m_relatedImages ? m_relatedImages.length < 4 : true) && (
+                                <ListImageAdd
+                                    relateImageInputRef={relateImageInputRef}
+                                    imageList={m_relatedImages}
+                                    setImageList={setRelatedImages}
+                                    fileNumLimit={4}>
+                                </ListImageAdd>
+                            )}
+                        </div>
+                    </ContentBlock>
+
 
                     {/*操作陣列*/}
                     <StdButtonGrid condition={isEditMode}>
