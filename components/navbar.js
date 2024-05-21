@@ -21,24 +21,16 @@ const Navbar = () => {
 
   const navigation = [
     "ClubLogin",
-    // "Download",
     "Tutorial",
     "QA",
     "User_Agreement",
     "About_us",
   ];
 
-  // const Tnavigation = [
-  //   t("Download"),
-  //   t("Tutorial"),
-  //   t("Q/A"),
-  //   t("User Agreement"),
-  //   t("About us"),
-  // ];
-
   return (
     <div className="w-full">
       <nav className="container relative flex flex-wrap items-center justify-between p-8 mx-auto lg:justify-between xl:px-0">
+
         {/* Logo  */}
         <Disclosure>
           {({ open }) => (
@@ -133,7 +125,7 @@ const Navbar = () => {
       </nav>
       {customSettings.is_local_test && (
         <div className="bg-alert pl-3 py-2">
-          <p><strong>警告:</strong> 您現在使用的是本地服務器。</p>
+          <p className="text-white"><strong>警告:</strong> 您現在使用的是本地服務器。</p>
         </div>
       )}
     </div>
