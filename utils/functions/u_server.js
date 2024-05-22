@@ -9,7 +9,7 @@ import axios from 'axios';
      * @param {bool} askUserConfirm 是否要求用戶確認上傳。
      * @returns 
      */
-export async function upload(uploadFormData, apiURL, clearLocalStorage, returnLoc, guard = true, askUserConfirm = true) {
+export async function upload(uploadFormData, apiURL, clearLocalStorage, returnLoc, guard = true, askUserConfirm = false) {
 
     let isUserConfirmUpload = true;
     if (askUserConfirm) {
@@ -21,20 +21,6 @@ export async function upload(uploadFormData, apiURL, clearLocalStorage, returnLo
     if (!allowUpload) {
         return;
     }
-
-    // 制作表单
-    // let uploadData = new FormData();
-    // Object.entries(dataJson).forEach(([key, value]) => {
-    //     if (value instanceof Array && value.length > 0) {
-    //         value.map(item => {
-    //             uploadData.append(key, item);
-    //         })
-    //     } else if (value instanceof Array && value.length == 0) {
-    //         uploadData.append(key, "[]");
-    //     } else {
-    //         uploadData.append(key, value);
-    //     }
-    // });
 
     // 上传服务器
     let URL = apiURL;
