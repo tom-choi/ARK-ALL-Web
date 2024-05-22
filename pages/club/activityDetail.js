@@ -21,6 +21,7 @@ import NavBarSecondary from '../../components/navBarSecondary';
 import { ListImage, ListImageAdd } from '../../components/uiComponents/ListImage';
 import { StdButton, StdButtonGrid } from '../../components/uiComponents/StdButton';
 import { ContentBlock, ContentBlockGrid } from '../../components/uiComponents/ContentBlock';
+import { data } from 'autoprefixer';
 
 
 // 活動類型映射
@@ -192,10 +193,12 @@ const ActivityDetail = () => {
         // 相關圖片 - 減少
         if (del_relate_image.length > 0) {
             // 刪除後綴，根據21.07.30的後端標準，圖片需後端相對路徑
+            let delURL = [];
             del_relate_image.map(imageURL => {
                 let thisURL = imageURL.slice(BASE_HOST.length);
-                data.append('del_relate_image', thisURL);
+                delURL.push(thisURL);
             });
+            data.append('del_relate_image', JSON.stringify(delURL));
         } else {
             data.append('del_relate_image', '[]');
         }
@@ -218,6 +221,7 @@ const ActivityDetail = () => {
         // 獲取表單數據
         let uploadFormData = getUploadEditActivityFormData();
 
+        console.log(uploadFormData.get('del_relate_image'));
         // 上傳
         await upload(uploadFormData, BASE_URI + POST.EVENT_EDIT, '', './activityDetail');
 
@@ -249,25 +253,38 @@ const ActivityDetail = () => {
      * @param {int} indexToRemove 刪除圖片的序號
      */
     const handleRelateImgDelete = (e, indexToRemove) => {
+        // 當前圖片URL
+        let curImage = m_relatedImages[indexToRemove];
+
+        // 數組越界，通常情況下不會發生
+        if (curImage == void 0 || indexToRemove >= m_relatedImages.length) {
+            alert('刪除圖片錯誤，請聯絡開發者。');
+            return;
+        }
+
         // item為string: 服務器圖片；item為Object：本地圖片
         let isCurImgInServer = void 0;
-        if (typeof m_relatedImages[indexToRemove] == 'object') {
+        if (typeof curImage == 'object') {
+            // 本地圖片
             isCurImgInServer = false;
-        } else if (typeof m_relatedImages[indexToRemove] == 'string') {
+        } else if (typeof curImage == 'string') {
+            // 服務器圖片
             isCurImgInServer = true;
         } else {
             throw new Exception('圖片類型有誤！');
         }
 
-        let curImage = m_relatedImages[indexToRemove];
-
         if (isCurImgInServer) {
             // 刪除服務器中的數組。不直接刪除，而是保留在數組中，最後上傳服務器刪除。保證數據庫裏的圖片長度一定。
             del_relate_image.push(curImage);
+            del_relate_image_index.push(indexToRemove);
         }
 
         // 單純刪除本地數組中存儲的即可
-        const updatedImageArr = m_relatedImages.filter((item, index) => index != indexToRemove);
+        const updatedImageArr = m_relatedImages;
+        // 當前只刪除本地圖片
+        updatedImageArr.splice(indexToRemove, 0 + isCurImgInServer);
+        updatedImageArr.push('');
         setRelatedImages(updatedImageArr);
 
     }
@@ -424,7 +441,9 @@ const ActivityDetail = () => {
                         <div className="grid grid-cols-4 gap-4 items-top justify-center mt-5">
                             {/* 相關圖片 */}
                             {m_relatedImages && m_relatedImages.map((item, index) =>
-                                (<ListImage item={item} index={index} isEditMode={isEditMode} handleImageDelete={handleRelateImgDelete}></ListImage>)
+                                del_relate_image_index.indexOf(index) == -1 && (
+                                    <ListImage item={item} index={index} isEditMode={isEditMode} handleImageDelete={handleRelateImgDelete}></ListImage>
+                                )
                             )}
 
                             {/* 添加圖片模塊：僅在編輯圖片時展示 */}
