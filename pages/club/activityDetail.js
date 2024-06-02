@@ -221,7 +221,6 @@ const ActivityDetail = () => {
         // 獲取表單數據
         let uploadFormData = getUploadEditActivityFormData();
 
-        console.log(uploadFormData.get('del_relate_image'));
         // 上傳
         await upload(uploadFormData, BASE_URI + POST.EVENT_EDIT, '', './activityDetail');
 
