@@ -166,7 +166,7 @@ export default function clubInfoEdit() {
 
                     <ul>
                         {
-                            m_contact && m_contact.map((item, index) => item.num && (
+                            m_contact && m_contact.map((item, index) => item.num != void 0 && (
                                 <div key={index}>
                                     <div className="flex flex-row gap-5 align-middle">
                                         {/*方式：如email */}
