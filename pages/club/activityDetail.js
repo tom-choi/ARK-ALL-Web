@@ -15,7 +15,7 @@ import Container from '../../components/container';
 import { AfterLoading } from '../../components/uiComponents/AfterLoading';
 import Footer from "../../components/footer";
 import { upload } from "../../utils/functions/u_server";
-import { handleFileChange } from '../../utils/functions/u_fileHandle';
+import { handleFileChange, handleFileDelete } from '../../utils/functions/u_fileHandle';
 import { squashDateTime } from '../../utils/functions/u_format';
 import NavBarSecondary from '../../components/navBarSecondary';
 import { ListImage, ListImageAdd } from '../../components/uiComponents/ListImage';
@@ -260,41 +260,11 @@ const ActivityDetail = () => {
      * @param {int} indexToRemove 刪除圖片的序號
      */
     const handleRelateImgDelete = (e, indexToRemove) => {
-        // 當前圖片URL
-        let curImage = m_relatedImages[indexToRemove];
-
-        // 數組越界，通常情況下不會發生
-        if (curImage == void 0 || indexToRemove >= m_relatedImages.length) {
-            alert('刪除圖片錯誤，請聯絡開發者。');
+        handleFileDelete(e, indexToRemove, m_relatedImages, setRelatedImages, (param) => {
+            del_relate_image.push(param);
             return;
-        }
-
-        // item為string: 服務器圖片；item為Object：本地圖片
-        let isCurImgInServer = void 0;
-        if (typeof curImage == 'object') {
-            // 本地圖片
-            isCurImgInServer = false;
-        } else if (typeof curImage == 'string') {
-            // 服務器圖片
-            isCurImgInServer = true;
-        } else {
-            throw new Exception('圖片類型有誤！');
-        }
-
-        if (isCurImgInServer) {
-            // 刪除服務器中的數組。不直接刪除，而是保留在數組中，最後上傳服務器刪除。保證數據庫裏的圖片長度一定。
-            del_relate_image.push(curImage);
-            del_relate_image_index.push(indexToRemove);
-            return;
-        }
-
-        // 單純刪除本地數組中存儲的即可
-        const updatedImageArr = m_relatedImages;
-
-        // 當前只刪除本地圖片
-        updatedImageArr.splice(indexToRemove, 0 + isCurImgInServer);
-        updatedImageArr.push('');
-        setRelatedImages(updatedImageArr);
+        });
+        return;
     }
 
 

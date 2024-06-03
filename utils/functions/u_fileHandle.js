@@ -55,3 +55,45 @@ export function handleFileChange(event, m_files, setFileFunc, isDrop, isSingle, 
     setFileFunc(fileArr);
     return;
 }
+
+/**
+ * 處理編輯時的刪除操作。歸一化服務器與本地圖片。
+ * @param {*} e 刪除文件事件 
+ * @param {int} indexToRemove 刪除文件的序號
+ * @param {Array} m_files 文件所在的數組
+ * @param {Function} setFileArrFunc 更改文件數組的函數 
+ * @param {Function} setServerFileArrFunc 更改數據庫文件的函數
+ * @returns 
+ */
+export function handleFileDelete(e, indexToRemove, m_files, setFileArrFunc, setServerFileArrFunc) {
+    // 當前文件
+    let curFile = m_files[indexToRemove];
+
+    // 數組越界
+    if (curFile == void 0 || indexToRemove >= m_files.length) {
+        alert('刪除錯誤，請聯絡開發者。');
+        return;
+    }
+
+    // item為string：服務器文件；item為Object：本地文件
+    let isCurFileInServer = void 0;
+    if (typeof curFile == 'object') {
+        // 本地文件
+        isCurFileInServer = false;
+    } else if (typeof curFile == 'string') {
+        isCurFileInServer = true;
+    } else {
+        throw new Exception('不支持的文件類型！');
+    }
+
+    if (isCurFileInServer) {
+        setServerFileArrFunc(curFile);
+    }
+
+    const updatedFileArr = m_files;
+    updatedFileArr.splice(indexToRemove, 0 + isCurFileInServer);
+    updatedFileArr.push('');
+
+    setFileArrFunc(updatedFileArr);
+
+}
