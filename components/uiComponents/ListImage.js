@@ -1,6 +1,8 @@
 import { BASE_URI, BASE_HOST, GET, POST } from '../../utils/pathMap';
 import { handleFileChange } from '../../utils/functions/u_fileHandle';
 
+import { useState } from 'react';
+
 import {
     PencilSquareIcon,
     TrashIcon,
@@ -24,16 +26,20 @@ export const ListImage = (props) => {
     const { item, index, isEditMode, handleImageDelete } = props;
 
     let deleteBtnStyle = "absolute flex flex-col bg-black text-white text-xl p-3 rounded-lg text-center justify-center opacity-50 hover:cursor-pointer hover:opacity-100 hover:bg-alert";
+    let [imgStyle, setImgStyle] = useState("rounded-lg border-themeColor border-4");
 
     return (
         <div key={index} className="flex mb-4 items-center justify-center" >
             <img src={
                 typeof item == 'object' ? URL.createObjectURL(item) : BASE_HOST + item
-            } className="rounded-lg border-themeColor border-4" />
+            } className={imgStyle} />
 
             {/* 刪除按鈕 */}
             {isEditMode && (
-                <div className={deleteBtnStyle} onClick={(e) => handleImageDelete(e, index)}>
+                <div className={deleteBtnStyle} onClick={(e) => {
+                    handleImageDelete(e, index);
+                    setImgStyle(imgStyle + " opacity-50");
+                }}>
                     <p>刪除</p>
                 </div>
             )}
