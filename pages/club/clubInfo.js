@@ -16,6 +16,7 @@ import { parseTimeString } from '../../utils/functions/u_format';
 import { StdButton, StdButtonGrid } from '../../components/uiComponents/StdButton';
 import { ContentBlock, ContentBlockGrid } from '../../components/uiComponents/ContentBlock';
 import { ListImage } from '../../components/uiComponents/ListImage';
+import { SecondTitle } from '../../components/uiComponents/LayeredTitles';
 
 
 const toNewActivity = () => {
@@ -245,9 +246,7 @@ const ClubInfo = () => {
                     {/* 社團活動 */}
                     <div className="px-5 pt-3 pb-5 rounded-lg drop-shadow-md itmes-center mb-5">
                         {/*標題*/}
-                        <div className="mb-3">
-                            <h3 className="text-xl font-bold text-themeColor">社團活動</h3>
-                        </div>
+                        <SecondTitle>社團活動</SecondTitle>
                         {/* 渲染活動格子*/}
                         <div className="grid 2xl:grid-cols-5 lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-1 gap-4 ">
                             {/* 渲染活動卡片 */}
