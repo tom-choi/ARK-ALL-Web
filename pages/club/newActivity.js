@@ -13,7 +13,7 @@ import moment from 'moment/moment';
 import { BASE_URI, BASE_HOST, GET, POST } from '../../utils/pathMap';
 import Container from '../../components/container';
 import NavBarSecondary from '../../components/navBarSecondary';
-import { handleFileChange } from '../../utils/functions/u_fileHandle';
+import { u_handleFileChange } from '../../utils/functions/u_fileHandle';
 import { upload } from '../../utils/functions/u_server';
 import { squashDateTime } from '../../utils/functions/u_format';
 import { ListImage, ListImageAdd } from '../../components/uiComponents/ListImage';
@@ -314,8 +314,8 @@ const NewActivity = () => {
                             if (e.dataTransfer.files.length > 0) {
                                 const file = e.dataTransfer.files[0];
                                 if (file.type.startsWith('image/')) {
-                                    // handleFileChange(e, 'cover', true);
-                                    handleFileChange(e, m_coverImage, setCoverImage, true, true);
+                                    // u_handleFileChange(e, 'cover', true);
+                                    u_handleFileChange(e, m_coverImage, setCoverImage, true, true);
                                 } else {
                                     alert('只支持图片上传！');
                                 }
@@ -336,7 +336,7 @@ const NewActivity = () => {
                             type="file"
                             accept="image/*"
                             ref={coverImgInput}
-                            onChange={(e) => handleFileChange(e, m_coverImage, setCoverImage, false, true)}
+                            onChange={(e) => u_handleFileChange(e, m_coverImage, setCoverImage, false, true)}
                             className="flex w-full h-full hidden"
                         />
                         {m_coverImage && (
