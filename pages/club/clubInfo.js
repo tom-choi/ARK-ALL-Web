@@ -15,6 +15,7 @@ import Footer from "../../components/footer";
 import { parseTimeString } from '../../utils/functions/u_format';
 import { StdButton, StdButtonGrid } from '../../components/uiComponents/StdButton';
 import { ContentBlock, ContentBlockGrid } from '../../components/uiComponents/ContentBlock';
+import { ListImage } from '../../components/uiComponents/ListImage';
 
 
 const toNewActivity = () => {
@@ -226,11 +227,11 @@ const ClubInfo = () => {
                             <div className="grid xl:grid-cols-5 lg:grid-cols-3 md:grid-cols-5 sm:grid-cols-1 gap-4 ">
                                 {clubContentData ? (
                                     clubContentData.club_photos_list.map((item, index) => (
-                                        <div key={index} className="flex flex-col mx-auto">
-                                            <a href={BASE_HOST + item} target="_blank">
-                                                <img src={BASE_HOST + item} alt="club_photos" className="md:max-w-24 sm:max-w-96 rounded-lg h-auto hover:cursor-pointer hover:opacity-50 hover:shadow-lg" style={{ backgroundColor: '#fff' }} />
-                                            </a>
-                                        </div>
+                                        <ListImage
+                                            item={item}
+                                            index={index}
+                                            isEditMode={false}>
+                                        </ListImage>
                                     ))
                                 ) : (
                                     <p>
