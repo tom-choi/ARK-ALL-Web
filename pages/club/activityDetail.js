@@ -23,6 +23,8 @@ import { StdButton, StdButtonGrid } from '../../components/uiComponents/StdButto
 import { ContentBlock, ContentBlockGrid } from '../../components/uiComponents/ContentBlock';
 import { data } from 'autoprefixer';
 import { customSettings } from '../../utils/settings';
+import { FirstTitle } from '../../components/uiComponents/LayeredTitles';
+import { BiCondBlock } from '../../components/uiComponents/CondBlocks';
 
 
 // 活動類型映射
@@ -316,19 +318,20 @@ const ActivityDetail = () => {
             <AfterLoading isLoading={isLoading}>
                 <>
                     {/* 社團名字+活動標題*/}
+
                     <div className="flex flex-col items-center text-themeColor font-bold mb-5">
-                        {!isEditMode ? (
+                        <BiCondBlock condition={!isEditMode}>
                             <h1 className="text-3xl">
                                 {activityData && activityData.title}
                             </h1>
-                        ) : (
                             <input
                                 placeholder={"活動名稱"}
                                 defaultValue={activityData && activityData.title}
                                 className="text-3xl border-4 border-themeColor rounded-lg h-10 p-2"
                                 onChangeCapture={(event) => setTitle(event.target.value)}>
                             </input>
-                        )}
+                        </BiCondBlock>
+
                         {/* 社團名字 */}
                         <h3 className="text-xl mb-3">
                             {'By ' + (activityData && activityData.club_name)}
@@ -383,6 +386,7 @@ const ActivityDetail = () => {
                         gridNum={(!activityData || activityData.type != 'WEBSITE') ? 2 : 1}>
                         {/*開始和結束時間*/}
                         <ContentBlock title="基本訊息">
+
                             {/* 開始時間和結束時間*/}
                             <p>
                                 <span className="text-themeColor font-bold">
@@ -396,42 +400,47 @@ const ActivityDetail = () => {
                                 </span>
                                 {activityData && moment(activityData.enddatetime).format("YYYY-MM-DD HH:mm")}
                             </p>
-                            {/* 地點 */}
-                            {
-                                m_type != 'WEBSITE' ? (
-                                    <p>
-                                        <span className="text-themeColor font-bold">
-                                            地點:{'  '}
-                                        </span>
-                                        {!isEditMode ? (activityData && activityData.location) : (
-                                            <input
-                                                placeholder={"地點"}
-                                                defaultValue={activityData ? activityData.location : ""}
-                                                className="text-lg border-4 border-themeColor rounded-lg h-10 p-2"
-                                                onChangeCapture={(event) => setLocation(event.target.value)}>
-                                            </input>
-                                        )}
-                                    </p>
-                                ) : (
-                                    <p>
-                                        <span className="text-themeColor font-bold">
-                                            鏈接:{'  '}
-                                        </span>
-                                        {!isEditMode ? (activityData && (
+
+                            {/* 地點或鏈接 */}
+                            <BiCondBlock condition={m_type != 'WEBSITE'}>
+                                {/*非網頁 - 顯示地點 */}
+                                <p>
+                                    <span className="text-themeColor font-bold">
+                                        地點:{'  '}
+                                    </span>
+                                    <BiCondBlock condition={!isEditMode}>
+                                        {activityData && activityData.location}
+                                        <input
+                                            placeholder={"地點"}
+                                            defaultValue={activityData ? activityData.location : ""}
+                                            className="text-lg border-4 border-themeColor rounded-lg h-10 p-2"
+                                            onChangeCapture={(event) => setLocation(event.target.value)}>
+                                        </input>
+                                    </BiCondBlock>
+                                </p>
+
+                                {/*網頁 - 顯示鏈接 */}
+                                <p>
+                                    <span className="text-themeColor font-bold">
+                                        鏈接:{'  '}
+                                    </span>
+
+                                    <BiCondBlock condition={!isEditMode}>
+                                        {(activityData && (
                                             <a href={activityData.link} target="_blank">
                                                 {activityData.link}
                                             </a>
-                                        )) : (
-                                            <input
-                                                placeholder={"地點"}
-                                                defaultValue={activityData ? activityData.link : ""}
-                                                className="text-lg border-4 border-themeColor rounded-lg h-10 p-2"
-                                                onChangeCapture={(event) => setLink(event.target.value)}>
-                                            </input>
-                                        )}
-                                    </p>
-                                )
-                            }
+                                        ))}
+                                        <input
+                                            placeholder={"鏈接"}
+                                            defaultValue={activityData ? activityData.link : ""}
+                                            className="text-lg border-4 border-themeColor rounded-lg h-10 p-2"
+                                            onChangeCapture={(event) => setLink(event.target.value)}>
+                                        </input>
+                                    </BiCondBlock>
+                                </p>
+                            </BiCondBlock>
+
                         </ContentBlock>
 
                         {/*活動介紹*/}
