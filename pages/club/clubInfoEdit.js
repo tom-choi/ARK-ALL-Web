@@ -168,7 +168,7 @@ export default function clubInfoEdit() {
                         {
                             m_contact && m_contact.map((item, index) => item.num != void 0 && (
                                 <div key={index}>
-                                    <div className="flex flex-row gap-5 align-middle">
+                                    <div className="flex flex-row gap-5 items-center mb-5">
                                         {/*方式：如email */}
                                         <input
                                             className=" border-4 border-themeColor rounded-lg h-10 p-2"
@@ -199,7 +199,7 @@ export default function clubInfoEdit() {
 
                                         {/* 刪除某個聯係方式*/}
                                         <MinusCircleIcon
-                                            className="w-10 h-10 mt-5 text-alert hover:opacity-70 hover:cursor-pointer"
+                                            className="w-10 h-10 text-alert hover:opacity-70 hover:cursor-pointer"
                                             onClick={(e) => {
                                                 setContact(prevContact => {
                                                     let newContact = [...prevContact];
