@@ -46,11 +46,10 @@ const ClubLogin = () => {
             account: account + '',
             password: password + '',
         };
-        await axios({
-            headers: { 'Content-Type': 'application/x-www-form-urlencoded', },
-            method: 'post',
-            url: BASE_URI + GET.CLUB_SIGN_IN,
-            data: qs.stringify(data),
+        let URL = BASE_URI + GET.CLUB_SIGN_IN;
+        await axios.post(URL, qs.stringify(data), {
+            // 使axios自動設置Cookies，登錄成功獲取ARK_TOKEN很重要
+            withCredentials: true,
         }).then(res => {
             let json = res.data;
             // 登錄成功
@@ -58,6 +57,7 @@ const ClubLogin = () => {
                 console.log("登入成功！")
                 localStorage.setItem("isClub", true);
                 localStorage.setItem("ClubData", JSON.stringify(json));
+                console.log(json);
                 window.location.href = "./club/clubInfo";
             }
             // 登錄失敗
@@ -77,7 +77,7 @@ const ClubLogin = () => {
             <Navbar />
             <Container className="flex flex-col w-full h-full items-center justify-center">
                 {/* UI Block*/}
-                <div className="block p-5 pb-10 bg-themeColorUltraLight dark:bg-gray-800 drop-shadow-xl rounded-lg items-center justify-center min-w-96 ">
+                <div className="block p-5 pb-10 bg-themeColorUltraLight dark:bg-gray-800 drop-shadow-xl rounded-lg items-center justify-center min-w-96 hover: cursor-pointer hover:scale-105 transition ease-in-out">
                     <div className="text-2xl text-themeColor font-semibold mb-8 text-center">
                         <h1>{t("CLUB_LOGIN")}</h1>
                     </div>

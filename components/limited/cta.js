@@ -1,5 +1,5 @@
 import React from "react";
-import Container from "./container";
+import Container from "../container";
 import { useTranslation } from "react-i18next";
 
 const Cta = () => {
@@ -43,7 +43,7 @@ const Cta = () => {
             HUAWEI
           </a>
         </div>
-        
+
       </div>
     </Container>
   );

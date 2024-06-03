@@ -8,7 +8,7 @@ import { useTranslation } from "react-i18next";
 
 import { useRouter } from 'next/router';
 
-import {COLOR_DIY} from '../utils/uiMap'
+import { customSettings } from '../utils/settings';
 
 const Navbar = () => {
 
@@ -21,24 +21,16 @@ const Navbar = () => {
 
   const navigation = [
     "ClubLogin",
-    // "Download",
     "Tutorial",
     "QA",
     "User_Agreement",
     "About_us",
   ];
 
-  // const Tnavigation = [
-  //   t("Download"),
-  //   t("Tutorial"),
-  //   t("Q/A"),
-  //   t("User Agreement"),
-  //   t("About us"),
-  // ];
-
   return (
     <div className="w-full">
       <nav className="container relative flex flex-wrap items-center justify-between p-8 mx-auto lg:justify-between xl:px-0">
+
         {/* Logo  */}
         <Disclosure>
           {({ open }) => (
@@ -87,14 +79,14 @@ const Navbar = () => {
                 <Disclosure.Panel className="flex flex-wrap w-full my-5 lg:hidden">
                   <>
                     {navigation.map((menu, index) => {
-                      return  (
+                      return (
                         <Link
                           href={`/${menu.toLowerCase()}`} className="w-full px-4 py-2 -ml-4 text-gray-500 rounded-md dark:text-gray-200 hover:text-themeColor hover:bg-themeColorUltraLight dark:hover:text-themeColor dark:hover:bg-gray-800 focus:text-themeColor focus:bg-themeColorUltraLignt focus:outline-none dark:focus:bg-gray-800"
                           onClick={() => navigateToPage('/' + menu.toLowerCase())}>
-                            {t(menu)}
+                          {t(menu)}
                         </Link>
                       )
-                  })}
+                    })}
                     {/* <Link href="/" className="w-full px-6 py-2 mt-3 text-center text-white bg-indigo-600 rounded-md lg:ml-5">         
                         Get Started
                     </Link> */}
@@ -109,15 +101,15 @@ const Navbar = () => {
         <div className="hidden text-center lg:flex lg:items-center">
           <ul className="items-center justify-end flex-1 pt-6 list-none lg:pt-0 lg:flex">
             {navigation.map((menu, index) => {
-                return  (
+              return (
                 <li className="mr-3 nav__item" key={index}>
                   <Link
                     href={`/${menu.toLowerCase()}`} className="inline-block px-4 py-2 text-lg font-normal text-gray-800 no-underline rounded-md dark:text-gray-200 hover:text-themeColor hover:bg-themeColorUltraLight dark:hover:text-themeColor dark:hover:bg-gray-800 focus:text-themeColor focus:bg-themeColorUltraLignt focus:outline-none dark:focus:bg-gray-800"
                     onClick={() => navigateToPage('/' + menu.toLowerCase())}>
-                      {t(menu)}
+                    {t(menu)}
                   </Link>
                 </li>
-                )
+              )
             })}
           </ul>
         </div>
@@ -131,6 +123,11 @@ const Navbar = () => {
           <LanguageSwitcher />
         </div>
       </nav>
+      {customSettings.is_local_test && (
+        <div className="bg-alert pl-3 py-2">
+          <p className="text-white"><strong>警告:</strong> 您現在使用的是本地服務器。</p>
+        </div>
+      )}
     </div>
   );
 }
