@@ -16,22 +16,21 @@ export const squashDateTime = (date, time, divider = " ") => {
  */
 export const parseTimeString = (timestamp) => {
     const dateObj = new Date(timestamp);
-    const year = dateObj.getUTCFullYear();
-    const month = dateObj.getUTCMonth() + 1;
-    const day = dateObj.getUTCDate();
-    const hour = dateObj.getUTCHours();
-    const minute = dateObj.getUTCMinutes();
+    const year = dateObj.getUTCFullYear().toString();
+    const month = (dateObj.getUTCMonth() + 1).toString();
+    const day = dateObj.getUTCDate().toString();
 
-    let minuteStr = minute.toString();
-    if (minute == 0) {
-        minuteStr = '0' + minuteStr;
-    }
+    let hour = dateObj.getUTCHours();
+    const hourStr = hour > 9 ? hour.toString() : '0' + hour.toString();
+
+    let minute = dateObj.getUTCMinutes();
+    const minuteStr = minute > 9 ? minute.toString() : '0' + minute.toString();
 
     return {
         "Year": year,
         "Month": month,
         "Day": day,
-        "Hour": hour,
+        "Hour": hourStr,
         "Minute": minuteStr,
     }
 }
