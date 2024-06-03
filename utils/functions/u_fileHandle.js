@@ -10,13 +10,19 @@
  */
 export function handleFileChange(event, m_files, setFileFunc, isDrop, isSingle, numLimit = void 0) {
 
+    // 複製一份文件
+    const duplicateFile = (file) => {
+        let newFileName = file.name + Date.now();
+        return new File([file], newFileName, { type: file.type });
+    };
+
     // 上傳單個文件
     if (isSingle) {
         let fileObj = isDrop ? event.dataTransfer.files[0] : event.target.files[0];
         if (!fileObj) {
             return void 0;
         }
-        setFileFunc(fileObj);
+        setFileFunc(duplicateFile(fileObj));
         return;
     }
 
@@ -30,7 +36,7 @@ export function handleFileChange(event, m_files, setFileFunc, isDrop, isSingle, 
     let fileArr = [];
     Object.keys(fileRawArr).map(
         key => {
-            fileArr.push(fileRawArr[key]);
+            fileArr.push(duplicateFile(fileRawArr[key]));
         }
     );
 
