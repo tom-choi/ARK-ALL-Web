@@ -36,7 +36,7 @@ const NavBarSecondary = (props) => {
                 </div>
             </div>
             {customSettings.is_local_test && (
-                <div className="bg-alert pl-3 py-2">
+                <div className="bg-alert pl-3 py-2 text-white">
                     <p><strong>警告:</strong> 您現在使用的是本地服務器。</p>
                 </div>
             )}
