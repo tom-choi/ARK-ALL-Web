@@ -9,7 +9,7 @@ import axios from 'axios';
      * @param {bool} askUserConfirm 是否要求用戶確認上傳。
      * @returns 
      */
-export async function upload(uploadFormData, apiURL, clearLocalStorage, returnLoc, guard = true, askUserConfirm = false) {
+export async function upload(uploadFormData, apiURL, clearLocalStorage = void 0, returnLoc = void 0, guard = true, askUserConfirm = false) {
 
     let isUserConfirmUpload = true;
     if (askUserConfirm) {
@@ -33,12 +33,13 @@ export async function upload(uploadFormData, apiURL, clearLocalStorage, returnLo
         let json = res.data;
         if (json.message == 'success') {
             alert('成功！');
-            localStorage.removeItem(clearLocalStorage);
-            window.location.href = returnLoc;
+            clearLocalStorage != void 0 && localStorage.removeItem(clearLocalStorage);
+            returnLoc != void 0 && (window.location.href = returnLoc);
         } else {
             alert('失敗！');
         }
     }).catch(err => {
         alert('請求錯誤，請檢查網路。');
     });
+
 }
