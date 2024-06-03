@@ -58,7 +58,7 @@ const ActivityDetail = () => {
     const [m_type, setType] = useState("ACTIVITY");
 
     // 簡介
-    const [m_intro, setIntro] = useState(null);                       // 描述
+    const [m_intro, setIntro] = useState("");                       // 描述
 
     // 相關圖片
     const [m_relatedImages, setRelatedImages] = useState(null);     // 暫存活動圖片
@@ -87,6 +87,18 @@ const ActivityDetail = () => {
      */
     const fetchActivityDataFromLocalStorage = () => {
 
+        /**
+         * 將服務器返回的datetime進行分割。此步驟不可省略，因爲API必須接收一個時間戳，即使它完全沒有變。(-_-|||)
+         * @param {*} timestamp 時間戳，格式爲：2024-06-04 13:06:00+00:00
+         * @returns 目標格式：{"date": 2024-06-04, "time": 13:06:00}
+         */
+        const parseDateTime = (timestamp) => {
+            let date = timestamp.split(' ')[0];
+            let time = timestamp.split(' ')[1].split('+')[0].slice(0, -3);
+
+            return { "date": date, "time": time };
+        }
+
         // 從本地存儲中獲取活動訊息
         var curActivityInfo = JSON.parse(localStorage.getItem("CurActivity"));
         setActivityData(curActivityInfo);
@@ -97,19 +109,29 @@ const ActivityDetail = () => {
             curActivityInfo.title && setTitle(curActivityInfo.title);
             curActivityInfo.cover_image_url && setCoverImage(curActivityInfo.cover_image_url);
             curActivityInfo.relate_image_url && setRelatedImages(curActivityInfo.relate_image_url);
-            // curActivityInfo.relate_image_url && console.log(curActivityInfo.relate_image_url);
 
             // 基本訊息
-            curActivityInfo.m_sDate && setStartDate(curActivityInfo.m_sDate);
-            curActivityInfo.m_sTime && setStartTime(curActivityInfo.m_sTime);
-            curActivityInfo.m_eDate && setEndDate(curActivityInfo.m_eDate);
-            curActivityInfo.m_eTime && setEndTime(curActivityInfo.m_eTime);
-            curActivityInfo.m_location && setLocation(curActivityInfo.m_location);
-            curActivityInfo.m_link && setLink(curActivityInfo.m_link);
-            curActivityInfo.m_type && setType(curActivityInfo.m_type);
+            /** startdatetime format: 2024-06-03 13:06:00+00:00 */
+            if (curActivityInfo.startdatetime) {
+                let { date, time } = parseDateTime(curActivityInfo.startdatetime);
+                setStartDate(date);
+                setStartTime(time);
+            }
+
+            if (curActivityInfo.enddatetime) {
+                let { date, time } = parseDateTime(curActivityInfo.enddatetime);
+                setEndDate(date);
+                setEndTime(time);
+            }
+
+
+            curActivityInfo.location && setLocation(curActivityInfo.location);
+            curActivityInfo.link && setLink(curActivityInfo.link);
+
+            curActivityInfo.type && setType(curActivityInfo.type);
 
             // 簡介
-            curActivityInfo.m_intro && setIntro(curActivityInfo.m_intro);
+            curActivityInfo.introduction && setIntro(curActivityInfo.introduction);
 
             // 數據加載完畢，關閉lock
             setIsLoading(false);
@@ -214,7 +236,7 @@ const ActivityDetail = () => {
         // 開始和結束時間
         data.append('startdatetime', s_DateTime);
         data.append('enddatetime', e_DateTime);
-        data.append('loacation', m_location ? m_location : "");
+        data.append('location', m_location);
         data.append('introduction', m_intro);
         data.append('can_follow', 'true');
 
@@ -365,7 +387,7 @@ const ActivityDetail = () => {
                                 <span className="text-themeColor font-bold">
                                     開始:{'  '}
                                 </span>
-                                {activityData && moment(activityData.timestamp).format("YYYY-MM-DD HH:mm")}
+                                {activityData && moment(activityData.startdatetime).format("YYYY-MM-DD HH:mm")}
                             </p>
                             <p>
                                 <span className="text-themeColor font-bold">
@@ -381,7 +403,7 @@ const ActivityDetail = () => {
                                 {!isEditMode ? (activityData && activityData.location) : (
                                     <input
                                         placeholder={"地點"}
-                                        defaultValue={activityData && activityData.location}
+                                        defaultValue={activityData ? activityData.location : ""}
                                         className="text-lg border-4 border-themeColor rounded-lg h-10 p-2"
                                         onChangeCapture={(event) => setLocation(event.target.value)}>
                                     </input>
