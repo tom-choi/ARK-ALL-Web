@@ -36,10 +36,6 @@ let add_relate_image = [];
 let del_relate_image = [];
 let del_relate_image_index = [];
 
-/**
- * 生產環境與開發環境Base Host長度不一樣
- */
-let baseHostLen = customSettings.is_local_test ? 0 : BASE_HOST.length;
 
 const ActivityDetail = () => {
     const [activityData, setActivityData] = useState(null);     // 活動數據
@@ -174,6 +170,11 @@ const ActivityDetail = () => {
         // 預處理
         let s_DateTime = squashDateTime(m_sDate, m_sTime, 'T');
         let e_DateTime = squashDateTime(m_eDate, m_eTime, 'T');
+
+        /**
+         * 生產環境與開發環境Base Host長度不一樣
+         */
+        let baseHostLen = customSettings.is_local_test ? 0 : BASE_HOST.length;
 
         // 獲取上傳表單
         let data = new FormData();
