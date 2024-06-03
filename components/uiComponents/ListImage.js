@@ -26,7 +26,7 @@ export const ListImage = (props) => {
     const { item, index, isEditMode, handleImageDelete } = props;
 
     let deleteBtnStyle = "absolute flex flex-col bg-black text-white text-xl p-3 rounded-lg text-center justify-center opacity-50 hover:cursor-pointer hover:opacity-100 hover:bg-alert";
-    let [imgStyle, setImgStyle] = useState("rounded-lg border-themeColor border-4");
+    let [imgStyle, setImgStyle] = useState("rounded-lg border-themeColor border-4 w-full h-full");
 
     return (
         <div key={index} className="flex mb-4 items-center justify-center" >
