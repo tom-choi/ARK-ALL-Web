@@ -267,8 +267,6 @@ const ActivityDetail = () => {
         return;
     }
 
-
-    /*---------------------------------初始化----------------------------------*/
     useEffect(() => {
         fetchActivityDataFromLocalStorage();
 
@@ -284,8 +282,6 @@ const ActivityDetail = () => {
     const coverImageRef = useRef();
     const relateImageInputRef = useRef();
 
-
-    /*---------------------------------頁間導航--------------------------------*/
     return (<>
         <title>
             {activityData && activityData.title} - 詳情
