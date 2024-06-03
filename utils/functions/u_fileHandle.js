@@ -8,7 +8,7 @@
  * @param {int} numLimit 添加文件的數量限制。
  * @returns 
  */
-export function handleFileChange(event, m_files, setFileFunc, isDrop, isSingle, numLimit = void 0) {
+export function u_handleFileChange(event, m_files, setFileFunc, isDrop, isSingle, numLimit = void 0) {
 
     // 複製一份文件
     const duplicateFile = (file) => {
@@ -65,7 +65,7 @@ export function handleFileChange(event, m_files, setFileFunc, isDrop, isSingle, 
  * @param {Function} setServerFileArrFunc 更改數據庫文件的函數
  * @returns 
  */
-export function handleFileDelete(e, indexToRemove, m_files, setFileArrFunc, setServerFileArrFunc) {
+export function u_handleFileDelete(e, indexToRemove, m_files, setFileArrFunc, setServerFileArrFunc) {
     // 當前文件
     let curFile = m_files[indexToRemove];
 
@@ -81,15 +81,18 @@ export function handleFileDelete(e, indexToRemove, m_files, setFileArrFunc, setS
         // 本地文件
         isCurFileInServer = false;
     } else if (typeof curFile == 'string') {
+        // 服務器文件
         isCurFileInServer = true;
     } else {
         throw new Exception('不支持的文件類型！');
     }
 
+    // 服務器邏輯
     if (isCurFileInServer) {
         setServerFileArrFunc(curFile);
     }
 
+    // 本地邏輯
     const updatedFileArr = m_files;
     updatedFileArr.splice(indexToRemove, 0 + isCurFileInServer);
     updatedFileArr.push('');

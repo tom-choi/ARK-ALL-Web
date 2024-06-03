@@ -1,5 +1,5 @@
 import { BASE_URI, BASE_HOST, GET, POST } from '../../utils/pathMap';
-import { handleFileChange } from '../../utils/functions/u_fileHandle';
+import { u_handleFileChange } from '../../utils/functions/u_fileHandle';
 
 import { useState } from 'react';
 
@@ -71,7 +71,7 @@ export const ListImageAdd = (props) => {
                 accept="image/*"
                 multiple
                 ref={relateImageInputRef}
-                onChange={event => handleFileChange(event, imageList, setImageList, false, false, fileNumLimit)}
+                onChange={event => u_handleFileChange(event, imageList, setImageList, false, false, fileNumLimit)}
                 className="flex w-full h-full hidden"
             />
         </div>

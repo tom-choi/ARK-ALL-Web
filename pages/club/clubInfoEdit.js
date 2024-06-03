@@ -20,7 +20,7 @@ import { StdButton } from '../../components/uiComponents/StdButton';
 
 // 工具函數
 import { upload } from '../../utils/functions/u_server';
-import { handleFileDelete } from '../../utils/functions/u_fileHandle';
+import { u_handleFileDelete } from '../../utils/functions/u_fileHandle';
 
 // 設定
 import { customSettings } from '../../utils/settings';
@@ -144,7 +144,7 @@ export default function clubInfoEdit() {
      * @param {int} indexToRemove 刪除圖片的序號
      */
     const handleClubImgDelete = (e, indexToRemove) => {
-        handleFileDelete(e, indexToRemove, m_clubImages, setClubImages, (param) => {
+        u_handleFileDelete(e, indexToRemove, m_clubImages, setClubImages, (param) => {
             del_club_image.push(param);
             return;
         });

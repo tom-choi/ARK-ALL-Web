@@ -15,7 +15,7 @@ import Container from '../../components/container';
 import { AfterLoading } from '../../components/uiComponents/AfterLoading';
 import Footer from "../../components/footer";
 import { upload } from "../../utils/functions/u_server";
-import { handleFileChange, handleFileDelete } from '../../utils/functions/u_fileHandle';
+import { u_handleFileChange, u_handleFileDelete } from '../../utils/functions/u_fileHandle';
 import { squashDateTime } from '../../utils/functions/u_format';
 import NavBarSecondary from '../../components/navBarSecondary';
 import { ListImage, ListImageAdd } from '../../components/uiComponents/ListImage';
@@ -260,7 +260,7 @@ const ActivityDetail = () => {
      * @param {int} indexToRemove 刪除圖片的序號
      */
     const handleRelateImgDelete = (e, indexToRemove) => {
-        handleFileDelete(e, indexToRemove, m_relatedImages, setRelatedImages, (param) => {
+        u_handleFileDelete(e, indexToRemove, m_relatedImages, setRelatedImages, (param) => {
             del_relate_image.push(param);
             return;
         });
@@ -334,7 +334,7 @@ const ActivityDetail = () => {
                                         type="file"
                                         accept="image/*"
                                         ref={coverImageRef}
-                                        onChange={event => handleFileChange(event, m_coverImage, setCoverImage, false, true)}
+                                        onChange={event => u_handleFileChange(event, m_coverImage, setCoverImage, false, true)}
                                         className="w-full h-full hidden"
                                     />
                                 </div>
