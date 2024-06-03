@@ -22,6 +22,7 @@ import { ListImage, ListImageAdd } from '../../components/uiComponents/ListImage
 import { StdButton, StdButtonGrid } from '../../components/uiComponents/StdButton';
 import { ContentBlock, ContentBlockGrid } from '../../components/uiComponents/ContentBlock';
 import { data } from 'autoprefixer';
+import { customSettings } from '../../utils/settings';
 
 
 // 活動類型映射
@@ -34,6 +35,11 @@ const activityTypeMap = {
 let add_relate_image = [];
 let del_relate_image = [];
 let del_relate_image_index = [];
+
+/**
+ * 生產環境與開發環境Base Host長度不一樣
+ */
+let baseHostLen = customSettings.is_local_test ? 0 : BASE_HOST.length;
 
 const ActivityDetail = () => {
     const [activityData, setActivityData] = useState(null);     // 活動數據
@@ -98,7 +104,6 @@ const ActivityDetail = () => {
             // curActivityInfo.relate_image_url && console.log(curActivityInfo.relate_image_url);
 
             // 基本訊息
-            // TODO: 去除m_
             curActivityInfo.m_sDate && setStartDate(curActivityInfo.m_sDate);
             curActivityInfo.m_sTime && setStartTime(curActivityInfo.m_sTime);
             curActivityInfo.m_eDate && setEndDate(curActivityInfo.m_eDate);
@@ -113,6 +118,8 @@ const ActivityDetail = () => {
             // 數據加載完畢，關閉lock
             setIsLoading(false);
         }
+
+        console.log(curActivityInfo);
 
     }
 
@@ -195,7 +202,7 @@ const ActivityDetail = () => {
             // 刪除後綴，根據21.07.30的後端標準，圖片需後端相對路徑
             let delURL = [];
             del_relate_image.map(imageURL => {
-                let thisURL = imageURL.slice(BASE_HOST.length);
+                let thisURL = imageURL.slice(baseHostLen);
                 delURL.push(thisURL);
             });
             data.append('del_relate_image', JSON.stringify(delURL));
@@ -277,15 +284,16 @@ const ActivityDetail = () => {
             // 刪除服務器中的數組。不直接刪除，而是保留在數組中，最後上傳服務器刪除。保證數據庫裏的圖片長度一定。
             del_relate_image.push(curImage);
             del_relate_image_index.push(indexToRemove);
+            return;
         }
 
         // 單純刪除本地數組中存儲的即可
         const updatedImageArr = m_relatedImages;
+
         // 當前只刪除本地圖片
         updatedImageArr.splice(indexToRemove, 0 + isCurImgInServer);
         updatedImageArr.push('');
         setRelatedImages(updatedImageArr);
-
     }
 
 
