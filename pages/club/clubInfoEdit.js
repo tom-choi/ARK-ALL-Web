@@ -61,12 +61,6 @@ export default function clubInfoEdit() {
     }, []);
 
     /**
-     * 联系人列表 - 無用
-     * @deprecated
-     */
-    const contactListRef = useRef();
-
-    /**
      * 從本地存儲中獲取社團訊息。
      * @returns {Object} 社團訊息
      */
@@ -155,115 +149,114 @@ export default function clubInfoEdit() {
             {/* 頂欄*/}
             <NavBarSecondary returnLocation="./clubInfo" returnStr={'社團訊息'}></NavBarSecondary>
 
-            {/* 基礎訊息 */}
-            <ContentBlock title="基礎訊息" condition={true}>
-                {/* 活動簡介 （Intro） */}
-                <SecondTitle>活動簡介</SecondTitle>
-                <textarea
-                    placeholder={"活動簡介"}
-                    defaultValue={m_intro}
-                    className="border-4 border-themeColor rounded-lg h-10 p-2"
-                    onChangeCapture={(e) => setIntro(e.target.value)}>
-                </textarea>
+            <div className="flex flex-row gap-5">
+                {/* 基礎訊息 */}
+                <ContentBlock title="基礎訊息" condition={true}>
+                    {/* 活動簡介 （Intro） */}
+                    <SecondTitle>活動簡介</SecondTitle>
+                    <textarea
+                        placeholder={"活動簡介"}
+                        defaultValue={m_intro}
+                        className="border-4 border-themeColor rounded-lg h-10 p-2 w-full h-20"
+                        onChangeCapture={(e) => setIntro(e.target.value)}>
+                    </textarea>
 
-                {/* 聯係方式 */}
-                <SecondTitle>聯絡方式</SecondTitle>
+                    {/* 聯係方式 */}
+                    <SecondTitle>聯絡方式</SecondTitle>
 
-                <ul ref={contactListRef}>
-                    {
-                        m_contact && m_contact.map((item, index) => (
-                            <div key={index}>
-                                <p>聯絡方式{" "}{index + 1}</p>
-                                <div className="flex flex-row gap-5 align-middle">
-                                    {/*方式：如email */}
-                                    <input
-                                        className=" border-4 border-themeColor rounded-lg h-10 p-2"
-                                        placeholder={"聯絡方式"}
-                                        defaultValue={item.type}
-                                        onChangeCapture={(e) => {
-                                            setContact(prevContact => {
-                                                const newContact = [...prevContact];
-                                                newContact[index].type = e.target.value;
-                                                return newContact;
-                                            });
-                                        }}>
-                                    </input>
+                    <ul>
+                        {
+                            m_contact && m_contact.map((item, index) => item.num && (
+                                <div key={index}>
+                                    <div className="flex flex-row gap-5 align-middle">
+                                        {/*方式：如email */}
+                                        <input
+                                            className=" border-4 border-themeColor rounded-lg h-10 p-2"
+                                            placeholder={"聯絡方式"}
+                                            defaultValue={item.type}
+                                            onChangeCapture={(e) => {
+                                                setContact(prevContact => {
+                                                    const newContact = [...prevContact];
+                                                    newContact[index].type = e.target.value;
+                                                    return newContact;
+                                                });
+                                            }}>
+                                        </input>
 
-                                    {/*内容：如example@example.com */}
-                                    <input
-                                        className=" border-4 border-themeColor rounded-lg h-10 p-2"
-                                        placeholder={"内容"}
-                                        defaultValue={item.num}
-                                        onChangeCapture={(e) => {
-                                            setContact(prevContact => {
-                                                const newContact = [...prevContact];
-                                                newContact[index].num = e.target.value;
-                                                return newContact;
-                                            });
-                                        }}>
-                                    </input>
+                                        {/*内容：如example@example.com */}
+                                        <input
+                                            className=" border-4 border-themeColor rounded-lg h-10 p-2"
+                                            placeholder={"内容"}
+                                            defaultValue={item.num}
+                                            onChangeCapture={(e) => {
+                                                setContact(prevContact => {
+                                                    const newContact = [...prevContact];
+                                                    newContact[index].num = e.target.value;
+                                                    return newContact;
+                                                });
+                                            }}>
+                                        </input>
 
-                                    {/* TODO: 删除某项仍存在问题*/}
-                                    <MinusCircleIcon
-                                        className="w-10 h-10 text-alert hover:opacity-70 hover:cursor-pointer"
-                                        onClick={() => {
-                                            setContact(prevContact => {
-                                                let newContact = [...prevContact];
-                                                newContact.splice(index, 1);
-                                                return newContact;
-                                            })
-                                        }}
-                                    />
+                                        {/* 刪除某個聯係方式*/}
+                                        <MinusCircleIcon
+                                            className="w-10 h-10 mt-5 text-alert hover:opacity-70 hover:cursor-pointer"
+                                            onClick={(e) => {
+                                                setContact(prevContact => {
+                                                    let newContact = [...prevContact];
+                                                    newContact[index].num = void 0;
+                                                    return newContact;
+                                                })
+                                            }}
+                                        />
+                                    </div>
                                 </div>
-                            </div>
-                        ))
-                    }
-                </ul>
+                            ))
+                        }
+                    </ul>
 
-                {/* 添加聯係方式 */}
-                <PlusCircleIcon
-                    className="w-10 h-10 text-themeColor hover:opacity-70 hover:cursor-pointer"
-                    onClick={() => {
-                        setContact(prevContact => {
-                            return [...prevContact, { "type": "", "num": "" }];
-                        });
-                    }} />
+                    {/* 添加聯係方式 */}
+                    <PlusCircleIcon
+                        className="w-10 h-10 text-themeColor hover:opacity-70 hover:cursor-pointer"
+                        onClick={() => {
+                            setContact(prevContact => {
+                                return [...prevContact, { "type": "", "num": "" }];
+                            });
+                        }} />
 
-                <br />
-            </ContentBlock>
+                    <br />
+                </ContentBlock>
 
+                {/* 相關圖片 (如果沒有相關圖片就不展示該模塊) */}
+                <ContentBlock title="相關圖片" condition={true}>
+                    <p>照片修改 - 最多5張</p>
+                    <p>*首張圖片將作為主頁背景圖</p>
+                    {/* 渲染具體相關圖片 */}
+                    <div className="grid grid-cols-4 gap-4 items-top justify-center mt-5">
+                        {/* 相關圖片 */}
+                        {m_clubImages && m_clubImages.map((item, index) =>
+                            <ListImage
+                                item={item}
+                                index={index}
+                                isEditMode={true}
+                                handleImageDelete={handleClubImgDelete}>
+                            </ListImage>
+                        )}
+
+                        <ListImageAdd
+                            relateImageInputRef={relateImageInputRef}
+                            imageList={m_clubImages}
+                            setImageList={setClubImages}
+                            fileNumLimit={5}>
+                        </ListImageAdd>
+
+                    </div>
+                </ContentBlock>
+
+            </div>
             <StdButton
                 onClickFunc={uploadEdit}
                 textContent={'上傳'}
                 Icon={ArrowUpIcon}></StdButton>
-
-            {/* 照片 */}
-            <p>照片修改 - 最多5張</p>
-            <p>*首張圖片將作為主頁背景圖</p>
-
-            {/* 相關圖片 (如果沒有相關圖片就不展示該模塊) */}
-            <ContentBlock title="相關圖片" condition={true}>
-                {/* 渲染具體相關圖片 */}
-                <div className="grid grid-cols-4 gap-4 items-top justify-center mt-5">
-                    {/* 相關圖片 */}
-                    {m_clubImages && m_clubImages.map((item, index) =>
-                        <ListImage
-                            item={item}
-                            index={index}
-                            isEditMode={true}
-                            handleImageDelete={handleClubImgDelete}>
-                        </ListImage>
-                    )}
-
-                    <ListImageAdd
-                        relateImageInputRef={relateImageInputRef}
-                        imageList={m_clubImages}
-                        setImageList={setClubImages}
-                        fileNumLimit={5}>
-                    </ListImageAdd>
-
-                </div>
-            </ContentBlock>
 
         </Container >
     )
