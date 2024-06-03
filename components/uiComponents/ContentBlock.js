@@ -4,6 +4,7 @@ import { FirstTitle } from "./LayeredTitles";
  * 帶標題的標準内容卡片
  * @param {*} props 
  * @prop {string} title 内容卡片的標題
+ * @prop {bool} condition 顯示的條件
  * @returns 
  */
 export const ContentBlock = (props) => {
@@ -25,8 +26,9 @@ export const ContentBlock = (props) => {
  * @returns 
  */
 export const ContentBlockGrid = (props) => {
+    let gridNum = props.gridNum ? props.gridNum : 2;
     return (
-        <div className="lg:grid lg:grid-cols-2 md:block gap-4 items-top justify-center mt-5">
+        <div className={`lg:grid lg:grid-cols-${gridNum} md:block gap-4 items-top justify-center mt-5`}>
             {props.children}
         </div>
     );

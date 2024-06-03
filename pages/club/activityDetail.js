@@ -379,7 +379,8 @@ const ActivityDetail = () => {
                     </StdButtonGrid>
 
                     {/* 時間和介紹 */}
-                    <ContentBlockGrid>
+                    <ContentBlockGrid
+                        gridNum={(!activityData || activityData.type != 'WEBSITE') ? 2 : 1}>
                         {/*開始和結束時間*/}
                         <ContentBlock title="基本訊息">
                             {/* 開始時間和結束時間*/}
@@ -396,23 +397,47 @@ const ActivityDetail = () => {
                                 {activityData && moment(activityData.enddatetime).format("YYYY-MM-DD HH:mm")}
                             </p>
                             {/* 地點 */}
-                            <p>
-                                <span className="text-themeColor font-bold">
-                                    地點:{'  '}
-                                </span>
-                                {!isEditMode ? (activityData && activityData.location) : (
-                                    <input
-                                        placeholder={"地點"}
-                                        defaultValue={activityData ? activityData.location : ""}
-                                        className="text-lg border-4 border-themeColor rounded-lg h-10 p-2"
-                                        onChangeCapture={(event) => setLocation(event.target.value)}>
-                                    </input>
-                                )}
-                            </p>
+                            {
+                                m_type != 'WEBSITE' ? (
+                                    <p>
+                                        <span className="text-themeColor font-bold">
+                                            地點:{'  '}
+                                        </span>
+                                        {!isEditMode ? (activityData && activityData.location) : (
+                                            <input
+                                                placeholder={"地點"}
+                                                defaultValue={activityData ? activityData.location : ""}
+                                                className="text-lg border-4 border-themeColor rounded-lg h-10 p-2"
+                                                onChangeCapture={(event) => setLocation(event.target.value)}>
+                                            </input>
+                                        )}
+                                    </p>
+                                ) : (
+                                    <p>
+                                        <span className="text-themeColor font-bold">
+                                            鏈接:{'  '}
+                                        </span>
+                                        {!isEditMode ? (activityData && (
+                                            <a href={activityData.link} target="_blank">
+                                                {activityData.link}
+                                            </a>
+                                        )) : (
+                                            <input
+                                                placeholder={"地點"}
+                                                defaultValue={activityData ? activityData.link : ""}
+                                                className="text-lg border-4 border-themeColor rounded-lg h-10 p-2"
+                                                onChangeCapture={(event) => setLink(event.target.value)}>
+                                            </input>
+                                        )}
+                                    </p>
+                                )
+                            }
                         </ContentBlock>
 
                         {/*活動介紹*/}
-                        <ContentBlock title="簡介">
+                        <ContentBlock
+                            title="簡介"
+                            condition={!activityData || activityData.type != 'WEBSITE'}>
                             {!isEditMode ? (
                                 <p className="text-ellipsis overflow-hidden">
                                     {activityData && activityData.introduction}
