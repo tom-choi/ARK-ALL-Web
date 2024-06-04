@@ -20,11 +20,10 @@ import { squashDateTime } from '../../utils/functions/u_format';
 import NavBarSecondary from '../../components/navBarSecondary';
 import { ListImage, ListImageAdd } from '../../components/uiComponents/ListImage';
 import { StdButton, StdButtonGrid } from '../../components/uiComponents/StdButton';
-import { ContentBlock, ContentBlockGrid } from '../../components/uiComponents/ContentBlock';
+import { ContentBlock, ContentBlockGrid, IFELSE } from '../../components/uiComponents/ContentBlock';
 import { data } from 'autoprefixer';
 import { customSettings } from '../../utils/settings';
 import { FirstTitle } from '../../components/uiComponents/LayeredTitles';
-import { IFELSE } from '../../components/uiComponents/CondBlocks';
 
 
 // 活動類型映射
