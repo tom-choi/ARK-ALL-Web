@@ -24,7 +24,7 @@ import { ContentBlock, ContentBlockGrid } from '../../components/uiComponents/Co
 import { data } from 'autoprefixer';
 import { customSettings } from '../../utils/settings';
 import { FirstTitle } from '../../components/uiComponents/LayeredTitles';
-import { BiCondBlock } from '../../components/uiComponents/CondBlocks';
+import { IFELSE } from '../../components/uiComponents/CondBlocks';
 
 
 // 活動類型映射
@@ -320,7 +320,7 @@ const ActivityDetail = () => {
                     {/* 社團名字+活動標題*/}
 
                     <div className="flex flex-col items-center text-themeColor font-bold mb-5">
-                        <BiCondBlock condition={!isEditMode}>
+                        <IFELSE condition={!isEditMode}>
                             <h1 className="text-3xl">
                                 {activityData && activityData.title}
                             </h1>
@@ -330,7 +330,7 @@ const ActivityDetail = () => {
                                 className="text-3xl border-4 border-themeColor rounded-lg h-10 p-2"
                                 onChangeCapture={(event) => setTitle(event.target.value)}>
                             </input>
-                        </BiCondBlock>
+                        </IFELSE>
 
                         {/* 社團名字 */}
                         <h3 className="text-xl mb-3">
@@ -402,13 +402,13 @@ const ActivityDetail = () => {
                             </p>
 
                             {/* 地點或鏈接 */}
-                            <BiCondBlock condition={m_type != 'WEBSITE'}>
+                            <IFELSE condition={m_type != 'WEBSITE'}>
                                 {/*非網頁 - 顯示地點 */}
                                 <p>
                                     <span className="text-themeColor font-bold">
                                         地點:{'  '}
                                     </span>
-                                    <BiCondBlock condition={!isEditMode}>
+                                    <IFELSE condition={!isEditMode}>
                                         {activityData && activityData.location}
                                         <input
                                             placeholder={"地點"}
@@ -416,7 +416,7 @@ const ActivityDetail = () => {
                                             className="text-lg border-4 border-themeColor rounded-lg h-10 p-2"
                                             onChangeCapture={(event) => setLocation(event.target.value)}>
                                         </input>
-                                    </BiCondBlock>
+                                    </IFELSE>
                                 </p>
 
                                 {/*網頁 - 顯示鏈接 */}
@@ -425,7 +425,7 @@ const ActivityDetail = () => {
                                         鏈接:{'  '}
                                     </span>
 
-                                    <BiCondBlock condition={!isEditMode}>
+                                    <IFELSE condition={!isEditMode}>
                                         {(activityData && (
                                             <a href={activityData.link} target="_blank">
                                                 {activityData.link}
@@ -437,9 +437,9 @@ const ActivityDetail = () => {
                                             className="text-lg border-4 border-themeColor rounded-lg h-10 p-2"
                                             onChangeCapture={(event) => setLink(event.target.value)}>
                                         </input>
-                                    </BiCondBlock>
+                                    </IFELSE>
                                 </p>
-                            </BiCondBlock>
+                            </IFELSE>
 
                         </ContentBlock>
 
