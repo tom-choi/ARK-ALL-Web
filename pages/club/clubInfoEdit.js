@@ -13,7 +13,7 @@ import Container from '../../components/container';
 
 // UI組件
 import NavBarSecondary from '../../components/navBarSecondary';
-import { ContentBlock } from '../../components/uiComponents/ContentBlock';
+import { ContentBlock, ContentBlockGrid } from '../../components/uiComponents/ContentBlock';
 import { ListImage, ListImageAdd } from '../../components/uiComponents/ListImage';
 import { SecondTitle } from '../../components/uiComponents/LayeredTitles';
 import { StdButton } from '../../components/uiComponents/StdButton';
@@ -35,10 +35,10 @@ export default function clubInfoEdit() {
     const [m_clubImages, setClubImages] = useState(null);
     const relateImageInputRef = useRef();
 
-    useEffect(async () => {
+    useEffect(() => {
         let clubInfo = JSON.parse(localStorage.getItem("ClubData")).content;
 
-        // 獲取當前Club的Info
+        // 獲取當前Club的Info，並存入localStorage
         const getData = async (clubNum) => {
             await axios
                 .get(BASE_URI + GET.CLUB_INFO_NUM + clubNum)
@@ -47,7 +47,7 @@ export default function clubInfoEdit() {
                     if (json.message == 'success') {
                         setClubData(json.content);
                         localStorage.setItem("ClubData", JSON.stringify(json));
-                        console.log(json.content);
+
                     }
                 })
                 .catch(err => {
@@ -55,9 +55,10 @@ export default function clubInfoEdit() {
                     alert('无法获取当前社团讯息！');
                 });
         };
-        getData(clubInfo.club_num);
+        getData(clubInfo.club_num).then(() => {
+            fetchClubDataFromLocalStorage();
+        });
 
-        fetchClubDataFromLocalStorage();
     }, []);
 
     /**
@@ -66,7 +67,6 @@ export default function clubInfoEdit() {
      */
     const fetchClubDataFromLocalStorage = () => {
         let curClubInfo = JSON.parse(localStorage.getItem("ClubData")).content;
-        console.log('clubData', curClubInfo);
 
         setClubData(curClubInfo);
 
@@ -75,8 +75,6 @@ export default function clubInfoEdit() {
             curClubInfo.contact && setContact(curClubInfo.contact);
             curClubInfo.club_photos_list && setClubImages(curClubInfo.club_photos_list);
         }
-
-        console.log(m_intro);
 
         return curClubInfo;
     }
@@ -128,7 +126,7 @@ export default function clubInfoEdit() {
     const uploadEdit = async () => {
         let uploadFormData = getUploadEditClubInfoFormData();
 
-        await upload(uploadFormData, BASE_URI + POST.CLUB_EDIT_INFO, '', './clubInfo');
+        await upload(uploadFormData, BASE_URI + POST.CLUB_EDIT_INFO, void 0, './clubInfo');
     }
 
 
@@ -149,7 +147,7 @@ export default function clubInfoEdit() {
             {/* 頂欄*/}
             <NavBarSecondary returnLocation="./clubInfo" returnStr={'社團訊息'}></NavBarSecondary>
 
-            <div className="flex flex-row gap-5">
+            <ContentBlockGrid>
                 {/* 基礎訊息 */}
                 <ContentBlock title="基礎訊息" condition={true}>
                     {/* 活動簡介 （Intro） */}
@@ -235,6 +233,7 @@ export default function clubInfoEdit() {
                         {/* 相關圖片 */}
                         {m_clubImages && m_clubImages.map((item, index) =>
                             <ListImage
+                                key={index}
                                 item={item}
                                 index={index}
                                 isEditMode={true}
@@ -252,7 +251,7 @@ export default function clubInfoEdit() {
                     </div>
                 </ContentBlock>
 
-            </div>
+            </ContentBlockGrid>
             <StdButton
                 onClickFunc={uploadEdit}
                 textContent={'上傳'}
