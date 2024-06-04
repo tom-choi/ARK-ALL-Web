@@ -13,7 +13,7 @@ import Container from '../../components/container';
 
 // UI組件
 import NavBarSecondary from '../../components/navBarSecondary';
-import { ContentBlock } from '../../components/uiComponents/ContentBlock';
+import { ContentBlock, ContentBlockGrid } from '../../components/uiComponents/ContentBlock';
 import { ListImage, ListImageAdd } from '../../components/uiComponents/ListImage';
 import { SecondTitle } from '../../components/uiComponents/LayeredTitles';
 import { StdButton } from '../../components/uiComponents/StdButton';
@@ -147,7 +147,7 @@ export default function clubInfoEdit() {
             {/* 頂欄*/}
             <NavBarSecondary returnLocation="./clubInfo" returnStr={'社團訊息'}></NavBarSecondary>
 
-            <div className="flex flex-row gap-5">
+            <ContentBlockGrid>
                 {/* 基礎訊息 */}
                 <ContentBlock title="基礎訊息" condition={true}>
                     {/* 活動簡介 （Intro） */}
@@ -251,7 +251,7 @@ export default function clubInfoEdit() {
                     </div>
                 </ContentBlock>
 
-            </div>
+            </ContentBlockGrid>
             <StdButton
                 onClickFunc={uploadEdit}
                 textContent={'上傳'}
