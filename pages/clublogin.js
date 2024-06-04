@@ -47,7 +47,9 @@ const ClubLogin = () => {
             password: password + '',
         };
         let URL = BASE_URI + GET.CLUB_SIGN_IN;
-        await axios.post(URL, qs.stringify(data), {
+        await axios.post(
+            URL,
+            qs.stringify(data), {
             // 使axios自動設置Cookies，登錄成功獲取ARK_TOKEN很重要
             withCredentials: true,
         }).then(res => {
@@ -66,8 +68,8 @@ const ClubLogin = () => {
                 window.alert("登入失敗！請檢查賬號密碼是否正確。");
             }
         }).catch(err => {
-            console.log("網路錯誤！")
-            window.alert("網路錯誤！")
+            console.log(err);
+            window.alert("網路錯誤！請聯係開發者")
         });
     }
 

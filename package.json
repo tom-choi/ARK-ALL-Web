@@ -4,9 +4,9 @@
   "description": "划時代澳大學生專用手機應用程式",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev": "cross-env NODE_ENV=development next dev",
     "build": "next build",
-    "start": "next start"
+    "start": "cross-env NODE_ENV=production next start"
   },
   "repository": {
     "type": "git",
@@ -48,6 +48,7 @@
   "devDependencies": {
     "@tailwindcss/typography": "^0.5.9",
     "autoprefixer": "^10.4.14",
+    "cross-env": "^7.0.3",
     "eslint-config-prettier": "^8.8.0",
     "postcss": "^8.4.23",
     "tailwindcss": "^3.3.1"
