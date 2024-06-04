@@ -84,52 +84,61 @@ const ActivityCard = (props) => {
     );
 }
 
+/**
+ * 開發者注：clubProfileData只用於獲取club number。由於服務器端數據可能會更新，頁面會再一次通過club number請求一次數據。
+ * 請不要用clubProfileData中除了club number以外的數據，否則可能會導致數據更新延遲。
+ * @returns 
+ */
 const ClubInfo = () => {
-    const [clubProfileData, setProfileData] = useState(null);   //登錄信息
-    const [clubContentData, setContentData] = useState(null);   //社團內容，如聯繫方式等
-    const [clubActivities, setClubActivities] = useState(null); //社團活動列表
-    const [isLoading, setIsLoading] = useState(true);
+    const [clubProfileData, setProfileData] = useState(void 0);   //登錄信息
+    const [clubContentData, setContentData] = useState(void 0);   //社團內容，如聯繫方式等
+    const [clubActivities, setClubActivities] = useState(void 0); //社團活動列表
+    const [isLoadingClubContent, setIsLoadingClubContent] = useState(true);
+    const [isLoadingActivity, setIsLoadingActivity] = useState(true);
 
     useEffect(() => {
         const fetchedProfileData = localStorage.getItem("ClubData");
-        if (fetchedProfileData) {
-            var profile = JSON.parse(fetchedProfileData);
-            setProfileData(profile);
 
-            // 根據已登錄的club ID 進一步獲取club的内容和活動
-            getClubXX(profile.content.club_num, GET.CLUB_INFO_NUM, setContentData, '無法獲取社團信息！');
-            getClubXX(profile.content.club_num, GET.EVENT_INFO_CLUB_NUM, setClubActivities, '無法獲取社團內容！');
+        /**
+         * 根據社團號碼獲取相關訊息
+         * @param {*} curClubNum 當前帳號號碼
+         * @param {string} GET_URL API路徑
+         */
+        const getClubXX = async (curClubNum, GET_URL, setFunc, alert = void 0) => {
+            await axios({
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded', },
+                method: 'get',
+                url: BASE_URI + GET_URL + curClubNum,
+            }).then(resp => {
+                let json = resp.data;
+                if (json.message == 'success') {
+                    setFunc(json.content);
+                } else if (alert) {
+                    window.alert(alert);
+                }
+            }).catch(err => {
+                window.alert('網絡錯誤！');
+            });
+        }
 
-            setIsLoading(false);
-        } else {
-            alert('請前往登錄賬號!');
+        // 沒有獲取到club number，返回登錄頁
+        if (!fetchedProfileData) {
+            alert('請前往登陸賬號！');
             window.location.href = '../clublogin';
         }
-    }, []);
 
+        var profile = JSON.parse(fetchedProfileData);
+        setProfileData(profile);
 
-    /**
-     * 根據社團號碼獲取相關訊息
-     * @param {*} curClubNum 當前帳號號碼
-     * @param {string} GET_URL API路徑
-     */
-    const getClubXX = async (curClubNum, GET_URL, setFunc, alert = void 0) => {
-        await axios({
-            headers: { 'Content-Type': 'application/x-www-form-urlencoded', },
-            method: 'get',
-            url: BASE_URI + GET_URL + curClubNum,
-        }).then(resp => {
-            let json = resp.data;
-            if (json.message == 'success') {
-                setFunc(json.content);
-            } else if (alert) {
-                window.alert(alert);
-            }
-        }).catch(err => {
-            window.alert('網絡錯誤！');
+        // 根據已登錄的club ID 進一步獲取club的内容和活動
+        getClubXX(profile.content.club_num, GET.CLUB_INFO_NUM, setContentData, '無法獲取社團信息！').then(() => {
+            setIsLoadingClubContent(false);
         });
-    }
+        getClubXX(profile.content.club_num, GET.EVENT_INFO_CLUB_NUM, setClubActivities, '無法獲取社團內容！').then(() => {
+            setIsLoadingActivity(false);
+        });
 
+    }, []);
 
     return (<>
         <title>
@@ -141,13 +150,14 @@ const ClubInfo = () => {
             <NavBarSecondary returnLocation={'../'} clearLocStorage>
             </NavBarSecondary>
 
-            <AfterLoading isLoading={isLoading}>
-                <>
+
+            <>
+                <AfterLoading isLoading={isLoadingClubContent}>
                     {/* 歡迎詞 */}
                     <div>
                         <h3 className="text-themeColor text-2xl font-bold text-center">
                             歡迎你，
-                            {clubProfileData && clubProfileData.content.name ? (clubProfileData.content.name) : ("社團")}
+                            {clubContentData && clubContentData.name ? (clubContentData.name) : ("社團")}
                             負責人！
                         </h3>
                     </div>
@@ -178,7 +188,7 @@ const ClubInfo = () => {
                         <img
                             className="w-24 h-24 rounded-full "
                             style={{ backgroundColor: '#fff' }}
-                            src={BASE_HOST + (clubProfileData && clubProfileData.content.logo_url)}
+                            src={BASE_HOST + (clubContentData && clubContentData.logo_url)}
                         />
 
                         {/*社團訊息*/}
@@ -195,7 +205,7 @@ const ClubInfo = () => {
 
                             {/* 社團簡介*/}
                             <p className="mt-3">
-                                {clubProfileData && clubProfileData.content.intro ? (clubProfileData.content.intro) : ("該社團沒有留下簡介。")}
+                                {clubContentData && clubContentData.intro ? (clubContentData.intro) : ("該社團沒有留下簡介。")}
                             </p>
                         </div>
                     </div>
@@ -229,6 +239,7 @@ const ClubInfo = () => {
                                 {clubContentData ? (
                                     clubContentData.club_photos_list.map((item, index) => (
                                         <ListImage
+                                            key={index}
                                             item={item}
                                             index={index}
                                             isEditMode={false}>
@@ -242,7 +253,9 @@ const ClubInfo = () => {
                             </div>
                         </ContentBlock>
                     </ContentBlockGrid>
+                </AfterLoading>
 
+                <AfterLoading isLoading={isLoadingActivity}>
                     {/* 社團活動 */}
                     <div className="px-5 pt-3 pb-5 rounded-lg drop-shadow-md itmes-center mb-5">
                         {/*標題*/}
@@ -252,16 +265,16 @@ const ClubInfo = () => {
                             {/* 渲染活動卡片 */}
                             {clubActivities && clubActivities.length > 0 ? (
                                 clubActivities.map((item, index) => (
-                                    <ActivityCard item={item} index={index}></ActivityCard>
+                                    <ActivityCard key={index} item={item} index={index}></ActivityCard>
                                 ))
                             ) : (
                                 <p>無活動</p>
                             )}
                         </div>
                     </div>
-                    <Footer />
-                </>
-            </AfterLoading>
+                </AfterLoading>
+                <Footer />
+            </>
         </Container>
     </>);
 }
