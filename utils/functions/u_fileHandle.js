@@ -90,11 +90,12 @@ export function u_handleFileDelete(e, indexToRemove, m_files, setFileArrFunc, se
     // 服務器邏輯
     if (isCurFileInServer) {
         setServerFileArrFunc(curFile);
+        return;
     }
 
     // 本地邏輯
     const updatedFileArr = m_files;
-    updatedFileArr.splice(indexToRemove, 0 + isCurFileInServer);
+    updatedFileArr.splice(indexToRemove, 1);
     updatedFileArr.push('');
 
     setFileArrFunc(updatedFileArr);

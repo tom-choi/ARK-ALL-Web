@@ -286,7 +286,6 @@ const ActivityDetail = () => {
     const handleRelateImgDelete = (e, indexToRemove) => {
         u_handleFileDelete(e, indexToRemove, m_relatedImages, setRelatedImages, (param) => {
             del_relate_image.push(param);
-            return;
         });
         return;
     }
