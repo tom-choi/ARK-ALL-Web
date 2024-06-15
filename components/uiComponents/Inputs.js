@@ -104,7 +104,7 @@ export const ARKImageInput = (props) => {
 
     return (
         <div
-            className="flex flex-col w-96 h-96 items-center justify-center mx-auto bg-themeColorUltraLight dark:bg-gray-700 rounded-lg border-4 border-themeColor border-dashed min-h-24 hover:cursor-pointer hover:opacity-50 hover:scale-[1.02] mb-4 transition-all"
+            className="flex flex-col w-96 h-96 items-center justify-center mx-auto bg-themeColorUltraLight dark:bg-gray-700 rounded-lg border-4 border-themeColor border-dashed min-h-24 hover:cursor-pointer hover:opacity-50 hover:scale-[1.02] transition-all"
             style={{
                 backgroundImage: `url(${m_imageURL})`,
                 backgroundSize: 'cover',

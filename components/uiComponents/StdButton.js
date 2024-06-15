@@ -1,3 +1,4 @@
+import { IF } from '../uiComponents/ContentBlock'
 /**
  * 標準按鈕樣式
  * @param {*} props 
@@ -10,20 +11,22 @@
 export const StdButton = (props) => {
     const { color, onClickFunc, textContent, Icon, condition } = props;
 
-    const btnStyle = "flex " + (color ? color : 'bg-themeColor') + " py-3 px-5 rounded-full text-white hover:opacity-50 hover:cursor-pointer";
+    const btnStyle = "flex " + (color ? color : 'bg-themeColor') + " py-3 px-5 rounded-full text-white hover:scale-105 hover:cursor-pointer transition-all";
 
     return (
         (condition == void 0 || condition == true) && (
-            <div className="flex items-center justify-center mx-5" onClick={onClickFunc} >
+            <button className="flex items-center justify-center mx-5" onClick={onClickFunc || void 0} >
                 <div className={btnStyle}>
-                    <div className="flex flex-col justify-center">
-                        <Icon className="w-5 h-5" />
-                    </div>
+                    <IF condition={Icon != void 0}>
+                        <div className="flex flex-col justify-center">
+                            <Icon className="w-5 h-5" />
+                        </div>
+                    </IF>
                     <div className="flex flex-col justify-center ml-3">
                         <span>{textContent}</span>
                     </div>
                 </div>
-            </div>
+            </button>
         )
     );
 }

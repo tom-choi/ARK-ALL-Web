@@ -1,52 +1,25 @@
 // 包引用
-import React, { useState, useEffect, useRef } from 'react';
-import axios from 'axios';
-import {
-    TrashIcon,
-    FolderArrowDownIcon,
-    PlusCircleIcon,
-    ArrowUpIcon
-} from "@heroicons/react/24/solid";
+import React from 'react';
+import { ArrowUpIcon } from "@heroicons/react/24/solid";
 import moment from 'moment/moment';
 
 // 本地引用
-import { BASE_URI, BASE_HOST, GET, POST } from '../../utils/pathMap';
-import Container from '../../components/container';
 import NavBarSecondary from '../../components/navBarSecondary';
-import { u_handleFileChange } from '../../utils/functions/u_fileHandle';
-import { upload } from '../../lib/serverActions';
-import { squashDateTime } from '../../utils/functions/u_format';
-import { ListImage, ListImageAdd } from '../../components/uiComponents/ListImage';
-import { StdButton, StdButtonGrid } from '../../components/uiComponents/StdButton';
-import { useForm, useFormState } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 import { ARKMain, ContentBlock, ContentBlockGrid } from '../../components/uiComponents/ContentBlock';
 import { ARKImageInput, ARKLabeledInput } from '../../components/uiComponents/Inputs';
 import { createActivity } from '../../lib/serverActions';
+import { StdButton } from '../../components/uiComponents/StdButton';
 
 // 活動類型映射
 const activityTypeMap = {
     ACTIVITY: "普通活動",
-    OFFICIAL: "澳大官方",
     WEBSITE: "網頁"
+    // OFFICIAL: "澳大官方",
 };
 
 const inputStyle = "border-4 border-themeColor rounded-lg h-15 p-2 ontline-none";
 const textareaStyle = "text-lg block w-full h-80 border-4 border-themeColor rounded-lg p-2 resize-none min-h-32 outline-none";
-
-
-const _metaTest = async (data) => {
-    const { sDate, sTime, eDate, eTime, ...restData } = data;
-    let startdatetime = squashDateTime(data.sDate, data.sTime, "T");
-    let enddatetime = squashDateTime(data.eDate, data.eTime, "T");
-
-    let newData = { startdatetime: startdatetime, enddatetime: enddatetime, can_follow: true, ...restData };
-    let fd = new FormData();
-    for (var key in newData) {
-        fd.append(key, newData[key]);
-    }
-    await upload(fd, BASE_URI + POST.EVENT_CREATE, 'createdActivityInfo', '../club/clubInfo', true, true);
-    console.log(newData);
-}
 
 const NewActivity = () => {
     const { register, handleSubmit, setValue, formState: { errors }, watch } = useForm({
@@ -75,7 +48,8 @@ const NewActivity = () => {
                 <input
                     className={`${inputStyle} text-3xl mx-auto`}
                     placeholder={"活動名稱"}
-                    {...register("title", { required: "請輸入活動標題。" })} />
+                    {...register("title", { required: "請輸入活動標題" })} />
+                <div className={"text-alert text-center mx-auto mb-3"}>{errors.title && errors.title.message}</div>
 
                 {/* 封面圖片 */}
                 <ARKImageInput
@@ -85,8 +59,9 @@ const NewActivity = () => {
                     errText={"請輸入封面圖片"}
                     thisErr={errors.cover_image_file}
                 />
+                <div className={"text-alert text-center mx-auto mb-3"}>{errors.cover_image_file && errors.cover_image_file.message}</div>
 
-                <ContentBlockGrid>
+                <ContentBlockGrid gridNum={selectedType == "WEBSITE" ? 1 : 2}>
 
                     {/* 基本訊息 */}
                     <ContentBlock title={"基本訊息"}>
@@ -102,7 +77,7 @@ const NewActivity = () => {
                         </ARKLabeledInput>
 
                         {/* 開始時間 */}
-                        <ARKLabeledInput title={"開始"} condition={selectedType == "ACTIVITY"}>
+                        <ARKLabeledInput title={"開始"}>
                             <input
                                 className={inputStyle}
                                 type={"date"}
@@ -114,7 +89,7 @@ const NewActivity = () => {
                         </ARKLabeledInput>
 
                         {/* 結束時間 */}
-                        <ARKLabeledInput title={"結束"} condition={selectedType == "ACTIVITY"}>
+                        <ARKLabeledInput title={"結束"}>
                             <input
                                 className={inputStyle}
                                 type={"date"}
@@ -129,39 +104,42 @@ const NewActivity = () => {
                         <ARKLabeledInput title={"地點"} condition={selectedType == "ACTIVITY"}>
                             <input
                                 className={inputStyle}
-                                {...register("location")} />
+                                {...register("location", { required: selectedType == "ACTIVITY" ? "請輸入地點" : false })} />
+                            <div className={"text-alert"}>{errors.location && errors.location.message}</div>
                         </ARKLabeledInput>
+
 
                         {/* 鏈接 */}
                         <ARKLabeledInput title={"鏈接"} condition={selectedType == "WEBSITE"}>
                             <input
                                 className={inputStyle}
                                 type={"url"}
-                                {...register("link")} />
+                                {...register("link", { required: selectedType == "WEBSITE" ? "需要提供活動鏈接哦！" : false })} />
+                            <div className={"text-alert"}>{errors.link && errors.link.message}</div>
                         </ARKLabeledInput>
                     </ContentBlock>
 
                     {/* 簡介 */}
-                    <ContentBlock title={"簡介"}>
+                    <ContentBlock title={"簡介"} condition={selectedType == "ACTIVITY"}>
                         <textarea
                             className={textareaStyle}
                             placeholder={"請在此輸入社團簡介"}
-                            {...register("introduction")} />
+                            {...register("introduction", { required: selectedType == "ACTIVITY" ? "你需要向大家介紹活動的内容哦！" : false })} />
+                        <div className={"text-alert"}>{errors.introduction && errors.introduction.message}</div>
+
                     </ContentBlock>
 
                 </ContentBlockGrid>
 
-                <ContentBlock title={"相關圖片"}>
+                <ContentBlock title={"相關圖片"} condition={selectedType == "ACTIVITY"}>
                     <input
                         type={"file"}
                         multiple
                         {...register("add_relate_image")} />
                 </ContentBlock>
 
-                <button
-                    className={"w-32 px-10 py-2 rounded-full bg-themeColor hover:scale-[1.02] transition-all"}>
-                    上傳
-                </button>
+                <StdButton textContent={"上傳"} Icon={ArrowUpIcon} />
+
             </form>
         </ARKMain>
     );
