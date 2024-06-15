@@ -47,3 +47,9 @@ export const JsonToFormData = (data) => {
     }
     return fd;
 }
+
+// 複製一份文件
+export const duplicateFile = (file) => {
+    let newFileName = file.name + Date.now();
+    return new File([file], newFileName, { type: file.type });
+};

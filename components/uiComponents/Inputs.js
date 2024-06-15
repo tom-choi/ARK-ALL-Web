@@ -2,6 +2,7 @@ import { useRef, useState } from "react";
 import { IF } from "./ContentBlock";
 
 import { PlusCircleIcon } from "@heroicons/react/24/solid";
+import { duplicateFile } from "../../utils/functions/u_format";
 
 const TextInputStyles = {
     border: {
@@ -144,3 +145,54 @@ export const ARKImageInput = (props) => {
         </div>
     );
 }
+
+export const ARKListImageImput = (props) => {
+    const { regName, isRequired } = props.base;
+    const { register, setValue, errText, thisErr } = props;
+    const [m_imgURLs, setImgUrls] = useState();
+
+    const imageInputRef = useRef();
+
+    return (
+        <div className={"flex flex-row items-center justify-center"}>
+            <div className={"grid md:grid-cols-5 gap-4 object-cover"}>
+                {m_imgURLs && m_imgURLs.map((item, index) => (
+                    <img src={item} className={"w-40 h-24 rounded-md hover:scale-[1.02] transition-all hover:cursor-pointer"} />
+                ))}
+
+                <div
+                    className="flex flex-col w-40 h-24 items-center justify-center bg-themeColorUltraLight dark:bg-gray-700 rounded-lg border-4 border-themeColor border-dashed min-h-24 hover:cursor-pointer hover:opacity-50 hover:scale-[1.02] transition-all"
+                    onClick={() => imageInputRef.current.click()}>
+
+                    {/* Icon 部分 */}
+                    <div className="flex items-center justify-center mb-2">
+                        <PlusCircleIcon className="w-10 h-10 text-themeColor" />
+                    </div>
+                    {/* 輸入邏輯部分 */}
+                    <input
+                        type={"file"}
+                        accept={"image/*"}
+                        multiple
+                        className={"hidden"}
+                        {...register(regName, { required: isRequired ? (errText || "需要圖片") : false })}
+                        ref={imageInputRef}
+                        onChange={(e) => {
+                            let fileObjArr = e.target.files;
+                            if (fileObjArr.length > 4) {
+                                alert("圖片不能超過四張！");
+                                return;
+                            }
+                            let imgURL = [];
+                            Object.values(fileObjArr).map((item, index) => {
+                                imgURL.push(URL.createObjectURL(item));
+                            });
+                            setImgUrls(imgURL);
+                            setValue(regName, fileObjArr);
+                        }} />
+                </div>
+            </div>
+        </div>
+    );
+}
+
+/** */

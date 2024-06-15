@@ -7,7 +7,7 @@ import moment from 'moment/moment';
 import NavBarSecondary from '../../components/navBarSecondary';
 import { useForm } from 'react-hook-form';
 import { ARKMain, ContentBlock, ContentBlockGrid } from '../../components/uiComponents/ContentBlock';
-import { ARKImageInput, ARKLabeledInput } from '../../components/uiComponents/Inputs';
+import { ARKImageInput, ARKLabeledInput, ARKListImageImput } from '../../components/uiComponents/Inputs';
 import { createActivity } from '../../lib/serverActions';
 import { StdButton } from '../../components/uiComponents/StdButton';
 
@@ -39,7 +39,6 @@ const NewActivity = () => {
     });
 
     const selectedType = watch("type");
-    const addRelateImage = watch("add_relate_image", []);
 
     return (
         <ARKMain title={"新活動"}>
@@ -132,15 +131,19 @@ const NewActivity = () => {
 
                 </ContentBlockGrid>
 
+                {/* 相關圖片 */}
                 <ContentBlock title={"相關圖片"} condition={selectedType == "ACTIVITY"}>
-
-                    <input
-                        type={"file"}
-                        multiple
-                        {...register("add_relate_image")} />
+                    <ARKListImageImput
+                        base={{ regName: "add_relate_image", isRequired: false }}
+                        register={register}
+                        setValue={setValue}
+                        errText={"請輸入相關圖片"}
+                        thisErr={errors.add_relate_image} />
                 </ContentBlock>
 
                 <StdButton textContent={"上傳"} Icon={ArrowUpIcon} />
+
+
 
             </form>
         </ARKMain>
