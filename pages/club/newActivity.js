@@ -14,13 +14,14 @@ import { BASE_URI, BASE_HOST, GET, POST } from '../../utils/pathMap';
 import Container from '../../components/container';
 import NavBarSecondary from '../../components/navBarSecondary';
 import { u_handleFileChange } from '../../utils/functions/u_fileHandle';
-import { upload } from '../../lib/activity';
+import { upload } from '../../lib/serverActions';
 import { squashDateTime } from '../../utils/functions/u_format';
 import { ListImage, ListImageAdd } from '../../components/uiComponents/ListImage';
 import { StdButton, StdButtonGrid } from '../../components/uiComponents/StdButton';
 import { useForm, useFormState } from 'react-hook-form';
 import { ARKMain, ContentBlock, ContentBlockGrid } from '../../components/uiComponents/ContentBlock';
 import { ARKImageInput, ARKLabeledInput } from '../../components/uiComponents/Inputs';
+import { createActivity } from '../../lib/serverActions';
 
 // 活動類型映射
 const activityTypeMap = {
@@ -69,7 +70,7 @@ const NewActivity = () => {
     return (
         <ARKMain title={"新活動"}>
             <NavBarSecondary returnLocation={'./clubInfo'} />
-            <form className={`flex flex-col gap-5`} onSubmit={handleSubmit(_metaTest)}>
+            <form className={`flex flex-col gap-5`} onSubmit={handleSubmit(createActivity)}>
                 {/* 活動名稱 */}
                 <input
                     className={`${inputStyle} text-3xl mx-auto`}

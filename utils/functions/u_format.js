@@ -34,3 +34,16 @@ export const parseTimeString = (timestamp) => {
         "Minute": minuteStr,
     }
 }
+
+/**
+ * 將JSON對象轉換為表單數據。
+ * @param {*} data - JSON數據
+ * @returns - 創建的表單對象
+ */
+export const JsonToFormData = (data) => {
+    let fd = new FormData();
+    for (var key in data) {
+        fd.append(key, data[key]);
+    }
+    return fd;
+}
