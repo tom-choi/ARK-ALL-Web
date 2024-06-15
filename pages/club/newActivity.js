@@ -39,6 +39,7 @@ const NewActivity = () => {
     });
 
     const selectedType = watch("type");
+    const addRelateImage = watch("add_relate_image", []);
 
     return (
         <ARKMain title={"新活動"}>
@@ -132,6 +133,7 @@ const NewActivity = () => {
                 </ContentBlockGrid>
 
                 <ContentBlock title={"相關圖片"} condition={selectedType == "ACTIVITY"}>
+
                     <input
                         type={"file"}
                         multiple
