@@ -1,5 +1,5 @@
 // 包引用
-import React, { useState } from 'react';
+import React from 'react';
 import { useTranslation } from "react-i18next";
 import { useForm } from "react-hook-form";
 
@@ -7,25 +7,15 @@ import { useForm } from "react-hook-form";
 import Container from '../components/container';
 import Navbar from '../components/navbar';
 import { clubSignIn } from '/lib/authentication';
-import { ARKTextInput, TextInput } from '../components/uiComponents/Inputs';
+import { ARKTextInput } from '../components/uiComponents/Inputs';
 import { ARKMain } from '../components/uiComponents/ContentBlock';
+
 
 
 
 const ClubLogin = () => {
     const { t } = useTranslation();
     const { register, handleSubmit, formState: { errors } } = useForm();
-
-    // 用戶點擊登錄按鈕
-    const handleLoginPress = () => {
-        // 賬戶輸入未完成
-        if (account == '' || password == '') {
-            console.log("賬密輸入未完成！");
-            window.alert("錯誤！\n賬密輸入未完成！");
-        } else {
-            clubSignIn();
-        }
-    };
 
     return (
         <ARKMain title={t("CLUB_LOGIN")}>
@@ -39,24 +29,29 @@ const ClubLogin = () => {
                         <h1>{t("CLUB_LOGIN")}</h1>
                     </div>
 
+                    {/* 登錄表單 */}
                     <div className="flex felx-col items-center justify-center">
-                        <form className={"space-y-4"} onSubmit={handleSubmit(clubSignIn)}>
+                        <form className={"block space-y-4"} onSubmit={handleSubmit(clubSignIn)}>
 
                             <ARKTextInput
-                                base={{ placeholder: t("CLUB_ACCOUNT") }}
+                                base={{ placeholder: t("CLUB_ACCOUNT"), isRequired: true }}
                                 regName={"account"}
+                                thisErr={errors.account}
+                                errText={"請輸入賬號"}
                                 register={register}
                             />
 
                             <ARKTextInput
-                                base={{ placeholder: t("CLUB_PWD"), type: "password" }}
+                                base={{ placeholder: t("CLUB_PWD"), type: "password", isRequired: true }}
                                 regName={"password"}
+                                thisErr={errors.password}
+                                errText={"請輸入密碼"}
                                 register={register}
                             />
 
-                            <br />
                             <button
-                                className="bg-themeColor py-2 px-10 mt-3 rounded-lg text-white font-bold hover:bg-themeColorLight hover:scale-105 transition-all">
+                                className="block mt-10 w-full bg-themeColor py-2 px-10 rounded-lg text-white font-bold hover:bg-themeColorLight hover:scale-105 transition-all"
+                                type={"submit"}>
                                 {t("BTN_LOGIN")}
                             </button>
 
