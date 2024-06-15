@@ -1,5 +1,16 @@
 import { FirstTitle } from "./LayeredTitles";
 
+export const ARKMain = (props) => {
+    return (
+        <main>
+            <title>
+                {props.title || "Untitled"}
+            </title>
+            {props.children}
+        </main>
+    );
+}
+
 /**
  * 帶標題的標準内容卡片
  * @param {*} props 
