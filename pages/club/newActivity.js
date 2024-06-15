@@ -18,6 +18,7 @@ import { upload } from '../../utils/functions/u_server';
 import { squashDateTime } from '../../utils/functions/u_format';
 import { ListImage, ListImageAdd } from '../../components/uiComponents/ListImage';
 import { StdButton, StdButtonGrid } from '../../components/uiComponents/StdButton';
+import { useForm } from 'react-hook-form';
 
 // 活動類型映射
 const activityTypeMap = {
@@ -32,6 +33,21 @@ const NewActivity = () => {
         注：這裡的“是否編輯過”指的是修改過的信息是否存儲到本地了，跟雲端無關。
     */
     const [m_isEdited, setIsEdited] = useState(false);
+    const { register, handleSubmit, formState: { errors } } = useForm({
+        defaultValues: {
+            title: null,
+            coverImage: null,
+            sDate: moment(new Date()).format("YYYY-MM-DD"),
+            sTime: moment(new Date()).format("HH:MM"),
+            eDate: moment(new Date()).format("YYYY-MM-DD"),
+            eTime: moment(new Date()).format("HH:MM"),
+            location: null,
+            link: null,
+            type: "ACTIVITY",
+            intro: null,
+            relatedImages: []
+        }
+    });
 
     /* -------------------------------狀態數據--------------------------------*/
     // 標題和封面圖
@@ -294,7 +310,7 @@ const NewActivity = () => {
                         placeholder={"活動名稱"}
                         defaultValue={m_title ? m_title : ""}
                         className="text-3xl border-4 border-themeColor rounded-lg h-10 p-2"
-                        onChangeCapture={(event) => makeChange("m_title", event.target.value)}>
+                        {...register("title", { required: "必須輸入標題" })}>
                     </input>
                 </div>
 

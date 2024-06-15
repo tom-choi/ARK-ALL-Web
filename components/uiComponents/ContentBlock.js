@@ -1,4 +1,5 @@
 import { FirstTitle } from "./LayeredTitles";
+import Container from "../container";
 
 export const ARKMain = (props) => {
     return (
@@ -6,7 +7,9 @@ export const ARKMain = (props) => {
             <title>
                 {props.title || "Untitled"}
             </title>
-            {props.children}
+            <Container className={props.className || ""}>
+                {props.children}
+            </Container>
         </main>
     );
 }
@@ -22,7 +25,7 @@ export const ContentBlock = (props) => {
     let condition = props.condition != void 0 ? props.condition : true;
     return (
         condition && (
-            <div className="bg-white dark:bg-gray-800 border-l-4 border-themeColorLight px-5 pt-3 pb-5 rounded-lg drop-shadow-md itmes-center mb-5">
+            <div className="bg-white dark:bg-gray-800 border-l-4 border-themeColorLight px-5 pt-3 pb-5 rounded-lg drop-shadow-md itmes-center">
                 {/* 標題 */}
                 <FirstTitle>{props.title ? props.title : '標題'}</FirstTitle>
                 {props.children}

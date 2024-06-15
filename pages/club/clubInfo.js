@@ -20,7 +20,7 @@ import { SecondTitle } from '../../components/uiComponents/LayeredTitles';
 
 
 const toNewActivity = () => {
-    window.location.href = "./newActivity";
+    window.location.href = "./_newActivity";
 }
 
 const toClubInfoEdit = () => {

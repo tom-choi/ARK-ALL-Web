@@ -1,6 +1,8 @@
 import { useRef, useState } from "react";
 import { IF } from "./ContentBlock";
 
+import { PlusCircleIcon } from "@heroicons/react/24/solid";
+
 const TextInputStyles = {
     border: {
         focused: "border-opacity-100",
@@ -33,10 +35,7 @@ const TextInputStyles = {
 export const ARKTextInput = (props) => {
     // 表單屬性
     let { placeholder, type, isRequired } = props.base;
-    let regName = props.regName;
-    let thisErr = props.thisErr;
-    let errText = props.errText;
-    let register = props.register;
+    let { regName, thisErr, errText, register } = props;
 
     // 樣式屬性
     let [m_borderStyle, setBorderStyle] = useState(TextInputStyles.border.blurred);
@@ -71,6 +70,77 @@ export const ARKTextInput = (props) => {
                 </p>
             </IF>
 
+        </div>
+    );
+}
+
+/**
+ * 
+ * @param {*} props 
+ * @returns 
+ */
+export const ARKLabeledInput = (props) => {
+    const { title, condition } = props;
+    return (
+        <IF condition={condition || condition == void 0}>
+            <div className="flex items-center mb-3 gap-3">
+                <span className="text-themeColor font-bold mr-5">
+                    {props.title || "項目"}
+                </span>
+                {props.children}
+            </div>
+        </IF>
+    );
+}
+
+
+export const ARKImageInput = (props) => {
+    const { regName, isRequired } = props.base;
+    const { register, setValue, errText, thisErr } = props;
+
+    const [m_imageURL, setImageURL] = useState(void 0);
+    const [m_iconDisplay, setIconDisplay] = useState(true);
+    const imageInputRef = useRef();
+
+    return (
+        <div
+            className="flex flex-col w-96 h-96 items-center justify-center mx-auto bg-themeColorUltraLight dark:bg-gray-700 rounded-lg border-4 border-themeColor border-dashed min-h-24 hover:cursor-pointer hover:opacity-50 hover:scale-[1.02] mb-4 transition-all"
+            style={{
+                backgroundImage: `url(${m_imageURL})`,
+                backgroundSize: 'cover',
+                backgroundRepeat: 'no-repeat',
+                backgroundPosition: 'center',
+            }}
+            onClick={() => imageInputRef.current.click()}>
+
+            {/* Icon 部分 */}
+            <IF condition={m_iconDisplay}>
+                <div className="flex flex-col justify-center">
+                    <div className="flex items-center justify-center mb-2">
+                        <PlusCircleIcon className="w-10 h-10 text-themeColor" />
+                    </div>
+                    <div>
+                        <h3 className="font-bold text-xl text-themeColor">封面圖片</h3>
+                    </div>
+                </div>
+            </IF>
+
+            {/* 輸入邏輯部分 */}
+            <input
+                type={"file"}
+                accept={"image/*"}
+                className={"hidden"}
+                {...register(regName, { required: isRequired ? (errText || "需要圖片") : false })}
+                ref={imageInputRef}
+                onChange={(e) => {
+                    let fileObj = e.target.files[0];
+                    if (!fileObj) {
+                        return;
+                    }
+                    setIconDisplay(false);
+                    setImageURL(URL.createObjectURL(fileObj));
+                    setValue(regName, fileObj);
+                }} />
         </div>
     );
 }
