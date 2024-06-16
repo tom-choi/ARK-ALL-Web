@@ -151,20 +151,29 @@ export const ARKListImageImput = (props) => {
     const { register, imgList, setValue, errText, thisErr } = props;
 
     const imageInputRef = useRef();
+    const [m_hovering, setHovering] = useState("");
 
     return (
         <div className={"flex flex-row items-center justify-left"}>
-            <div className={`grid md:grid-cols-6 gap-4 object-cover`}>
+            <div className={`lg:grid md:flex md:flex-col grid-cols-6 gap-4 object-cover`}>
                 {imgList && Object.entries(imgList).map(([key, value]) => (
-                    <img
-                        src={URL.createObjectURL(value)}
-                        className={"w-40 h-24 rounded-md hover:scale-[1.02] transition-all hover:cursor-pointer"}
-                        onClick={(e) => {
-                            let imgList_ = Object.fromEntries(
-                                Object.entries(imgList).filter(([k, v]) => k != key)
-                            );
-                            setValue(regName, imgList_);
-                        }} />
+                    <div className={"relative"}>
+                        <div
+                            className={`absolute -top-12 left-[2rem] opacity-${m_hovering != key ? "0" : "100"} transition-all bg-white drop-shadow-lg border border-[2.5px] border-themeColorLight rounded-full px-2 py-1`}>
+                            點擊以刪除
+                        </div>
+                        <img
+                            src={URL.createObjectURL(value)}
+                            className={"w-40 h-24 rounded-md hover:scale-[1.05] transition-all hover:cursor-pointer"}
+                            onMouseOver={(e) => { setHovering(key); }}
+                            onMouseLeave={(e) => { setHovering(""); }}
+                            onClick={(e) => {
+                                let imgList_ = Object.fromEntries(
+                                    Object.entries(imgList).filter(([k, v]) => k != key)
+                                );
+                                setValue(regName, imgList_);
+                            }} />
+                    </div>
                 ))}
 
                 <div
