@@ -147,7 +147,7 @@ export const ARKImageInput = (props) => {
 }
 
 export const ARKListImageImput = (props) => {
-    const { regName, isRequired } = props.base;
+    const { regName, isRequired, numLimit = 4 } = props.base;
     const { register, imgList, setValue, errText, thisErr } = props;
 
     const imageInputRef = useRef();
@@ -185,11 +185,20 @@ export const ARKListImageImput = (props) => {
                         ref={imageInputRef}
                         onChange={(e) => {
                             let fileObjArr = e.target.files;
-                            if (imgList.length + fileObjArr.length > 4) {
-                                alert("圖片不能超過四張！");
+
+                            let fileObjArrLen = fileObjArr.length;          // Array
+                            let imgListLen = Object.keys(imgList).length;   // Object List
+
+                            if (fileObjArrLen + imgListLen > numLimit) {
+                                alert(`圖片不能超過${numLimit}張！`);
                                 return;
                             }
-                            setValue(regName, { ...imgList, ...fileObjArr });
+
+                            const filesAsObj = Object.fromEntries(
+                                Array.from(fileObjArr, (file, index) => [index + imgListLen, file])
+                            );
+
+                            setValue(regName, { ...imgList, ...filesAsObj });
                         }} />
                 </div>
             </div>

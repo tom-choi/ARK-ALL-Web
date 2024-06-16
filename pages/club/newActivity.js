@@ -135,7 +135,7 @@ const NewActivity = () => {
                 {/* 相關圖片 */}
                 <ContentBlock title={"相關圖片"} condition={selectedType == "ACTIVITY"}>
                     <ARKListImageImput
-                        base={{ regName: "add_relate_image", isRequired: false }}
+                        base={{ regName: "add_relate_image", isRequired: false, numLimit: 5 }}
                         register={register}
                         imgList={watch("add_relate_image")}
                         setValue={setValue}
