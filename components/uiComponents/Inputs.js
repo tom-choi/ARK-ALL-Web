@@ -148,16 +148,23 @@ export const ARKImageInput = (props) => {
 
 export const ARKListImageImput = (props) => {
     const { regName, isRequired } = props.base;
-    const { register, setValue, errText, thisErr } = props;
-    const [m_imgURLs, setImgUrls] = useState();
+    const { register, imgList, setValue, errText, thisErr } = props;
 
     const imageInputRef = useRef();
 
     return (
         <div className={"flex flex-row items-center justify-center"}>
             <div className={"grid md:grid-cols-5 gap-4 object-cover"}>
-                {m_imgURLs && m_imgURLs.map((item, index) => (
-                    <img src={item} className={"w-40 h-24 rounded-md hover:scale-[1.02] transition-all hover:cursor-pointer"} />
+                {imgList && Object.entries(imgList).map(([key, value]) => (
+                    <img
+                        src={URL.createObjectURL(value)}
+                        className={"w-40 h-24 rounded-md hover:scale-[1.02] transition-all hover:cursor-pointer"}
+                        onClick={(e) => {
+                            let imgList_ = Object.fromEntries(
+                                Object.entries(imgList).filter(([k, v]) => k != key)
+                            );
+                            setValue(regName, imgList_);
+                        }} />
                 ))}
 
                 <div
@@ -178,16 +185,11 @@ export const ARKListImageImput = (props) => {
                         ref={imageInputRef}
                         onChange={(e) => {
                             let fileObjArr = e.target.files;
-                            if (fileObjArr.length > 4) {
+                            if (imgList.length + fileObjArr.length > 4) {
                                 alert("圖片不能超過四張！");
                                 return;
                             }
-                            let imgURL = [];
-                            Object.values(fileObjArr).map((item, index) => {
-                                imgURL.push(URL.createObjectURL(item));
-                            });
-                            setImgUrls(imgURL);
-                            setValue(regName, fileObjArr);
+                            setValue(regName, { ...imgList, ...fileObjArr });
                         }} />
                 </div>
             </div>

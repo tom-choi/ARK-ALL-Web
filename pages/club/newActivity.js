@@ -39,6 +39,7 @@ const NewActivity = () => {
     });
 
     const selectedType = watch("type");
+    const addedRelateImage = watch("add_relate_image");
 
     return (
         <ARKMain title={"新活動"}>
@@ -136,6 +137,7 @@ const NewActivity = () => {
                     <ARKListImageImput
                         base={{ regName: "add_relate_image", isRequired: false }}
                         register={register}
+                        imgList={watch("add_relate_image")}
                         setValue={setValue}
                         errText={"請輸入相關圖片"}
                         thisErr={errors.add_relate_image} />
