@@ -193,21 +193,33 @@ export const ARKListImageImput = (props) => {
                         {...register(regName, { required: isRequired ? (errText || "需要圖片") : false })}
                         ref={imageInputRef}
                         onChange={(e) => {
+                            // 獲取新增的文件列表
                             let fileObjArr = e.target.files;
 
+                            // 檢查數量是否符合要求
                             let fileObjArrLen = fileObjArr.length;          // Array
                             let imgListLen = Object.keys(imgList).length;   // Object List
-
-                            if (fileObjArrLen + imgListLen > numLimit) {
+                            if (fileObjArrLen > numLimit || fileObjArrLen + imgListLen > numLimit) {
                                 alert(`圖片不能超過${numLimit}張！`);
                                 return;
                             }
 
+                            // 將原有圖片轉換成數組
+                            let arr = [];
+                            Object.keys(imgList).map(key => { arr.push(imgList[key]); });
+
+                            // 將傳入文件列表中的所有文件複製一份，並推入數組
+                            Object.entries(fileObjArr).map(([key, value]) => {
+                                let newFile = duplicateFile(value);
+                                arr.push(newFile);
+                            })
+
+                            // 把新數組解析成對象
                             const filesAsObj = Object.fromEntries(
-                                Array.from(fileObjArr, (file, index) => [index + imgListLen, file])
+                                Array.from(arr, (file, index) => [index, file])
                             );
 
-                            setValue(regName, { ...imgList, ...filesAsObj });
+                            setValue(regName, filesAsObj);
                         }} />
                 </div>
             </div>
