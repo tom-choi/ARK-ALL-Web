@@ -146,7 +146,18 @@ export const ARKImageInput = (props) => {
     );
 }
 
-export const ARKListImageImput = (props) => {
+/**
+ * 基於react-hook-form封裝的ARK標準圖片列表輸入框。
+ * @param {*} props 
+ * @prop {{regName: string, isRequired: boolean, numLimit: int}} - 基礎表單屬性。
+ * @prop {function} register - react-hook-form提供的register函數，將regName注冊到表單中。
+ * @prop {function} setValue - react-hook-form提供的setValue函數，將值寫入表單中。
+ * @prop {string} errText - 輸入錯誤時的提示文字。
+ * @prop {object} thisErr - 當前表單欄位的錯誤訊息。
+ * @prop {array} imgList - 當前表單欄位的值，在表單中通過watch(regName)傳入。
+ * @returns 
+ */
+export const ARKListImageInput = (props) => {
     const { regName, isRequired, numLimit = 4 } = props.base;
     const { register, imgList, setValue, errText, thisErr } = props;
 

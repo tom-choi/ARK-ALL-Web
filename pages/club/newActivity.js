@@ -7,7 +7,7 @@ import moment from 'moment/moment';
 import NavBarSecondary from '../../components/navBarSecondary';
 import { useForm } from 'react-hook-form';
 import { ARKMain, ContentBlock, ContentBlockGrid } from '../../components/uiComponents/ContentBlock';
-import { ARKImageInput, ARKLabeledInput, ARKListImageImput } from '../../components/uiComponents/Inputs';
+import { ARKImageInput, ARKLabeledInput, ARKListImageInput } from '../../components/uiComponents/Inputs';
 import { createActivity } from '../../lib/serverActions';
 import { StdButton } from '../../components/uiComponents/StdButton';
 
@@ -134,7 +134,7 @@ const NewActivity = () => {
 
                 {/* 相關圖片 */}
                 <ContentBlock title={"相關圖片"} condition={selectedType == "ACTIVITY"}>
-                    <ARKListImageImput
+                    <ARKListImageInput
                         base={{ regName: "add_relate_image", isRequired: false, numLimit: 5 }}
                         register={register}
                         imgList={watch("add_relate_image")}
