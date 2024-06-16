@@ -42,7 +42,7 @@ const NewActivity = () => {
     const addedRelateImage = watch("add_relate_image");
 
     return (
-        <ARKMain title={"新活動"}>
+        <ARKMain title={`新活動-${watch("title")}`}>
             <NavBarSecondary returnLocation={'./clubInfo'} />
             <form className={`flex flex-col gap-5`} onSubmit={handleSubmit(createActivity)}>
                 {/* 活動名稱 */}
