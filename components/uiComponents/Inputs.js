@@ -153,8 +153,8 @@ export const ARKListImageImput = (props) => {
     const imageInputRef = useRef();
 
     return (
-        <div className={"flex flex-row items-center justify-center"}>
-            <div className={"grid md:grid-cols-5 gap-4 object-cover"}>
+        <div className={"flex flex-row items-center justify-left"}>
+            <div className={`grid md:grid-cols-6 gap-4 object-cover`}>
                 {imgList && Object.entries(imgList).map(([key, value]) => (
                     <img
                         src={URL.createObjectURL(value)}
