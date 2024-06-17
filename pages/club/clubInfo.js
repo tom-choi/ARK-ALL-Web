@@ -57,7 +57,7 @@ const ActivityCard = (props) => {
 
             <div className="flex flex-col lg:w-48 xl:w-64 md:w-48 sm:w-64 items-center">
                 {/*活動封面*/}
-                <img src={BASE_HOST + item.cover_image_url} alt="club_photos" className="hover:border-4 hover:cursor-pointer md:w-48 h-64 object-cover sm:max-w-64 rounded-lg mb-5 shadow-lg" style={{ backgroundColor: '#fff' }} />
+                <img src={BASE_HOST + item.cover_image_url} alt="club_photos" className=" hover:cursor-pointer md:w-48 h-64 object-cover sm:max-w-64 rounded-lg mb-5 shadow-lg" style={{ backgroundColor: '#fff' }} />
 
                 {/*活動描述*/}
                 <div className="flex flex-col h-16 mb-3 mx-auto">

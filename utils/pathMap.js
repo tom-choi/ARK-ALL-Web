@@ -1,10 +1,16 @@
 // 網站地址映射
 import { customSettings } from "./settings";
 
+// 本地調試與生產環境
+const BASE_URI_PROD = 'https://umall.one/api/';
+const BASE_URI_DEV = 'http://localhost:8000/api/';
+const BASE_HOST_PROD = 'https://umall.one';
+const BASE_HOST_DEV = 'http://localhost:8000';
+
 // 服務器基地址，其他分地址可以直接寫'/bus'、'/login'
-export const BASE_URI = customSettings.is_local_test ? 'http://localhost:8000/api/' : 'https://umall.one/api/';
+export const BASE_URI = process.env.NODE_ENV == 'development' ? BASE_URI_DEV : BASE_URI_PROD;
 // 用適配API返回的圖片相對路徑
-export const BASE_HOST = customSettings.is_local_test ? 'http://localhost:8000' : 'https://umall.one';
+export const BASE_HOST = process.env.NODE_ENV == 'development' ? BASE_HOST_DEV : BASE_HOST_PROD;
 
 export const APPSTORE_URL = 'https://apps.apple.com/us/app/um-all/id1636670554';
 

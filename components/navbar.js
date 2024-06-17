@@ -123,7 +123,7 @@ const Navbar = () => {
           <LanguageSwitcher />
         </div>
       </nav>
-      {customSettings.is_local_test && (
+      {process.env.NODE_ENV == 'development' && (
         <div className="bg-alert pl-3 py-2">
           <p className="text-white"><strong>警告:</strong> 您現在使用的是本地服務器。</p>
         </div>
