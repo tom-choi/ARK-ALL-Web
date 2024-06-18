@@ -1,21 +1,23 @@
 // 包引用
 import React from 'react';
 import { useTranslation } from "react-i18next";
-import { useForm } from "react-hook-form";
+import { SubmitHandler, useForm } from "react-hook-form";
 
 // 本地引用
 import Container from '../components/container';
 import Navbar from '../components/navbar';
-import { clubSignIn } from '/lib/authentication';
+import { clubSignIn } from '../lib/authentication';
 import { ARKTextInput } from '../components/uiComponents/Inputs';
 import { ARKMain } from '../components/uiComponents/ContentBlock';
-
-
-
+import { IClubSignin } from '../types/index.d';
 
 const ClubLogin = () => {
     const { t } = useTranslation();
-    const { register, handleSubmit, formState: { errors } } = useForm();
+    const { register, handleSubmit, formState: { errors } } = useForm<IClubSignin>();
+
+    const onSubmit: SubmitHandler<IClubSignin> = async (data: IClubSignin) => {
+        return clubSignIn(data);
+    };
 
     return (
         <ARKMain title={t("CLUB_LOGIN")}>
@@ -31,7 +33,7 @@ const ClubLogin = () => {
 
                     {/* 登錄表單 */}
                     <div className="flex felx-col items-center justify-center">
-                        <form className={"block space-y-4"} onSubmit={handleSubmit(clubSignIn)}>
+                        <form className={"block space-y-4"} onSubmit={handleSubmit(onSubmit)}>
 
                             <ARKTextInput
                                 base={{ placeholder: t("CLUB_ACCOUNT"), isRequired: true }}

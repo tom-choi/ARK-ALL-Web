@@ -1,7 +1,7 @@
 /**
  * 社團聯係方式
  */
-interface IContactType {
+export interface IContactType {
     type: string;
     num: string;
 }
@@ -9,12 +9,12 @@ interface IContactType {
 /**
  * 社團活動類型
  */
-type ActivityType = "ACTIVITY" | "WEBSITE" | "OFFICIAL";
+export type ActivityType = "ACTIVITY" | "WEBSITE" | "OFFICIAL";
 
 /**
  * 寫入回傳
  */
-interface IWriteResponse {
+export interface IWriteResponse {
     code: string;
     message: string;
 };
@@ -23,19 +23,19 @@ interface IWriteResponse {
 /**
  * 1.1 club_signin 社團登錄
  */
-interface IClubSignin {
-    accoung: string;
+export interface IClubSignin {
+    account: string;
     password: string;
 };
 
-interface IClubSigninResponse extends IGetClubInfo {
+export interface IClubSigninResponse extends IGetClubInfo {
     token: string;
 };
 
 /**
  * 2.1 get_club_info 社團訊息
  */
-interface IGetClubInfo {
+export interface IGetClubInfo {
     code: string;
     message: string;
     content: {
@@ -52,19 +52,19 @@ interface IGetClubInfo {
 /**
  * 3.2 edit_club_info 編輯社團訊息
  */
-interface IEditClubInfo {
+export interface IEditClubInfo {
     intro: string;
     contact: IContactType[];
     add_club_photos: File[];
     del_club_photos: string[];
 }
 
-interface IEditClubInfo extends IWriteResponse { };
+export interface IEditClubInfo extends IWriteResponse { };
 
 /**
  * 3.3 get_activity 獲取活動信息
  */
-interface IGetActivity {
+export interface IGetActivity {
     code: string;
     message: string;
     content: {
@@ -83,7 +83,7 @@ interface IGetActivity {
 /**
  * 3.2 edit_activity 編輯活動
  */
-interface IEditActivity {
+export interface IEditActivity {
     id: string;
     title: string;
     type: ActivityType;
@@ -98,12 +98,12 @@ interface IEditActivity {
     can_follow: boolean;
 }
 
-interface IEditActivityResponse extends IWriteResponse { };
+export interface IEditActivityResponse extends IWriteResponse { };
 
 /**
  * 3.3 create_activity 創建活動
  */
-interface ICreateActivity {
+export interface ICreateActivity {
     title: string;
     type: ActivityType;
     link: string;
@@ -116,7 +116,7 @@ interface ICreateActivity {
     can_follow: boolean;
 }
 
-interface ICreateActivityResponse extends IWriteResponse {
+export interface ICreateActivityResponse extends IWriteResponse {
     content: {
         id: string;
     };
@@ -125,9 +125,9 @@ interface ICreateActivityResponse extends IWriteResponse {
 /**
  * 3.4 delete_activity 刪除活動
  */
-interface IDeleteActivity {
+export interface IDeleteActivity {
     id: string;
 }
 
-interface IDeleteActivity extends IWriteResponse { };
+export interface IDeleteActivity extends IWriteResponse { };
 
