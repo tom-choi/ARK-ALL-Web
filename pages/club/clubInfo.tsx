@@ -82,7 +82,7 @@ const ClubInfo = () => {
                     {/* 編輯按鈕*/}
                     <StdButton
                         color="bg-themeColor"
-                        onClickFunc={() => { window.location.href = './clubInfoEdit'; }}
+                        onClickFunc={() => { window.location.href = `./clubInfoEdit?club_num=${clubContentData.content.club_num}`; }}
                         textContent={'編輯'}
                         Icon={PencilSquareIcon} />
 
