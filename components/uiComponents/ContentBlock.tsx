@@ -35,8 +35,11 @@ export const ContentBlock = (props: {
     condition?: boolean,
     children: ReactNode | ReactNode[],
     title?: string,
-    withTitle?: boolean,
     className?: string
+    styles?: {
+        withTitle?: boolean,
+        withBackground?: boolean,
+    }
 }) => {
     let condition_ = props.condition != void 0 ? props.condition : true;
     let style = `bg-white dark:bg-gray-800 border-l-4 border-themeColorLight px-5 pt-3 pb-5 rounded-lg drop-shadow-md itmes-center ${props.className || ""}`
@@ -44,7 +47,7 @@ export const ContentBlock = (props: {
         condition_ && (
             <div className={style}>
                 {/* 標題 */}
-                {props.withTitle && (
+                {props.styles?.withTitle && (
                     <FirstTitle>{props.title ? props.title : '標題'}</FirstTitle>
                 )}
                 {props.children}

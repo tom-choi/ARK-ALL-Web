@@ -4,12 +4,12 @@ import {
     PencilSquareIcon,
     PlusCircleIcon,
 } from "@heroicons/react/24/solid";
-import queryString from 'query-string';
 
 // 本地引用
 import { BASE_HOST, GET } from '../../utils/pathMap';
 import { getClubXX } from '../../lib/serverActions';
 import { IGetActivitiesByClub, IGetClubInfo } from '../../types/index.d';
+import { authGuard } from '../../lib/authentication';
 
 // UI組件
 import NavBarSecondary from '../../components/navBarSecondary';
@@ -21,38 +21,30 @@ import { ARKMain, ContentBlock, ContentBlockGrid, IFELSE } from '../../component
 import { ListImage } from '../../components/uiComponents/ListImage';
 import { SecondTitle } from '../../components/uiComponents/LayeredTitles';
 
-/**
- * 開發者注：clubProfileData只用於獲取club number。由於服務器端數據可能會更新，頁面會再一次通過club number請求一次數據。
- * 請不要用clubProfileData中除了club number以外的數據，否則可能會導致數據更新延遲。
- * @returns 
- */
+
 const ClubInfo = () => {
     const [clubContentData, setContentData] = useState<IGetClubInfo | undefined>(void 0);   //社團內容，如聯繫方式等
     const [clubActivities, setClubActivities] = useState<IGetActivitiesByClub | undefined>(void 0); //社團活動列表
 
-    const [isLoadingClubContent, setIsLoadingClubContent] = useState(true);
-    const [isLoadingActivity, setIsLoadingActivity] = useState(true);
+    const [loadingStates, setLoadingStates] = useState<{ clubcontent: boolean, activity: boolean }>({ clubcontent: true, activity: true });
 
     useEffect(() => {
-        const clubToken = localStorage.getItem("club_token");
-        const _clubNum = queryString.parse(location.search).club_num;
-        const clubNum = Number(_clubNum);
 
-        // 沒有獲取到club number，返回登錄頁
-        if (!clubToken || clubNum) {
-            alert('請前往登陸賬號！');
-            window.location.href = '../clublogin';
-        }
+        // 獲取社團ID，并驗證權限
+        const clubNum = authGuard({ urlParamName: "club_num" });
 
-        // var profile: IClubSigninResponse = JSON.parse(clubToken as string);
-        // setProfileData(profile);
-
-        // 根據已登錄的club ID 進一步獲取club的内容和活動
+        // 根據已登錄的club ID 獲取社團訊息
         getClubXX(clubNum, GET.CLUB_INFO_NUM, setContentData, '無法獲取社團信息！').then(() => {
-            setIsLoadingClubContent(false);
+            setLoadingStates(state => {
+                return { ...state, clubcontent: false };
+            });
         });
-        getClubXX(clubNum, GET.EVENT_INFO_CLUB_NUM, setClubActivities, '無法獲取社團內容！', true).then(() => {
-            setIsLoadingActivity(false);
+
+        // 根據已登錄的club ID 獲取活動内容
+        getClubXX(clubNum, GET.EVENT_INFO_CLUB_NUM, setClubActivities, '無法獲取社團內容！').then(() => {
+            setLoadingStates(state => {
+                return { ...state, activity: false };
+            });
         });
 
     }, []);
@@ -61,10 +53,10 @@ const ClubInfo = () => {
         <ARKMain title={clubContentData?.content.name}>
 
             {/* 二級頂欄 */}
-            <NavBarSecondary returnLocation={'../'} clearLocStorage />
+            <NavBarSecondary returnLocation={'/clubsignin'} clearLocStorage />
 
             {/* 社團基本訊息 */}
-            <AfterLoading isLoading={isLoadingClubContent}>
+            <AfterLoading isLoading={loadingStates.clubcontent}>
                 {/* 歡迎詞 */}
                 <div>
                     <h3 className="text-themeColor text-2xl font-bold text-center">
@@ -105,7 +97,7 @@ const ClubInfo = () => {
                 </StdButtonGrid>
 
                 {/* 社團訊息 */}
-                <ContentBlock withTitle={false} className={"flex"}>
+                <ContentBlock styles={{ withTitle: false }} className={"flex"}>
                     {/*社團Logo*/}
                     <img
                         className="w-24 h-24 rounded-full "
@@ -127,7 +119,7 @@ const ClubInfo = () => {
 
                         {/* 社團簡介*/}
                         <p className="mt-3">
-                            {clubContentData?.content.intro ? (clubContentData.content.intro) : ("該社團沒有留下簡介。")}
+                            {clubContentData?.content.intro || "該社團沒有留下簡介。"}
                         </p>
                     </div>
                 </ContentBlock>
@@ -175,8 +167,8 @@ const ClubInfo = () => {
             </AfterLoading>
 
             {/* 社團活動 */}
-            <AfterLoading isLoading={isLoadingActivity}>
-                <div className="px-5 pt-3 pb-5 rounded-lg drop-shadow-md itmes-center mb-5">
+            <AfterLoading isLoading={loadingStates.activity}>
+                <ContentBlock className={"mt-5"}>
                     {/*標題*/}
                     <SecondTitle>社團活動</SecondTitle>
                     {/* 渲染活動格子*/}
@@ -188,7 +180,7 @@ const ClubInfo = () => {
                             <p>無活動</p>
                         </IFELSE>
                     </div>
-                </div>
+                </ContentBlock>
             </AfterLoading>
 
             {/*頁尾*/}

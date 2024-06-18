@@ -102,7 +102,7 @@ export const createActivity = async (_data: _ICreateActivity): Promise<any> => {
  * @param {string} GET_URL - API路徑
  */
 export const getClubXX = async (
-    curClubNum: number,
+    curClubNum: number | string,
     GET_URL: string,
     setFunc: any,
     alert?: string,

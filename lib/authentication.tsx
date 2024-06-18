@@ -6,6 +6,48 @@ import qs from 'qs';
 import { BASE_URI, GET } from '../utils/pathMap';
 import { IClubSignin, IClubSigninResponse } from '../types/index.d';
 
+/**
+ * 符合條件時將用戶屏蔽。
+ * @param msg 
+ */
+export const block = (msg?: string) => {
+    alert(msg || '請前往登陸賬號！');
+    window.location.href = '/clubsignin';
+}
+
+/**
+ * 頁面守衛。如果沒有token或者沒有url參數，則導向登陸頁面。
+ * @param authParams 
+ * @prop {string} credentialName - 登錄認證的類型名稱，通常爲club_token，可不填。
+ * @prop {string} urlParamName - URL參數名稱，必填。
+ * @returns 
+ */
+export const authGuard = (authParams: {
+    credentialName?: string,
+    urlParamName: string
+}): null | string => {
+    let { credentialName, urlParamName } = authParams;
+
+    // URL變量有誤
+    if (urlParamName == void 0) {
+        block(`URL有誤, 請重新登陸。`);
+        return null;
+    }
+    const urlParams = qs.parse(window.location.search, { ignoreQueryPrefix: true });
+    if (urlParams[urlParamName] == void 0) {
+        block(`URL參數有誤, 請重新登陸。`);
+        return null;
+    }
+
+    // 登錄認證過期
+    const credential = localStorage.getItem(credentialName || "club_token");
+    if (!credential) {
+        block("登錄認證過期，請重新登陸。");
+        return null;
+    }
+
+    return urlParams[urlParamName];
+}
 
 /**
  * 社團賬戶登錄
