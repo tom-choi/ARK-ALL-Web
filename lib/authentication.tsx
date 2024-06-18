@@ -31,12 +31,11 @@ export const clubSignIn = async (_data: IClubSignin): Promise<any> => {
         {
             withCredentials: true,   // 使axios自動設置Cookies，登錄成功獲取ARK_TOKEN很重要
         }).then(res => {
-            let json = res.data;
+            let json: IClubSigninResponse = res.data;
             // 登錄成功
             if (json.message == 'success') {
-                localStorage.setItem("isClub", true.toString());
-                localStorage.setItem("ClubData", JSON.stringify(json));
-                window.location.href = "./club/clubInfo";
+                localStorage.setItem("club_token", json.token);
+                window.location.href = `./club/clubInfo?club_num=${json.content.club_num}`;
                 return json;
             }
             // 登錄失敗

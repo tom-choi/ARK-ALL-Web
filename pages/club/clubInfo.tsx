@@ -4,11 +4,12 @@ import {
     PencilSquareIcon,
     PlusCircleIcon,
 } from "@heroicons/react/24/solid";
+import queryString from 'query-string';
 
 // 本地引用
 import { BASE_HOST, GET } from '../../utils/pathMap';
 import { getClubXX } from '../../lib/serverActions';
-import { IClubSigninResponse, IGetActivitiesByClub, IGetClubInfo } from '../../types/index.d';
+import { IGetActivitiesByClub, IGetClubInfo } from '../../types/index.d';
 
 // UI組件
 import NavBarSecondary from '../../components/navBarSecondary';
@@ -26,36 +27,38 @@ import { SecondTitle } from '../../components/uiComponents/LayeredTitles';
  * @returns 
  */
 const ClubInfo = () => {
-    const [clubProfileData, setProfileData] = useState<IClubSigninResponse | undefined>(void 0);   //登錄信息
     const [clubContentData, setContentData] = useState<IGetClubInfo | undefined>(void 0);   //社團內容，如聯繫方式等
     const [clubActivities, setClubActivities] = useState<IGetActivitiesByClub | undefined>(void 0); //社團活動列表
+
     const [isLoadingClubContent, setIsLoadingClubContent] = useState(true);
     const [isLoadingActivity, setIsLoadingActivity] = useState(true);
 
     useEffect(() => {
-        const fetchedProfileData = localStorage.getItem("ClubData");
+        const clubToken = localStorage.getItem("club_token");
+        const _clubNum = queryString.parse(location.search).club_num;
+        const clubNum = Number(_clubNum);
 
         // 沒有獲取到club number，返回登錄頁
-        if (!fetchedProfileData) {
+        if (!clubToken || clubNum) {
             alert('請前往登陸賬號！');
             window.location.href = '../clublogin';
         }
 
-        var profile: IClubSigninResponse = JSON.parse(fetchedProfileData as string);
-        setProfileData(profile);
+        // var profile: IClubSigninResponse = JSON.parse(clubToken as string);
+        // setProfileData(profile);
 
         // 根據已登錄的club ID 進一步獲取club的内容和活動
-        getClubXX(profile.content.club_num, GET.CLUB_INFO_NUM, setContentData, '無法獲取社團信息！').then(() => {
+        getClubXX(clubNum, GET.CLUB_INFO_NUM, setContentData, '無法獲取社團信息！').then(() => {
             setIsLoadingClubContent(false);
         });
-        getClubXX(profile.content.club_num, GET.EVENT_INFO_CLUB_NUM, setClubActivities, '無法獲取社團內容！', true).then(() => {
+        getClubXX(clubNum, GET.EVENT_INFO_CLUB_NUM, setClubActivities, '無法獲取社團內容！', true).then(() => {
             setIsLoadingActivity(false);
         });
 
     }, []);
 
     return (
-        <ARKMain title={clubProfileData?.content.name}>
+        <ARKMain title={clubContentData?.content.name}>
 
             {/* 二級頂欄 */}
             <NavBarSecondary returnLocation={'../'} clearLocStorage />
@@ -114,12 +117,12 @@ const ClubInfo = () => {
                     <div className="ml-10">
                         {/* 社團名字*/}
                         <p className="text-xl text-themeColor font-bold">
-                            {clubProfileData?.content.name}
+                            {clubContentData?.content.name}
                         </p>
 
                         {/* 社團Tag */}
                         <span className="text-themeColor bg-themeColorUltraLight rounded-full text-center px-3">
-                            {clubProfileData && clubProfileData.content.tag}
+                            {clubContentData && clubContentData.content.tag}
                         </span>
 
                         {/* 社團簡介*/}
