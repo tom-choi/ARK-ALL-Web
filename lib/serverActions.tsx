@@ -117,10 +117,12 @@ export const getClubXX = async (
         if (json.message == 'success') {
             setFunc(json);
             debug && console.log(json);
+            return json;
         } else if (alert) {
             window.alert(alert);
         }
     }).catch(err => {
+        console.log(err);
         window.alert('網絡錯誤！');
     });
 }
