@@ -1,3 +1,4 @@
+import React, { ReactNode } from "react";
 import { FirstTitle } from "./LayeredTitles";
 import Container from "../container";
 
@@ -21,13 +22,16 @@ export const ARKMain = (props) => {
  * @prop {bool} condition 顯示的條件
  * @returns 
  */
-export const ContentBlock = (props) => {
-    let condition = props.condition != void 0 ? props.condition : true;
+export const ContentBlock = (props: { condition?: boolean, children: ReactNode | ReactNode[], title?: string, withTitle?: boolean, className?: string }) => {
+    let condition_ = props.condition != void 0 ? props.condition : true;
+    let style = `bg-white dark:bg-gray-800 border-l-4 border-themeColorLight px-5 pt-3 pb-5 rounded-lg drop-shadow-md itmes-center ${props.className || ""}`
     return (
-        condition && (
-            <div className="bg-white dark:bg-gray-800 border-l-4 border-themeColorLight px-5 pt-3 pb-5 rounded-lg drop-shadow-md itmes-center">
+        condition_ && (
+            <div className={style}>
                 {/* 標題 */}
-                <FirstTitle>{props.title ? props.title : '標題'}</FirstTitle>
+                {props.withTitle && (
+                    <FirstTitle>{props.title ? props.title : '標題'}</FirstTitle>
+                )}
                 {props.children}
             </div>
         )
