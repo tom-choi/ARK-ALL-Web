@@ -84,16 +84,14 @@ const ClubInfo = () => {
                         color="bg-themeColor"
                         onClickFunc={() => { window.location.href = './clubInfoEdit'; }}
                         textContent={'編輯'}
-                        Icon={PencilSquareIcon}>
-                    </StdButton>
+                        Icon={PencilSquareIcon} />
 
                     {/* 添加按鈕*/}
                     <StdButton
                         color="bg-themeColor"
                         onClickFunc={() => { window.location.href = "./newActivity"; }}
                         textContent={'新活動'}
-                        Icon={PlusCircleIcon}>
-                    </StdButton>
+                        Icon={PlusCircleIcon} />
                 </StdButtonGrid>
 
                 {/* 社團訊息 */}
