@@ -2,6 +2,7 @@ import axios from 'axios';
 import { BASE_URI, BASE_HOST, GET, POST } from '../utils/pathMap';
 import { squashDateTime, JsonToFormData } from '../utils/functions/u_format';
 import moment from 'moment';
+import { _ICreateActivity } from '../types/index.d';
 
 /**
  * 異步上傳内容到服務器。
@@ -13,7 +14,14 @@ import moment from 'moment';
  * @param {bool} askUserConfirm 是否要求用戶確認上傳。
  * @returns 
  */
-export async function upload(uploadFormData, apiURL, clearLocalStorage = void 0, returnLoc = void 0, guard = true, askUserConfirm = false) {
+export async function upload(
+    uploadFormData: FormData,
+    apiURL: string,
+    clearLocalStorage?: string,
+    returnLoc?: string,
+    guard: boolean = true,
+    askUserConfirm: boolean = false
+): Promise<any> {
 
     let isUserConfirmUpload = true;
     if (askUserConfirm) {
@@ -53,7 +61,7 @@ export async function upload(uploadFormData, apiURL, clearLocalStorage = void 0,
  * 創建活動。
  * @param {*} _data - 傳入的活動數據
  */
-export const createActivity = async (_data) => {
+export const createActivity = async (_data: _ICreateActivity): Promise<any> => {
 
     // 時間合理性判定
     let _startdatetime = squashDateTime(_data.sDate, _data.sTime);
@@ -69,7 +77,7 @@ export const createActivity = async (_data) => {
     let enddatetime = squashDateTime(_data.eDate, _data.eTime, "T");
 
     // 注意這裏缺少了add_relate_image
-    let data = { startdatetime: startdatetime, enddatetime: enddatetime, can_follow: true, ...restData };
+    let data = { startdatetime: startdatetime, enddatetime: enddatetime, ...restData };
     console.log(data);
 
     // 將data塞入表單

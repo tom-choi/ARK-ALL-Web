@@ -103,18 +103,28 @@ export interface IEditActivityResponse extends IWriteResponse { };
 /**
  * 3.3 create_activity 創建活動
  */
-export interface ICreateActivity {
+export interface ICreateActivityCommon {
     title: string;
     type: ActivityType;
     link: string;
     cover_image_file: File;
     add_relate_image?: File[];
-    startdatetime: string;
-    enddatetime: string;
     location: string;
     introduction: string;
     can_follow: boolean;
 }
+
+export interface ICreateActivity extends ICreateActivityCommon {
+    startdatetime: string;
+    enddatetime: string;
+};
+
+export interface _ICreateActivity extends ICreateActivityCommon {
+    sDate: string;
+    sTime: string;
+    eDate: string;
+    eTime: string;
+};
 
 export interface ICreateActivityResponse extends IWriteResponse {
     content: {
