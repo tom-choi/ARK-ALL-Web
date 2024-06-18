@@ -105,7 +105,8 @@ export const getClubXX = async (
     curClubNum: number,
     GET_URL: string,
     setFunc: any,
-    alert?: string
+    alert?: string,
+    debug: boolean = false,
 ): Promise<any> => {
     await axios({
         headers: { 'Content-Type': 'application/x-www-form-urlencoded', },
@@ -115,6 +116,7 @@ export const getClubXX = async (
         let json = resp.data;
         if (json.message == 'success') {
             setFunc(json);
+            debug && console.log(json);
         } else if (alert) {
             window.alert(alert);
         }

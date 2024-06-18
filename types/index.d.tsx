@@ -69,14 +69,20 @@ export interface IEditClubInfo extends IWriteResponse { };
  * 3.3.1 活動核心資訊
  */
 export interface ActivityBase {
-    _id: string;
-    title: string;
-    type: ActivityType;
-    created_by: string;
-    cover_image_url: string;
-    relate_image_url: string[];
-    timestamp: string[];
-    state: number;
+    _id: string;                    // 活動ID
+    club_name: string;              // 創建者名稱
+    created_by: string | number;    // 創建者ID
+    title: string;                  // 活動標題
+    type: ActivityType;             // 活動類型
+    introduction: string;           // 活動簡介
+    link: string;                   // 活動連結
+    location: string;               // 活動地點
+    cover_image_url: string;        // 封面圖片URL
+    relate_image_url: string[];     // 相關圖片URL
+    timestamp: string;              // 不知道有啥用
+    startdatetime: string;          // 開始時間
+    enddatetime: string;            // 結束時間
+    state: number;                  // 這是幹嘛的？
 };
 
 /**
