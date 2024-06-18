@@ -42,7 +42,7 @@ export interface IGetClubInfo {
         club_num: number;
         logo_url: string;
         name: string;
-        tab: string;
+        tag: string;
         intro: string;
         contact: IContactType[];
         club_photos_list: string[];
@@ -64,21 +64,44 @@ export interface IEditClubInfo extends IWriteResponse { };
 /**
  * 3.3 get_activity 獲取活動信息
  */
-export interface IGetActivity {
+
+/**
+ * 3.3.1 活動核心資訊
+ */
+export interface ActivityBase {
+    _id: string;
+    title: string;
+    type: ActivityType;
+    created_by: string;
+    cover_image_url: string;
+    relate_image_url: string[];
+    timestamp: string[];
+    state: number;
+};
+
+/**
+ * 3.3.2 獲取活動請求返回咨詢的基礎類型。
+ * 通過活動ID獲取單個活動 或 通過Club ID獲取多個活動 的請求返回東從這裏繼承。
+ */
+export interface IGetActivityBase {
     code: string;
     message: string;
-    content: {
-        _id: string;
-        title: string;
-        type: ActivityType;
-        created_by: string;
-        cover_image_url: string;
-        relate_image_url: string[];
-        timestamp: string[];
-        state: number;
-    };
     num_pages: number;
-}
+};
+
+/**
+ * 3.3.3 通過活動ID獲取單個活動。
+ */
+export interface IGetAvtivityById extends IGetActivityBase {
+    content: ActivityBase;
+};
+
+/**
+ * 3.3.4 通過Club ID獲取多個活動。
+ */
+export interface IGetActivitiesByClub extends IGetActivityBase {
+    content: ActivityBase[];
+};
 
 /**
  * 3.2 edit_activity 編輯活動

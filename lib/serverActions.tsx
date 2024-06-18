@@ -2,7 +2,7 @@ import axios from 'axios';
 import { BASE_URI, BASE_HOST, GET, POST } from '../utils/pathMap';
 import { squashDateTime, JsonToFormData } from '../utils/functions/u_format';
 import moment from 'moment';
-import { _ICreateActivity } from '../types/index.d';
+import { IGetClubInfo, IGetActivitiesByClub, _ICreateActivity } from '../types/index.d';
 
 /**
  * 異步上傳内容到服務器。
@@ -93,4 +93,32 @@ export const createActivity = async (_data: _ICreateActivity): Promise<any> => {
 
     // 上傳
     await upload(fd, BASE_URI + POST.EVENT_CREATE, 'createdActivityInfo', '../club/clubInfo', true, true);
+}
+
+
+/**
+ * 根據社團號碼獲取相關訊息
+ * @param {*} curClubNum - 當前帳號號碼
+ * @param {string} GET_URL - API路徑
+ */
+export const getClubXX = async (
+    curClubNum: number,
+    GET_URL: string,
+    setFunc: any,
+    alert?: string
+): Promise<any> => {
+    await axios({
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded', },
+        method: 'get',
+        url: BASE_URI + GET_URL + curClubNum,
+    }).then(resp => {
+        let json = resp.data;
+        if (json.message == 'success') {
+            setFunc(json);
+        } else if (alert) {
+            window.alert(alert);
+        }
+    }).catch(err => {
+        window.alert('網絡錯誤！');
+    });
 }
