@@ -156,6 +156,9 @@ export const ARKImageInput = (props: {
     );
 }
 
+
+
+
 /**
  * 基於react-hook-form封裝的ARK標準圖片列表輸入框。
  * @param {*} props 
@@ -172,6 +175,7 @@ export const ARKListImageInput = (props: {
         regName: string,
         isRequired?: boolean,
         numLimit?: number
+        mode?: "array" | "object"
     }
     register: any,
     imgList: any,
@@ -179,11 +183,67 @@ export const ARKListImageInput = (props: {
     errText?: string,
     thisErr: any
 }) => {
-    const { regName, isRequired, numLimit = 4 } = props.base;
+    const { regName, isRequired, numLimit = 4, mode = "object" } = props.base;
     const { register, imgList, setValue, errText, thisErr } = props;
 
     const imageInputRef = React.createRef<HTMLInputElement>();
     const [m_hovering, setHovering] = useState("");
+
+    /** 向JSON格式的Object列表中添加元素 */
+    const AddToObjList = (e: React.ChangeEvent<HTMLInputElement>, regName: string, imgList: File[], numLimit: number, setValue: any) => {
+        // 獲取新增的文件列表
+        let fileObjArr = e.target.files;
+
+        // 檢查數量是否符合要求
+        let fileObjArrLen = fileObjArr.length;                          // Array
+        let imgListLen = imgList ? Object.keys(imgList).length : 0;   // Object List
+        if (fileObjArrLen > numLimit || fileObjArrLen + imgListLen > numLimit) {
+            alert(`圖片不能超過${numLimit}張！`);
+            return;
+        }
+
+        // 將原有圖片轉換成數組（如果不為空）
+        let arr = [];
+        imgList && Object.keys(imgList).map(key => { arr.push(imgList[key]); });
+
+        // 將傳入文件列表中的所有文件複製一份，並推入數組
+        Object.entries(fileObjArr).map(([key, value]) => {
+            let newFile = duplicateFile(value);
+            arr.push(newFile);
+        })
+
+        // 把新數組解析成對象
+        const filesAsObj = Object.fromEntries(
+            Array.from(arr, (file, index) => [index, file])
+        );
+
+        setValue(regName, filesAsObj);
+    }
+
+    /** 向數組中添加元素 */
+    const AddToArrayList = (e: React.ChangeEvent<HTMLInputElement>, regName: string, imgList: File[], numLimit: number, setValue: any) => {
+        let fileObjArr = e.target.files;
+
+        let fileArrLen = fileObjArr.length;
+        let imgListLen = imgList ? imgList.length : 0;
+        if (fileArrLen > numLimit || fileArrLen + imgListLen > numLimit) {
+            alert(`圖片不能超過${numLimit}張`);
+            return;
+        }
+
+        if (!imgList) {
+            setValue(regName, fileObjArr);
+            return;
+        }
+
+        if (imgList.length > 1) {
+            setValue(regName, [...imgList, ...Array.from(fileObjArr)]);
+        } else {
+            setValue(regName, [imgList[0], ...Array.from(fileObjArr)]);
+        }
+
+    }
+
 
     return (
         <div className={"flex flex-row items-center justify-left"}>
@@ -224,7 +284,19 @@ export const ARKListImageInput = (props: {
                         className={"hidden"}
                         {...register(regName, { required: isRequired ? (errText || "需要圖片") : false })}
                         ref={imageInputRef}
-                        onChange={(e) => {
+                        onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                            switch (mode) {
+                                case "object":
+                                    console.log("Using Object Mode.");
+                                    AddToObjList(e, regName, imgList, numLimit, setValue);
+                                    break;
+                                case "array":
+                                    console.log("Using Array Mode.");
+                                    AddToArrayList(e, regName, imgList, numLimit, setValue);
+                                    break;
+                            }
+                            return;
+
                             // 獲取新增的文件列表
                             let fileObjArr = e.target.files;
 
@@ -258,5 +330,7 @@ export const ARKListImageInput = (props: {
         </div>
     );
 }
+
+
 
 /** */
