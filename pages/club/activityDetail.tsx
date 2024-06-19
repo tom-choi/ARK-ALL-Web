@@ -47,9 +47,9 @@ const ActivityDetail = () => {
     useEffect(() => { }, []);
 
     useEffect(() => {
-        let { _id, relate_image_url, ..._base } = activityData?.content;
-        let base = { ..._base, id: activityData?.content._id, add_relate_image: [], del_relate_image: [] }
-        reset(base);
+        // let { _id, relate_image_url, ..._base } = activityData?.content;
+        // let base = { ..._base, id: activityData?.content._id, add_relate_image: [], del_relate_image: [] }
+        // reset(base);
     }, [activityData]);
 
     const [isEditMode, setEditMode] = useState(false);          // 是否為編輯模式
