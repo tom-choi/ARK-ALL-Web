@@ -24,7 +24,7 @@ import { u_handleFileDelete } from '../../utils/functions/u_fileHandle';
 
 // 設定
 import { customSettings } from '../../utils/settings';
-import { useForm } from 'react-hook-form';
+import { SubmitHandler, useForm } from 'react-hook-form';
 import { authGuard } from '../../lib/authentication';
 import { getClubXX } from '../../lib/serverActions';
 import { IEditClubInfo, IGetClubInfo } from '../../types/index.d';
@@ -34,23 +34,53 @@ import { ARKImageInput, ARKListImageInput } from '../../components/uiComponents/
 let del_club_image = [];
 export default function clubInfoEdit() {
     const [m_clubData, setClubData] = useState<IGetClubInfo>(null);
-    const [m_clubImages, setClubImages] = useState(null);
-    const relateImageInputRef = useRef();
-
 
     const { register, handleSubmit, setValue, formState: { errors }, watch, reset } = useForm<IEditClubInfo>();
+    const _del_club_photos = watch("del_club_photos");
 
     useEffect(() => {
         const clubNum = authGuard({ urlParamName: "club_num" });
         getClubXX(clubNum, GET.CLUB_INFO_NUM, setClubData, void 0, true);
     }, []);
 
+    const onSubmit: SubmitHandler<IEditClubInfo> = async (_data: IEditClubInfo) => {
+        let fd = new FormData();
+
+        //簡介
+        fd.append("intro", watch("intro") || "");
+
+        // 聯係方式
+        if (!watch("contact") || watch("contact").length == 0) {
+            fd.append("contact", "[]");
+        } else {
+            fd.append("contact", JSON.stringify(watch("contact")));
+        }
+
+        // 社團圖片 - 添加
+        if (!watch("add_club_photos") || Object.keys(watch("add_club_photos")).length == 0) {
+            fd.append("add_club_photos", "[]");
+        } else {
+            Object.values(watch("add_club_photos")).map((imgFileObj) => {
+                fd.append("add_club_photos", imgFileObj);
+            });
+        }
+
+        // 社團圖片 - 減少
+        if (!watch("del_club_photos") || watch("del_club_photos").length == 0) {
+            fd.append("del_club_photos", "[]");
+        } else {
+            fd.append("del_club_photos", JSON.stringify(watch("del_club_photos")));
+        }
+
+        upload(fd, BASE_URI + POST.CLUB_EDIT_INFO, void 0, `./clubInfo?club_num=${m_clubData?.content.club_num}`);
+    }
+
     return (
         <ARKMain title={"社團訊息編輯"}>
             {/* 頂欄*/}
             <NavBarSecondary returnLocation={`./clubInfo?club_num=${m_clubData?.content.club_num}`} returnStr={'社團訊息'} />
 
-            <form>
+            <form onSubmit={handleSubmit(onSubmit)}>
                 <ContentBlockGrid>
                     {/* 基礎訊息 */}
                     <ContentBlock title="基礎訊息" condition={true}>
@@ -123,9 +153,9 @@ export default function clubInfoEdit() {
                                     <img
                                         key={index}
                                         src={BASE_HOST + url}
-                                        className={"w-40 h-24 rounded-md hover:scale-[1.05] transition-all hover:cursor-pointer"}
+                                        className={`w-40 h-24 rounded-md hover:scale-[1.05] transition-all hover:cursor-pointer ${_del_club_photos && _del_club_photos.indexOf(url) != -1 && "opacity-70"}`}
                                         onClick={() => {
-                                            let _del_club_photos = watch("del_club_photos");
+
                                             if (!_del_club_photos) {
                                                 setValue("del_club_photos", [url]);
                                                 return;
@@ -153,6 +183,7 @@ export default function clubInfoEdit() {
                                     {
                                         regName: "add_club_photos",
                                         isRequired: false,
+                                        mode: "object",
                                     }
                                 }
                                 register={register}
@@ -162,12 +193,11 @@ export default function clubInfoEdit() {
                             />
                         </div>
                     </ContentBlock>
-
                 </ContentBlockGrid>
+
                 <StdButton
-                    onClickFunc={() => { console.log(""); }}
                     textContent={'上傳'}
-                    Icon={ArrowUpIcon}></StdButton>
+                    Icon={ArrowUpIcon} />
             </form>
 
             <StdButton
