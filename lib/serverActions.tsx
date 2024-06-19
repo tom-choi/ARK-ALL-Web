@@ -4,6 +4,54 @@ import { squashDateTime, JsonToFormData } from '../utils/functions/u_format';
 import moment from 'moment';
 import { IGetClubInfo, IGetActivitiesByClub, _ICreateActivity } from '../types/index.d';
 
+export const appendListToFormData = (
+    fd: FormData,
+    listName: string,
+    list: any[] | undefined | null,
+    mode: "object" | "array"
+): FormData => {
+    if (!list || (mode == "object" ? Object.values(list) : list).length == 0) {
+        fd.append(listName, "[]");
+        return fd;
+    }
+
+    if (mode == "object") {
+        Object.values(list).map(listItem => {
+            fd.append(listName, listItem);
+        })
+    } else {
+        fd.append(listName, JSON.stringify(list));
+    }
+
+    return fd;
+}
+
+export const createFormData = (_data: any): FormData | null => {
+    if (!_data || Object.keys(_data).length == 0) {
+        return null;
+    }
+
+    let fd = new FormData();
+
+    Object.entries(_data).map(([key, value]) => {
+        // Non Iterables
+        if (typeof value === "string" || typeof value === "number") {
+            let value_ = value as string | number;
+            fd.append(key, value_.toString() || "");
+        }
+        // Iterables
+        else if (value instanceof Array) {
+            appendListToFormData(fd, key, value, "array");
+        } else if (Object.keys(value).length > 0) {
+            let value_ = value as any;
+            appendListToFormData(fd, key, value_, "object");
+        } else {
+            console.log(value);
+            fd.append(key, "");
+        }
+    });
+}
+
 /**
  * 異步上傳内容到服務器。
  * @param {FormData} uploadFormData 即将上传的表单数据。
