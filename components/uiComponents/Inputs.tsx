@@ -198,7 +198,7 @@ export const ARKListImageInput = (props: {
         let fileObjArrLen = fileObjArr.length;                          // Array
         let imgListLen = imgList ? Object.keys(imgList).length : 0;   // Object List
         if (fileObjArrLen > numLimit || fileObjArrLen + imgListLen > numLimit) {
-            alert(`圖片不能超過${numLimit}張！`);
+            alert(errText || `圖片不能超過${numLimit}張！`);
             return;
         }
 
