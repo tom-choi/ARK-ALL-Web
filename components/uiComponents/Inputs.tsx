@@ -3,6 +3,7 @@ import { IF } from "./ContentBlock";
 
 import { PlusCircleIcon } from "@heroicons/react/24/solid";
 import { duplicateFile } from "../../utils/functions/u_format";
+import React from "react";
 
 const TextInputStyles = {
     border: {
@@ -95,13 +96,22 @@ export const ARKLabeledInput = (props) => {
 }
 
 
-export const ARKImageInput = (props) => {
+export const ARKImageInput = (props: {
+    base: {
+        regName: string,
+        isRequired?: boolean
+    },
+    register: any,
+    setValue: any,
+    errText: string,
+    thisErr: any
+}) => {
     const { regName, isRequired } = props.base;
     const { register, setValue, errText, thisErr } = props;
 
     const [m_imageURL, setImageURL] = useState(void 0);
     const [m_iconDisplay, setIconDisplay] = useState(true);
-    const imageInputRef = useRef();
+    const imageInputRef = React.createRef<HTMLInputElement>();
 
     return (
         <div
@@ -157,16 +167,27 @@ export const ARKImageInput = (props) => {
  * @prop {array} imgList - 當前表單欄位的值，在表單中通過watch(regName)傳入。
  * @returns 
  */
-export const ARKListImageInput = (props) => {
+export const ARKListImageInput = (props: {
+    base: {
+        regName: string,
+        isRequired?: boolean,
+        numLimit?: number
+    }
+    register: any,
+    imgList: any,
+    setValue: any,
+    errText?: string,
+    thisErr: any
+}) => {
     const { regName, isRequired, numLimit = 4 } = props.base;
     const { register, imgList, setValue, errText, thisErr } = props;
 
-    const imageInputRef = useRef();
+    const imageInputRef = React.createRef<HTMLInputElement>();
     const [m_hovering, setHovering] = useState("");
 
     return (
         <div className={"flex flex-row items-center justify-left"}>
-            <div className={`lg:grid md:flex md:flex-col grid-cols-6 gap-4 object-cover`}>
+            <div className={`lg:grid md:flex md:flex-col grid-cols-${numLimit} gap-4 object-cover`}>
                 {imgList && Object.entries(imgList).map(([key, value]) => (
                     <div className={"relative"}>
                         <div
@@ -174,7 +195,7 @@ export const ARKListImageInput = (props) => {
                             點擊以刪除
                         </div>
                         <img
-                            src={URL.createObjectURL(value)}
+                            src={URL.createObjectURL(value as File)}
                             className={"w-40 h-24 rounded-md hover:scale-[1.05] transition-all hover:cursor-pointer"}
                             onMouseOver={(e) => { setHovering(key); }}
                             onMouseLeave={(e) => { setHovering(""); }}
@@ -208,16 +229,16 @@ export const ARKListImageInput = (props) => {
                             let fileObjArr = e.target.files;
 
                             // 檢查數量是否符合要求
-                            let fileObjArrLen = fileObjArr.length;          // Array
-                            let imgListLen = Object.keys(imgList).length;   // Object List
+                            let fileObjArrLen = fileObjArr.length;                          // Array
+                            let imgListLen = imgList ? Object.keys(imgList).length : 0;   // Object List
                             if (fileObjArrLen > numLimit || fileObjArrLen + imgListLen > numLimit) {
                                 alert(`圖片不能超過${numLimit}張！`);
                                 return;
                             }
 
-                            // 將原有圖片轉換成數組
+                            // 將原有圖片轉換成數組（如果不為空）
                             let arr = [];
-                            Object.keys(imgList).map(key => { arr.push(imgList[key]); });
+                            imgList && Object.keys(imgList).map(key => { arr.push(imgList[key]); });
 
                             // 將傳入文件列表中的所有文件複製一份，並推入數組
                             Object.entries(fileObjArr).map(([key, value]) => {
