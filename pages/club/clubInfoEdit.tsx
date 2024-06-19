@@ -89,21 +89,22 @@ export default function clubInfoEdit() {
                             <SecondTitle>聯絡方式</SecondTitle>
                             <ul>
                                 {
-                                    m_clubData?.content.contact.map((item, index) => item.num != void 0 && (
+                                    watch("contact")?.map((item, index) => item.num != void 0 && (
                                         <div key={index}>
                                             <div className="flex flex-row gap-5 items-center mb-5">
                                                 {/*方式：如email */}
                                                 <input
                                                     className=" border-4 border-themeColor rounded-lg h-10 p-2"
                                                     placeholder={"聯絡方式"}
-                                                    // {...register()}
+                                                    {...register(`contact.${index}.type`)}
                                                     defaultValue={item.type} />
 
                                                 {/*内容：如example@example.com */}
                                                 <input
                                                     className=" border-4 border-themeColor rounded-lg h-10 p-2"
                                                     placeholder={"内容"}
-                                                    defaultValue={item.num} />
+                                                    defaultValue={item.num}
+                                                    {...register(`contact.${index}.num`)} />
 
                                                 {/* 刪除某個聯係方式*/}
                                                 <MinusCircleIcon
@@ -118,9 +119,7 @@ export default function clubInfoEdit() {
                             <PlusCircleIcon
                                 className="w-10 h-10 text-themeColor hover:opacity-70 hover:cursor-pointer"
                                 onClick={() => {
-                                    setContact(prevContact => {
-                                        return [...prevContact, { "type": "", "num": "" }];
-                                    });
+                                    setValue("contact", (watch("contact") ? [...watch("contact"), { "type": "", "num": "" }] : [{ "type": "", "num": "" }]));
                                 }} />
 
                             <br />
@@ -170,11 +169,13 @@ export default function clubInfoEdit() {
                                         regName: "add_club_photos",
                                         isRequired: false,
                                         mode: "object",
+                                        numLimit: 5 - m_clubData?.content.club_photos_list.length + (_del_club_photos ? _del_club_photos.length : 0),
                                     }
                                 }
                                 register={register}
                                 imgList={watch("add_club_photos")}
                                 setValue={setValue}
+                                errText={"圖片總數不能超過5張！"}
                                 thisErr={errors.add_club_photos?.message}
                             />
                         </div>
