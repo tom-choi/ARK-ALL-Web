@@ -89,7 +89,7 @@ const ClubInfo = () => {
                     {/* 添加按鈕*/}
                     <StdButton
                         color="bg-themeColor"
-                        onClickFunc={() => { window.location.href = "./newActivity"; }}
+                        onClickFunc={() => { window.location.href = `./newActivity?club_num=${clubContentData.content.club_num}`; }}
                         textContent={'新活動'}
                         Icon={PlusCircleIcon} />
                 </StdButtonGrid>
@@ -146,16 +146,11 @@ const ClubInfo = () => {
                     </ContentBlock>
 
                     {/* 社團圖片 */}
-                    <ContentBlock title="社團圖片">
+                    <ContentBlock title={"社團圖片"}>
                         <div className="grid xl:grid-cols-5 lg:grid-cols-3 md:grid-cols-5 sm:grid-cols-1 gap-4 ">
                             <IFELSE condition={clubContentData != void 0}>
                                 {clubContentData?.content.club_photos_list.map((item, index) => (
-                                    <ListImage
-                                        key={index}
-                                        item={item}
-                                        index={index}
-                                        isEditMode={false}>
-                                    </ListImage>
+                                    <img key={index} src={BASE_HOST + item} className={`w-40 h-24 rounded-md hover:scale-[1.05] transition-all hover:cursor-pointer`} />
                                 ))}
                                 <p>ARK全力加載中...</p>
                             </IFELSE>
@@ -166,9 +161,7 @@ const ClubInfo = () => {
 
             {/* 社團活動 */}
             <AfterLoading isLoading={loadingStates.activity}>
-                <ContentBlock className={"mt-5"}>
-                    {/*標題*/}
-                    <SecondTitle>社團活動</SecondTitle>
+                <ContentBlock className={"mt-5"} title={"社團活動"}>
                     {/* 渲染活動格子*/}
                     <div className="grid 2xl:grid-cols-5 lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-1 gap-4 ">
                         <IFELSE condition={clubActivities?.content?.length && clubActivities?.content?.length > 0}>

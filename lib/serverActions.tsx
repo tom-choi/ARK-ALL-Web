@@ -109,7 +109,7 @@ export async function upload(
  * 創建活動。
  * @param {*} _data - 傳入的活動數據
  */
-export const createActivity = async (_data: _ICreateActivity): Promise<any> => {
+export const createActivity = async (_data: _ICreateActivity, clubNum: string): Promise<any> => {
 
     // 時間合理性判定
     let _startdatetime = squashDateTime(_data.sDate, _data.sTime);
@@ -140,7 +140,7 @@ export const createActivity = async (_data: _ICreateActivity): Promise<any> => {
     }
 
     // 上傳
-    await upload(fd, BASE_URI + POST.EVENT_CREATE, 'createdActivityInfo', '../club/clubInfo', true, true);
+    await upload(fd, BASE_URI + POST.EVENT_CREATE, 'createdActivityInfo', `../club/clubInfo?club_num=${clubNum}`, true, true);
 }
 
 
