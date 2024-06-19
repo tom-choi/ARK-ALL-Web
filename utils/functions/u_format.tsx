@@ -5,8 +5,19 @@
  * @param {*} divider   分隔符號 
  * @returns 格式化的日期字符串
  */
-export const squashDateTime = (date, time, divider = " ") => {
-    return date + divider + time;
+export const squashDateTime = (date: string, time: string, divider?: string) => {
+    return date + (divider || " ") + time;
+}
+
+/**
+ * 將服務器返回的datetime進行分割。此步驟不可省略，因爲API必須接收一個時間戳，即使它完全沒有變。(-_-|||)
+ * @param {*} timestamp 時間戳，格式爲：2024-06-04 13:06:00+00:00
+ * @returns 目標格式：{"date": 2024-06-04, "time": 13:06:00}
+ */
+const parseDateTime = (timestamp: string) => {
+    let date = timestamp.split(' ')[0];
+    let time = timestamp.split(' ')[1].split('+')[0].slice(0, -3);
+    return { "date": date, "time": time };
 }
 
 /**
