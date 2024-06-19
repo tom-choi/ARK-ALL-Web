@@ -33,10 +33,19 @@ export default function clubInfoEdit() {
     const { register, handleSubmit, setValue, formState: { errors }, watch, reset } = useForm<IEditClubInfo>();
     const _del_club_photos = watch("del_club_photos");
 
+    // 獲取club number，驗證登錄
     useEffect(() => {
         const clubNum = authGuard({ urlParamName: "club_num" });
         getClubXX(clubNum, GET.CLUB_INFO_NUM, setClubData, void 0, true);
     }, []);
+
+    // 更新表單默認值
+    useEffect(() => {
+        reset({
+            intro: m_clubData?.content.intro || "",
+            contact: m_clubData?.content.contact || []
+        });
+    }, [m_clubData]);
 
     const onSubmit: SubmitHandler<IEditClubInfo> = async (_data: IEditClubInfo) => {
 
@@ -79,8 +88,7 @@ export default function clubInfoEdit() {
                                 placeholder={"活動簡介"}
                                 className="border-4 border-themeColor rounded-lg h-10 p-2 w-full h-20"
                                 {...register("intro")}
-                                defaultValue={m_clubData?.content.intro}>
-                            </textarea>
+                            />
                         </div>
 
 
@@ -96,14 +104,12 @@ export default function clubInfoEdit() {
                                                 <input
                                                     className=" border-4 border-themeColor rounded-lg h-10 p-2"
                                                     placeholder={"聯絡方式"}
-                                                    {...register(`contact.${index}.type`)}
-                                                    defaultValue={item.type} />
+                                                    {...register(`contact.${index}.type`)} />
 
                                                 {/*内容：如example@example.com */}
                                                 <input
                                                     className=" border-4 border-themeColor rounded-lg h-10 p-2"
                                                     placeholder={"内容"}
-                                                    defaultValue={item.num}
                                                     {...register(`contact.${index}.num`)} />
 
                                                 {/* 刪除某個聯係方式*/}
