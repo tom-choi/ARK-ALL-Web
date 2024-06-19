@@ -9,29 +9,24 @@ import {
 
 // 本地引用
 import { BASE_URI, BASE_HOST, GET, POST } from '../../utils/pathMap';
-import Container from '../../components/container';
 
 // UI組件
 import NavBarSecondary from '../../components/navBarSecondary';
 import { ARKMain, ContentBlock, ContentBlockGrid } from '../../components/uiComponents/ContentBlock';
-import { ListImage, ListImageAdd } from '../../components/uiComponents/ListImage';
 import { SecondTitle } from '../../components/uiComponents/LayeredTitles';
 import { StdButton } from '../../components/uiComponents/StdButton';
 
 // 工具函數
 import { upload } from '../../utils/functions/u_server';
-import { u_handleFileDelete } from '../../utils/functions/u_fileHandle';
 
 // 設定
-import { customSettings } from '../../utils/settings';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { authGuard } from '../../lib/authentication';
-import { getClubXX } from '../../lib/serverActions';
+import { appendListToFormData, createFormData, getClubXX } from '../../lib/serverActions';
 import { IEditClubInfo, IGetClubInfo } from '../../types/index.d';
-import { ARKImageInput, ARKListImageInput } from '../../components/uiComponents/Inputs';
+import { ARKListImageInput } from '../../components/uiComponents/Inputs';
 
 
-let del_club_image = [];
 export default function clubInfoEdit() {
     const [m_clubData, setClubData] = useState<IGetClubInfo>(null);
 
@@ -44,33 +39,26 @@ export default function clubInfoEdit() {
     }, []);
 
     const onSubmit: SubmitHandler<IEditClubInfo> = async (_data: IEditClubInfo) => {
+
+        // let fdata = createFormData(_data);
+
+        // upload(fdata, BASE_URI + POST.CLUB_EDIT_INFO, void 0, `./clubInfo?club_num=${m_clubData?.content.club_num}`);
+
+        // return;
+
         let fd = new FormData();
 
         //簡介
         fd.append("intro", watch("intro") || "");
 
         // 聯係方式
-        if (!watch("contact") || watch("contact").length == 0) {
-            fd.append("contact", "[]");
-        } else {
-            fd.append("contact", JSON.stringify(watch("contact")));
-        }
+        appendListToFormData(fd, "contact", watch("contact"), "array");
 
         // 社團圖片 - 添加
-        if (!watch("add_club_photos") || Object.keys(watch("add_club_photos")).length == 0) {
-            fd.append("add_club_photos", "[]");
-        } else {
-            Object.values(watch("add_club_photos")).map((imgFileObj) => {
-                fd.append("add_club_photos", imgFileObj);
-            });
-        }
+        appendListToFormData(fd, "add_club_photos", watch("add_club_photos"), "object");
 
         // 社團圖片 - 減少
-        if (!watch("del_club_photos") || watch("del_club_photos").length == 0) {
-            fd.append("del_club_photos", "[]");
-        } else {
-            fd.append("del_club_photos", JSON.stringify(watch("del_club_photos")));
-        }
+        appendListToFormData(fd, "del_club_photos", watch("del_club_photos"), "array");
 
         upload(fd, BASE_URI + POST.CLUB_EDIT_INFO, void 0, `./clubInfo?club_num=${m_clubData?.content.club_num}`);
     }
@@ -195,6 +183,7 @@ export default function clubInfoEdit() {
                     </ContentBlock>
                 </ContentBlockGrid>
 
+                {/* 上傳 */}
                 <StdButton
                     textContent={'上傳'}
                     Icon={ArrowUpIcon} />
