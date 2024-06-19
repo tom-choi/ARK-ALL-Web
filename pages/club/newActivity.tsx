@@ -1,5 +1,5 @@
 // 包引用
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { ArrowUpIcon } from "@heroicons/react/24/solid";
 import moment from 'moment/moment';
 
@@ -11,6 +11,7 @@ import { ARKImageInput, ARKLabeledInput, ARKListImageInput } from '../../compone
 import { createActivity } from '../../lib/serverActions';
 import { StdButton } from '../../components/uiComponents/StdButton';
 import { _ICreateActivity } from '../../types/index.d';
+import { authGuard } from '../../lib/authentication';
 
 // 活動類型映射
 const activityTypeMap = {
@@ -39,16 +40,22 @@ const NewActivity = () => {
         }
     });
 
+    const [m_clubNum, setClubNum] = useState<string>();
+
+    useEffect(() => {
+        const clubNum = authGuard({ urlParamName: "club_num" });
+        setClubNum(clubNum);
+    }, []);
+
     const onSubmit: SubmitHandler<_ICreateActivity> = async (_data: _ICreateActivity) => {
-        await createActivity(_data);
+        await createActivity(_data, m_clubNum);
     };
 
     const selectedType = watch("type");
-    const addedRelateImage = watch("add_relate_image");
 
     return (
         <ARKMain title={`新活動-${watch("title")}`}>
-            <NavBarSecondary returnLocation={'./clubInfo'} />
+            <NavBarSecondary returnLocation={`./clubInfo?club_num=${m_clubNum}`} />
             <form className={`flex flex-col gap-5`} onSubmit={handleSubmit(onSubmit)}>
                 {/* 活動名稱 */}
                 <input
