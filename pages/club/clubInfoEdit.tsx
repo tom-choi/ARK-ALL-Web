@@ -1,6 +1,5 @@
 // 包引用
-import React, { useState, useEffect, useRef } from 'react';
-import axios from 'axios';
+import React, { useState, useEffect } from 'react';
 import {
     PlusCircleIcon,
     MinusCircleIcon,
@@ -114,7 +113,12 @@ export default function clubInfoEdit() {
 
                                                 {/* 刪除某個聯係方式*/}
                                                 <MinusCircleIcon
-                                                    className="w-10 h-10 text-alert hover:opacity-70 hover:cursor-pointer" />
+                                                    className="w-10 h-10 text-alert hover:opacity-70 hover:cursor-pointer"
+                                                    onClick={() => {
+                                                        let _contact = watch("contact");
+                                                        let contact = _contact.filter((item, i) => i != index);
+                                                        setValue("contact", contact);
+                                                    }} />
                                             </div>
                                         </div>
                                     ))
@@ -194,7 +198,7 @@ export default function clubInfoEdit() {
                     Icon={ArrowUpIcon} />
             </form>
 
-            <StdButton
+            {/* <StdButton
                 onClickFunc={() => {
                     console.log("Intro: ", watch("intro"));
                     console.log("Contact: ", watch("contact"));
@@ -203,7 +207,7 @@ export default function clubInfoEdit() {
                     console.log("del_club_photos: ", watch("del_club_photos"));
                 }}
                 textContent={'測試'}
-                Icon={ArrowUpIcon}></StdButton>
+                Icon={ArrowUpIcon}></StdButton> */}
         </ARKMain>
     )
 }
