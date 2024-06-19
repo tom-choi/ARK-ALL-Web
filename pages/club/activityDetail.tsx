@@ -24,6 +24,8 @@ import { ContentBlock, ContentBlockGrid, IFELSE } from '../../components/uiCompo
 import { data } from 'autoprefixer';
 import { customSettings } from '../../utils/settings';
 import { FirstTitle } from '../../components/uiComponents/LayeredTitles';
+import { useForm } from 'react-hook-form';
+import { IEditActivity, IGetAvtivityById } from '../../types/index.d';
 
 
 // 活動類型映射
@@ -33,13 +35,22 @@ const activityTypeMap = {
     "WEBSITE": "網頁"
 };
 
-let add_relate_image = [];
 let del_relate_image = [];
 let del_relate_image_index = [];
 
 
 const ActivityDetail = () => {
-    const [activityData, setActivityData] = useState(null);     // 活動數據
+    const { register, handleSubmit, formState: { errors }, reset, watch } = useForm<IEditActivity>();
+
+    const [activityData, setActivityData] = useState<IGetAvtivityById>(null);     // 活動數據
+
+    useEffect(() => { }, []);
+
+    useEffect(() => {
+        let { _id, relate_image_url, ..._base } = activityData?.content;
+        let base = { ..._base, id: activityData?.content._id, add_relate_image: [], del_relate_image: [] }
+        reset(base);
+    }, [activityData]);
 
     const [isEditMode, setEditMode] = useState(false);          // 是否為編輯模式
 
