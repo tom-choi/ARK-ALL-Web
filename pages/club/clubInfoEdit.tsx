@@ -75,14 +75,12 @@ export default function clubInfoEdit() {
                         {/* 活動簡介 （Intro） */}
                         <div>
                             <SecondTitle>活動簡介</SecondTitle>
-                            {m_clubData?.content.intro && (
-                                <textarea
-                                    placeholder={"活動簡介"}
-                                    className="border-4 border-themeColor rounded-lg h-10 p-2 w-full h-20"
-                                    {...register("intro")}
-                                    defaultValue={m_clubData?.content.intro}>
-                                </textarea>
-                            )}
+                            <textarea
+                                placeholder={"活動簡介"}
+                                className="border-4 border-themeColor rounded-lg h-10 p-2 w-full h-20"
+                                {...register("intro")}
+                                defaultValue={m_clubData?.content.intro}>
+                            </textarea>
                         </div>
 
 
