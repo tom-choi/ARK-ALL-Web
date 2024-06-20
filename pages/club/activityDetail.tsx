@@ -1,46 +1,30 @@
 // 包引用
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
     PencilSquareIcon,
     TrashIcon,
-    FolderArrowDownIcon,
     ArrowUpIcon,
 } from "@heroicons/react/24/solid";
 import moment from 'moment';
-import axios from 'axios';
 import qs from 'qs';
 
 // 本地引用
-import { BASE_URI, BASE_HOST, GET, POST } from '../../utils/pathMap';
-import Container from '../../components/container';
+import { BASE_HOST } from '../../utils/pathMap';
+import { editActivity } from "../../lib/serverActions";
+import { parseDateTime } from '../../utils/functions/u_format';
+import { SubmitHandler, useForm } from 'react-hook-form';
+import { IEditActivityLocal, IGetAvtivityById } from '../../types/index.d';
+import { authGuard } from '../../lib/authentication';
+import { deleteActivity, getActivityById } from '../../lib/serverActions';
+
+// UI 組件
 import { AfterLoading } from '../../components/uiComponents/AfterLoading';
 import Footer from "../../components/footer";
-import { editActivity, upload } from "../../lib/serverActions";
-import { u_handleFileChange, u_handleFileDelete } from '../../utils/functions/u_fileHandle';
-import { parseDateTime, squashDateTime } from '../../utils/functions/u_format';
 import NavBarSecondary from '../../components/navBarSecondary';
-import { ListImage, ListImageAdd } from '../../components/uiComponents/ListImage';
 import { StdButton, StdButtonGrid } from '../../components/uiComponents/StdButton';
 import { ARKMain, ContentBlock, ContentBlockGrid, IF, IFELSE } from '../../components/uiComponents/ContentBlock';
-import { data } from 'autoprefixer';
-import { customSettings } from '../../utils/settings';
-import { FirstTitle, SecondTitle } from '../../components/uiComponents/LayeredTitles';
-import { SubmitHandler, useForm } from 'react-hook-form';
-import { IEditActivityLocal, IEditActivityUpload, IGetAvtivityById } from '../../types/index.d';
-import { authGuard } from '../../lib/authentication';
-import { appendListToFormData, deleteActivity, getActivityById } from '../../lib/serverActions';
+import { SecondTitle } from '../../components/uiComponents/LayeredTitles';
 import { ARKImageInput, ARKLabeledInput, ARKListImageInput } from '../../components/uiComponents/Inputs';
-
-
-// 活動類型映射
-const activityTypeMap = {
-    "ACTIVITY": "普通活動",
-    "OFFICIAL": "澳大官方",
-    "WEBSITE": "網頁"
-};
-
-let del_relate_image = [];
-let del_relate_image_index = [];
 
 
 const ActivityDetail = () => {
@@ -262,6 +246,7 @@ const ActivityDetail = () => {
                         title="相關圖片"
                         condition={m_activityData && (m_activityData.content.relate_image_url.length > 0 || isEditMode)}
                         className={`mt-5`}>
+
                         {/* 刪除圖片 */}
                         <div>
                             {isEditMode && (<SecondTitle>現有圖片</SecondTitle>)}

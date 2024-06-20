@@ -18,8 +18,6 @@ import { AfterLoading } from '../../components/uiComponents/AfterLoading';
 import { ActivityCard } from '../../components/uiComponents/ActivityCard';
 import { StdButton, StdButtonGrid } from '../../components/uiComponents/StdButton';
 import { ARKMain, ContentBlock, ContentBlockGrid, IFELSE } from '../../components/uiComponents/ContentBlock';
-import { ListImage } from '../../components/uiComponents/ListImage';
-import { SecondTitle } from '../../components/uiComponents/LayeredTitles';
 
 
 const ClubInfo = () => {
