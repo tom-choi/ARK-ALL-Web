@@ -32,7 +32,7 @@ const Cta = () => {
           backgroundRepeat: "no-repeat",
           backgroundPosition: "center",
         }}
-        className="flex flex-col items-center justify-between w-full max-w-4xlmx-auto text-white bg-themeColor bg-indigo-600 px-7 py-5 lg:px-12 lg:py-8 lg:flex-nowrap rounded-xl">
+        className="flex flex-col items-center justify-between w-full max-w-4xlmx-auto text-white bg-themeColor bg-indigo-600 px-7 py-5 lg:px-12 lg:py-8 lg:flex-nowrap rounded-xl drop-shadow-2xl">
         <div className={"flex flex-wrap items-center justify-between w-full gap-5"}>
           <div className="flex-grow text-center lg:text-left drop-shadow-lg">
             <h2 className="text-2xl font-medium lg:text-3xl">
