@@ -239,6 +239,7 @@ const ActivityDetail = () => {
                         {/*活動介紹*/}
                         <ContentBlock
                             title="簡介"
+                            className={"max-[1022px]:mt-5"}
                             condition={!m_activityData || m_activityData.content.type != 'WEBSITE'}>
                             <IFELSE condition={!isEditMode}>
                                 <p className="text-ellipsis overflow-hidden">
