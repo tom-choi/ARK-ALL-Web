@@ -29,8 +29,13 @@ import { ARKImageInput, ARKLabeledInput, ARKListImageInput } from '../../compone
 
 const ActivityDetail = () => {
 
+    // 登錄社團賬號
     const [m_clubNum, setClubNum] = useState<string>("");
-    const [m_activityData, setActivityData] = useState<IGetAvtivityById>(null);     // 活動數據
+
+    // 獲取活動的數據
+    const [m_activityData, setActivityData] = useState<IGetAvtivityById>(null);
+
+    // 加載中？
     const [isLoading, setIsLoading] = useState(true);
 
     const { register, handleSubmit, setValue, formState: { errors }, reset, watch } = useForm<_IEditActivity>();
@@ -51,6 +56,7 @@ const ActivityDetail = () => {
             return;
         }
 
+        // 將活動數據轉換為表單數據
         let {
             _id,
             relate_image_url,
@@ -80,11 +86,6 @@ const ActivityDetail = () => {
 
     const [isEditMode, setEditMode] = useState(false);          // 是否為編輯模式
 
-
-    // 相關圖片
-    const [m_relatedImages, setRelatedImages] = useState(null);     // 暫存活動圖片
-
-
     const onSubmit: SubmitHandler<_IEditActivity> = async (_data: _IEditActivity) => {
         try {
             return editActivity(_data, m_clubNum);
@@ -103,6 +104,7 @@ const ActivityDetail = () => {
 
                     {/* 社團名字+活動標題*/}
                     <div className="flex flex-col items-center text-themeColor font-bold mb-5">
+                        {/* 活動標題 */}
                         <IFELSE condition={!isEditMode}>
                             <h1 className="text-3xl">
                                 {m_activityData?.content.title}
@@ -120,15 +122,27 @@ const ActivityDetail = () => {
                     </div>
 
                     {/* 封面圖片 */}
-                    <ARKImageInput
-                        base={{
-                            regName: "cover_image_file",
-                            initialImgURL: BASE_HOST + m_activityData?.content.cover_image_url,
-                        }}
-                        register={register}
-                        setValue={setValue}
-                        errText={errors.cover_image_file?.message}
-                        thisErr={errors.cover_image_file} />
+                    <IFELSE condition={!isEditMode}>
+                        <div
+                            className="flex flex-col w-96 h-96 items-center justify-center mx-auto drop-shadow-lg bg-themeColorUltraLight dark:bg-gray-700 rounded-lg min-h-24 hover:cursor-pointer hover:scale-[1.005] transition-all"
+                            style={{
+                                backgroundImage: `url(${BASE_HOST + m_activityData?.content.cover_image_url})`,
+                                backgroundSize: 'cover',
+                                backgroundRepeat: 'no-repeat',
+                                backgroundPosition: 'center',
+                            }} />
+
+                        <ARKImageInput
+                            base={{
+                                regName: "cover_image_file",
+                                initialImgURL: BASE_HOST + m_activityData?.content.cover_image_url,
+                            }}
+                            register={register}
+                            setValue={setValue}
+                            errText={errors.cover_image_file?.message}
+                            thisErr={errors.cover_image_file} />
+                    </IFELSE>
+
 
                     {/*操作陣列*/}
                     <StdButtonGrid>
@@ -238,8 +252,6 @@ const ActivityDetail = () => {
                             </IFELSE>
                         </ContentBlock>
                     </ContentBlockGrid>
-
-                    {/* TODO: Link類型 */}
 
                     {/* 相關圖片 (如果沒有相關圖片就不展示該模塊) */}
                     <ContentBlock
