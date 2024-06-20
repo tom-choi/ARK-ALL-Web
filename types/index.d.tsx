@@ -1,5 +1,5 @@
 /**
- * 社團聯係方式
+ * 基本類型 - 社團聯係方式
  */
 export interface IContactType {
     type: string;
@@ -7,12 +7,12 @@ export interface IContactType {
 }
 
 /**
- * 社團活動類型
+ * 基本類型 - 社團活動類型
  */
 export type ActivityType = "ACTIVITY" | "WEBSITE" | "OFFICIAL";
 
 /**
- * 寫入回傳
+ * 基本類型 - 寫入回傳，即執行寫入操作后後端返回數據的格式。
  */
 export interface IWriteResponse {
     code: string;
@@ -28,6 +28,9 @@ export interface IClubSignin {
     password: string;
 };
 
+/**
+ * 1.1.1 用戶登錄返回數據
+ */
 export interface IClubSigninResponse extends IGetClubInfo {
     token: string;
 };
@@ -125,17 +128,28 @@ export interface IEditActivityCommon {
     can_follow: boolean;
 }
 
-export interface IEditActivityLocal extends IEditActivityCommon {
+/**
+ * 3.2.1 上傳創建内容。
+ */
+export interface IEditActivity extends IEditActivityCommon {
+    startdatetime: string;
+    enddatetime: string;
+}
+
+/**
+ * 3.2.2 上傳前未處理的創建内容。
+ * @abstract
+ * 缺少了需要的`startdatetime`, `enddatetime`，而是前端表單填寫的
+ * `sDate, sTime, eDate, eTime`。上傳時會使用`squashDateTime`將
+ * 開始和結束時間分別拼起來。
+ */
+export interface _IEditActivity extends IEditActivityCommon {
     sDate: string;
     sTime: string;
     eDate: string;
     eTime: string;
 }
 
-export interface IEditActivityUpload extends IEditActivityCommon {
-    startdatetime: string;
-    enddatetime: string;
-}
 
 export interface IEditActivityResponse extends IWriteResponse { };
 
@@ -153,11 +167,22 @@ export interface ICreateActivityCommon {
     can_follow: boolean;
 }
 
+/**
+ * 3.3.1 上傳創建内容
+ */
 export interface ICreateActivity extends ICreateActivityCommon {
     startdatetime: string;
     enddatetime: string;
 };
 
+
+/**
+ * 3.3.2 上傳前未處理的創建内容。
+ * @abstract
+ * 缺少了需要的`startdatetime`, `enddatetime`，而是前端表單填寫的
+ * `sDate, sTime, eDate, eTime`。上傳時會使用`squashDateTime`將
+ * 開始和結束時間分別拼起來。
+ */
 export interface _ICreateActivity extends ICreateActivityCommon {
     sDate: string;
     sTime: string;
@@ -165,6 +190,9 @@ export interface _ICreateActivity extends ICreateActivityCommon {
     eTime: string;
 };
 
+/**
+ * 3.3.3 創建活動返回數據。
+ */
 export interface ICreateActivityResponse extends IWriteResponse {
     content: {
         id: string;
@@ -178,5 +206,8 @@ export interface IDeleteActivity {
     id: string;
 }
 
+/**
+ * 3.4.1 刪除活動返回數據。
+ */
 export interface IDeleteActivity extends IWriteResponse { };
 

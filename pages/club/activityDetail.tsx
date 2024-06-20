@@ -13,7 +13,7 @@ import { BASE_HOST } from '../../utils/pathMap';
 import { editActivity } from "../../lib/serverActions";
 import { parseDateTime } from '../../utils/functions/u_format';
 import { SubmitHandler, useForm } from 'react-hook-form';
-import { IEditActivityLocal, IGetAvtivityById } from '../../types/index.d';
+import { _IEditActivity, IGetAvtivityById } from '../../types/index.d';
 import { authGuard } from '../../lib/authentication';
 import { deleteActivity, getActivityById } from '../../lib/serverActions';
 
@@ -33,7 +33,7 @@ const ActivityDetail = () => {
     const [m_activityData, setActivityData] = useState<IGetAvtivityById>(null);     // 活動數據
     const [isLoading, setIsLoading] = useState(true);
 
-    const { register, handleSubmit, setValue, formState: { errors }, reset, watch } = useForm<IEditActivityLocal>();
+    const { register, handleSubmit, setValue, formState: { errors }, reset, watch } = useForm<_IEditActivity>();
 
     // 獲取活動數據
     useEffect(() => {
@@ -85,7 +85,7 @@ const ActivityDetail = () => {
     const [m_relatedImages, setRelatedImages] = useState(null);     // 暫存活動圖片
 
 
-    const onSubmit: SubmitHandler<IEditActivityLocal> = async (_data: IEditActivityLocal) => {
+    const onSubmit: SubmitHandler<_IEditActivity> = async (_data: _IEditActivity) => {
         try {
             return editActivity(_data, m_clubNum);
         } catch (err) {
