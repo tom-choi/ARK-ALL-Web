@@ -2,7 +2,7 @@ import axios from 'axios';
 import { BASE_URI, GET, POST } from '../utils/pathMap';
 import { squashDateTime, JsonToFormData } from '../utils/functions/u_format';
 import moment from 'moment';
-import { _ICreateActivity, IGetAvtivityById, IEditActivityLocal } from '../types/index.d';
+import { _ICreateActivity, IGetAvtivityById, _IEditActivity } from '../types/index.d';
 
 /**
  * 將一個list結構按照ARK後端的要求寫入表單數據。
@@ -227,10 +227,10 @@ export const getActivityById = async (_id: string, setFunc: any) => {
 
 /**
  * 編輯活動。
- * @param {IEditActivityLocal} _data - 活動編輯表單數據。 
+ * @param {_IEditActivity} _data - 活動編輯表單數據。 
  * @param {string} clubNum - 登錄club號碼。
  */
-export const editActivity = async (_data: IEditActivityLocal, clubNum: string) => {
+export const editActivity = async (_data: _IEditActivity, clubNum: string) => {
     let _startdatetime = squashDateTime(_data.sDate, _data.sTime, "T");
     let _enddatetime = squashDateTime(_data.eDate, _data.eTime, "T");
 

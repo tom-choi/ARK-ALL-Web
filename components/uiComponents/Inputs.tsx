@@ -37,8 +37,8 @@ const TextInputStyles = {
 export const ARKTextInput = (props: {
     base: {
         placeholder: string,
-        type: string,
-        isRequired: string
+        type?: string,
+        isRequired?: boolean
     },
     regName: string,
     thisErr: any,
