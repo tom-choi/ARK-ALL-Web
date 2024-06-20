@@ -158,7 +158,7 @@ export default function clubInfoEdit() {
 
                                             // 圖片已經在列表中，將其移出列表
                                             if (_del_club_photos.indexOf(url) != -1) {
-                                                let [del_club_photos, ...rest] = _del_club_photos;
+                                                let [url, ...rest] = _del_club_photos;
                                                 setValue("del_club_photos", rest);
                                                 return;
                                             }

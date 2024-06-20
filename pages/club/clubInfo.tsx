@@ -166,7 +166,7 @@ const ClubInfo = () => {
                     <div className="grid 2xl:grid-cols-5 lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-1 gap-4 ">
                         <IFELSE condition={clubActivities?.content?.length && clubActivities?.content?.length > 0}>
                             {clubActivities?.content.map((item, index) => (
-                                <ActivityCard key={index} item={item} index={index}></ActivityCard>
+                                <ActivityCard key={index} item={item} index={index} loginClubNum={clubContentData.content.club_num.toString()}></ActivityCard>
                             ))}
                             <p>無活動</p>
                         </IFELSE>
