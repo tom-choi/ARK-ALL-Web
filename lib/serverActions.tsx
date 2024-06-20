@@ -1,10 +1,19 @@
-import React from 'react';
 import axios from 'axios';
-import { BASE_URI, BASE_HOST, GET, POST } from '../utils/pathMap';
+import { BASE_URI, GET, POST } from '../utils/pathMap';
 import { squashDateTime, JsonToFormData } from '../utils/functions/u_format';
 import moment from 'moment';
-import { IGetClubInfo, IGetActivitiesByClub, _ICreateActivity, IGetAvtivityById, IEditActivityLocal } from '../types/index.d';
+import { _ICreateActivity, IGetAvtivityById, IEditActivityLocal } from '../types/index.d';
 
+/**
+ * 將一個list結構按照ARK後端的要求寫入表單數據。
+ * @param {FormData} fd - 需要寫入的表單。
+ * @param {string} listName - 寫入表單時，所聲明的list名字。
+ * @param {any[]|undefined|null} list - 所寫入的目標對象。由於有可能表單中對象為空，故而保留可能的`undefined`, `null`類型，使用者無需判斷。
+ * @param {"object" | "array"} mode - 寫入模式，分爲對象模式(Object)和數組模式(Array)。根據list的不同類型決定。
+ * @returns {FormData} 更新後的表單。
+ * @example
+ * fd = appendListToFormData(fd, "add_relate_image", watch("add_relate_image"), "object");
+ */
 export const appendListToFormData = (
     fd: FormData,
     listName: string,
@@ -27,6 +36,15 @@ export const appendListToFormData = (
     return fd;
 }
 
+/**
+ * @deprecated 
+ * 未完成測試中，請勿使用。
+ * 
+ * @abstract
+ * 直接將useForm傳入的對象轉換成表單。
+ * @param {*} _data - useForm傳入的數據對象 
+ * @returns 
+ */
 export const createFormData = (_data: any): FormData | null => {
     if (!_data || Object.keys(_data).length == 0) {
         return null;
@@ -54,13 +72,13 @@ export const createFormData = (_data: any): FormData | null => {
 }
 
 /**
- * 異步上傳内容到服務器。
- * @param {FormData} uploadFormData 即将上传的表单数据。
- * @param {string} apiURL 服務器API路徑。
- * @param {string} clearLocalStorage 清除本地緩存名称。
- * @param {string} returnLoc 導航回來的頁面。
- * @param {bool} guard 檢查輸入是否滿足要求。
- * @param {bool} askUserConfirm 是否要求用戶確認上傳。
+ * 通用方法，將内容上傳到服務器。
+ * @param {FormData} uploadFormData - 即将上传的表单数据。
+ * @param {string} apiURL - 服務器API路徑。
+ * @param {string|undefined} clearLocalStorage - 清除本地緩存名称。
+ * @param {string|undefined} returnLoc - 導航回來的頁面。
+ * @param {bool|undefined} guard - 檢查輸入是否滿足要求。
+ * @param {bool|undefined} askUserConfirm - 是否要求用戶確認上傳。
  * @returns 
  */
 export async function upload(
@@ -109,7 +127,8 @@ export async function upload(
 
 /**
  * 創建活動。
- * @param {*} _data - 傳入的活動數據
+ * @param {_ICreateActivity} _data - 傳入的活動數據。詳情請參閲[Interfaces](../types/index.d.tsx)
+ * @param {string} clubNum - 當前登陸的club賬號。
  */
 export const createActivity = async (_data: _ICreateActivity, clubNum: string): Promise<any> => {
 
@@ -147,9 +166,12 @@ export const createActivity = async (_data: _ICreateActivity, clubNum: string): 
 
 
 /**
- * 根據社團號碼獲取相關訊息
- * @param {*} curClubNum - 當前帳號號碼
+ * 根據社團號碼獲取社團訊息或社團活動列表（因GET_URL而異）。
+ * @param {number} curClubNum - 當前帳號號碼
  * @param {string} GET_URL - API路徑
+ * @param {React.Dispatch<React.SetStateAction<IGetClubInfo>>} setFunc - useState定義的set方法，用於傳出返回數據。
+ * @param {string | undefined} alert - 成功返回數據，但有警告時的提示。
+ * @param {boolean} debug - 用於查看返回數據。生產環境請設置爲false。
  */
 export const getClubXX = async (
     curClubNum: number | string,
@@ -179,8 +201,8 @@ export const getClubXX = async (
 
 /**
  * 通過活動ID獲取活動訊息。
- * @param _id 
- * @param setFunc 
+ * @param {string} _id - 活動ID。 
+ * @param {React.Dispatch<React.SetStateAction<IGetClubInfo>>} setFunc - useState定義的set函數。 
  */
 export const getActivityById = async (_id: string, setFunc: any) => {
     await axios(
@@ -204,9 +226,9 @@ export const getActivityById = async (_id: string, setFunc: any) => {
 }
 
 /**
- * 編輯活動
- * @param _data - 活動編輯表單數據 
- * @param clubNum - 登錄club號碼
+ * 編輯活動。
+ * @param {IEditActivityLocal} _data - 活動編輯表單數據。 
+ * @param {string} clubNum - 登錄club號碼。
  */
 export const editActivity = async (_data: IEditActivityLocal, clubNum: string) => {
     let _startdatetime = squashDateTime(_data.sDate, _data.sTime, "T");
@@ -231,10 +253,10 @@ export const editActivity = async (_data: IEditActivityLocal, clubNum: string) =
 
 
 /**
- * 刪除活動
- * @param activityId - 活動ID
- * @param loginClubNum - 登錄club number
- * @param confirmMsg - 用戶確認訊息
+ * 刪除活動。
+ * @param {string} activityId - 活動ID
+ * @param {string} loginClubNum - 登錄club number
+ * @param {string} confirmMsg - 用戶確認訊息
  * @returns 
  */
 export const deleteActivity = async (activityId: string, loginClubNum: string, confirmMsg: string) => {
