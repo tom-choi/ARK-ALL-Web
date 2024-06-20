@@ -6,10 +6,11 @@ import { BASE_HOST } from '../../utils/pathMap';
 
 
 /**
- * 渲染活動卡片
+ * ARK活動卡片。
  * @param {*} props
- * @prop {object} item Activity的對象，包含多個值 
- * @prop {int} index 卡片的序號 
+ * @prop {ActivityBase} item - API返回的Activity的對象類型，包含多個值。具體請參閲[Interfaces](../../types/index.d.tsx)
+ * @prop {int} index - 卡片的序號，由渲染卡片外部的map函數定義，使用時傳入。
+ * @prop {string} loginClubNum - 當前登錄的社團賬號。 
  * @returns 
  */
 export const ActivityCard = (props: { item: ActivityBase, index: number, loginClubNum: string }) => {
