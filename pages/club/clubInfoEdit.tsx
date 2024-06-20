@@ -13,7 +13,7 @@ import { BASE_URI, BASE_HOST, GET, POST } from '../../utils/pathMap';
 import NavBarSecondary from '../../components/navBarSecondary';
 import { ARKMain, ContentBlock, ContentBlockGrid } from '../../components/uiComponents/ContentBlock';
 import { SecondTitle } from '../../components/uiComponents/LayeredTitles';
-import { StdButton } from '../../components/uiComponents/StdButton';
+import { StdButton, StdButtonGrid } from '../../components/uiComponents/StdButton';
 
 // 工具函數
 import { upload } from '../../utils/functions/u_server';
@@ -192,22 +192,15 @@ export default function clubInfoEdit() {
                     </ContentBlock>
                 </ContentBlockGrid>
 
-                {/* 上傳 */}
-                <StdButton
-                    textContent={'上傳'}
-                    Icon={ArrowUpIcon} />
-            </form>
+                {/* 操作陣列 */}
+                <StdButtonGrid>
+                    {/* 上傳 */}
+                    <StdButton
+                        textContent={'上傳'}
+                        Icon={ArrowUpIcon} />
+                </StdButtonGrid>
 
-            {/* <StdButton
-                onClickFunc={() => {
-                    console.log("Intro: ", watch("intro"));
-                    console.log("Contact: ", watch("contact"));
-                    console.log("m_clubData: ", m_clubData);
-                    console.log("add_club_photos:", watch("add_club_photos"));
-                    console.log("del_club_photos: ", watch("del_club_photos"));
-                }}
-                textContent={'測試'}
-                Icon={ArrowUpIcon}></StdButton> */}
+            </form>
         </ARKMain>
     )
 }
