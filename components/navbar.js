@@ -20,7 +20,7 @@ const Navbar = () => {
   const { t } = useTranslation();
 
   const navigation = [
-    "ClubLogin",
+    "ClubSignin",
     "Tutorial",
     "QA",
     "User_Agreement",

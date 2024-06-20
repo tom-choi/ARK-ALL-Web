@@ -1,15 +1,17 @@
 // 包引用
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { ArrowUpIcon } from "@heroicons/react/24/solid";
 import moment from 'moment/moment';
 
 // 本地引用
 import NavBarSecondary from '../../components/navBarSecondary';
-import { useForm } from 'react-hook-form';
+import { useForm, SubmitHandler } from 'react-hook-form';
 import { ARKMain, ContentBlock, ContentBlockGrid } from '../../components/uiComponents/ContentBlock';
 import { ARKImageInput, ARKLabeledInput, ARKListImageInput } from '../../components/uiComponents/Inputs';
 import { createActivity } from '../../lib/serverActions';
 import { StdButton } from '../../components/uiComponents/StdButton';
+import { _ICreateActivity } from '../../types/index.d';
+import { authGuard } from '../../lib/authentication';
 
 // 活動類型映射
 const activityTypeMap = {
@@ -22,10 +24,10 @@ const inputStyle = "border-4 border-themeColor rounded-lg h-15 p-2 ontline-none"
 const textareaStyle = "text-lg block w-full h-80 border-4 border-themeColor rounded-lg p-2 resize-none min-h-32 outline-none";
 
 const NewActivity = () => {
-    const { register, handleSubmit, setValue, formState: { errors }, watch } = useForm({
+    const { register, handleSubmit, setValue, formState: { errors }, watch } = useForm<_ICreateActivity>({
         defaultValues: {
             title: "",
-            cover_image_file: "",
+            cover_image_file: void 0,
             sDate: moment(new Date()).format("YYYY-MM-DD"),
             sTime: moment(new Date()).format("HH:MM"),
             eDate: moment(new Date()).format("YYYY-MM-DD"),
@@ -38,13 +40,23 @@ const NewActivity = () => {
         }
     });
 
+    const [m_clubNum, setClubNum] = useState<string>();
+
+    useEffect(() => {
+        const clubNum = authGuard({ urlParamName: "club_num" });
+        setClubNum(clubNum);
+    }, []);
+
+    const onSubmit: SubmitHandler<_ICreateActivity> = async (_data: _ICreateActivity) => {
+        await createActivity(_data, m_clubNum);
+    };
+
     const selectedType = watch("type");
-    const addedRelateImage = watch("add_relate_image");
 
     return (
         <ARKMain title={`新活動-${watch("title")}`}>
-            <NavBarSecondary returnLocation={'./clubInfo'} />
-            <form className={`flex flex-col gap-5`} onSubmit={handleSubmit(createActivity)}>
+            <NavBarSecondary returnLocation={`./clubInfo?club_num=${m_clubNum}`} />
+            <form className={`flex flex-col gap-5`} onSubmit={handleSubmit(onSubmit)}>
                 {/* 活動名稱 */}
                 <input
                     className={`${inputStyle} text-3xl mx-auto`}
