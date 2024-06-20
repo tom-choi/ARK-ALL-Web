@@ -144,7 +144,7 @@ const ClubInfo = () => {
                     </ContentBlock>
 
                     {/* 社團圖片 */}
-                    <ContentBlock title={"社團圖片"}>
+                    <ContentBlock title={"社團圖片"} className={`max-[1022px]:mt-5`}>
                         <div className="grid xl:grid-cols-5 lg:grid-cols-3 md:grid-cols-5 sm:grid-cols-1 gap-4 ">
                             <IFELSE condition={clubContentData != void 0}>
                                 {clubContentData?.content.club_photos_list.map((item, index) => (

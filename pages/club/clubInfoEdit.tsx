@@ -3,7 +3,8 @@ import React, { useState, useEffect } from 'react';
 import {
     PlusCircleIcon,
     MinusCircleIcon,
-    ArrowUpIcon
+    ArrowUpIcon,
+    TrashIcon
 } from "@heroicons/react/24/solid";
 
 // 本地引用
@@ -97,8 +98,8 @@ export default function clubInfoEdit() {
                             <ul>
                                 {
                                     watch("contact")?.map((item, index) => item.num != void 0 && (
-                                        <div key={index}>
-                                            <div className="flex flex-row gap-5 items-center mb-5">
+                                        <div key={index} >
+                                            <div className="flex flex-row max-[1280px]:flex-col gap-5 items-center mb-5">
                                                 {/*方式：如email */}
                                                 <input
                                                     className=" border-4 border-themeColor rounded-lg h-10 p-2"
@@ -112,6 +113,7 @@ export default function clubInfoEdit() {
                                                     {...register(`contact.${index}.num`)} />
 
                                                 {/* 刪除某個聯係方式*/}
+
                                                 <MinusCircleIcon
                                                     className="w-10 h-10 text-alert hover:opacity-70 hover:cursor-pointer"
                                                     onClick={() => {
@@ -119,6 +121,7 @@ export default function clubInfoEdit() {
                                                         let contact = _contact.filter((item, i) => i != index);
                                                         setValue("contact", contact);
                                                     }} />
+
                                             </div>
                                         </div>
                                     ))
@@ -126,18 +129,20 @@ export default function clubInfoEdit() {
                             </ul>
 
                             {/* 添加聯係方式 */}
-                            <PlusCircleIcon
-                                className="w-10 h-10 text-themeColor hover:opacity-70 hover:cursor-pointer"
-                                onClick={() => {
-                                    setValue("contact", (watch("contact") ? [...watch("contact"), { "type": "", "num": "" }] : [{ "type": "", "num": "" }]));
-                                }} />
+                            <StdButtonGrid>
+                                <PlusCircleIcon
+                                    className="w-10 h-10 text-themeColor hover:opacity-70 hover:cursor-pointer"
+                                    onClick={() => {
+                                        setValue("contact", (watch("contact") ? [...watch("contact"), { "type": "", "num": "" }] : [{ "type": "", "num": "" }]));
+                                    }} />
+                            </StdButtonGrid>
 
                             <br />
                         </div>
                     </ContentBlock>
 
                     {/* 相關圖片 (如果沒有相關圖片就不展示該模塊) */}
-                    <ContentBlock title="相關圖片" condition={true}>
+                    <ContentBlock title="相關圖片" condition={true} className={`max-[1022px]:mt-5`}>
 
                         {/* 刪除圖片 */}
                         <div>
@@ -198,6 +203,16 @@ export default function clubInfoEdit() {
                     <StdButton
                         textContent={'上傳'}
                         Icon={ArrowUpIcon} />
+                    <StdButton
+                        textContent={'取消编辑'}
+                        type={"button"}
+                        Icon={TrashIcon}
+                        onClickFunc={() => {
+                            reset({
+                                intro: m_clubData?.content.intro || "",
+                                contact: m_clubData?.content.contact || []
+                            });
+                        }} />
                 </StdButtonGrid>
 
             </form>
