@@ -12,8 +12,8 @@ import { BASE_HOST } from '../../utils/pathMap';
  * @prop {int} index 卡片的序號 
  * @returns 
  */
-export const ActivityCard = (props: { item: ActivityBase, index: number }) => {
-    const { item, index } = props;
+export const ActivityCard = (props: { item: ActivityBase, index: number, loginClubNum: string }) => {
+    const { item, index, loginClubNum } = props;
 
     /**
      * 用戶點擊卡片跳轉。
@@ -22,7 +22,7 @@ export const ActivityCard = (props: { item: ActivityBase, index: number }) => {
      */
     const onClickActivityCard = (event: MouseEvent<HTMLDivElement>, activityData: object) => {
         localStorage.setItem("CurActivity", JSON.stringify(activityData));
-        window.location.href = "activityDetail";
+        window.location.href = `activityDetail?activity_id=${item._id}&club_num=${loginClubNum}`;
     }
 
     return (

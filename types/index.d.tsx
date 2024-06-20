@@ -112,7 +112,7 @@ export interface IGetActivitiesByClub extends IGetActivityBase {
 /**
  * 3.2 edit_activity 編輯活動
  */
-export interface IEditActivity {
+export interface IEditActivityCommon {
     id: string;
     title: string;
     type: ActivityType;
@@ -120,11 +120,21 @@ export interface IEditActivity {
     cover_image_file?: File;
     add_relate_image?: File[];
     del_relate_image: string[];
-    startdatetime: string;
-    enddatetime: string;
     location: string;
     introduction: string;
     can_follow: boolean;
+}
+
+export interface IEditActivityLocal extends IEditActivityCommon {
+    sDate: string;
+    sTime: string;
+    eDate: string;
+    eTime: string;
+}
+
+export interface IEditActivityUpload extends IEditActivityCommon {
+    startdatetime: string;
+    enddatetime: string;
 }
 
 export interface IEditActivityResponse extends IWriteResponse { };

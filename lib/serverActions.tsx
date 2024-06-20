@@ -1,8 +1,9 @@
+import React from 'react';
 import axios from 'axios';
 import { BASE_URI, BASE_HOST, GET, POST } from '../utils/pathMap';
 import { squashDateTime, JsonToFormData } from '../utils/functions/u_format';
 import moment from 'moment';
-import { IGetClubInfo, IGetActivitiesByClub, _ICreateActivity } from '../types/index.d';
+import { IGetClubInfo, IGetActivitiesByClub, _ICreateActivity, IGetAvtivityById, IEditActivityLocal } from '../types/index.d';
 
 export const appendListToFormData = (
     fd: FormData,
@@ -100,6 +101,7 @@ export async function upload(
             console.log(json);
         }
     }).catch(err => {
+        console.log(err);
         alert('請求錯誤，請檢查網路。');
     });
 
@@ -173,4 +175,76 @@ export const getClubXX = async (
         console.log(err);
         window.alert('網絡錯誤！');
     });
+}
+
+/**
+ * 通過活動ID獲取活動訊息。
+ * @param _id 
+ * @param setFunc 
+ */
+export const getActivityById = async (_id: string, setFunc: any) => {
+    await axios(
+        {
+            headers: { 'Content-Type': 'application/x-ww-form-urlencoded', },
+            method: 'get',
+            url: BASE_URI + GET.EVENT_INFO_EVENT_ID + _id,
+        }).then(resp => {
+            let json: IGetAvtivityById = resp.data;
+            if (json.message = "success") {
+                setFunc(json);
+            } else {
+                window.alert("無法獲取活動訊息！");
+                return null;
+            }
+        }).catch(err => {
+            console.log(err);
+            window.alert("網路錯誤！");
+            return null;
+        });
+}
+
+/**
+ * 編輯活動
+ * @param _data - 活動編輯表單數據 
+ * @param clubNum - 登錄club號碼
+ */
+export const editActivity = async (_data: IEditActivityLocal, clubNum: string) => {
+    let _startdatetime = squashDateTime(_data.sDate, _data.sTime, "T");
+    let _enddatetime = squashDateTime(_data.eDate, _data.eTime, "T");
+
+    let fd = new FormData();
+    fd.append("id", _data.id);
+    fd.append("title", _data.title);
+    fd.append("type", _data.type);
+    fd.append("link", _data.link);
+    _data.cover_image_file && fd.append("cover_image_file", _data.cover_image_file);
+    fd.append("startdatetime", _startdatetime);
+    fd.append("enddatetime", _enddatetime);
+    appendListToFormData(fd, "add_relate_image", _data.add_relate_image, "object");
+    appendListToFormData(fd, "del_relate_image", _data.del_relate_image, "array");
+    fd.append("location", _data.location);
+    fd.append("introduction", _data.introduction);
+    fd.append("can_follow", true.toString());
+
+    return upload(fd, BASE_URI + POST.EVENT_EDIT, void 0, `./activityDetail?activity_id=${_data.id}&club_num=${clubNum}`);
+}
+
+
+/**
+ * 刪除活動
+ * @param activityId - 活動ID
+ * @param loginClubNum - 登錄club number
+ * @param confirmMsg - 用戶確認訊息
+ * @returns 
+ */
+export const deleteActivity = async (activityId: string, loginClubNum: string, confirmMsg: string) => {
+    if (confirmMsg) {
+        let prompt = confirm(confirmMsg);
+        if (!prompt) return;
+    }
+
+    let URL = BASE_URI + POST.EVENT_DEL;
+    let fd = new FormData();
+    fd.append("id", activityId);
+    return upload(fd, URL, void 0, `./clubInfo?club_num=${loginClubNum}`);
 }

@@ -99,14 +99,15 @@ export const ARKLabeledInput = (props) => {
 export const ARKImageInput = (props: {
     base: {
         regName: string,
-        isRequired?: boolean
+        isRequired?: boolean,
+        initialImgURL?: string
     },
     register: any,
     setValue: any,
     errText: string,
     thisErr: any
 }) => {
-    const { regName, isRequired } = props.base;
+    const { regName, isRequired, initialImgURL } = props.base;
     const { register, setValue, errText, thisErr } = props;
 
     const [m_imageURL, setImageURL] = useState(void 0);
@@ -117,7 +118,7 @@ export const ARKImageInput = (props: {
         <div
             className="flex flex-col w-96 h-96 items-center justify-center mx-auto bg-themeColorUltraLight dark:bg-gray-700 rounded-lg border-4 border-themeColor border-dashed min-h-24 hover:cursor-pointer hover:opacity-50 hover:scale-[1.02] transition-all"
             style={{
-                backgroundImage: `url(${m_imageURL})`,
+                backgroundImage: `url(${m_imageURL || initialImgURL})`,
                 backgroundSize: 'cover',
                 backgroundRepeat: 'no-repeat',
                 backgroundPosition: 'center',
@@ -125,7 +126,7 @@ export const ARKImageInput = (props: {
             onClick={() => imageInputRef.current.click()}>
 
             {/* Icon 部分 */}
-            <IF condition={m_iconDisplay}>
+            <IF condition={m_iconDisplay && !initialImgURL}>
                 <div className="flex flex-col justify-center">
                     <div className="flex items-center justify-center mb-2">
                         <PlusCircleIcon className="w-10 h-10 text-themeColor" />

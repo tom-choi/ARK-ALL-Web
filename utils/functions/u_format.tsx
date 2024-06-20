@@ -14,7 +14,7 @@ export const squashDateTime = (date: string, time: string, divider?: string) => 
  * @param {*} timestamp 時間戳，格式爲：2024-06-04 13:06:00+00:00
  * @returns 目標格式：{"date": 2024-06-04, "time": 13:06:00}
  */
-const parseDateTime = (timestamp: string) => {
+export const parseDateTime = (timestamp: string) => {
     let date = timestamp.split(' ')[0];
     let time = timestamp.split(' ')[1].split('+')[0].slice(0, -3);
     return { "date": date, "time": time };
