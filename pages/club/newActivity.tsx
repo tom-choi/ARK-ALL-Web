@@ -133,7 +133,7 @@ const NewActivity = () => {
                     </ContentBlock>
 
                     {/* 簡介 */}
-                    <ContentBlock title={"簡介"} condition={selectedType == "ACTIVITY"}>
+                    <ContentBlock title={"簡介"} condition={selectedType == "ACTIVITY"} className={"max-[1022px]:mt-5"}>
                         <textarea
                             className={textareaStyle}
                             placeholder={"請在此輸入社團簡介"}
