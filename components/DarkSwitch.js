@@ -6,7 +6,10 @@ const ThemeChanger = () => {
   const { theme, setTheme } = useTheme();
 
   // When mounted on client, now we can show the UI
-  useEffect(() => setMounted(true), []);
+  useEffect(() => {
+    setMounted(true);
+    setTheme(window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+  }, []);
 
   if (!mounted) return null;
 
