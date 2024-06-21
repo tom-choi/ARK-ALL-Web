@@ -3,14 +3,10 @@ import ThemeChanger from "./DarkSwitch";
 import Image from "next/image"
 import { Disclosure } from "@headlessui/react";
 import LanguageSwitcher from "./LanguageSwitcher";
-
 import { useTranslation } from "react-i18next";
-
 import { useRouter } from 'next/router';
 import WarningBanner from "/components/micros/WarningBanner";
 
-import { customSettings } from '../utils/settings';
-import { XCircleIcon } from "@heroicons/react/24/solid";
 
 const Navbar = () => {
 
