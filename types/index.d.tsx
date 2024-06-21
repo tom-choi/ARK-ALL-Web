@@ -42,7 +42,7 @@ export interface IGetClubInfo {
     code: string;
     message: string;
     content: {
-        club_num: number;
+        club_num: string;
         logo_url: string;
         name: string;
         tag: string;
