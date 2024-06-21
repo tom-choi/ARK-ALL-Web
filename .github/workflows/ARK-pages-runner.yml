@@ -4,10 +4,13 @@ on:
   push:
     branches:
       - main
+  pull_request:
 
 jobs:
   ARK-Pages-Deploy:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     
     steps:
     - uses: actions/checkout@v2
@@ -16,19 +19,20 @@ jobs:
       uses: actions/setup-node@v2
       with:
         node-version: 18.x
+    
+    - name: Get yarn cache
+      id: yarn-cache
+      run: echo "YARN_CACHE_DIR=$(yarn cache dir)" >> "${GITHUB_OUTPUT}"
         
     - name: Install dependencies
       run: yarn --frozen-lockfile
       
     - name: Build website
       run: yarn build
-    
-    - name: Run Website
-      run: yarn start
       
     - name: Deploy to GitHub Pages
       uses: peaceiris/actions-gh-pages@v3
+      if: github.ref == 'refs/heads/main'
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
-        publish_dir: ./dist
-        cname: ark-all.github.io
+        publish_dir: ./out
