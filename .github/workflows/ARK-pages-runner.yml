@@ -1,4 +1,4 @@
-name: GitHub Pages Deploy
+name: ARK Pages Deploy
 
 on:
   push:
@@ -6,7 +6,7 @@ on:
       - main
 
 jobs:
-  deploy:
+  ARK-Pages-Deploy:
     runs-on: ubuntu-latest
     
     steps:
