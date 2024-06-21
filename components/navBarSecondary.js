@@ -7,6 +7,7 @@ import {
 } from "@heroicons/react/24/solid";
 import ThemeChanger from './DarkSwitch';
 import LanguageSwitcher from "./LanguageSwitcher";
+import WarningBanner from "components/micros/WarningBanner";
 
 const NavBarSecondary = (props) => {
 
@@ -35,11 +36,7 @@ const NavBarSecondary = (props) => {
                     <LanguageSwitcher />
                 </div>
             </div>
-            {process.env.NODE_ENV == 'development' && (
-                <div className="bg-alert pl-3 py-2 text-white">
-                    <p><strong>警告:</strong> 您現在使用的是本地服務器。</p>
-                </div>
-            )}
+            <WarningBanner />
         </div>
     );
 }

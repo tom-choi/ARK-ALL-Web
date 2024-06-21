@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Container from "../container";
+// import Streets from "../../components/models/Streets"
 import { Canvas } from '@react-three/fiber';
 import { Cube1 } from "./Cube1";
 import { Cube2 } from "./Cube2";
@@ -34,7 +35,7 @@ const Ark = () => {
                 href="https://apps.apple.com/us/app/um-all/id1636670554"
                 target="_blank"
                 rel="noopener"
-                className="px-5 py-4 text-lg font-medium text-center text-white rounded-md bg-themeColor hover:bg-themeColorLight"
+                className="px-5 py-4 text-lg font-medium text-center text-white rounded-md bg-themeColor hover:bg-themeColorLight hover:scale-[1.02] transition-all"
               >
                 App Store
               </a>
@@ -42,14 +43,14 @@ const Ark = () => {
                 href="https://play.google.com/store/apps/details?id=one.umall"
                 target="_blank"
                 rel="noopener"
-                className="px-5 py-4 text-lg font-medium text-center text-white bg-indigo-600 rounded-md bg-themeColor hover:bg-themeColorLight">
+                className="px-5 py-4 text-lg font-medium text-center text-white bg-indigo-600 rounded-md bg-themeColor hover:bg-themeColorLight hover:scale-[1.02] transition-all">
                 Play Store
               </a>
               <a
                 href="https://umall.one/static/release/app-release.apk"
                 target="_blank"
                 rel="noopener"
-                className="px-5 py-4 text-lg font-medium text-center text-white bg-indigo-600 rounded-md bg-themeColor hover:bg-themeColorLight">
+                className="px-5 py-4 text-lg font-medium text-center text-white bg-indigo-600 rounded-md bg-themeColor hover:bg-themeColorLight hover:scale-[1.02] transition-all">
                 HUAWEI
               </a>
             </div>
@@ -77,13 +78,20 @@ const Ark = () => {
         </div>
 
         {/* 兩個炫酷旋轉的正方體*/}
-        <div className="flex items-center justify-center w-full lg:w-1/2">
-          <Canvas shadows flat linear>
+        <div className="flex items-center justify-center w-full lg:w-1/2 max-[770px]:hidden">
+          {/*
+                  <Canvas shadows flat linear>
             <Cube1 />
           </Canvas>
           <Canvas shadows flat linear>
             <Cube2 />
           </Canvas>
+        */}
+
+          {/**
+            <script type="module" src="https://unpkg.com/@splinetool/viewer@1.7.2/build/spline-viewer.js"></script>
+            <spline-viewer loading-anim-type="spinner-small-dark" url="https://prod.spline.design/N7SOEI5VRaqKbzyN/scene.splinecode"></spline-viewer>
+          */}
         </div>
       </Container>
 
