@@ -7,8 +7,10 @@ import LanguageSwitcher from "./LanguageSwitcher";
 import { useTranslation } from "react-i18next";
 
 import { useRouter } from 'next/router';
+import WarningBanner from "/components/micros/WarningBanner";
 
 import { customSettings } from '../utils/settings';
+import { XCircleIcon } from "@heroicons/react/24/solid";
 
 const Navbar = () => {
 
@@ -34,7 +36,7 @@ const Navbar = () => {
         {/* Logo  */}
         <Disclosure>
           {({ open }) => (
-            <>
+            <div>
               <div className="flex flex-wrap items-center justify-between w-full lg:w-auto">
                 <Link href="/">
                   <span className="flex items-center space-x-2 text-2xl font-medium text-indigo-500 dark:text-gray-100">
@@ -93,7 +95,7 @@ const Navbar = () => {
                   </>
                 </Disclosure.Panel>
               </div>
-            </>
+            </div>
           )}
         </Disclosure>
 
@@ -104,7 +106,7 @@ const Navbar = () => {
               return (
                 <li className="mr-3 nav__item" key={index}>
                   <Link
-                    href={`/${menu.toLowerCase()}`} className="inline-block px-4 py-2 text-lg font-normal text-gray-800 no-underline rounded-md dark:text-gray-200 hover:text-themeColor hover:bg-themeColorUltraLight dark:hover:text-themeColor dark:hover:bg-gray-800 focus:text-themeColor focus:bg-themeColorUltraLignt focus:outline-none dark:focus:bg-gray-800"
+                    href={`/${menu.toLowerCase()}`} className="inline-block px-4 py-2 text-lg font-normal text-gray-800 no-underline rounded-md dark:text-gray-200 hover:text-themeColor hover:bg-themeColorUltraLight dark:hover:text-themeColor dark:hover:bg-gray-800 hover:scale-[1.02] transition-all focus:text-themeColor focus:bg-themeColorUltraLignt focus:outline-none dark:focus:bg-gray-800"
                     onClick={() => navigateToPage('/' + menu.toLowerCase())}>
                     {t(menu)}
                   </Link>
@@ -123,12 +125,9 @@ const Navbar = () => {
           <LanguageSwitcher />
         </div>
       </nav>
-      {process.env.NODE_ENV == 'development' && (
-        <div className="bg-alert pl-3 py-2">
-          <p className="text-white"><strong>警告:</strong> 您現在使用的是本地服務器。</p>
-        </div>
-      )}
-    </div>
+
+      <WarningBanner />
+    </div >
   );
 }
 
