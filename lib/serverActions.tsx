@@ -3,6 +3,7 @@ import { BASE_URI, GET, POST } from '../utils/pathMap';
 import { squashDateTime, JsonToFormData } from '../utils/functions/u_format';
 import moment from 'moment';
 import { _ICreateActivity, IGetAvtivityById, _IEditActivity } from '../types/index.d';
+import { ActivityType } from '../types/index.d';
 
 /**
  * 將一個list結構按照ARK後端的要求寫入表單數據。
@@ -37,7 +38,7 @@ export const appendListToFormData = (
 }
 
 /**
- * @deprecated 
+ * @deprecated
  * 未完成測試中，請勿使用。
  * 
  * @abstract
@@ -52,23 +53,29 @@ export const createFormData = (_data: any): FormData | null => {
 
     let fd = new FormData();
 
-    Object.entries(_data).map(([key, value]) => {
-        // Non Iterables
-        if (typeof value === "string" || typeof value === "number") {
-            let value_ = value as string | number;
-            fd.append(key, value_.toString() || "");
-        }
-        // Iterables
-        else if (value instanceof Array) {
-            appendListToFormData(fd, key, value, "array");
-        } else if (Object.keys(value).length > 0) {
-            let value_ = value as any;
-            appendListToFormData(fd, key, value_, "object");
-        } else {
-            console.log(value);
-            fd.append(key, "");
-        }
-    });
+    // 遍歷所有的項目
+    try {
+        Object.entries(_data).map(([key, value]) => {
+            // Non Iterables
+            if (typeof value === "string" || value instanceof File) {
+                fd.append(key, value);
+            }
+            // Iterables
+            else if (value instanceof Array) {
+                appendListToFormData(fd, key, value, "array");
+            } else {
+                let value_ = value as any;
+                console.log(key);
+                appendListToFormData(fd, key, value_, "object");
+            }
+
+        });
+        console.log(_data);
+    } catch (err) {
+        console.log(`Error creating form data! Err: ${err}`);
+        alert(`表單製作有誤，請聯係開發者。`);
+        return;
+    }
 }
 
 /**
