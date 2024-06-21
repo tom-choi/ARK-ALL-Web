@@ -8,7 +8,12 @@ on:
 
 jobs:
   ARK-Pages-Deploy:
-    runs-on: ubuntu-latest
+    name: Build ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
     permissions:
       contents: write
     concurrency:
@@ -20,8 +25,6 @@ jobs:
       uses: actions/setup-node@v2
       with:
         node-version: 18.x
-    
-        
 
     - name: Get yarn cache
       id: yarn-cache
@@ -33,7 +36,7 @@ jobs:
     - name: Build website
       run: yarn build
       
-    - name: Deploy to GitHub Pages
+    - name: Deploy to GitHub Pages (we can deploy under the .github.io repo in organisation, passed )
       uses: peaceiris/actions-gh-pages@v3
       if: github.ref == 'refs/heads/main'
       with:
