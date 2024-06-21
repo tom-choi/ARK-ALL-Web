@@ -263,7 +263,7 @@ const ActivityDetail = () => {
                         {/* 刪除圖片 */}
                         <div>
                             {isEditMode && (<SecondTitle>現有圖片</SecondTitle>)}
-                            <div className="grid grid-cols-4 gap-4 items-top justify-center mt-5">
+                            <div className="grid grid-cols-4 gap-4 items-top justify-left mt-5">
                                 {/* 相關圖片 */}
                                 {m_activityData?.content.relate_image_url.map((url, index) =>
                                     <img
