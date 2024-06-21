@@ -2,6 +2,7 @@ import Head from "next/head";
 import Ark from "../components/limited/ark";
 import Navbar from "../components/navbar";
 import SectionTitle from "../components/sectionTitle";
+import { ARKMain } from "../components/uiComponents/ContentBlock"
 
 // data
 
@@ -70,7 +71,7 @@ const Home = () => {
   };
 
   return (
-    <>
+    <ARKMain>
       <Head>
         <title>UM-ARK-ALL</title>
         <meta
@@ -79,8 +80,11 @@ const Home = () => {
         />
         <link rel="icon" href="/favicon.ico" />
       </Head>
+
       <Navbar />
+
       <Ark />
+
       <SectionTitle
         pretitle={t("More Features")}
         title={t("Why Use UM-ARK-ALL?")}>
@@ -88,16 +92,19 @@ const Home = () => {
       </SectionTitle>
       <Benefits data={benefitOne} />
       <Benefits imgPos="right" data={benefitTwo} />
+
       <SectionTitle
         pretitle={t("FAQ")}
         title={t("ARK ALL Frequently Asked Questions")}>
         {t("Frequently Asked Questions")}
       </SectionTitle>
       <Faq />
+
       <Cta />
+
       <Footer />
       <PopupWidget />
-    </>
+    </ARKMain>
   );
 }
 
