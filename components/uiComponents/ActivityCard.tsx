@@ -4,6 +4,7 @@ import { ActivityBase } from "../../types/index.d";
 import { BASE_HOST } from '../../utils/pathMap';
 import moment from "moment-timezone";
 import { LinkIcon } from "@heroicons/react/24/solid";
+import { useTranslation } from "react-i18next";
 
 
 /**
@@ -15,6 +16,7 @@ import { LinkIcon } from "@heroicons/react/24/solid";
  * @returns 
  */
 export const ActivityCard = (props: { item: ActivityBase, index: number, loginClubNum: string }) => {
+    const { t } = useTranslation();
     const { item, index, loginClubNum } = props;
     const enddatetime_ = moment.utc(item.enddatetime).tz('Asia/Shanghai');
 
@@ -59,7 +61,7 @@ export const ActivityCard = (props: { item: ActivityBase, index: number, loginCl
                     </p>
                     <div className="text-left flex flex-wrap gap-2">
                         <div>
-                            <p>時間:</p>
+                            <p>{`${t("TIME")}:`}</p>
                         </div>
                         <div>
                             {enddatetime_.format("YYYY-MM-DD HH:mm")}
@@ -67,7 +69,7 @@ export const ActivityCard = (props: { item: ActivityBase, index: number, loginCl
                     </div>
                     <div className="text-left flex flex-wrap gap-2">
                         <div>
-                            <p>地點:</p>
+                            <p>{`${t("LOCATION")}:`}</p>
                         </div>
                         <div>
                             {item.location || <i className={"opacity-60"}>未定</i>}
