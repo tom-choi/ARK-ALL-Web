@@ -71,7 +71,7 @@ const Home = () => {
   };
 
   return (
-    <ARKMain>
+    <ARKMain withOutMargin={true}>
       <Head>
         <title>UM-ARK-ALL</title>
         <meta

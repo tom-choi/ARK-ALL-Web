@@ -20,7 +20,7 @@ const ClubLogin = () => {
     };
 
     return (
-        <ARKMain title={t("CLUB_LOGIN")}>
+        <ARKMain title={t("CLUB_LOGIN")} withOutMargin={true}>
             <Navbar />
             <Container className="flex flex-col w-full h-full items-center justify-center">
                 {/* UI Block*/}
