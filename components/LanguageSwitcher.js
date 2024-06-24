@@ -1,19 +1,22 @@
 import React, { useState, useEffect } from "react";
 import { useTheme } from "next-themes";
 import { useTranslation } from "react-i18next";
+import { useLangStore } from "../states/state";
 
 
 const LanguageSwitcher = () => {
     const { t, i18n } = useTranslation();
-    const [language, setLanguage] = useState("zh"); // 默认语言为中文
 
-    // When mounted on client, now we can show the UI
-    useEffect(() => setLanguage(i18n.language), [i18n.language]);
+    // 全局語言狀態
+    const curLang = useLangStore((state) => state.curLang);
+    const setCurLangStore = useLangStore((state) => state.setLang);
 
     const handleLanguageChange = (e) => {
         const selectedLanguage = e.target.value;
-        setLanguage(selectedLanguage);
-        i18n.changeLanguage(selectedLanguage);
+
+        // 設定當前語言，並固定狀態
+        setCurLangStore(selectedLanguage);
+        i18n.changeLanguage(curLang);
     };
 
     return (

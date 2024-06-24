@@ -1,8 +1,4 @@
-import { customSettings } from "../utils/settings";
 import {
-    PencilSquareIcon,
-    PlusIcon,
-    PlusCircleIcon,
     ChevronLeftIcon
 } from "@heroicons/react/24/solid";
 import ThemeChanger from './DarkSwitch';
@@ -14,7 +10,6 @@ const NavBarSecondary = (props) => {
     const returnStr = props.returnStr ? props.returnStr : "主頁";
 
     const returnToPrevious = () => {
-        if (props.clearLocStorage) localStorage.clear();
         window.location.href = props.returnLocation;
     }
 

@@ -4,8 +4,11 @@ import React, { useState, useEffect } from 'react'
 
 import i18n from "i18next";
 import { I18nextProvider } from "react-i18next";
+import { useLangStore } from "../states/state"; // 全局語言狀態管理
 
 import { useRouter } from 'next/router';
+
+
 
 function MyApp({ Component, pageProps }) {
 
@@ -17,7 +20,7 @@ function MyApp({ Component, pageProps }) {
 
   i18n.init({
     interpolation: { escapeValue: false },
-    lng: "zh",
+    lng: useLangStore(state => state.curLang) || "zh",
     resources: {
       en: {
         translation: require("../public/translations.json").en
