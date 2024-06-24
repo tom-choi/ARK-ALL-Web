@@ -26,8 +26,8 @@ const Navbar = () => {
   ];
 
   return (
-    <div className="w-full">
-      <nav className="container relative flex flex-wrap items-center justify-between p-8 mx-auto lg:justify-between xl:px-0">
+    <div className="w-full sticky top-0 backdrop-blur-3xl z-99">
+      <nav className="container relative w-full flex flex-wrap items-center justify-between p-8 mx-auto lg:justify-between xl:px-0 ">
 
         {/* Logo  */}
         <Disclosure>
@@ -123,7 +123,7 @@ const Navbar = () => {
       </nav>
 
       <WarningBanner />
-    </div >
+    </div>
   );
 }
 
