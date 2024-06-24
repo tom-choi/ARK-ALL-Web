@@ -25,9 +25,12 @@ import { StdButton, StdButtonGrid } from '../../components/uiComponents/StdButto
 import { ARKMain, ContentBlock, ContentBlockGrid, IF, IFELSE } from '../../components/uiComponents/ContentBlock';
 import { SecondTitle } from '../../components/uiComponents/LayeredTitles';
 import { ARKImageInput, ARKLabeledInput, ARKListImageInput } from '../../components/uiComponents/Inputs';
+import { useTranslation } from 'react-i18next';
 
 
 const ActivityDetail = () => {
+
+    const { t } = useTranslation();
 
     // 登錄社團賬號
     const [m_clubNum, setClubNum] = useState<string>("");
@@ -96,9 +99,9 @@ const ActivityDetail = () => {
     }
 
     return (
-        <ARKMain title={`${m_activityData?.content.title}- 詳情`}>
+        <ARKMain title={`${m_activityData?.content.title}`}>
             {/* 頂欄*/}
-            <NavBarSecondary returnLocation={`./clubInfo?club_num=${m_clubNum}`} returnStr={'社團訊息'}></NavBarSecondary>
+            <NavBarSecondary returnLocation={`./clubInfo?club_num=${m_clubNum}`} returnStr={t("PG_CLUB_INFO")}></NavBarSecondary>
             <form onSubmit={handleSubmit(onSubmit)}>
                 <AfterLoading isLoading={isLoading}>
 
@@ -110,7 +113,7 @@ const ActivityDetail = () => {
                                 {m_activityData?.content.title}
                             </h1>
                             <input
-                                placeholder={"活動名稱"}
+                                placeholder={t("ACTIVITY_TITLE")}
                                 className="text-3xl border-4 border-themeColor rounded-lg h-10 p-2"
                                 {...register("title")} />
                         </IFELSE>
@@ -150,7 +153,7 @@ const ActivityDetail = () => {
                         <StdButton
                             color="bg-themeColor"
                             onClickFunc={() => { setEditMode(!isEditMode); }}
-                            textContent={isEditMode ? '取消編輯' : '編輯'}
+                            textContent={isEditMode ? t("BTN_EDIT_DISCARD") : t("BTN_EDIT")}
                             Icon={PencilSquareIcon}
                             type={"button"} />
 
@@ -158,7 +161,7 @@ const ActivityDetail = () => {
                         <StdButton
                             color="bg-alert"
                             onClickFunc={() => { deleteActivity(m_activityData?.content._id, m_clubNum, '確定刪除活動?'); }}
-                            textContent={'刪除活動'}
+                            textContent={t("BTN_ACTIVITY_DEL")}
                             Icon={TrashIcon}
                             condition={isEditMode}
                             type={"button"} />
@@ -168,10 +171,10 @@ const ActivityDetail = () => {
                     <ContentBlockGrid
                         gridNum={(!m_activityData || m_activityData?.content.type != 'WEBSITE') ? 2 : 1}>
                         {/*開始和結束時間*/}
-                        <ContentBlock title="基本訊息">
+                        <ContentBlock title={t("ACTIVITY_BASIC_INFO")}>
 
                             {/* 開始時間和結束時間*/}
-                            <ARKLabeledInput title={"開始"}>
+                            <ARKLabeledInput title={t("TIME_START")}>
                                 <IFELSE condition={!isEditMode}>
                                     <p>{m_activityData && moment(m_activityData.content.startdatetime).format("YYYY-MM-DD HH:mm")}</p>
                                     <div className={"flex flex-row gap-2"}>
@@ -188,7 +191,7 @@ const ActivityDetail = () => {
                                     </div>
                                 </IFELSE>
                             </ARKLabeledInput>
-                            <ARKLabeledInput title={"結束"}>
+                            <ARKLabeledInput title={t("TIME_END")}>
                                 <IFELSE condition={!isEditMode}>
                                     <p>{m_activityData && moment(m_activityData.content.enddatetime).format("YYYY-MM-DD HH:mm")}</p>
                                     <div className={"flex flex-row gap-2"}>
@@ -209,18 +212,18 @@ const ActivityDetail = () => {
                             {/* 地點或鏈接 */}
                             <IFELSE condition={m_activityData?.content.type != 'WEBSITE'}>
                                 {/*非網頁 - 顯示地點 */}
-                                <ARKLabeledInput title={"地點"}>
+                                <ARKLabeledInput title={t("LOCATION")}>
                                     <IFELSE condition={!isEditMode}>
                                         {m_activityData?.content.location}
                                         <input
-                                            placeholder={"地點"}
+                                            placeholder={t("LOCATION")}
                                             className="text-lg border-4 border-themeColor rounded-lg h-10 p-2"
                                             {...register("location")} />
                                     </IFELSE>
                                 </ARKLabeledInput>
 
                                 {/*網頁 - 顯示鏈接 */}
-                                <ARKLabeledInput title={"鏈接"}>
+                                <ARKLabeledInput title={t("LINK")}>
                                     <IFELSE condition={!isEditMode}>
                                         {(m_activityData && (
                                             <a href={m_activityData.content.link} target="_blank">
@@ -228,7 +231,7 @@ const ActivityDetail = () => {
                                             </a>
                                         ))}
                                         <input
-                                            placeholder={"鏈接"}
+                                            placeholder={t("LINK")}
                                             className="text-lg border-4 border-themeColor rounded-lg h-10 p-2"
                                             {...register("link")} />
                                     </IFELSE>
@@ -238,7 +241,7 @@ const ActivityDetail = () => {
 
                         {/*活動介紹*/}
                         <ContentBlock
-                            title="簡介"
+                            title={t("ACTIVITY_INTRO")}
                             className={"max-[1022px]:mt-5"}
                             condition={!m_activityData || m_activityData.content.type != 'WEBSITE'}>
                             <IFELSE condition={!isEditMode}>
@@ -256,13 +259,13 @@ const ActivityDetail = () => {
 
                     {/* 相關圖片 (如果沒有相關圖片就不展示該模塊) */}
                     <ContentBlock
-                        title="相關圖片"
+                        title={t("ACTIVITY_PHOTOS")}
                         condition={m_activityData && (m_activityData.content.relate_image_url.length > 0 || isEditMode)}
                         className={`mt-5`}>
 
                         {/* 刪除圖片 */}
                         <div>
-                            {isEditMode && (<SecondTitle>現有圖片</SecondTitle>)}
+                            {isEditMode && (<SecondTitle>{t("ACTIVITY_PHOTOS_PRESENT")}</SecondTitle>)}
                             <div className="grid grid-cols-4 gap-4 items-top justify-left mt-5">
                                 {/* 相關圖片 */}
                                 {m_activityData?.content.relate_image_url.map((url, index) =>
@@ -294,7 +297,7 @@ const ActivityDetail = () => {
 
                         {/* 新增圖片 */}
                         <IF condition={isEditMode}>
-                            <SecondTitle>新增圖片</SecondTitle>
+                            <SecondTitle>{t("ACTIVITY_PHOTOS_NEW")}</SecondTitle>
                             <ARKListImageInput
                                 base={
                                     {
@@ -307,7 +310,7 @@ const ActivityDetail = () => {
                                 register={register}
                                 imgList={watch("add_relate_image")}
                                 setValue={setValue}
-                                errText={"圖片總數不能超過5張！"}
+                                errText={`${t("ERR_NUM_PHOTOS_EXCEED")} 5!`}
                                 thisErr={errors.add_relate_image?.message}
                             />
                         </IF>
@@ -317,7 +320,7 @@ const ActivityDetail = () => {
                     {/*操作陣列*/}
                     <StdButtonGrid condition={isEditMode}>
                         {/* 上傳*/}
-                        <StdButton type={"submit"} textContent={'上傳編輯'} Icon={ArrowUpIcon} />
+                        <StdButton type={"submit"} textContent={t("UPLOAD")} Icon={ArrowUpIcon} />
                     </StdButtonGrid>
 
                     <Footer />
