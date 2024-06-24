@@ -25,9 +25,11 @@ import { authGuard } from '../../lib/authentication';
 import { appendListToFormData, createFormData, getClubXX } from '../../lib/serverActions';
 import { IEditClubInfo, IGetClubInfo } from '../../types/index.d';
 import { ARKListImageInput } from '../../components/uiComponents/Inputs';
+import { useTranslation } from 'react-i18next';
 
 
 export default function clubInfoEdit() {
+    const { t } = useTranslation();
     const [m_clubData, setClubData] = useState<IGetClubInfo>(null);
 
     const { register, handleSubmit, setValue, formState: { errors }, watch, reset } = useForm<IEditClubInfo>();
@@ -75,17 +77,17 @@ export default function clubInfoEdit() {
     return (
         <ARKMain title={"社團訊息編輯"}>
             {/* 頂欄*/}
-            <NavBarSecondary returnLocation={`./clubInfo?club_num=${m_clubData?.content.club_num}`} returnStr={'社團訊息'} />
+            <NavBarSecondary returnLocation={`./clubInfo?club_num=${m_clubData?.content.club_num}`} returnStr={t("PG_CLUB_INFO")} />
 
             <form onSubmit={handleSubmit(onSubmit)}>
                 <ContentBlockGrid>
                     {/* 基礎訊息 */}
-                    <ContentBlock title="基礎訊息" condition={true}>
+                    <ContentBlock title={t("CLUB_BASIC_INFO")} condition={true}>
                         {/* 活動簡介 （Intro） */}
                         <div>
-                            <SecondTitle>活動簡介</SecondTitle>
+                            <SecondTitle>{t("CLUB_INTRO")}</SecondTitle>
                             <textarea
-                                placeholder={"活動簡介"}
+                                placeholder={t("CLUB_INTRO")}
                                 className="border-4 border-themeColor rounded-lg h-10 p-2 w-full h-20"
                                 {...register("intro")}
                             />
@@ -94,7 +96,7 @@ export default function clubInfoEdit() {
 
                         {/* 聯係方式 */}
                         <div>
-                            <SecondTitle>聯絡方式</SecondTitle>
+                            <SecondTitle>{t("CLUB_CONTACT")}</SecondTitle>
                             <ul>
                                 {
                                     watch("contact")?.map((item, index) => item.num != void 0 && (
@@ -103,7 +105,7 @@ export default function clubInfoEdit() {
                                                 {/*方式：如email */}
                                                 <input
                                                     className=" border-4 border-themeColor rounded-lg h-10 p-2"
-                                                    placeholder={"聯絡方式"}
+                                                    placeholder={t("CONTACTS")}
                                                     {...register(`contact.${index}.type`)} />
 
                                                 {/*内容：如example@example.com */}
@@ -142,11 +144,11 @@ export default function clubInfoEdit() {
                     </ContentBlock>
 
                     {/* 相關圖片 (如果沒有相關圖片就不展示該模塊) */}
-                    <ContentBlock title="相關圖片" condition={true} className={`max-[1022px]:mt-5`}>
+                    <ContentBlock title={t("CLUB_PHOTOS")} condition={true} className={`max-[1022px]:mt-5`}>
 
                         {/* 刪除圖片 */}
                         <div>
-                            <SecondTitle>現有圖片</SecondTitle>
+                            <SecondTitle>{t("CLUB_PHOTOS_PRESENT")}</SecondTitle>
                             <div className="grid grid-cols-4 gap-4 items-top justify-center mt-5">
                                 {/* 相關圖片 */}
                                 {m_clubData?.content.club_photos_list.map((url, index) =>
@@ -177,7 +179,7 @@ export default function clubInfoEdit() {
 
                         {/* 新增圖片 */}
                         <div>
-                            <SecondTitle>新增圖片</SecondTitle>
+                            <SecondTitle>{t("CLUB_PHOTOS_NEW")}</SecondTitle>
                             <ARKListImageInput
                                 base={
                                     {
@@ -201,10 +203,10 @@ export default function clubInfoEdit() {
                 <StdButtonGrid>
                     {/* 上傳 */}
                     <StdButton
-                        textContent={'上傳'}
+                        textContent={t("UPLOAD")}
                         Icon={ArrowUpIcon} />
                     <StdButton
-                        textContent={'取消编辑'}
+                        textContent={t("BTN_EDIT_DISCARD")}
                         type={"button"}
                         Icon={TrashIcon}
                         onClickFunc={() => {
