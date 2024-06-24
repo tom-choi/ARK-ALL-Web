@@ -59,7 +59,7 @@ const ClubInfo = () => {
                 {/* 歡迎詞 */}
                 <div>
                     <h3 className="text-themeColor text-2xl font-bold text-center">
-                        {`${t("WELCOME")}, `}
+                        {`${t("WELCOME")}${t(",")} `}
                         {clubContentData?.content.name ? (clubContentData.content.name) : t("CLUB")}
                         {`${t("CLUB_OWNER")}!`}
                     </h3>

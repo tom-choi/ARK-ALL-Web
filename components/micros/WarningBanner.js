@@ -1,7 +1,9 @@
 import React, { useState, useRef } from 'react';
 import { XCircleIcon } from "@heroicons/react/24/solid";
+import { useTranslation } from 'react-i18next';
 
 const WarningBanner = () => {
+    const { t } = useTranslation();
 
     const [m_opacity, setOpacity] = useState("100");
 
@@ -11,7 +13,7 @@ const WarningBanner = () => {
             <div
                 className={`w-full flex flex-row justify-between items-center bg-alert px-3 py-2 opacity-${m_opacity} transition-all`}>
                 <p className="text-white">
-                    <strong>警告:</strong> 您現在使用的是本地服務器。
+                    <strong>{`${t("WARNING")}:`}</strong> {t("WRN_LOCAL_SERVER")}
                 </p>
                 <p>
                     <XCircleIcon className={"block text-sm text-white w-5 h-5 hover:cursor-pointer hover:scale-105 transition-all"} onClick={() => {
