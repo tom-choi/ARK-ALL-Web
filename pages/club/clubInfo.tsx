@@ -18,9 +18,10 @@ import { AfterLoading } from '../../components/uiComponents/AfterLoading';
 import { ActivityCard } from '../../components/uiComponents/ActivityCard';
 import { StdButton, StdButtonGrid } from '../../components/uiComponents/StdButton';
 import { ARKMain, ContentBlock, ContentBlockGrid, IFELSE } from '../../components/uiComponents/ContentBlock';
-
+import { useTranslation } from 'react-i18next';
 
 const ClubInfo = () => {
+    const { t } = useTranslation();
     const [clubContentData, setContentData] = useState<IGetClubInfo | undefined>(void 0);   //社團內容，如聯繫方式等
     const [clubActivities, setClubActivities] = useState<IGetActivitiesByClub | undefined>(void 0); //社團活動列表
 
@@ -32,14 +33,14 @@ const ClubInfo = () => {
         const clubNum = authGuard({ urlParamName: "club_num" });
 
         // 根據已登錄的club ID 獲取社團訊息
-        getClubXX(clubNum, GET.CLUB_INFO_NUM, setContentData, '無法獲取社團信息！').then(() => {
+        getClubXX(clubNum, GET.CLUB_INFO_NUM, setContentData, t("ERR_NO_CLUB_INFO")).then(() => {
             setLoadingStates(state => {
                 return { ...state, clubcontent: false };
             });
         });
 
         // 根據已登錄的club ID 獲取活動内容
-        getClubXX(clubNum, GET.EVENT_INFO_CLUB_NUM, setClubActivities, '無法獲取社團內容！').then(() => {
+        getClubXX(clubNum, GET.EVENT_INFO_CLUB_NUM, setClubActivities, t("ERR_NO_CLUB_ACTIVITY")).then(() => {
             setLoadingStates(state => {
                 return { ...state, activity: false };
             });
@@ -58,9 +59,9 @@ const ClubInfo = () => {
                 {/* 歡迎詞 */}
                 <div>
                     <h3 className="text-themeColor text-2xl font-bold text-center">
-                        歡迎你，
-                        {clubContentData?.content.name ? (clubContentData.content.name) : ("社團")}
-                        負責人！
+                        {`${t("WELCOME")}, `}
+                        {clubContentData?.content.name ? (clubContentData.content.name) : t("CLUB")}
+                        {`${t("CLUB_OWNER")}!`}
                     </h3>
                 </div>
 
@@ -71,7 +72,7 @@ const ClubInfo = () => {
                             <img src={`${BASE_HOST + clubContentData.content.club_photos_list[0]}`} alt="club_photos" className="max-w-96 rounded-lg h-auto shadow-lg" style={{ backgroundColor: '#fff' }} />
                         </div>
                     ) : (
-                        <p>無封面圖片</p>
+                        <p>{t("CLUB_NO_COVER_IMG")}</p>
                     )}
                 </div>
 
@@ -81,14 +82,14 @@ const ClubInfo = () => {
                     <StdButton
                         color="bg-themeColor"
                         onClickFunc={() => { window.location.href = `./clubInfoEdit?club_num=${clubContentData.content.club_num}`; }}
-                        textContent={'編輯'}
+                        textContent={t("EDIT")}
                         Icon={PencilSquareIcon} />
 
                     {/* 添加按鈕*/}
                     <StdButton
                         color="bg-themeColor"
                         onClickFunc={() => { window.location.href = `./newActivity?club_num=${clubContentData.content.club_num}`; }}
-                        textContent={'新活動'}
+                        textContent={t("NEW_ACTIVITY")}
                         Icon={PlusCircleIcon} />
                 </StdButtonGrid>
 
@@ -115,7 +116,7 @@ const ClubInfo = () => {
 
                         {/* 社團簡介*/}
                         <p className="mt-3">
-                            {clubContentData?.content.intro || "該社團沒有留下簡介。"}
+                            {clubContentData?.content.intro || t("CLUB_NO_INTRO")}
                         </p>
                     </div>
                 </ContentBlock>
@@ -124,7 +125,7 @@ const ClubInfo = () => {
                 <ContentBlockGrid>
 
                     {/*聯繫方式(只展示不為空的聯繫方式) */}
-                    <ContentBlock title="聯繫方式">
+                    <ContentBlock title={t("CLUB_CONTACT")}>
                         <ul>
                             {clubContentData ? (
                                 clubContentData.content.contact.filter(item => item.type && item.num).map((item, index) => (
@@ -136,21 +137,19 @@ const ClubInfo = () => {
                                     </li>
                                 ))
                             ) : (
-                                <p>
-                                    Loading....
-                                </p>
+                                <p>{t("ARK_LOADING")}...</p>
                             )}
                         </ul>
                     </ContentBlock>
 
                     {/* 社團圖片 */}
-                    <ContentBlock title={"社團圖片"} className={`max-[1022px]:mt-5`}>
+                    <ContentBlock title={t("CLUB_PHOTOS")} className={`max-[1022px]:mt-5`}>
                         <div className="grid xl:grid-cols-5 lg:grid-cols-3 md:grid-cols-5 sm:grid-cols-1 gap-4 ">
                             <IFELSE condition={clubContentData != void 0}>
                                 {clubContentData?.content.club_photos_list.map((item, index) => (
                                     <img key={index} src={BASE_HOST + item} className={`w-40 h-24 rounded-md hover:scale-[1.05] transition-all hover:cursor-pointer`} />
                                 ))}
-                                <p>ARK全力加載中...</p>
+                                <p>{t("ARK_LOADING")}...</p>
                             </IFELSE>
                         </div>
                     </ContentBlock>
@@ -159,14 +158,14 @@ const ClubInfo = () => {
 
             {/* 社團活動 */}
             <AfterLoading isLoading={loadingStates.activity}>
-                <ContentBlock className={"mt-5"} title={"社團活動"}>
+                <ContentBlock className={"mt-5"} title={t("CLUB_ACTIVITIES")}>
                     {/* 渲染活動格子*/}
                     <div className="grid 2xl:grid-cols-5 lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-1 gap-4 ">
                         <IFELSE condition={clubActivities?.content?.length && clubActivities?.content?.length > 0}>
                             {clubActivities?.content.map((item, index) => (
                                 <ActivityCard key={index} item={item} index={index} loginClubNum={clubContentData.content.club_num.toString()}></ActivityCard>
                             ))}
-                            <p>無活動</p>
+                            <p>{t("CLUB_NO_ACTIVITY")}</p>
                         </IFELSE>
                     </div>
                 </ContentBlock>
