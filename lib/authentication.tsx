@@ -89,7 +89,6 @@ export const clubSignIn = async (_data: IClubSignin, router: NextRouter): Promis
                 /**@todo 後續可考慮使用zustand */
                 localStorage.setItem("club_token", json.token);
                 // 重定向
-                // window.location.href = `./club/clubInfo?club_num=${json.content.club_num}`;
                 router.push(`./club/clubInfo?club_num=${json.content.club_num}`);
             }
             // 登錄失敗
