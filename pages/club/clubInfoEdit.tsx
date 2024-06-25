@@ -26,18 +26,20 @@ import { appendListToFormData, createFormData, getClubXX } from '../../lib/serve
 import { IEditClubInfo, IGetClubInfo } from '../../types/index.d';
 import { ARKListImageInput } from '../../components/uiComponents/Inputs';
 import { useTranslation } from 'react-i18next';
+import { useRouter } from 'next/router';
 
 
 export default function clubInfoEdit() {
     const { t } = useTranslation();
-    const [m_clubData, setClubData] = useState<IGetClubInfo>(null);
+    const router = useRouter();
 
+    const [m_clubData, setClubData] = useState<IGetClubInfo>(null);
     const { register, handleSubmit, setValue, formState: { errors }, watch, reset } = useForm<IEditClubInfo>();
     const _del_club_photos = watch("del_club_photos");
 
     // 獲取club number，驗證登錄
     useEffect(() => {
-        const clubNum = authGuard({ urlParamName: "club_num" });
+        const clubNum = authGuard({ urlParamName: "club_num" }, router);
         getClubXX(clubNum, GET.CLUB_INFO_NUM, setClubData, void 0, true);
     }, []);
 

@@ -5,13 +5,15 @@ import ThemeChanger from './DarkSwitch';
 import LanguageSwitcher from "./LanguageSwitcher";
 import WarningBanner from "components/micros/WarningBanner";
 import { useTranslation } from "react-i18next";
+import { useRouter } from "next/router";
 
 const NavBarSecondary = (props) => {
     const { t } = useTranslation();
+    const router = useRouter();
     const returnStr = props.returnStr ? props.returnStr : t("PG_HOME");
 
     const returnToPrevious = () => {
-        window.location.href = props.returnLocation;
+        router.push(props.returnLocation);
     }
 
     return (

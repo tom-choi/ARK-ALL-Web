@@ -26,11 +26,13 @@ import { ARKMain, ContentBlock, ContentBlockGrid, IF, IFELSE } from '../../compo
 import { SecondTitle } from '../../components/uiComponents/LayeredTitles';
 import { ARKImageInput, ARKLabeledInput, ARKListImageInput } from '../../components/uiComponents/Inputs';
 import { useTranslation } from 'react-i18next';
+import { useRouter } from 'next/router';
 
 
 const ActivityDetail = () => {
 
     const { t } = useTranslation();
+    const router = useRouter();
 
     // 登錄社團賬號
     const [m_clubNum, setClubNum] = useState<string>("");
@@ -45,7 +47,7 @@ const ActivityDetail = () => {
 
     // 獲取活動數據
     useEffect(() => {
-        const clubNum = authGuard({ urlParamName: "club_num" });
+        const clubNum = authGuard({ urlParamName: "club_num" }, router);
         setClubNum(clubNum);
 
         const activityID = qs.parse(window.location.search, { ignoreQueryPrefix: true })['activity_id'];

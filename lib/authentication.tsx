@@ -5,14 +5,16 @@ import qs from 'qs';
 // 本地引用
 import { BASE_URI, GET } from '../utils/pathMap';
 import { IClubSignin, IClubSigninResponse } from '../types/index.d';
+import { NextRouter } from 'next/router';
 
 /**
  * 符合條件時將用戶屏蔽。
  * @param msg 
  */
-export const block = (msg?: string) => {
+export const block = (msg: string, router: NextRouter) => {
     alert(msg || '請登錄賬號！');
-    window.location.href = '/clubsignin';
+    // window.location.href = '/clubsignin';
+    router.push('/clubsignin');
 }
 
 /**
@@ -30,26 +32,26 @@ export const block = (msg?: string) => {
 export const authGuard = (authParams: {
     credentialName?: string,
     urlParamName: string
-}): null | string => {
+}, router: NextRouter): null | string => {
     let { credentialName, urlParamName } = authParams;
 
     // URL有誤：不存在url變量
     if (urlParamName == void 0) {
-        block(`URL有誤, 請重新登錄。`);
+        block(`URL有誤, 請重新登錄。`, router);
         return null;
     }
 
     // URL參數有誤：存在url變量，但不存在目標所對應的變量。
     const urlParams = qs.parse(window.location.search, { ignoreQueryPrefix: true });
     if (urlParams[urlParamName] == void 0) {
-        block(`URL參數有誤, 請重新登錄。`);
+        block(`URL參數有誤, 請重新登錄。`, router);
         return null;
     }
 
     // 登錄認證過期
     const credential = localStorage.getItem(credentialName || "club_token");
     if (!credential) {
-        block("登錄認證過期，請重新登錄。");
+        block("登錄認證過期，請重新登錄。", router);
         return null;
     }
 
@@ -60,7 +62,7 @@ export const authGuard = (authParams: {
  * 社團賬戶登錄。
  * @param {IClubSignin} _data - 登錄信息，包括賬號和密碼。詳情請閲[Interfaces](../types/index.d.tsx).
  */
-export const clubSignIn = async (_data: IClubSignin): Promise<any> => {
+export const clubSignIn = async (_data: IClubSignin, router: NextRouter): Promise<any> => {
     let data = {
         account: _data.account + '',
         password: _data.password + '',
@@ -87,8 +89,8 @@ export const clubSignIn = async (_data: IClubSignin): Promise<any> => {
                 /**@todo 後續可考慮使用zustand */
                 localStorage.setItem("club_token", json.token);
                 // 重定向
-                window.location.href = `./club/clubInfo?club_num=${json.content.club_num}`;
-                return json;
+                // window.location.href = `./club/clubInfo?club_num=${json.content.club_num}`;
+                router.push(`./club/clubInfo?club_num=${json.content.club_num}`);
             }
             // 登錄失敗
             else {

@@ -19,9 +19,12 @@ import { ActivityCard } from '../../components/uiComponents/ActivityCard';
 import { StdButton, StdButtonGrid } from '../../components/uiComponents/StdButton';
 import { ARKMain, ContentBlock, ContentBlockGrid, IFELSE } from '../../components/uiComponents/ContentBlock';
 import { useTranslation } from 'react-i18next';
+import { useRouter } from 'next/router';
 
 const ClubInfo = () => {
     const { t } = useTranslation();
+    const router = useRouter();
+
     const [clubContentData, setContentData] = useState<IGetClubInfo | undefined>(void 0);   //社團內容，如聯繫方式等
     const [clubActivities, setClubActivities] = useState<IGetActivitiesByClub | undefined>(void 0); //社團活動列表
 
@@ -30,7 +33,7 @@ const ClubInfo = () => {
     useEffect(() => {
 
         // 獲取社團ID，并驗證權限
-        const clubNum = authGuard({ urlParamName: "club_num" });
+        const clubNum = authGuard({ urlParamName: "club_num" }, router);
 
         // 根據已登錄的club ID 獲取社團訊息
         getClubXX(clubNum, GET.CLUB_INFO_NUM, setContentData, t("ERR_NO_CLUB_INFO")).then(() => {
@@ -81,14 +84,14 @@ const ClubInfo = () => {
                     {/* 編輯按鈕*/}
                     <StdButton
                         color="bg-themeColor"
-                        onClickFunc={() => { window.location.href = `./clubInfoEdit?club_num=${clubContentData.content.club_num}`; }}
+                        onClickFunc={() => { router.push(`./clubInfoEdit?club_num=${clubContentData.content.club_num}`); }}
                         textContent={t("EDIT")}
                         Icon={PencilSquareIcon} />
 
                     {/* 添加按鈕*/}
                     <StdButton
                         color="bg-themeColor"
-                        onClickFunc={() => { window.location.href = `./newActivity?club_num=${clubContentData.content.club_num}`; }}
+                        onClickFunc={() => { router.push(`./newActivity?club_num=${clubContentData.content.club_num}`); }}
                         textContent={t("NEW_ACTIVITY")}
                         Icon={PlusCircleIcon} />
                 </StdButtonGrid>

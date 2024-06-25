@@ -13,6 +13,7 @@ import { StdButton } from '../../components/uiComponents/StdButton';
 import { _ICreateActivity } from '../../types/index.d';
 import { authGuard } from '../../lib/authentication';
 import { useTranslation } from 'react-i18next';
+import { useRouter } from 'next/router';
 
 // 活動類型映射
 const activityTypeMap = {
@@ -26,6 +27,7 @@ const textareaStyle = "text-lg block w-full h-80 border-4 border-themeColor roun
 
 const NewActivity = () => {
     const { t } = useTranslation();
+    const router = useRouter();
     const { register, handleSubmit, setValue, formState: { errors }, watch } = useForm<_ICreateActivity>({
         defaultValues: {
             title: "",
@@ -45,7 +47,7 @@ const NewActivity = () => {
     const [m_clubNum, setClubNum] = useState<string>();
 
     useEffect(() => {
-        const clubNum = authGuard({ urlParamName: "club_num" });
+        const clubNum = authGuard({ urlParamName: "club_num" }, router);
         setClubNum(clubNum);
     }, []);
 

@@ -5,6 +5,7 @@ import { BASE_HOST } from '../../utils/pathMap';
 import moment from "moment-timezone";
 import { LinkIcon } from "@heroicons/react/24/solid";
 import { useTranslation } from "react-i18next";
+import { useRouter } from "next/router";
 
 
 /**
@@ -17,6 +18,7 @@ import { useTranslation } from "react-i18next";
  */
 export const ActivityCard = (props: { item: ActivityBase, index: number, loginClubNum: string }) => {
     const { t } = useTranslation();
+    const router = useRouter();
     const { item, index, loginClubNum } = props;
     const enddatetime_ = moment.utc(item.enddatetime).tz('Asia/Shanghai');
 
@@ -27,7 +29,7 @@ export const ActivityCard = (props: { item: ActivityBase, index: number, loginCl
      */
     const onClickActivityCard = (event: MouseEvent<HTMLDivElement>, activityData: object) => {
         localStorage.setItem("CurActivity", JSON.stringify(activityData));
-        window.location.href = `activityDetail?activity_id=${item._id}&club_num=${loginClubNum}`;
+        router.push(`activityDetail?activity_id=${item._id}&club_num=${loginClubNum}`);
     }
 
     return (

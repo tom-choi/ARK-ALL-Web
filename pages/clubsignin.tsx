@@ -10,13 +10,15 @@ import { clubSignIn } from '../lib/authentication';
 import { ARKTextInput } from '../components/uiComponents/Inputs';
 import { ARKMain } from '../components/uiComponents/ContentBlock';
 import { IClubSignin } from '../types/index.d';
+import { useRouter } from 'next/router';
 
 const ClubLogin = () => {
     const { t } = useTranslation();
+    const router = useRouter();
     const { register, handleSubmit, formState: { errors } } = useForm<IClubSignin>();
 
     const onSubmit: SubmitHandler<IClubSignin> = async (data: IClubSignin) => {
-        return clubSignIn(data);
+        return clubSignIn(data, router);
     };
 
     return (
