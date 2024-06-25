@@ -62,11 +62,17 @@ export const authGuard = (authParams: {
  * 社團賬戶登錄。
  * @param {IClubSignin} _data - 登錄信息，包括賬號和密碼。詳情請閲[Interfaces](../types/index.d.tsx).
  */
-export const clubSignIn = async (_data: IClubSignin, router: NextRouter): Promise<any> => {
+export const clubSignIn = async (_data: IClubSignin, config: {
+    router: NextRouter,
+    setLogin: (id: string, token: string) => void,
+}): Promise<any> => {
+
     let data = {
         account: _data.account + '',
         password: _data.password + '',
     };
+
+    const { router, setLogin } = config;
 
     // 賬號和密碼檢查
     if (!data.account || !data.password) {
@@ -88,6 +94,8 @@ export const clubSignIn = async (_data: IClubSignin, router: NextRouter): Promis
                 // 儲存token
                 /**@todo 後續可考慮使用zustand */
                 localStorage.setItem("club_token", json.token);
+                setLogin(json.content.club_num.toString(), json.token || "");
+
                 // 重定向
                 router.push(`./club/clubInfo?club_num=${json.content.club_num}`);
             }

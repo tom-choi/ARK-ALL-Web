@@ -6,6 +6,7 @@ import moment from "moment-timezone";
 import { LinkIcon } from "@heroicons/react/24/solid";
 import { useTranslation } from "react-i18next";
 import { useRouter } from "next/router";
+import { useLoginStore } from "../../states/state";
 
 
 /**
@@ -16,10 +17,12 @@ import { useRouter } from "next/router";
  * @prop {string} loginClubNum - 當前登錄的社團賬號。 
  * @returns 
  */
-export const ActivityCard = (props: { item: ActivityBase, index: number, loginClubNum: string }) => {
+export const ActivityCard = (props: { item: ActivityBase, index: number }) => {
     const { t } = useTranslation();
     const router = useRouter();
-    const { item, index, loginClubNum } = props;
+    const s_clubNum = useLoginStore(state => state.curID);
+
+    const { item, index } = props;
     const enddatetime_ = moment.utc(item.enddatetime).tz('Asia/Shanghai');
 
     /**
@@ -29,7 +32,7 @@ export const ActivityCard = (props: { item: ActivityBase, index: number, loginCl
      */
     const onClickActivityCard = (event: MouseEvent<HTMLDivElement>, activityData: object) => {
         localStorage.setItem("CurActivity", JSON.stringify(activityData));
-        router.push(`activityDetail?activity_id=${item._id}&club_num=${loginClubNum}`);
+        router.push(`activityDetail?activity_id=${item._id}&club_num=${s_clubNum}`);
     }
 
     return (

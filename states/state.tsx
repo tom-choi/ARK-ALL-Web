@@ -9,7 +9,7 @@ export type LangType = "zh" | "en" | "ja";
 export interface LangStore {
     curLang: LangType;
     setLang: (lang: LangType) => void;
-}
+};
 
 const langSlice: StateCreator<LangStore, [["zustand/persist", unknown]]> = (set) => ({
     curLang: "zh",
@@ -20,5 +20,28 @@ export const useLangStore = create<LangStore>()(
     persist(langSlice, {
         name: "curLang",
         storage: createJSONStorage(() => localStorage),
+    })
+);
+
+/**
+ * 登錄ID，token
+ */
+
+export interface LoginStore {
+    curID: string;
+    curToken: string;
+    setLogin: (id: string, token: string) => void;
+};
+
+const loginSlice: StateCreator<LoginStore, [["zustand/persist", unknown]]> = (set) => ({
+    curID: "",
+    curToken: "",
+    setLogin: (id: string, token: string) => set({ curID: id, curToken: token }),
+});
+
+export const useLoginStore = create<LoginStore>()(
+    persist(loginSlice, {
+        name: "loginInfo",
+        storage: createJSONStorage(() => sessionStorage),
     })
 );

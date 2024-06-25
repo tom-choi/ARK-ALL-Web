@@ -27,6 +27,7 @@ import { SecondTitle } from '../../components/uiComponents/LayeredTitles';
 import { ARKImageInput, ARKLabeledInput, ARKListImageInput } from '../../components/uiComponents/Inputs';
 import { useTranslation } from 'react-i18next';
 import { useRouter } from 'next/router';
+import { useLoginStore } from '../../states/state';
 
 
 const ActivityDetail = () => {
@@ -35,7 +36,7 @@ const ActivityDetail = () => {
     const router = useRouter();
 
     // 登錄社團賬號
-    const [m_clubNum, setClubNum] = useState<string>("");
+    const s_clubNum = useLoginStore(state => state.curID);
 
     // 獲取活動的數據
     const [m_activityData, setActivityData] = useState<IGetAvtivityById>(null);
@@ -48,10 +49,7 @@ const ActivityDetail = () => {
     // 獲取活動數據
     useEffect(() => {
         const clubNum = authGuard({ urlParamName: "club_num" }, router);
-        setClubNum(clubNum);
-
         const activityID = qs.parse(window.location.search, { ignoreQueryPrefix: true })['activity_id'];
-        console.log(activityID);
         getActivityById(activityID, setActivityData).then(() => { setIsLoading(false) });
     }, []);
 
@@ -93,7 +91,7 @@ const ActivityDetail = () => {
 
     const onSubmit: SubmitHandler<_IEditActivity> = async (_data: _IEditActivity) => {
         try {
-            return editActivity(_data, m_clubNum);
+            return editActivity(_data, s_clubNum);
         } catch (err) {
             alert("上傳編輯失敗，請檢查網絡，或重試。");
             return null;
@@ -103,7 +101,7 @@ const ActivityDetail = () => {
     return (
         <ARKMain title={`${m_activityData?.content.title}`}>
             {/* 頂欄*/}
-            <NavBarSecondary returnLocation={`./clubInfo?club_num=${m_clubNum}`} returnStr={t("PG_CLUB_INFO")}></NavBarSecondary>
+            <NavBarSecondary returnLocation={`./clubInfo?club_num=${s_clubNum}`} returnStr={t("PG_CLUB_INFO")}></NavBarSecondary>
             <form onSubmit={handleSubmit(onSubmit)}>
                 <AfterLoading isLoading={isLoading}>
 
@@ -162,7 +160,7 @@ const ActivityDetail = () => {
                         {/* 刪除活動按鈕*/}
                         <StdButton
                             color="bg-alert"
-                            onClickFunc={() => { deleteActivity(m_activityData?.content._id, m_clubNum, '確定刪除活動?'); }}
+                            onClickFunc={() => { deleteActivity(m_activityData?.content._id, s_clubNum, '確定刪除活動?'); }}
                             textContent={t("BTN_ACTIVITY_DEL")}
                             Icon={TrashIcon}
                             condition={isEditMode}
