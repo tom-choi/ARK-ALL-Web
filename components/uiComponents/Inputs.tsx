@@ -297,7 +297,7 @@ export const ARKListImageInput = (props: {
         <div className={"flex flex-row items-center justify-left"}>
             <div className={`grid grid-cols-4 gap-4 max-[770px]:grid-cols-3 max-[638px]:grid-cols-2 object-cover`}>
                 {imgList && Object.entries(imgList).map(([key, value]) => (
-                    <div className={"relative"}>
+                    <div className={"relative"} key={key}>
                         <div
                             className={`absolute -top-12 left-[2rem] opacity-${m_hovering != key ? "0" : "100"} transition-all bg-white drop-shadow-lg border border-[2.5px] border-themeColorLight rounded-full px-2 py-1`}>
                             點擊以刪除
