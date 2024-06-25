@@ -31,9 +31,10 @@ export const block = (msg: string, router: NextRouter) => {
  */
 export const authGuard = (authParams: {
     credentialName?: string,
-    urlParamName: string
+    urlParamName: string,
+    compareValue?: string
 }, router: NextRouter): null | string => {
-    let { credentialName, urlParamName } = authParams;
+    let { credentialName, urlParamName, compareValue } = authParams;
 
     // URL有誤：不存在url變量
     if (urlParamName == void 0) {
@@ -45,6 +46,11 @@ export const authGuard = (authParams: {
     const urlParams = qs.parse(window.location.search, { ignoreQueryPrefix: true });
     if (urlParams[urlParamName] == void 0) {
         block(`URL參數有誤, 請重新登錄。`, router);
+        return null;
+    }
+
+    if (compareValue && urlParams[urlParamName] != compareValue) {
+        block(`登錄信息有誤，請重新登錄。`, router);
         return null;
     }
 
