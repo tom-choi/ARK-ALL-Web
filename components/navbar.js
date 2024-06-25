@@ -7,14 +7,26 @@ import { useTranslation } from "react-i18next";
 import { useRouter } from 'next/router';
 import WarningBanner from "/components/micros/WarningBanner";
 
-
-const Navbar = () => {
-
+const NBLink = (props) => {
+  const { destination, isMobile, isSelected = false } = props;
   const router = useRouter();
-  const navigateToPage = (page) => {
-    router.push(page);
+
+  const styles = {
+    "PC": `inline-block px-4 py-2 text-lg ${isSelected ? "text-themeColor font-bold" : "text-gray-800 dark:text-gray-200 font-normal"} no-underline rounded-md  hover:text-themeColor hover:bg-themeColorUltraLight dark:hover:text-themeColor dark:hover:bg-gray-800 hover:scale-[1.02] transition-all focus:text-themeColor focus:bg-themeColorUltraLignt focus:outline-none dark:focus:bg-gray-800 hover:cursor-pointer`,
+    "Mobile": "w-full px-4 py-2 -ml-4 text-gray-500 rounded-md dark:text-gray-200 hover:text-themeColor hover:bg-themeColorUltraLight dark:hover:text-themeColor dark:hover:bg-gray-800 focus:text-themeColor focus:bg-themeColorUltraLignt focus:outline-none dark:focus:bg-gray-800 hover:cursor-pointer"
   };
 
+  return (
+    <div
+      className={isMobile ? styles.Mobile : styles.PC}
+      onClick={() => router.push('/' + destination)}>
+      {props.children}
+    </div>
+  );
+};
+
+const Navbar = (props) => {
+  const { selected = "" } = props;
   const { t } = useTranslation();
 
   const navigation = [
@@ -33,7 +45,8 @@ const Navbar = () => {
         <Disclosure>
           {({ open }) => (
             <div>
-              <div className="flex flex-wrap items-center justify-between w-full lg:w-auto">
+              <div className="flex flex-wrap items-center justify-between w-full lg:w-auto gap-1">
+                {/* Logo */}
                 <Link href="/">
                   <span className="flex items-center space-x-2 text-2xl font-medium text-indigo-500 dark:text-gray-100">
                     <span>
@@ -51,6 +64,7 @@ const Navbar = () => {
                   </span>
                 </Link>
 
+                {/* Hamburger */}
                 <Disclosure.Button
                   aria-label="Toggle Menu"
                   className="px-2 py-1 ml-auto text-gray-500 rounded-md lg:hidden hover: text-text-indigo-500 focus:text-themeColor focus:bg-themeColorUltraLight focus:outline-none dark:text-gray-300 dark:focus:bg-trueGray-700">
@@ -74,21 +88,12 @@ const Navbar = () => {
                   </svg>
                 </Disclosure.Button>
 
+                {/* Mobile Nav*/}
                 <Disclosure.Panel className="flex flex-wrap w-full my-5 lg:hidden">
-                  <>
-                    {navigation.map((menu, index) => {
-                      return (
-                        <Link
-                          href={`/${menu.toLowerCase()}`} className="w-full px-4 py-2 -ml-4 text-gray-500 rounded-md dark:text-gray-200 hover:text-themeColor hover:bg-themeColorUltraLight dark:hover:text-themeColor dark:hover:bg-gray-800 focus:text-themeColor focus:bg-themeColorUltraLignt focus:outline-none dark:focus:bg-gray-800"
-                          onClick={() => navigateToPage('/' + menu.toLowerCase())}>
-                          {t(menu)}
-                        </Link>
-                      )
-                    })}
-                    {/* <Link href="/" className="w-full px-6 py-2 mt-3 text-center text-white bg-indigo-600 rounded-md lg:ml-5">         
-                        Get Started
-                    </Link> */}
-                  </>
+                  <NBLink destination={""} isMobile>{t("PG_HOME")}</NBLink>
+                  {navigation.map((menu, index) => (
+                    <NBLink destination={menu.toLowerCase()} isMobile>{t(menu)}</NBLink>
+                  ))}
                 </Disclosure.Panel>
               </div>
             </div>
@@ -97,26 +102,22 @@ const Navbar = () => {
 
         {/* menu  */}
         <div className="hidden text-center lg:flex lg:items-center">
-          <ul className="items-center justify-end flex-1 pt-6 list-none lg:pt-0 lg:flex">
-            {navigation.map((menu, index) => {
-              return (
-                <li className="mr-3 nav__item" key={index}>
-                  <Link
-                    href={`/${menu.toLowerCase()}`} className="inline-block px-4 py-2 text-lg font-normal text-gray-800 no-underline rounded-md dark:text-gray-200 hover:text-themeColor hover:bg-themeColorUltraLight dark:hover:text-themeColor dark:hover:bg-gray-800 hover:scale-[1.02] transition-all focus:text-themeColor focus:bg-themeColorUltraLignt focus:outline-none dark:focus:bg-gray-800"
-                    onClick={() => navigateToPage('/' + menu.toLowerCase())}>
-                    {t(menu)}
-                  </Link>
-                </li>
-              )
-            })}
+          <ul className="items-center justify-end flex-1 pt-6 list-none lg:pt-0 lg:flex gap-3">
+            <li>
+              <NBLink destination={""} isSelected={selected == ""}>{t("PG_HOME")}</NBLink>
+            </li>
+            {navigation.map((menu, index) => (
+              <li className="nav__item" key={index}>
+                <NBLink destination={menu.toLowerCase()} isSelected={selected == menu}>
+                  {t(menu)}
+                </NBLink>
+              </li>
+            ))}
           </ul>
         </div>
 
+        {/** 語言、主題切換 */}
         <div className="hidden mr-3 space-x-4 lg:flex nav__item">
-          {/* <Link href="/" className="px-6 py-2 text-white bg-indigo-600 rounded-md md:ml-5">
-              Get Started
-          </Link> */}
-
           <ThemeChanger />
           <LanguageSwitcher />
         </div>

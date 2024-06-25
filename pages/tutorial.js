@@ -24,7 +24,7 @@ const tutorial = () => {
 
   return (
     <>
-      <Navbar />
+      <Navbar selected={"Tutorial"} />
       <Container className="flex flex-wrap lg:flex-nowrap w-full h-full">
         <div className="flex items-center justify-center w-full h-full lg:w-1/2 grid-cols-2">
           <div className="grid grid-cols-2 gap-4">

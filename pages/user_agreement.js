@@ -65,7 +65,7 @@ const user_agreement = () => {
     html = converter.makeHtml(text);
   return (
     <div>
-      <Navbar />
+      <Navbar selected={"User_Agreement"} />
       <Container className="flex flex-wrap w-full h-full">
         <SectionTitle
           pretitle={"更新時間: 2023-8-23 11:04:56"}
