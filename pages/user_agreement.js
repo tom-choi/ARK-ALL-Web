@@ -14,6 +14,7 @@ const UASection = (props) => {
   return (
     <React.Fragment>
       <SectionTitle
+        className={`sticky top-[147px] bg-trueGray-50 dark:bg-trueGray-900`}
         pretitle={pretitle}
         title={title}>
       </SectionTitle>
@@ -43,6 +44,7 @@ const user_agreement = () => {
             title={content.title}
             list={content.list} />
         ))}
+        <br /><br />
       </Container>
       <Footer />
     </div>
