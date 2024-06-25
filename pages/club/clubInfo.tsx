@@ -20,36 +20,43 @@ import { StdButton, StdButtonGrid } from '../../components/uiComponents/StdButto
 import { ARKMain, ContentBlock, ContentBlockGrid, IFELSE } from '../../components/uiComponents/ContentBlock';
 import { useTranslation } from 'react-i18next';
 import { useRouter } from 'next/router';
+import { useLoginStore } from '../../states/state';
 
 const ClubInfo = () => {
+    // 翻譯、路由
     const { t } = useTranslation();
     const router = useRouter();
 
+    // 全局存儲club number
+    const s_clubNum = useLoginStore(state => state.curID);
+
+    // 社團内容、活動列表
     const [clubContentData, setContentData] = useState<IGetClubInfo | undefined>(void 0);   //社團內容，如聯繫方式等
     const [clubActivities, setClubActivities] = useState<IGetActivitiesByClub | undefined>(void 0); //社團活動列表
 
+    // 加載狀態
     const [loadingStates, setLoadingStates] = useState<{ clubcontent: boolean, activity: boolean }>({ clubcontent: true, activity: true });
 
+    // 獲取數據
+    const fetchData = async () => {
+        const clubNum = authGuard({ urlParamName: "club_num", compareValue: s_clubNum }, router);
+
+        try {
+            await Promise.all([
+                getClubXX(clubNum, GET.CLUB_INFO_NUM, setContentData, t("ERR_NO_CLUB_INFO")),
+                getClubXX(clubNum, GET.EVENT_INFO_CLUB_NUM, setClubActivities, t("ERR_NO_CLUB_ACTIVITY"))
+            ]);
+        } catch (error) {
+            console.error('Fetch data error:', error);
+        } finally {
+            setLoadingStates(state => ({ ...state, clubcontent: false, activity: false }));
+        }
+    };
+
     useEffect(() => {
-
-        // 獲取社團ID，并驗證權限
-        const clubNum = authGuard({ urlParamName: "club_num" }, router);
-
-        // 根據已登錄的club ID 獲取社團訊息
-        getClubXX(clubNum, GET.CLUB_INFO_NUM, setContentData, t("ERR_NO_CLUB_INFO")).then(() => {
-            setLoadingStates(state => {
-                return { ...state, clubcontent: false };
-            });
-        });
-
-        // 根據已登錄的club ID 獲取活動内容
-        getClubXX(clubNum, GET.EVENT_INFO_CLUB_NUM, setClubActivities, t("ERR_NO_CLUB_ACTIVITY")).then(() => {
-            setLoadingStates(state => {
-                return { ...state, activity: false };
-            });
-        });
-
+        fetchData();
     }, []);
+
 
     return (
         <ARKMain title={clubContentData?.content.name}>
@@ -84,14 +91,14 @@ const ClubInfo = () => {
                     {/* 編輯按鈕*/}
                     <StdButton
                         color="bg-themeColor"
-                        onClickFunc={() => { router.push(`./clubInfoEdit?club_num=${clubContentData.content.club_num}`); }}
+                        onClickFunc={() => { router.push(`./clubInfoEdit?club_num=${s_clubNum}`); }}
                         textContent={t("EDIT")}
                         Icon={PencilSquareIcon} />
 
                     {/* 添加按鈕*/}
                     <StdButton
                         color="bg-themeColor"
-                        onClickFunc={() => { router.push(`./newActivity?club_num=${clubContentData.content.club_num}`); }}
+                        onClickFunc={() => { router.push(`./newActivity?club_num=${s_clubNum}`); }}
                         textContent={t("NEW_ACTIVITY")}
                         Icon={PlusCircleIcon} />
                 </StdButtonGrid>

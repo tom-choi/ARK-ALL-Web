@@ -31,7 +31,7 @@ import { useLoginStore } from '../../states/state';
 
 
 const ActivityDetail = () => {
-
+    console.log("refresh");
     const { t } = useTranslation();
     const router = useRouter();
 
@@ -48,7 +48,7 @@ const ActivityDetail = () => {
 
     // 獲取活動數據
     useEffect(() => {
-        const clubNum = authGuard({ urlParamName: "club_num" }, router);
+        const clubNum = authGuard({ urlParamName: "club_num", compareValue: s_clubNum }, router);
         const activityID = qs.parse(window.location.search, { ignoreQueryPrefix: true })['activity_id'];
         getActivityById(activityID, setActivityData).then(() => { setIsLoading(false) });
     }, []);

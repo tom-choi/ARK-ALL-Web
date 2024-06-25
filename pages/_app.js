@@ -33,6 +33,7 @@ function MyApp({ Component, pageProps }) {
       }
     }
   });
+
   return (
     <I18nextProvider i18n={i18n}>
       <ThemeProvider attribute="class">

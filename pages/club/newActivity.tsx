@@ -1,5 +1,5 @@
 // 包引用
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { ArrowUpIcon } from "@heroicons/react/24/solid";
 import moment from 'moment/moment';
 
@@ -14,6 +14,7 @@ import { _ICreateActivity } from '../../types/index.d';
 import { authGuard } from '../../lib/authentication';
 import { useTranslation } from 'react-i18next';
 import { useRouter } from 'next/router';
+import { useLoginStore } from '../../states/state';
 
 // 活動類型映射
 const activityTypeMap = {
@@ -26,8 +27,14 @@ const inputStyle = "border-4 border-themeColor rounded-lg h-15 p-2 ontline-none"
 const textareaStyle = "text-lg block w-full h-80 border-4 border-themeColor rounded-lg p-2 resize-none min-h-32 outline-none";
 
 const NewActivity = () => {
+    // 翻譯、路由
     const { t } = useTranslation();
     const router = useRouter();
+
+    // 全局存儲club num
+    const s_clubNum = useLoginStore(state => state.curID);
+
+    // 表單配置
     const { register, handleSubmit, setValue, formState: { errors }, watch } = useForm<_ICreateActivity>({
         defaultValues: {
             title: "",
@@ -44,22 +51,21 @@ const NewActivity = () => {
         }
     });
 
-    const [m_clubNum, setClubNum] = useState<string>();
-
+    // 驗證權限
     useEffect(() => {
-        const clubNum = authGuard({ urlParamName: "club_num" }, router);
-        setClubNum(clubNum);
+        authGuard({ urlParamName: "club_num", compareValue: s_clubNum }, router);
     }, []);
 
+    // 提交活動
     const onSubmit: SubmitHandler<_ICreateActivity> = async (_data: _ICreateActivity) => {
-        await createActivity(_data, m_clubNum);
+        await createActivity(_data, s_clubNum);
     };
 
     const selectedType = watch("type");
 
     return (
         <ARKMain title={`${t("NEW_ACTIVITY")}-${watch("title")}`}>
-            <NavBarSecondary returnLocation={`./clubInfo?club_num=${m_clubNum}`} />
+            <NavBarSecondary returnLocation={`./clubInfo?club_num=${s_clubNum}`} />
             <form className={`flex flex-col gap-5`} onSubmit={handleSubmit(onSubmit)}>
                 {/* 活動名稱 */}
                 <input

@@ -22,6 +22,7 @@ export const block = (msg: string, router: NextRouter) => {
  * @param authParams 
  * @prop {string} credentialName - 登錄認證的類型名稱，通常爲club_token，可不填。
  * @prop {string} urlParamName - URL參數名稱，必填。
+ * @prop {string|undefined} compareValue - 認證值，為Session中存儲的登錄ID。
  * @example
  * useEffect(()=>{// 頁面加載時執行
  *      const clubNum = authGuard({urlParamName:'club_num'});    // 從URL變量中獲取club_num，如果沒有則導向登陸頁面。
@@ -31,9 +32,10 @@ export const block = (msg: string, router: NextRouter) => {
  */
 export const authGuard = (authParams: {
     credentialName?: string,
-    urlParamName: string
+    urlParamName: string,
+    compareValue?: string
 }, router: NextRouter): null | string => {
-    let { credentialName, urlParamName } = authParams;
+    let { credentialName, urlParamName, compareValue } = authParams;
 
     // URL有誤：不存在url變量
     if (urlParamName == void 0) {
@@ -45,6 +47,12 @@ export const authGuard = (authParams: {
     const urlParams = qs.parse(window.location.search, { ignoreQueryPrefix: true });
     if (urlParams[urlParamName] == void 0) {
         block(`URL參數有誤, 請重新登錄。`, router);
+        return null;
+    }
+
+    // URL 參數存在，但與登錄club number不符。
+    if (compareValue && urlParams[urlParamName] != compareValue) {
+        block(`登錄信息有誤，請重新登錄。`, router);
         return null;
     }
 
