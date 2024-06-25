@@ -19,8 +19,11 @@ const UASection = (props) => {
       </SectionTitle>
       <Container className="flex flex-wrap w-full h-full lg:mx-60 md:mx-20 sm:mx-0">
         <ol>
-          {list.map((text) => (
-            <li>{text}</li>
+          {list.map((text, index) => (
+            <li className={"flex flex-row gap-3"}>
+              <p className={"text-right text-themeColor font-bold"}>{`${index + 1}. `}</p>
+              <p>{`${text}`}</p>
+            </li>
           ))}
         </ol>
       </Container>
@@ -29,8 +32,6 @@ const UASection = (props) => {
 };
 
 const user_agreement = () => {
-
-  const { t } = useTranslation();
 
   return (
     <div>
