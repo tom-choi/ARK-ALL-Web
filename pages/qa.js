@@ -113,7 +113,7 @@ const qa = () => {
             <div key={item.question} className="mb-5">
               <Disclosure>
                 {({ open }) => (
-                  <>
+                  <React.Fragment>
                     <Disclosure.Button
                       className="flex items-center justify-between w-full px-4 py-4 
                           text-lg text-left text-gray-800 
@@ -131,7 +131,7 @@ const qa = () => {
                       as="ul">
                       <div dangerouslySetInnerHTML={{ __html: item.answer }}></div>
                     </Disclosure.Panel>
-                  </>
+                  </React.Fragment>
                 )}
               </Disclosure>
             </div>
