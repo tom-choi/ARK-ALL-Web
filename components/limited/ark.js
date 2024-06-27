@@ -1,5 +1,5 @@
 import Image from "next/image";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Container from "../container";
 import themeImg from '../../public/img/theme.png';
 // import Streets from "../../components/models/Streets"
@@ -12,8 +12,9 @@ import { useTranslation } from "react-i18next";
 import { COLOR_DIY } from "../../utils/uiMap";
 import { useTheme } from "next-themes";
 
-const Ark = () => {
+const Ark = (props) => {
   const { t } = useTranslation();
+
   const { theme, setTheme } = useTheme();
 
   return (
@@ -27,14 +28,11 @@ const Ark = () => {
         }}>
 
         <div
-          className="absolute top-0 left-0 w-full h-full z-10 backdrop-blur-xl bg-gradient-to-bl from-white/0 to-white/50"
-          style={{
-            background: `linear-gradient(to bottom left, rgba(255, 255, 255, 0) 0%, ${theme == "dark" ? "#171717" : "white"} 50%)`,
-          }} />
-
+          className="absolute top-0 left-0 w-full h-full z-10 backdrop-blur-xl dark:backdrop-blur-[40px]
+                      bg-gradient-to-tr from-white dark:from-[#171717] from-50% dark:from-55% dark:to-[#171717dd]" />
         <Container className={"z-20"}>
           {/* ARK介紹+下載按鈕 */}
-          <div className="flex items-center w-full lg:w-1/2  px-8">
+          <div className="flex items-center w-full lg:w-1/2 px-8 py-20">
             <div className="max-w-2xl mb-8">
               <div className="flex gap-4 items-center">
                 <h1 className="text-4xl font-bold leading-snug tracking-tight text-gray-800 lg:text-4xl lg:leading-tight xl:text-6xl xl:leading-tight dark:text-white">

@@ -27,7 +27,7 @@ const NBLink = (props) => {
 };
 
 const Navbar = (props) => {
-  const { selected = "" } = props;
+  const { selected = "", fixed } = props;
   const { t } = useTranslation();
 
   const navigation = [
@@ -41,8 +41,8 @@ const Navbar = (props) => {
 
 
   return (
-    <div className={`fixed top-0 w-full ${"backdrop-blur-3xl"} z-[99]`}>
-      <nav className="container relative w-full flex flex-wrap items-center justify-between p-8 mx-auto lg:justify-between xl:px-0 ">
+    <div className={`${fixed ? "fixed" : "sticky"} top-0 w-full ${"backdrop-blur-3xl"} z-[99]`}>
+      <nav className="container relative w-full flex flex-wrap items-center justify-between px-8 py-4 mx-auto lg:justify-between xl:px-0  ">
 
         {/* Logo  */}
         <Disclosure>
