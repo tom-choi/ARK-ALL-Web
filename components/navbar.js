@@ -6,6 +6,7 @@ import LanguageSwitcher from "./LanguageSwitcher";
 import { useTranslation } from "react-i18next";
 import { useRouter } from 'next/router';
 import WarningBanner from "/components/micros/WarningBanner";
+import { useEffect, useState } from "react";
 
 const NBLink = (props) => {
   const { destination, isMobile, isSelected = false } = props;
@@ -37,8 +38,10 @@ const Navbar = (props) => {
     "About_us",
   ];
 
+
+
   return (
-    <div className="w-full sticky top-0 backdrop-blur-3xl z-99">
+    <div className={`fixed top-0 w-full ${"backdrop-blur-3xl"} z-[99]`}>
       <nav className="container relative w-full flex flex-wrap items-center justify-between p-8 mx-auto lg:justify-between xl:px-0 ">
 
         {/* Logo  */}
