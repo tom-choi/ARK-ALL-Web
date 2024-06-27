@@ -297,7 +297,7 @@ export const ARKListImageInput = (props: {
 
     return (
         <div className={"flex flex-row items-center justify-left max-[640px]:justify-center"}>
-            <div className={`grid grid-cols-4 gap-4 max-[770px]:grid-cols-3 max-[638px]:grid-cols-2 object-cover`}>
+            <div className={`grid grid-cols-4 gap-4 max-[770px]:grid-cols-3 max-[638px]:grid-cols-2 object-cover w-full`}>
                 {imgList && Object.entries(imgList).map(([key, value]) => (
                     <div className={"relative"} key={key}>
                         <div
@@ -306,7 +306,7 @@ export const ARKListImageInput = (props: {
                         </div>
                         <img
                             src={URL.createObjectURL(value as File)}
-                            className={"w-40 h-24 rounded-md hover:scale-[1.05] transition-all hover:cursor-pointer"}
+                            className={"mx-auto w-40 h-24 rounded-md hover:scale-[1.05] transition-all hover:cursor-pointer"}
                             onMouseOver={(e) => { setHovering(key); }}
                             onMouseLeave={(e) => { setHovering(""); }}
                             onClick={(e) => {

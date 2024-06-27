@@ -42,7 +42,7 @@ export const StdButtonGrid = (props) => {
 
     return (
         condition && (
-            <div className="flex items-center justify-center my-10">
+            <div className="flex flex-wrap gap-3 items-center justify-center my-10">
                 {props.children}
             </div>
         )
