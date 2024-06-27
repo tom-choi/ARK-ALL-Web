@@ -30,6 +30,8 @@ const Navbar = (props) => {
   const { selected = "", fixed } = props;
   const { t } = useTranslation();
 
+  const [m_transparent, setTransparent] = useState(true);
+
   const navigation = [
     "ClubSignin",
     "Tutorial",
@@ -38,10 +40,21 @@ const Navbar = (props) => {
     "About_us",
   ];
 
+  const handleScroll = () => {
+    const position = window.scrollY;
+    setTransparent(position == 0);
+  }
 
+  useEffect(() => {
+    window.addEventListener('scroll', handleScroll, { passive: true });
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, []);
 
   return (
-    <div className={`${fixed ? "fixed" : "sticky"} top-0 w-full ${"backdrop-blur-3xl"} z-[99]`}>
+    <div className={`${fixed ? "fixed" : "sticky"} top-0 w-full ${m_transparent ? "" : "backdrop-blur-3xl bg-[#ffffff99] dark:bg-[#17171799]"}  z-[99]`}>
       <nav className="container relative w-full flex flex-wrap items-center justify-between px-8 py-4 mx-auto lg:justify-between xl:px-0  ">
 
         {/* Logo  */}
