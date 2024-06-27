@@ -140,9 +140,9 @@ const ClubInfo = () => {
                             {clubContentData ? (
                                 clubContentData.content.contact.filter(item => item.type && item.num).map((item, index) => (
                                     <li key={index} >
-                                        <div className="flex">
-                                            <p className="text-themeColor font-bold">{item.type}{':\u00A0\u00A0'}</p>
-                                            <p>{item.num}</p>
+                                        <div className="grid grid-cols-2 gap-2 sm:mr-64">
+                                            <p className={`text-themeColor font-bold text-left`}>{item.type}</p>
+                                            <p className={`text-left`}>{item.num}</p>
                                         </div>
                                     </li>
                                 ))
@@ -154,10 +154,10 @@ const ClubInfo = () => {
 
                     {/* 社團圖片 */}
                     <ContentBlock title={t("CLUB_PHOTOS")} className={`max-[1022px]:mt-5`}>
-                        <div className="grid xl:grid-cols-5 lg:grid-cols-3 md:grid-cols-5 sm:grid-cols-1 gap-4 ">
+                        <div className="grid xl:grid-cols-5 sm:grid-cols-3 gap-4 ">
                             <IFELSE condition={clubContentData != void 0}>
                                 {clubContentData?.content.club_photos_list.map((item, index) => (
-                                    <img key={index} src={BASE_HOST + item} className={`w-40 h-24 rounded-md hover:scale-[1.05] transition-all hover:cursor-pointer`} />
+                                    <img key={index} src={BASE_HOST + item} className={`w-40 h-24 rounded-md hover:scale-[1.05] transition-all hover:cursor-pointer mx-auto`} />
                                 ))}
                                 <p>{t("ARK_LOADING")}...</p>
                             </IFELSE>
