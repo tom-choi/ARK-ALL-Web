@@ -61,7 +61,7 @@ export const ARKTextInput = (props: {
                 {placeholder}
             </p>
             <input
-                className={`border-2 border-themeColor ${m_borderStyle} outline-none rounded-lg h-10 p-2`}
+                className={`w-full border-2 border-themeColor ${m_borderStyle} outline-none rounded-lg h-10 p-2`}
                 placeholder={placeholder}
                 type={type || "text"}
                 {...register(regName, { required: isRequired ? (errText || "未正確輸入") : false })}

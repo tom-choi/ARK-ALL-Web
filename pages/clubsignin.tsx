@@ -30,7 +30,7 @@ const ClubLogin = () => {
     return (
         <ARKMain title={t("CLUB_LOGIN")} withOutMargin={true}>
             <Navbar selected={"ClubSignin"} />
-            <Container className="flex flex-col w-full h-full items-center justify-center">
+            <Container className="flex flex-col w-full h-full items-center justify-center p-20">
                 {/* UI Block*/}
                 <div className="block p-5 pb-10 bg-themeColorUltraLight dark:bg-gray-800 drop-shadow-xl rounded-lg items-center justify-center min-w-96 hover: cursor-pointer hover:scale-[1.02] transition-all">
 
