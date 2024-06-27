@@ -1,3 +1,4 @@
+import React from "react";
 import Link from "next/link";
 import ThemeChanger from "./DarkSwitch";
 import Image from "next/image"
@@ -30,7 +31,7 @@ const Navbar = (props) => {
   const { selected = "", fixed } = props;
   const { t } = useTranslation();
 
-  const [m_transparent, setTransparent] = useState(true);
+  const [m_atTop, setAtTop] = useState(true);
 
   const navigation = [
     "ClubSignin",
@@ -42,7 +43,7 @@ const Navbar = (props) => {
 
   const handleScroll = () => {
     const position = window.scrollY;
-    setTransparent(position == 0);
+    setAtTop(position == 0);
   }
 
   useEffect(() => {
@@ -54,38 +55,36 @@ const Navbar = (props) => {
   }, []);
 
   return (
-    <div className={`${fixed ? "fixed" : "sticky"} top-0 w-full ${m_transparent ? "" : "backdrop-blur-3xl bg-[#ffffff99] dark:bg-[#17171799]"}  z-[99]`}>
-      <nav className="container relative w-full flex flex-wrap items-center justify-between px-8 py-4 mx-auto lg:justify-between xl:px-0  ">
+    <div className={`${fixed ? "fixed" : "sticky"} top-0 w-full ${m_atTop ? "" : "backdrop-blur-3xl bg-[#ffffff99] dark:bg-[#17171799]"} z-[99] transition-all`}>
+      <nav className="container relative w-full flex flex-wrap items-center justify-between pt-4 py-4 px-0 mx-auto lg:justify-between xl:px-0 ">
 
         {/* Logo  */}
         <Disclosure>
           {({ open }) => (
-            <div>
+            <React.Fragment>
               <div className="flex flex-wrap items-center justify-between w-full lg:w-auto gap-1">
                 {/* Logo */}
-                <Link href="/">
-                  <span className="flex items-center space-x-2 text-2xl font-medium text-indigo-500 dark:text-gray-100">
-                    <span>
-                      <Image
-                        src="/img/logo.png"
-                        alt="N"
-                        width="32"
-                        height="32"
-                        className="w-8 rounded-md"
-                      />
-                    </span>
-                    <span className="text-themeColor font-bold">
+                <Link href="/" className={`mx-5`}>
+                  <div className="flex flex-row items-left space-x-5 text-2xl font-medium text-indigo-500 dark:text-gray-100">
+                    <Image
+                      src="/img/logo.png"
+                      alt="N"
+                      width="32"
+                      height="32"
+                      className="w-8 rounded-md"
+                    />
+                    <div className={`text-themeColor font-bold opacity-${m_atTop ? "0" : "100"} transition-all`}>
                       ARK ALL
-                    </span>
-                  </span>
+                    </div>
+                  </div>
                 </Link>
 
                 {/* Hamburger */}
                 <Disclosure.Button
                   aria-label="Toggle Menu"
-                  className="px-2 py-1 ml-auto text-gray-500 rounded-md lg:hidden hover: text-text-indigo-500 focus:text-themeColor focus:bg-themeColorUltraLight focus:outline-none dark:text-gray-300 dark:focus:bg-trueGray-700">
+                  className="px-2 py-1 mr-5 ml-auto text-gray-500 rounded-md lg:hidden hover: text-text-indigo-500 focus:text-themeColor focus:bg-themeColorUltraLight focus:outline-none dark:text-gray-300 dark:focus:bg-trueGray-700 transition-all">
                   <svg
-                    className="w-6 h-6 fill-current"
+                    className="w-6 h-6 fill-current transition-all"
                     xmlns="http://www.w3.org/2000/svg"
                     viewBox="0 0 24 24">
                     {open && (
@@ -105,14 +104,14 @@ const Navbar = (props) => {
                 </Disclosure.Button>
 
                 {/* Mobile Nav*/}
-                <Disclosure.Panel className="flex flex-wrap w-full my-5 lg:hidden">
+                <Disclosure.Panel className={`relative flex flex-wrap w-full lg:hidden ${m_atTop && "backdrop-blur-3xl bg-[#ffffff99]"} px-10 py-5 items-center text-center gap-5 transition-all`}>
                   <NBLink destination={""} isMobile>{t("PG_HOME")}</NBLink>
                   {navigation.map((menu, index) => (
                     <NBLink destination={menu.toLowerCase()} isMobile>{t(menu)}</NBLink>
                   ))}
                 </Disclosure.Panel>
               </div>
-            </div>
+            </React.Fragment>
           )}
         </Disclosure>
 
@@ -133,9 +132,10 @@ const Navbar = (props) => {
         </div>
 
         {/** 語言、主題切換 */}
-        <div className="hidden mr-3 space-x-4 lg:flex nav__item">
+        <div className="flex max-[1320px]:hidden mr-3 space-x-4 nav__item">
           <ThemeChanger />
           <LanguageSwitcher />
+
         </div>
       </nav>
 
