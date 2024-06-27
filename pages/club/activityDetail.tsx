@@ -260,7 +260,7 @@ const ActivityDetail = () => {
                     {/* 相關圖片 (如果沒有相關圖片就不展示該模塊) */}
                     <ContentBlock
                         title={t("ACTIVITY_PHOTOS")}
-                        condition={m_activityData && (m_activityData.content.relate_image_url.length > 0 || isEditMode)}
+                        condition={m_activityData && watch("type") != "WEBSITE" && (m_activityData.content.relate_image_url.length > 0 || isEditMode)}
                         className={`mt-5`}>
 
                         {/* 刪除圖片 */}
@@ -296,7 +296,7 @@ const ActivityDetail = () => {
                         </div>
 
                         {/* 新增圖片 */}
-                        <IF condition={isEditMode}>
+                        <IF condition={isEditMode && watch("type") != "WEBSITE"}>
                             <SecondTitle>{t("ACTIVITY_PHOTOS_NEW")}</SecondTitle>
                             <ARKListImageInput
                                 base={
