@@ -106,11 +106,13 @@ export const ARKLabeledInput = (props: { title: string, condition?: boolean, chi
     const { title, condition } = props;
     return (
         <IF condition={condition || condition == void 0}>
-            <div className="flex items-center mb-3 gap-3">
-                <span className="text-themeColor font-bold mr-5">
+            <div className={`flex flex-row max-[420px]:flex-col items-center mb-3 gap-3 `}>
+                <span className={`text-themeColor font-bold mr-5 max-[420px]:mr-0`}>
                     {props.title || "項目"}
                 </span>
-                {props.children}
+                <div className={`flex flex-row items-center gap-3  max-[512px]:w-[70%]`}>
+                    {props.children}
+                </div>
             </div>
         </IF>
     );
@@ -155,7 +157,7 @@ export const ARKImageInput = (props: {
 
     return (
         <div
-            className="flex flex-col w-96 h-96 items-center justify-center mx-auto bg-themeColorUltraLight dark:bg-gray-700 rounded-lg border-4 border-themeColor border-dashed min-h-24 hover:cursor-pointer hover:opacity-50 hover:scale-[1.02] transition-all"
+            className="flex flex-col w-96 h-96 max-[512px]:w-64 max-[512px]:h-64 items-center justify-center mx-auto bg-themeColorUltraLight dark:bg-gray-700 rounded-lg border-4 border-themeColor border-dashed min-h-24 hover:cursor-pointer hover:opacity-50 hover:scale-[1.02] transition-all"
             style={{
                 backgroundImage: `url(${m_imageURL || initialImgURL})`,
                 backgroundSize: 'cover',
@@ -294,7 +296,7 @@ export const ARKListImageInput = (props: {
 
 
     return (
-        <div className={"flex flex-row items-center justify-left"}>
+        <div className={"flex flex-row items-center justify-left max-[640px]:justify-center"}>
             <div className={`grid grid-cols-4 gap-4 max-[770px]:grid-cols-3 max-[638px]:grid-cols-2 object-cover`}>
                 {imgList && Object.entries(imgList).map(([key, value]) => (
                     <div className={"relative"} key={key}>
@@ -317,7 +319,7 @@ export const ARKListImageInput = (props: {
                 ))}
 
                 <div
-                    className="flex flex-col w-40 h-24 items-center justify-center bg-themeColorUltraLight dark:bg-gray-700 rounded-lg border-4 border-themeColor border-dashed min-h-24 hover:cursor-pointer hover:opacity-50 hover:scale-[1.02] transition-all"
+                    className="flex flex-col w-full h-24 items-center justify-center bg-themeColorUltraLight dark:bg-gray-700 rounded-lg border-4 border-themeColor border-dashed min-h-24 hover:cursor-pointer hover:opacity-50 hover:scale-[1.02] transition-all"
                     onClick={() => imageInputRef.current.click()}>
 
                     {/* Icon 部分 */}
