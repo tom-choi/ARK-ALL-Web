@@ -31,21 +31,19 @@ const tutorial = () => {
     <ARKMain title={"使用教學"} withOutMargin={true}>
       <Navbar selected={"Tutorial"} />
 
-      <Container className={"grid min-[1575px]:grid-cols-3 max-[1575px]:grid-cols-1 gap-5 items-top justify-center"}>
+      <Container className={"flex flex-wrap gap-5 items-top justify-center"}>
 
         {tur_arr.map(itm => (
 
-          <div className={"block h-full items-top w-[512px] justify-center mx-auto"}>
+          <div className={"block h-full items-top w-[512px] justify-center mx-auto hover:cursor-pointer hover:scale-[1.01] transition-all"}>
             <Image
               src={itm.img}
-              width="521"
               height="auto"
-              alt="Benefits"
-              className="block object-cover rounded-tl-lg rounded-tr-lg"
+              alt="tutorial"
+              className="block object-cover rounded-tl-lg rounded-tr-lg border-[3px] border-themeColorUltraLight dark:border-gray-800"
               placeholder="blur"
-              blurDataURL={itm.img.src}
-            />
-            <div className={"rounded-bl-lg rounded-br-lg text-themeColor bg-themeColorUltraLight px-5 py-3"}>
+              blurDataURL={itm.img.src} />
+            <div className={"rounded-bl-lg rounded-br-lg text-themeColor bg-themeColorUltraLight dark:bg-gray-800 px-5 py-3"}>
               <p className={"text-center text-sm font-bold"}>
                 {itm.title}
               </p>
