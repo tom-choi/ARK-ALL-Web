@@ -72,7 +72,7 @@ const toMD = (_str) => {
     return element;
   });
 
-  return <div className={`px-48`}>{elements}</div>
+  return <div className={`min-[790px]:px-48`}>{elements}</div>
 }
 
 const about_us = () => {
