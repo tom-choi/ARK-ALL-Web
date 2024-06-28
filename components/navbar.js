@@ -113,6 +113,7 @@ const Navbar = (props) => {
       {/* 移動端menu */}
       <div className={`lg:hidden w-full items-center text-center 
                         ${!m_mobileMenuOpen ? "max-h-0" : "max-h-[600px]"} overflow-clip transition-all`}>
+
         <ul className={`items-center justify-end flex-1 pt-6 list-none lg:pt-0 lg:flex gap-7 pb-5`}>
           <li>
             <NBLink destination={""} isMobile>{t("PG_HOME")}</NBLink>
