@@ -1,10 +1,12 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Navbar from '../components/navbar';
 import Footer from '../components/footer';
 import Container from '../components/container';
 import Image from "next/image";
 
 import { ARKMain } from '../components/uiComponents/ContentBlock';
+import { StdButton } from "../components/uiComponents/StdButton";
+import { ChevronLeftIcon } from "@heroicons/react/24/solid"
 
 import img_0 from '../public/img/web_tur/0.png';
 import img_1 from '../public/img/web_tur/1.png';
@@ -14,10 +16,28 @@ import img_4 from '../public/img/web_tur/4.png';
 import img_5 from '../public/img/web_tur/5.png';
 import { useTranslation } from 'react-i18next';
 
+const ImagePreview = (props) => {
+  const { displayPreview, setDisplayPreview } = props;
+  return (
+    displayPreview && (
+      <div className={`bg-[#000000dd] fixed top-0 bottom-0 left-0 right-0 z-[100] py-[5em] md:px-[10em] lg:px-[5em] flex flex-col items-center gap-5`}>
+        <StdButton textContent="返回" Icon={ChevronLeftIcon} onClickFunc={() => { setDisplayPreview(null) }} />
+        <Image
+          src={displayPreview}
+          height="auto"
+          alt="tutorial"
+          className="block object-cover rounded-tl-lg rounded-tr-lg"
+          placeholder="blur"
+          blurDataURL={displayPreview.src} />
+      </div>
+    )
+  );
+};
 
 const tutorial = () => {
 
   const { t } = useTranslation();
+  const [m_displayPreview, setDisplayPreview] = useState(null);
 
   const tur_arr = [
     { img: img_0, title: `登錄社團賬號`, txt: `若要登錄社團賬號，請點擊導航欄中的“社團登錄”，並輸入自己社團的賬號密碼。然後點擊登錄按鈕即可登錄。` },
@@ -29,13 +49,17 @@ const tutorial = () => {
   ]
   return (
     <ARKMain title={"使用教學"} withOutMargin={true}>
+      {/**
+      <ImagePreview displayPreview={m_displayPreview} setDisplayPreview={setDisplayPreview} />
+      */}
       <Navbar selected={"Tutorial"} />
-
       <Container className={"flex flex-wrap gap-5 items-top justify-center"}>
 
         {tur_arr.map(itm => (
 
-          <div className={"block h-full items-top w-[512px] justify-center mx-auto hover:cursor-pointer hover:scale-[1.01] transition-all"}>
+          <div
+            className={"block h-full items-top w-[512px] justify-center mx-auto hover:cursor-pointer hover:scale-[1.01] transition-all"}
+            onClick={() => { setDisplayPreview(itm.img) }}>
             <Image
               src={itm.img}
               height="auto"
