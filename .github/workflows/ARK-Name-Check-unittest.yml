@@ -21,5 +21,5 @@ jobs:
         pip install pytest-xdist
     - name: Start ReactNameCheck
       run: |
-        pytest -n auto .github/ActionPy/ReactNameCheck.py
+        pytest .github/ActionPy/ReactNameCheck.py
       shell: bash
