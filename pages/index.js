@@ -81,15 +81,17 @@ const Home = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <Navbar />
-
+      <Navbar fixed />
       <Ark />
+
+
 
       <SectionTitle
         pretitle={t("More Features")}
         title={t("Why Use UM-ARK-ALL?")}>
         {t("arkText")}
       </SectionTitle>
+
       <Benefits data={benefitOne} />
       <Benefits imgPos="right" data={benefitTwo} />
 

@@ -7,8 +7,12 @@ const ThemeChanger = () => {
 
   // When mounted on client, now we can show the UI
   useEffect(() => {
+
     setMounted(true);
+    if (theme != "system")
+      return;
     setTheme(window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+
   }, []);
 
   if (!mounted) return null;
@@ -40,7 +44,7 @@ const ThemeChanger = () => {
             height="24"
             viewBox="0 0 24 24"
             fill="none"
-            stroke="currentColor"
+            stroke="#000000aa"
             strokeWidth="1"
             strokeLinecap="round"
             strokeLinejoin="round">

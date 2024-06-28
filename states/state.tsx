@@ -45,3 +45,23 @@ export const useLoginStore = create<LoginStore>()(
         storage: createJSONStorage(() => sessionStorage),
     })
 );
+
+/**
+ * Warning Banner
+ */
+export interface DisplayWarningBannerStore {
+    display: "true" | "false";        // 設置為真的布爾值就會初始化錯誤 -_-|||
+    setDisplay: (display_: "true" | "false") => void;
+};
+
+const displawarningBannerSlice: StateCreator<DisplayWarningBannerStore, [["zustand/persist", unknown]]> = (set) => ({
+    display: "true",
+    setDisplay: (display_: "true" | "false") => set({ display: display_ }),
+});
+
+export const useDisplayWarningBannerStore = create<DisplayWarningBannerStore>()(
+    persist(displawarningBannerSlice, {
+        name: "displayWarning",
+        storage: createJSONStorage(() => localStorage),
+    })
+);
