@@ -23,8 +23,8 @@ const activityTypeMap = {
     // OFFICIAL: "澳大官方",
 };
 
-const inputStyle = "border-4 border-themeColor rounded-lg h-15 p-2 ontline-none";
-const textareaStyle = "text-lg block w-full h-80 border-4 border-themeColor rounded-lg p-2 resize-none min-h-32 outline-none";
+const inputStyle = "border-4 border-themeColor rounded-lg h-15 p-2 ontline-none w-full";
+const textareaStyle = "text-lg block w-full h-80 border-4 border-themeColor rounded-lg p-2 resize-none min-h-32 outline-none max-[512px]:text-md";
 
 const NewActivity = () => {
     // 翻譯、路由
@@ -69,7 +69,7 @@ const NewActivity = () => {
             <form className={`flex flex-col gap-5`} onSubmit={handleSubmit(onSubmit)}>
                 {/* 活動名稱 */}
                 <input
-                    className={`${inputStyle} text-3xl mx-auto`}
+                    className={`${inputStyle} text-3xl max-[512px]:text-xl mx-auto`}
                     placeholder={t("ACTIVITY_TITLE")}
                     {...register("title", { required: t("ACTIVITY_TITLE_REQUIRE") })} />
                 <div className={"text-alert text-center mx-auto mb-3"}>{errors.title && errors.title.message}</div>
@@ -80,8 +80,7 @@ const NewActivity = () => {
                     register={register}
                     setValue={setValue}
                     errText={t("ACTIVITY_COVER_IMG_REQUIRE")}
-                    thisErr={errors.cover_image_file}
-                />
+                    thisErr={errors.cover_image_file} />
                 <div className={"text-alert text-center mx-auto mb-3"}>{errors.cover_image_file && errors.cover_image_file.message}</div>
 
                 <ContentBlockGrid gridNum={selectedType == "WEBSITE" ? 1 : 2}>
@@ -91,7 +90,7 @@ const NewActivity = () => {
                         {/* 類型 */}
                         <ARKLabeledInput title={t("ACTIVITY_TYPE")}>
                             <select
-                                className={inputStyle}
+                                className={`${inputStyle}`}
                                 {...register("type")}>
                                 {Object.keys(activityTypeMap).map(key => (
                                     <option value={key}>{activityTypeMap[key]}</option>
@@ -128,8 +127,8 @@ const NewActivity = () => {
                             <input
                                 className={inputStyle}
                                 {...register("location", { required: selectedType == "ACTIVITY" ? t("LOCATION_REQUIRE") : false })} />
-                            <div className={"text-alert"}>{errors.location && errors.location.message}</div>
                         </ARKLabeledInput>
+                        <div className={"text-alert"}>{errors.location && errors.location.message}</div>
 
 
                         {/* 鏈接 */}

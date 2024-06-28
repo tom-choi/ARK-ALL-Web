@@ -114,7 +114,7 @@ const ActivityDetail = () => {
                             </h1>
                             <input
                                 placeholder={t("ACTIVITY_TITLE")}
-                                className="text-3xl border-4 border-themeColor rounded-lg h-10 p-2"
+                                className="text-3xl max-[512px]:text-xl border-4 border-themeColor rounded-lg h-10 p-2"
                                 {...register("title")} />
                         </IFELSE>
 
@@ -127,7 +127,7 @@ const ActivityDetail = () => {
                     {/* 封面圖片 */}
                     <IFELSE condition={!isEditMode}>
                         <div
-                            className="flex flex-col w-96 h-96 items-center justify-center mx-auto drop-shadow-lg bg-themeColorUltraLight dark:bg-gray-700 rounded-lg min-h-24 hover:cursor-pointer hover:scale-[1.005] transition-all"
+                            className="flex flex-col w-96 h-96 max-[512px]:w-64 max-[512px]:h-64 items-center justify-center mx-auto drop-shadow-lg bg-themeColorUltraLight dark:bg-gray-700 rounded-lg min-h-24 hover:cursor-pointer hover:scale-[1.005] transition-all"
                             style={{
                                 backgroundImage: `url(${BASE_HOST + m_activityData?.content.cover_image_url})`,
                                 backgroundSize: 'cover',
@@ -176,7 +176,8 @@ const ActivityDetail = () => {
                             {/* 開始時間和結束時間*/}
                             <ARKLabeledInput title={t("TIME_START")}>
                                 <IFELSE condition={!isEditMode}>
-                                    <p>{m_activityData && moment(m_activityData.content.startdatetime).format("YYYY-MM-DD HH:mm")}</p>
+
+                                    <p className={`max-[430px]:text-center`}>{m_activityData && moment(m_activityData.content.startdatetime).format("YYYY-MM-DD HH:mm")}</p>
                                     <div className={"flex flex-row gap-2"}>
                                         <input
                                             type={"date"}
@@ -193,7 +194,7 @@ const ActivityDetail = () => {
                             </ARKLabeledInput>
                             <ARKLabeledInput title={t("TIME_END")}>
                                 <IFELSE condition={!isEditMode}>
-                                    <p>{m_activityData && moment(m_activityData.content.enddatetime).format("YYYY-MM-DD HH:mm")}</p>
+                                    <p className={`max-[430px]:text-center`}>{m_activityData && moment(m_activityData.content.enddatetime).format("YYYY-MM-DD HH:mm")}</p>
                                     <div className={"flex flex-row gap-2"}>
                                         <input
                                             type={"date"}
@@ -260,19 +261,19 @@ const ActivityDetail = () => {
                     {/* 相關圖片 (如果沒有相關圖片就不展示該模塊) */}
                     <ContentBlock
                         title={t("ACTIVITY_PHOTOS")}
-                        condition={m_activityData && (m_activityData.content.relate_image_url.length > 0 || isEditMode)}
+                        condition={m_activityData && watch("type") != "WEBSITE" && (m_activityData.content.relate_image_url.length > 0 || isEditMode)}
                         className={`mt-5`}>
 
                         {/* 刪除圖片 */}
                         <div>
                             {isEditMode && (<SecondTitle>{t("ACTIVITY_PHOTOS_PRESENT")}</SecondTitle>)}
-                            <div className="grid grid-cols-4 gap-4 items-top justify-left mt-5">
+                            <div className="grid grid-cols-5 max-[876px]:grid-cols-4 max-[544px]:grid-cols-3 max-[400px]:grid-cols-2 gap-4 items-top justify-left mt-5">
                                 {/* 相關圖片 */}
                                 {m_activityData?.content.relate_image_url.map((url, index) =>
                                     <img
                                         key={index}
                                         src={BASE_HOST + url}
-                                        className={`w-40 h-24 rounded-md hover:scale-[1.05] transition-all hover:cursor-pointer ${watch("del_relate_image") && watch("del_relate_image").indexOf(url) != -1 && "opacity-70"}`}
+                                        className={`mx-auto w-40 h-24 rounded-md hover:scale-[1.05] transition-all hover:cursor-pointer ${watch("del_relate_image") && watch("del_relate_image").indexOf(url) != -1 && "opacity-70"}`}
                                         onClick={() => {
                                             if (!isEditMode) return;
 
@@ -296,7 +297,7 @@ const ActivityDetail = () => {
                         </div>
 
                         {/* 新增圖片 */}
-                        <IF condition={isEditMode}>
+                        <IF condition={isEditMode && watch("type") != "WEBSITE"}>
                             <SecondTitle>{t("ACTIVITY_PHOTOS_NEW")}</SecondTitle>
                             <ARKListImageInput
                                 base={

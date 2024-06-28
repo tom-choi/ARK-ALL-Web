@@ -2,12 +2,10 @@ import React from "react";
 import Container from "../container";
 import { useTranslation } from "react-i18next";
 import { useEffect } from "react";
-import logo from '../../public/img/logo.png';
+import themeImg from '../../public/img/theme.png';
 
 const Cta = () => {
   const { t } = useTranslation();
-
-  useEffect(() => { console.log(logo) }, [])
 
   const DownloadBtn = (props) => {
     return (
@@ -27,7 +25,7 @@ const Cta = () => {
     <Container>
       <div
         style={{
-          backgroundImage: `url(${logo.src})`,
+          backgroundImage: `url(${themeImg.src})`,
           backgroundSize: "cover",
           backgroundRepeat: "no-repeat",
           backgroundPosition: "center",
@@ -42,8 +40,8 @@ const Cta = () => {
               {t("new world")}
             </p>
           </div>
-          <div className={"flex flex-col gap-1"}>
-            <div className={"font-bold drop-shadow-md"}>可從以下平臺下載</div>
+          <div className={"flex flex-col gap-1 mx-auto "}>
+            <div className={"font-bold drop-shadow-md text-center mb-3"}>可從以下平臺下載</div>
             <div className={"flex flex-wrap gap-4"}>
               <DownloadBtn
                 link={"https://apps.apple.com/us/app/um-all/id1636670554"}>

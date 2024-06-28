@@ -18,6 +18,15 @@ module.exports = {
         warning: COLOR_DIY.warning,
         alert: COLOR_DIY.alert,
       },
+      keyframes: {
+        seaWaveMoveKey: {
+          "0%, 100%": { backgroundPosition: "top" },
+          "50%": { backgroundPosition: "center" },
+        }
+      },
+      animation: {
+        seaWaveMove: 'seaWaveMoveKey 10s ease-in-out infinite',
+      },
     },
     fontFamily: {
       sans: ["Inter", ...defaultTheme.fontFamily.sans],

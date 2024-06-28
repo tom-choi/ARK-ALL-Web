@@ -14,7 +14,7 @@ const UASection = (props) => {
   return (
     <React.Fragment>
       <SectionTitle
-        className={`sticky top-[147px] bg-trueGray-50 dark:bg-trueGray-900`}
+        className={`sticky top-[64px] backdrop-blur-3xl bg-[#ffffff99] dark:bg-[#17171799] rounded-lg`}
         pretitle={pretitle}
         title={title}>
       </SectionTitle>

@@ -47,7 +47,7 @@ export const ActivityCard = (props: { item: ActivityBase, index: number }) => {
                     <img
                         src={BASE_HOST + item.cover_image_url}
                         alt="club_photos"
-                        className=" hover:cursor-pointer md:w-48 h-64 object-cover sm:max-w-64 rounded-lg mb-5 shadow-lg"
+                        className=" hover:cursor-pointer w-48 h-64 object-cover rounded-lg mb-5 shadow-lg"
                         style={{ backgroundColor: '#fff' }} />
                 </div>
 
