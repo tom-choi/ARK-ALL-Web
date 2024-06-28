@@ -3,14 +3,17 @@ import React, { useEffect, useState } from "react";
 import Container from "../container";
 import themeImg from '../../public/img/theme.png';
 // import Streets from "../../components/models/Streets"
-import { Canvas } from '@react-three/fiber';
-import { Cube1 } from "./Cube1";
-import { Cube2 } from "./Cube2";
-import { Phone } from "./Phone";
+// import { Canvas } from '@react-three/fiber';
+// import { Cube1 } from "./Cube1";
+// import { Cube2 } from "./Cube2";
+// import { Phone } from "./Phone";
 
 import { useTranslation } from "react-i18next";
-import { COLOR_DIY } from "../../utils/uiMap";
-import { useTheme } from "next-themes";
+import phones from "../../public/img/home_page/phones.png";
+import apple_logo from "../../public/img/home_page/company_logos/AppleLogo.png";
+import google_play_logo from "../../public/img/home_page/company_logos/GooglePlayLogo.png";
+import huawei_logo from "../../public/img/home_page/company_logos/HuaweiLogo.png";
+// import appleLogo from "../../public/img/home_page/company_logos";
 
 const Ark = (props) => {
   const { t } = useTranslation();
@@ -30,7 +33,7 @@ const Ark = (props) => {
         <div
           className="absolute top-0 left-0 w-full h-full z-10 backdrop-blur-xl dark:backdrop-blur-[40px]
                       bg-gradient-to-tr from-white dark:from-[#171717] from-50% dark:from-55% dark:to-[#171717dd]" />
-        <Container className={"z-20"}>
+        <Container className={"flex flex-wrap z-20"}>
           {/* ARK介紹+下載按鈕 */}
           <div className="flex items-center w-full lg:w-1/2 px-8 py-20">
             <div className="max-w-2xl mb-8">
@@ -51,23 +54,25 @@ const Ark = (props) => {
                   href="https://apps.apple.com/us/app/um-all/id1636670554"
                   target="_blank"
                   rel="noopener"
-                  className="px-5 py-4 text-lg font-medium text-center text-white rounded-md bg-themeColor hover:bg-themeColorLight hover:scale-[1.02] transition-all"
-                >
-                  App Store
+                  className="flex flex-row gap-2 px-5 py-4 text-lg font-medium justify-center items-center text-left text-white rounded-md bg-themeColor hover:bg-themeColorLight hover:scale-[1.02] transition-all">
+                  <Image src={apple_logo} className={`w-[30px] h-[30px]`} />
+                  <p>App Store</p>
                 </a>
                 <a
                   href="https://play.google.com/store/apps/details?id=one.umall"
                   target="_blank"
                   rel="noopener"
-                  className="px-5 py-4 text-lg font-medium text-center text-white bg-indigo-600 rounded-md bg-themeColor hover:bg-themeColorLight hover:scale-[1.02] transition-all">
-                  Play Store
+                  className="flex flex-row gap-3 px-4 py-4 text-lg font-medium justify-center items-center  text-left text-white rounded-md bg-themeColor hover:bg-themeColorLight hover:scale-[1.02] transition-all">
+                  <Image src={google_play_logo} className={`w-[30px] h-[30px]`} />
+                  <p>Play Store</p>
                 </a>
                 <a
                   href="https://umall.one/static/release/app-release.apk"
                   target="_blank"
                   rel="noopener"
-                  className="px-5 py-4 text-lg font-medium text-center text-white bg-indigo-600 rounded-md bg-themeColor hover:bg-themeColorLight hover:scale-[1.02] transition-all">
-                  HUAWEI
+                  className="flex flex-row gap-2 px-5 py-4 text-lg font-medium justify-center items-center text-left text-white rounded-md bg-themeColor hover:bg-themeColorLight hover:scale-[1.02] transition-all">
+                  <Image src={huawei_logo} className={`w-[30px] h-[30px]`} />
+                  <p>HUAWEI</p>
                 </a>
               </div>
               <div className="flex mt-5">
@@ -95,19 +100,26 @@ const Ark = (props) => {
 
           {/* 兩個炫酷旋轉的正方體*/}
           <div className="flex items-center justify-center w-full lg:w-1/2 max-[770px]:hidden">
+            <Image
+              src={phones}
+              height="auto"
+              alt="tutorial"
+              className="block object-cover rounded-tl-lg rounded-tr-lg"
+              placeholder="blur"
+              blurDataURL={phones.src} />
             {/*
                   <Canvas shadows flat linear>
-            <Cube1 />
-          </Canvas>
-          <Canvas shadows flat linear>
-            <Cube2 />
-          </Canvas>
-        */}
+                    <Cube1 />
+                  </Canvas>
+                  <Canvas shadows flat linear>
+                    <Cube2 />
+                  </Canvas>
+            */}
 
             {/**
-            <script type="module" src="https://unpkg.com/@splinetool/viewer@1.7.2/build/spline-viewer.js"></script>
-            <spline-viewer loading-anim-type="spinner-small-dark" url="https://prod.spline.design/N7SOEI5VRaqKbzyN/scene.splinecode"></spline-viewer>
-          */}
+                <script type="module" src="https://unpkg.com/@splinetool/viewer@1.7.2/build/spline-viewer.js"></script>
+                <spline-viewer loading-anim-type="spinner-small-dark" url="https://prod.spline.design/N7SOEI5VRaqKbzyN/scene.splinecode"></spline-viewer>
+            */}
           </div>
         </Container>
       </div>
