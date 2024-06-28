@@ -24,7 +24,7 @@ const NBLink = (props) => {
 
   const styles = {
     "PC": `inline-block px-4 py-2 text-lg ${isSelected ? "text-themeColor font-bold" : "text-gray-800 dark:text-gray-200 font-normal"} no-underline rounded-md  hover:text-themeColor hover:bg-themeColorUltraLight dark:hover:text-themeColor dark:hover:bg-gray-800 hover:scale-[1.02] transition-all focus:text-themeColor focus:bg-themeColorUltraLignt focus:outline-none dark:focus:bg-gray-800 hover:cursor-pointer`,
-    "Mobile": "w-full px-4 py-2 text-gray-500 rounded-md dark:text-gray-200 hover:text-themeColor hover:bg-themeColorUltraLight dark:hover:text-themeColor dark:hover:bg-gray-800 focus:text-themeColor focus:bg-themeColorUltraLignt focus:outline-none dark:focus:bg-gray-800 hover:cursor-pointer"
+    "Mobile": "w-full px-4 py-5 text-2xl text-gray-500 dark:text-gray-200 hover:text-themeColor hover:bg-[#0000000d] dark:hover:text-themeColor dark:hover:bg-[#ffffff0d] focus:text-themeColor focus:bg-themeColorUltraLignt focus:outline-none dark:focus:bg-gray-800 hover:cursor-pointer"
   };
 
   return (
@@ -112,8 +112,8 @@ const Navbar = (props) => {
 
       {/* 移動端menu */}
       <div className={`lg:hidden w-full items-center text-center 
-                        ${!m_mobileMenuOpen ? "max-h-0" : "max-h-96"} overflow-clip transition-all`}>
-        <ul className={`items-center justify-end flex-1 pt-6 list-none lg:pt-0 lg:flex gap-3 pb-5`}>
+                        ${!m_mobileMenuOpen ? "max-h-0" : "max-h-[600px]"} overflow-clip transition-all`}>
+        <ul className={`items-center justify-end flex-1 pt-6 list-none lg:pt-0 lg:flex gap-7 pb-5`}>
           <li>
             <NBLink destination={""} isMobile>{t("PG_HOME")}</NBLink>
           </li>
