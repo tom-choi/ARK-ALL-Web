@@ -15,16 +15,16 @@ import { useTheme } from "next-themes";
 const Ark = (props) => {
   const { t } = useTranslation();
 
-  const { theme, setTheme } = useTheme();
-
   return (
     <React.Fragment>
-      <div className="relative flex flex-wrap w-full h-full py-20 z-0"
+      <div className="relative flex flex-wrap w-full h-full py-20 z-0 animate-seaWaveMove"
         style={{
           backgroundImage: `url(${themeImg.src})`,
           backgroundSize: "cover",
           backgroundRepeat: "no-repeat",
           backgroundPosition: "center",
+          // backgroundAttachment: "fixed",
+          // animation: "seaWaveMove 2s ease-in-out infinite",
         }}>
 
         <div
